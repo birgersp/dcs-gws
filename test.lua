@@ -1,16 +1,48 @@
-Account = {}
-Account.__index = Account
+---
+-- @type mynamespace
+mynamespace = {}
 
-function Account.create(balance)
-   local acnt = {}             -- our new object
-   setmetatable(acnt,Account)  -- make Account handle lookup
-   acnt.balance = balance      -- initialize our object
-   return acnt
+---
+-- @type mynamespace.MyClass
+-- @field #number var1
+mynamespace.MyClass = {}
+
+---
+-- @param #number param1
+-- @return #mynamespace.MyClass
+function mynamespace.MyClass.new(param1)
+  local self = mynamespace.MyClass
+  self.var1 = param1
+  return self
 end
 
-function Account:withdraw(amount)
-   self.balance = self.balance - amount
+
+---
+--
+function supercoolfunc(obj)
 end
 
-myObj = Account.create(1337)
-myObj:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

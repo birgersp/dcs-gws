@@ -1,5 +1,4 @@
 -- Initialization
---initialized = false
 if (initialized == nil or initialized == false) then
     lastCreatedUnitId = 0
     lastCreatedGroupId = 0
@@ -19,24 +18,24 @@ if (initialized == nil or initialized == false) then
     -- Leopard-2
     reinforcementSetups = {
         -- Blue reinforcements
-        bsputil.ReinforcementSetup("BMP-3", 3, country.id.USA, "spawnB1", "defenceB1"),
-        bsputil.ReinforcementSetup("BRDM-2", 2, country.id.USA, "spawnB1", "defenceB1"),
-        bsputil.ReinforcementSetup("LAV-25", 4, country.id.USA, "spawnB1", "defenceB1"),
+        bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.USA, "spawnB1", "defenceB1"),
+        bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.USA, "spawnB1", "defenceB1"),
+        bsputil.ReinforcementSetup.new("LAV-25", 4, country.id.USA, "spawnB1", "defenceB1"),
 
-        bsputil.ReinforcementSetup("BMP-3", 3, country.id.USA, "spawnB2", "defenceB2"),
-        bsputil.ReinforcementSetup("BRDM-2", 2, country.id.USA, "spawnB2", "defenceB2"),
-        bsputil.ReinforcementSetup("LAV-25", 4, country.id.USA, "spawnB2", "defenceB2"),
-        bsputil.ReinforcementSetup("M-1 Abrams", 3, country.id.USA, "spawnB2", "defenceB2"),
+        bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.USA, "spawnB2", "defenceB2"),
+        bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.USA, "spawnB2", "defenceB2"),
+        bsputil.ReinforcementSetup.new("LAV-25", 4, country.id.USA, "spawnB2", "defenceB2"),
+        bsputil.ReinforcementSetup.new("M-1 Abrams", 3, country.id.USA, "spawnB2", "defenceB2"),
 
         -- Red reinforcements
-        bsputil.ReinforcementSetup("BMP-3", 3, country.id.RUSSIA, "spawnR1", "defenceR1"),
-        bsputil.ReinforcementSetup("BRDM-2", 2, country.id.RUSSIA, "spawnR1", "defenceR1"),
-        bsputil.ReinforcementSetup("BTR-80", 4, country.id.RUSSIA, "spawnR1", "defenceR1"),
+        bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.RUSSIA, "spawnR1", "defenceR1"),
+        bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.RUSSIA, "spawnR1", "defenceR1"),
+        bsputil.ReinforcementSetup.new("BTR-80", 4, country.id.RUSSIA, "spawnR1", "defenceR1"),
 
-        bsputil.ReinforcementSetup("BMP-3", 3, country.id.RUSSIA, "spawnR2", "defenceR2"),
-        bsputil.ReinforcementSetup("BRDM-2", 2, country.id.RUSSIA, "spawnR2", "defenceR2"),
-        bsputil.ReinforcementSetup("BTR-80", 4, country.id.RUSSIA, "spawnR2", "defenceR2"),
-        bsputil.ReinforcementSetup("T-72B", 3, country.id.RUSSIA, "spawnR2", "defenceR2")
+        bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.RUSSIA, "spawnR2", "defenceR2"),
+        bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.RUSSIA, "spawnR2", "defenceR2"),
+        bsputil.ReinforcementSetup.new("BTR-80", 4, country.id.RUSSIA, "spawnR2", "defenceR2"),
+        bsputil.ReinforcementSetup.new("T-72B", 3, country.id.RUSSIA, "spawnR2", "defenceR2")
     }
 
     initialized = true
@@ -49,8 +48,6 @@ if (upTime - prevReinforcementTime >= minReinforcementTime or upTime == 0) then
     prevReinforcementTime = upTime
 end
 upTime = upTime + 1
-
-
 
 
 
