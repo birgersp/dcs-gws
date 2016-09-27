@@ -16,22 +16,29 @@ if (initialized == nil or initialized == false) then
 
   -- M-1 Abrams
   -- Leopard-2
-  reinforcementSetups = {
-    -- Blue reinforcements
+
+  -- Blue reinforcements
+  reinforcementsB1 = {
     bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.USA, "spawnB1", "defenceB1"),
     bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.USA, "spawnB1", "defenceB1"),
-    bsputil.ReinforcementSetup.new("LAV-25", 4, country.id.USA, "spawnB1", "defenceB1"),
+    bsputil.ReinforcementSetup.new("LAV-25", 4, country.id.USA, "spawnB1", "defenceB1")
+  }
 
+  reinforcementsB2 = {
     bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.USA, "spawnB2", "defenceB2"),
     bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.USA, "spawnB2", "defenceB2"),
     bsputil.ReinforcementSetup.new("LAV-25", 4, country.id.USA, "spawnB2", "defenceB2"),
     bsputil.ReinforcementSetup.new("M-1 Abrams", 3, country.id.USA, "spawnB2", "defenceB2"),
+  }
 
-    -- Red reinforcements
+  -- Red reinforcements
+  reinforcementsR1 = {
     bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.RUSSIA, "spawnR1", "defenceR1"),
     bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.RUSSIA, "spawnR1", "defenceR1"),
-    bsputil.ReinforcementSetup.new("BTR-80", 4, country.id.RUSSIA, "spawnR1", "defenceR1"),
+    bsputil.ReinforcementSetup.new("BTR-80", 4, country.id.RUSSIA, "spawnR1", "defenceR1")
+  }
 
+  reinforcementsR2 = {
     bsputil.ReinforcementSetup.new("BMP-3", 3, country.id.RUSSIA, "spawnR2", "defenceR2"),
     bsputil.ReinforcementSetup.new("BRDM-2", 2, country.id.RUSSIA, "spawnR2", "defenceR2"),
     bsputil.ReinforcementSetup.new("BTR-80", 4, country.id.RUSSIA, "spawnR2", "defenceR2"),
@@ -39,119 +46,12 @@ if (initialized == nil or initialized == false) then
   }
 
   local function checkEm()
-    bsputil.checkAndReinforce(reinforcementSetups)
+    bsputil.checkAndReinforce(reinforcementsB1)
+    bsputil.checkAndReinforce(reinforcementsB2)
+    bsputil.checkAndReinforce(reinforcementsR1)
+    bsputil.checkAndReinforce(reinforcementsR2)
   end
-  
+
   mist.scheduleFunction(checkEm, nil, timer.getTime()+1, minReinforcementTime)
   initialized = true
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

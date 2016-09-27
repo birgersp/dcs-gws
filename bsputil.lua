@@ -94,9 +94,12 @@ end
 --@param #bsputil.ReinforcementSetup reinforcementSetup
 function bsputil.reinforce(reinforcementSetup)
 
+  local xAdd = 5
+  local yAdd = 5
+
   local units = {}
+  local spawnZone = trigger.misc.getZone(reinforcementSetup.spawnName)
   for i = 1, reinforcementSetup.unitCount do
-    local spawnPoint = mist.getRandomPointInZone(reinforcementSetup.spawnName)
     local unitType = reinforcementSetup.unitType
     units[i] = {
       ["type"] = unitType,
@@ -104,8 +107,8 @@ function bsputil.reinforce(reinforcementSetup)
       {
         ["randomTransportable"] = false,
       }, -- end of ["transportable"]
-      ["x"] = spawnPoint.x,
-      ["y"] = spawnPoint.y,
+      ["x"] = spawnZone.point.x + xAdd*i,
+      ["y"] = spawnZone.point.z - yAdd*i,
       ["name"] = "Unit no " .. lastCreatedUnitId,
       ["unitId"] = lastCreatedUnitId,
       ["skill"] = "Excellent",
@@ -143,10 +146,13 @@ end
 
 ---
 --@param #list<#bsputil.ReinforcementSetup> reinforcementSetups
-function bsputil.checkAndReinforce(reinforcementSetups)
+function bsputil.checkAndReinforce(setups)
 
-  for i = 1, #reinforcementSetups do
-    local setup = reinforcementSetups[i]
+  local minDelay = 45
+  local delay = 0
+
+  for i = 1, #setups do
+    local setup = setups[i]
     local coalitionString = "[blue]"
     if coalition.getCountryCoalition(setup.country) == 1 then
       coalitionString = "[red]"
@@ -165,21 +171,17 @@ function bsputil.checkAndReinforce(reinforcementSetups)
     end
 
     if (reinforcementCount > 0) then
-      local initialUC = setup.unitCount
-      setup.unitCount = reinforcementCount
-      bsputil.reinforce(setup)
-      setup.unitCount = initialUC
+
+      local function reinforceDelayed()
+        local initialUC = setup.unitCount
+        setup.unitCount = reinforcementCount
+        bsputil.reinforce(setup)
+        setup.unitCount = initialUC
+      end
+
+      mist.scheduleFunction(reinforceDelayed, nil, timer.getTime()+delay)
+      delay = delay + minDelay
+
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
