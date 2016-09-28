@@ -1,18 +1,18 @@
-bsputil = {}
+bajas = {}
 
-function bsputil.printIngame(str, t)
+function bajas.printIngame(str, t)
   if (t == nil) then
     t = 1
   end
   trigger.action.outText(str, t)
 end
 
-function bsputil.debug(val)
-  bsputil.printIngame(bsputil.toString(val))
+function bajas.debug(val)
+  bajas.printIngame(bajas.toString(val))
 end
 
 -- Returns a string representation of an object
-function bsputil.toString(obj)
+function bajas.toString(obj)
 
   local indent = "    "
   local function toStringRecursively(obj, level)
@@ -70,18 +70,18 @@ function bsputil.toString(obj)
 end
 
 ---
---@type bsputil.ReinforcementSetup
+--@type bajas.ReinforcementSetup
 --@field #string unitType
 --@field #number unitCount
 --@field #number country
 --@field #string spawnName
 --@field #string destinationName
-bsputil.ReinforcementSetup = {}
+bajas.ReinforcementSetup = {}
 
 ---
---@return #bsputil.ReinforcementSetup
-function bsputil.ReinforcementSetup.new(unitType, unitCount, country, spawnName, destinationName)
-  local obj = {} ---@type #bsputil.ReinforcementSetup
+--@return #bajas.ReinforcementSetup
+function bajas.ReinforcementSetup.new(unitType, unitCount, country, spawnName, destinationName)
+  local obj = {} ---@type #bajas.ReinforcementSetup
   obj.unitType = unitType
   obj.unitCount = unitCount
   obj.country = country
@@ -91,8 +91,8 @@ function bsputil.ReinforcementSetup.new(unitType, unitCount, country, spawnName,
 end
 
 ---
---@param #bsputil.ReinforcementSetup reinforcementSetup
-function bsputil.reinforce(reinforcementSetup)
+--@param #bajas.ReinforcementSetup reinforcementSetup
+function bajas.reinforce(reinforcementSetup)
 
   local xAdd = 5
   local yAdd = 5
@@ -145,8 +145,8 @@ function bsputil.reinforce(reinforcementSetup)
 end
 
 ---
---@param #list<#bsputil.ReinforcementSetup> reinforcementSetups
-function bsputil.checkAndReinforce(setups)
+--@param #list<#bajas.ReinforcementSetup> reinforcementSetups
+function bajas.checkAndReinforce(setups)
 
   local minDelay = 45
   local delay = 0
@@ -175,7 +175,7 @@ function bsputil.checkAndReinforce(setups)
       local function reinforceDelayed()
         local initialUC = setup.unitCount
         setup.unitCount = reinforcementCount
-        bsputil.reinforce(setup)
+        bajas.reinforce(setup)
         setup.unitCount = initialUC
       end
 
@@ -185,3 +185,10 @@ function bsputil.checkAndReinforce(setups)
     end
   end
 end
+
+
+
+
+
+
+
