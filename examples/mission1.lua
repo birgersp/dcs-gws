@@ -1,11 +1,7 @@
 -- Mission initialization
 if (initialized == nil or initialized == false) then
-  lastCreatedUnitId = 0
-  lastCreatedGroupId = 0
-
-  upTime = 0
-  prevReinforcementTime = 0
-  minReinforcementTime = 1200
+  
+  local minReinforcementTime = 1200
 
   -- Some type names:
   -- BRDM-2

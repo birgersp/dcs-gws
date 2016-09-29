@@ -1,4 +1,12 @@
-bajas = {}
+
+---
+--@type bajas
+--@field #number lastCreatedUnitId
+--@field #number lastCreatedGroupId
+bajas = {
+  lastCreatedUnitId = 0,
+  lastCreatedGroupId = 0
+}
 
 function bajas.printIngame(str, t)
   if (t == nil) then
@@ -109,26 +117,26 @@ function bajas.reinforce(reinforcementSetup)
       }, -- end of ["transportable"]
       ["x"] = spawnZone.point.x + xAdd*i,
       ["y"] = spawnZone.point.z - yAdd*i,
-      ["name"] = "Unit no " .. lastCreatedUnitId,
-      ["unitId"] = lastCreatedUnitId,
+      ["name"] = "Unit no " .. bajas.lastCreatedUnitId,
+      ["unitId"] = bajas.lastCreatedUnitId,
       ["skill"] = "Excellent",
       ["playerCanDrive"] = true
     }
 
-    lastCreatedUnitId = lastCreatedUnitId + 1
+    bajas.lastCreatedUnitId = bajas.lastCreatedUnitId + 1
   end
 
-  local groupName = "Group #00" .. lastCreatedGroupId
+  local groupName = "Group #00" .. bajas.lastCreatedGroupId
   local groupData = {
     ["route"] =
     {}, -- end of ["route"]
-    ["groupId"] = lastCreatedGroupId,
+    ["groupId"] = bajas.lastCreatedGroupId,
     ["units"] = units,
     ["name"] = groupName
   } -- end of [1]
 
   coalition.addGroup(reinforcementSetup.country, Group.Category.GROUND, groupData)
-  lastCreatedGroupId = lastCreatedGroupId + 1
+  bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
 
   local destinationZone = trigger.misc.getZone(reinforcementSetup.destinationName)
   local destinationZonePos2 = {
