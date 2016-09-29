@@ -114,7 +114,7 @@ function bajas.reinforce(reinforcementSetup)
       ["transportable"] =
       {
         ["randomTransportable"] = false,
-      }, -- end of ["transportable"]
+      },
       ["x"] = spawnZone.point.x + xAdd*i,
       ["y"] = spawnZone.point.z - yAdd*i,
       ["name"] = "Unit no " .. bajas.lastCreatedUnitId,
@@ -146,7 +146,7 @@ function bajas.reinforce(reinforcementSetup)
   local randomPointVars = {
     group = Group.getByName(groupName),
     point = destinationZonePos2,
-    radius = destinationZone.radius,
+    radius = destinationZone.radius * 0.8,
     speed = 100
   }
   mist.groupToRandomPoint(randomPointVars)
