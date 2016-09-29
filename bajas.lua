@@ -139,7 +139,7 @@ function bajas.reinforce(reinforcementSetup)
     ["groupId"] = bajas.lastCreatedGroupId,
     ["units"] = units,
     ["name"] = groupName
-  } -- end of [1]
+  }
 
   coalition.addGroup(reinforcementSetup.country, Group.Category.GROUND, groupData)
   bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
@@ -198,22 +198,66 @@ function bajas.registerReinforcementSetup(setup, timeInterval)
 end
 
 ---
---@param #number groupId
+--@param #number groupName
 --@param #string commandName
 --@param #function callback
-function bajas.registerGroupCommand(groupId, commandName, callback)
+function bajas.registerGroupCommand(groupName, commandName, callback)
 
+  local group = Group.getByName(groupName)
+  local groupId = group:getID()
   local flagName = "group"..groupId.."Trigger"
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(groupId, commandName, flagName, 1)
 
   local function checkTrigger()
     if (trigger.misc.getUserFlag(flagName) == 1) then
-      callback(groupId)
       trigger.action.setUserFlag(flagName, 0)
+      callback(groupName)
     end
   end
 
-  mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 5)
+  mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 1)
 
+end
+
+---
+--@param #vec3
+--@param #vec3
+--@return #number
+function bajas.getDistanceBetween(a, b)
+  local dx = a.x - b.x
+  local dy = a.y - b.y
+  local dz = a.z - b.z
+  return math.sqrt(dx*dx + dy*dy + dz*dz)
+end
+
+---
+--@param #string unitName
+--@return #Unit
+function bajas.getClosestEnemyVehicle(unitName)
+
+  local unit = Unit.getByName(unitName)
+  local unitPosition = unit:getPosition().p
+  local enemyUnitPosition = {}
+  local enemyCoalitionString = "[red]"
+  if unit:getCoalition() == 1 then
+    enemyCoalitionString = "[blue]"
+  end
+  local unitTableStr = enemyCoalitionString .. '[vehicle]'
+  local enemyVehicles = mist.makeUnitTable({ unitTableStr })
+  if #enemyVehicles > 0 then
+    local closestEnemy = Unit.getByName(enemyVehicles[1])
+    enemyUnitPosition = closestEnemy:getPosition().p
+    local closestEnemyDistance = bajas.getDistanceBetween(unitPosition, enemyUnitPosition)
+    local newClosestEnemy = {}
+    local newClosestEnemyDistance = 0
+    for i=2, #enemyVehicles do
+      newClosestEnemy = Unit.getByName(enemyVehicles[i])
+      newClosestEnemyDistance = bajas.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
+      if (newClosestEnemyDistance < closestEnemyDistance) then
+        closestEnemy = newClosestEnemy
+      end
+    end
+    return closestEnemy
+  end
 end
