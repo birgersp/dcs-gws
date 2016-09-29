@@ -102,8 +102,8 @@ end
 --@param #bajas.ReinforcementSetup reinforcementSetup
 function bajas.reinforce(reinforcementSetup)
 
-  local xAdd = 5
-  local yAdd = 5
+  local xAdd = 20
+  local yAdd = 20
 
   local units = {}
   local spawnZone = trigger.misc.getZone(reinforcementSetup.spawnName)
