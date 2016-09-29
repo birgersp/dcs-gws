@@ -196,3 +196,24 @@ end
 function bajas.registerReinforcementSetup(setup, timeInterval)
   mist.scheduleFunction(bajas.reinforceCasualties, {setup}, timer.getTime()+1, timeInterval)
 end
+
+---
+--@param #number groupId
+--@param #string commandName
+--@param #function callback
+function bajas.registerGroupCommand(groupId, commandName, callback)
+
+  local flagName = "group"..groupId.."Trigger"
+  trigger.action.setUserFlag(flagName, 0)
+  trigger.action.addOtherCommandForGroup(groupId, commandName, flagName, 1)
+
+  local function checkTrigger()
+    if (trigger.misc.getUserFlag(flagName) == 1) then
+      callback(groupId)
+      trigger.action.setUserFlag(flagName, 0)
+    end
+  end
+
+  mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 5)
+
+end
