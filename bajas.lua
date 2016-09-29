@@ -145,50 +145,40 @@ function bajas.reinforce(reinforcementSetup)
 end
 
 ---
---@param #list<#bajas.ReinforcementSetup> reinforcementSetups
-function bajas.checkAndReinforce(setups)
+--@param #bajas.ReinforcementSetup setup
+function bajas.reinforceCasualties(setup)
 
-  local minDelay = 45
-  local delay = 0
+  -- Determine coalition search string
+  local coalitionString = "[blue]"
+  if coalition.getCountryCoalition(setup.country) == 1 then
+    coalitionString = "[red]"
+  end
 
-  for i = 1, #setups do
-    local setup = setups[i]
-    local coalitionString = "[blue]"
-    if coalition.getCountryCoalition(setup.country) == 1 then
-      coalitionString = "[red]"
-    end
-
-    local reinforcementCount = setup.unitCount
-    local unitTableStr = coalitionString .. '[vehicle]'
-    local defendingVehicles = mist.makeUnitTable({ unitTableStr })
-    if (#defendingVehicles > 0) then
-      local zoneVehicles = mist.getUnitsInZones(defendingVehicles, { setup.destinationName })
-      for zoneVehicleIndex = 1, #zoneVehicles do
-        if (Object.getTypeName(zoneVehicles[zoneVehicleIndex]) == setup.unitType) then
-          reinforcementCount = reinforcementCount - 1
-        end
+  -- Count units of desired type in target zone
+  local unitTableStr = coalitionString .. '[vehicle]'
+  local defendingVehicles = mist.makeUnitTable({ unitTableStr })
+  local reinforcementCount = setup.unitCount
+  if (#defendingVehicles > 0) then
+    local zoneVehicles = mist.getUnitsInZones(defendingVehicles, { setup.destinationName })
+    for zoneVehicleIndex = 1, #zoneVehicles do
+      if (Object.getTypeName(zoneVehicles[zoneVehicleIndex]) == setup.unitType) then
+        reinforcementCount = reinforcementCount - 1
       end
     end
+  end
 
-    if (reinforcementCount > 0) then
-
-      local function reinforceDelayed()
-        local initialUC = setup.unitCount
-        setup.unitCount = reinforcementCount
-        bajas.reinforce(setup)
-        setup.unitCount = initialUC
-      end
-
-      mist.scheduleFunction(reinforceDelayed, nil, timer.getTime()+delay)
-      delay = delay + minDelay
-
-    end
+  -- If there are any casualties, reinforce
+  if (reinforcementCount > 0) then
+    local initialUC = setup.unitCount
+    setup.unitCount = reinforcementCount
+    bajas.reinforce(setup)
+    setup.unitCount = initialUC
   end
 end
 
-
-
-
-
-
-
+---
+--@param #bajas.ReinforcementSetup setup
+--@param #number timeInterval Minimum time between reinforcement waves (sec)
+function bajas.registerReinforcementSetup(setup, timeInterval)
+  mist.scheduleFunction(bajas.reinforceCasualties, {setup}, timer.getTime()+1, timeInterval)
+end
