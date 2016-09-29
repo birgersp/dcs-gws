@@ -25,6 +25,10 @@ function bajas.toString(obj)
   local indent = "    "
   local function toStringRecursively(obj, level)
 
+    if (obj == nil) then
+      return "(nil)"
+    end
+
     local str = ""
     if (type(obj) == "table") then
       if (level ~= 0) then
@@ -82,18 +86,18 @@ end
 --@field #string unitType
 --@field #number unitCount
 --@field #number country
---@field #string spawnName
+--@field #list<#string> spawnNames
 --@field #string destinationName
 bajas.ReinforcementSetup = {}
 
 ---
 --@return #bajas.ReinforcementSetup
-function bajas.ReinforcementSetup.new(unitType, unitCount, country, spawnName, destinationName)
+function bajas.ReinforcementSetup.new(unitType, unitCount, country, spawnNames, destinationName)
   local obj = {} ---@type #bajas.ReinforcementSetup
   obj.unitType = unitType
   obj.unitCount = unitCount
   obj.country = country
-  obj.spawnName = spawnName
+  obj.spawnNames = spawnNames
   obj.destinationName = destinationName
   return obj
 end
@@ -106,7 +110,10 @@ function bajas.reinforce(reinforcementSetup)
   local yAdd = 20
 
   local units = {}
-  local spawnZone = trigger.misc.getZone(reinforcementSetup.spawnName)
+
+  local randomValue = math.random()
+  local spawnZoneIndex = math.floor(randomValue * #reinforcementSetup.spawnNames + 1)
+  local spawnZone = trigger.misc.getZone(reinforcementSetup.spawnNames[spawnZoneIndex])
   for i = 1, reinforcementSetup.unitCount do
     local unitType = reinforcementSetup.unitType
     units[i] = {
@@ -128,8 +135,7 @@ function bajas.reinforce(reinforcementSetup)
 
   local groupName = "Group #00" .. bajas.lastCreatedGroupId
   local groupData = {
-    ["route"] =
-    {}, -- end of ["route"]
+    ["route"] = {},
     ["groupId"] = bajas.lastCreatedGroupId,
     ["units"] = units,
     ["name"] = groupName
