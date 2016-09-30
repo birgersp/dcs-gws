@@ -1,4 +1,7 @@
 
+
+
+
 ---
 --@type bajas
 --@field #number lastCreatedUnitId
@@ -71,7 +74,7 @@ function bajas.toString(obj)
       if (type(obj) == "string") then
         str = "\"" .. str .. "\""
       elseif type(obj) == "boolean" then
-        str = "true"
+        str = ""..obj
       end
     end
 
@@ -92,6 +95,11 @@ bajas.ReinforcementSetup = {}
 
 ---
 --@return #bajas.ReinforcementSetup
+--@param #string unitType
+--@param #number unitCount
+--@param #number country
+--@param #list<#string> spawnNames
+--@param #string destinationName
 function bajas.ReinforcementSetup.new(unitType, unitCount, country, spawnNames, destinationName)
   local obj = {} ---@type #bajas.ReinforcementSetup
   obj.unitType = unitType

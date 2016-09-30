@@ -1,4 +1,4 @@
--- Script used for testing utilities during development
+-- Script used for testing during development
 --devInitialized = false
 if (devInitialized == nil or devInitialized == false) then
   assert(loadfile([[C:\Users\birge\Workspace\dcs-bajas\bajas.lua]]))()
