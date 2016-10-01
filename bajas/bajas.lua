@@ -404,17 +404,26 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
 end
 
 ---
+--Prints out a message to a group, describing nearest enemy vehicles
 --@param DCSGroup#Group group
 function bajas.informOfClosestEnemyVehicles(group)
 
   local firstGroupUnit = group:getUnit(1)
   local closestEnemy = bajas.getClosestEnemyVehicle(firstGroupUnit:getName())
+  local groupUnitPos = {
+    x = firstGroupUnit:getPosition().p.x,
+    y = 0,
+    z = firstGroupUnit:getPosition().p.z
+  }
 
   local enemyCluster = bajas.getFriendlyVehiclesWithin(closestEnemy,bajas.MAX_CLUSTER_DISTANCE)
   local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
-  
-  local dir = mist.utils.getDir(mist.vec.sub(midPoint, firstGroupUnit:getPosition().p))
+
+  local dir = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
   local cardinalDir = bajas.radToCardinalDir(dir)
-  
-  bajas.debug(#enemyCluster.unitIDs .. " enemies " .. cardinalDir)
+  local distance = bajas.getDistanceBetween(midPoint, groupUnitPos)
+  local distanceKM = math.floor(distance / 1000 + 0.5)
+  local text = #enemyCluster.unitIDs .. " enemy vehicles located " .. distanceKM .. "km " .. cardinalDir
+  trigger.action.outTextForGroup(group:getID(), text, 30)
+
 end

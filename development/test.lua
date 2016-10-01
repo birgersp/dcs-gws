@@ -23,7 +23,7 @@ if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
 
   addCommandForGroups(coalition.getGroups(1))
   addCommandForGroups(coalition.getGroups(2))
-  bajas.debug("Initialized")
+  bajas.debug("Test script initialized")
 
   devInitVal = devInitTargetVal
 end
