@@ -10,6 +10,7 @@ bajas = {
   GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger",
   CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"},
   MAX_CLUSTER_DISTANCE = 1000,
+  IOCEV_COMMAND_TEXT = "Request location of closest enemy vehicles",
 
   -- Counters
   lastCreatedUnitId = 0,
@@ -120,13 +121,13 @@ end
 bajas.ReinforcementSetup = {}
 
 ---
---@return #bajas.ReinforcementSetup
 --@param #bajas.ReinforcementSetup self
 --@param #string unitType
 --@param #number unitCount
 --@param #number country
 --@param #list<#string> spawnNames
 --@param #string destinationName
+--@return #bajas.ReinforcementSetup
 function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, destinationName)
   local self = bajas.deepCopy(self)
   self.unitType = unitType
@@ -426,4 +427,20 @@ function bajas.informOfClosestEnemyVehicles(group)
   local text = #enemyCluster.unitIDs .. " enemy vehicles located " .. distanceKM .. "km " .. cardinalDir
   trigger.action.outTextForGroup(group:getID(), text, 30)
 
+end
+
+function bajas.enableIOCEVForGroups()
+  local function callback(name)
+    local group = Group.getByName(name)
+    bajas.informOfClosestEnemyVehicles(group)
+  end
+
+  local function addCommandForGroups(groups)
+    for i=1, #groups do
+      bajas.registerGroupCommand(groups[i]:getName(), bajas.IOCEV_COMMAND_TEXT, callback)
+    end
+  end
+
+  addCommandForGroups(coalition.getGroups(1))
+  addCommandForGroups(coalition.getGroups(2))
 end
