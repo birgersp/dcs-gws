@@ -29,6 +29,7 @@ bajas = {
 --@field #list<#string> spawnNames
 --@field #string destinationName
 bajas.ReinforcementSetup = {}
+bajas.ReinforcementSetup.__index = bajas.ReinforcementSetup
 
 ---
 --@param #bajas.ReinforcementSetup self
@@ -40,11 +41,45 @@ bajas.ReinforcementSetup = {}
 --@return #bajas.ReinforcementSetup
 function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, destinationName)
   local self = bajas.deepCopy(self)
+  self = setmetatable(self, bajas.ReinforcementSetup)
   self.unitType = unitType
   self.unitCount = unitCount
   self.country = country
   self.spawnNames = spawnNames
   self.destinationName = destinationName
+  return self
+end
+
+---
+--@type bajas.ReinforcementSetupBuilder
+--@field #bajas.ReinforcementSetup setup
+bajas.ReinforcementSetupBuilder = {}
+bajas.ReinforcementSetupBuilder.__index = bajas.ReinforcementSetupBuilder
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+--@return #bajas.ReinforcementSetupBuilder
+function bajas.ReinforcementSetupBuilder:new()
+  local self = bajas.deepCopy(self)
+  self = setmetatable(self, bajas.ReinforcementSetupBuilder)
+  self.setup = bajas.ReinforcementSetup:new(nil,nil,nil,nil,nil)
+end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+--@param #string ut
+--@return #bajas.ReinforcementSetupBuilder
+function bajas.ReinforcementSetupBuilder:unitType(ut)
+  self.setup.unitType = ut
+  return self
+end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+--@param #string ut
+--@return #bajas.ReinforcementSetupBuilder
+function bajas.ReinforcementSetupBuilder:unitType(ut)
+  self.setup.unitType = ut
   return self
 end
 
