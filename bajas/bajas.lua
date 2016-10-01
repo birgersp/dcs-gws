@@ -1,28 +1,54 @@
-
-
-
-
 ---
 --@type bajas
+--@field #list<#string#> CARDINAL_DIRECTIONS
+--@field #string GROUP_COMMAND_FLAG_NAME
+--@field #number MAX_CLUSTER_DISTANCE
 --@field #number lastCreatedUnitId
 --@field #number lastCreatedGroupId
 bajas = {
+  -- Constants
+  GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger",
+  CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"},
+  MAX_CLUSTER_DISTANCE = 1000,
+
+  -- Counters
   lastCreatedUnitId = 0,
   lastCreatedGroupId = 0
 }
 
-function bajas.printIngame(str, t)
-  if (t == nil) then
-    t = 1
+---Deep copy a table
+--Code from https://gist.github.com/MihailJP/3931841
+function bajas.deepCopy(t)
+  if type(t) ~= "table" then return t end
+  local meta = getmetatable(t)
+  local target = {}
+  for k, v in pairs(t) do
+    if type(v) == "table" then
+      target[k] = clone(v)
+    else
+      target[k] = v
+    end
   end
-  trigger.action.outText(str, t)
+  setmetatable(target, meta)
+  return target
 end
 
-function bajas.debug(val)
-  bajas.printIngame(bajas.toString(val))
+---
+--@param #string str
+--@param #number time
+function bajas.printIngame(str, time)
+  if (time == nil) then
+    time = 1
+  end
+  trigger.action.outText(str, time)
 end
 
--- Returns a string representation of an object
+---
+function bajas.debug(variable)
+  bajas.printIngame(bajas.toString(variable))
+end
+
+---Returns a string representation of an object
 function bajas.toString(obj)
 
   local indent = "    "
@@ -95,19 +121,20 @@ bajas.ReinforcementSetup = {}
 
 ---
 --@return #bajas.ReinforcementSetup
+--@param #bajas.ReinforcementSetup self
 --@param #string unitType
 --@param #number unitCount
 --@param #number country
 --@param #list<#string> spawnNames
 --@param #string destinationName
-function bajas.ReinforcementSetup.new(unitType, unitCount, country, spawnNames, destinationName)
-  local obj = {} ---@type #bajas.ReinforcementSetup
-  obj.unitType = unitType
-  obj.unitCount = unitCount
-  obj.country = country
-  obj.spawnNames = spawnNames
-  obj.destinationName = destinationName
-  return obj
+function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, destinationName)
+  local self = bajas.deepCopy(self)
+  self.unitType = unitType
+  self.unitCount = unitCount
+  self.country = country
+  self.spawnNames = spawnNames
+  self.destinationName = destinationName
+  return self
 end
 
 ---
@@ -161,7 +188,8 @@ function bajas.reinforce(reinforcementSetup)
     group = Group.getByName(groupName),
     point = destinationZonePos2,
     radius = destinationZone.radius * 0.8,
-    speed = 100
+    speed = 100,
+    disableRoads = true
   }
   mist.groupToRandomPoint(randomPointVars)
 end
@@ -202,7 +230,7 @@ end
 --@param #bajas.ReinforcementSetup setup
 --@param #number timeInterval Minimum time between reinforcement waves (sec)
 function bajas.registerReinforcementSetup(setup, timeInterval)
-  mist.scheduleFunction(bajas.reinforceCasualties, {setup}, timer.getTime()+1, timeInterval)
+  return mist.scheduleFunction(bajas.reinforceCasualties, {setup}, timer.getTime()+1, timeInterval)
 end
 
 ---
@@ -213,7 +241,7 @@ function bajas.registerGroupCommand(groupName, commandName, callback)
 
   local group = Group.getByName(groupName)
   local groupId = group:getID()
-  local flagName = "group"..groupId.."Trigger"
+  local flagName = bajas.GROUP_COMMAND_FLAG_NAME..groupId
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(groupId, commandName, flagName, 1)
 
@@ -241,7 +269,7 @@ end
 
 ---
 --@param #string unitName
---@return #Unit
+--@return DCSUnit#Unit
 function bajas.getClosestEnemyVehicle(unitName)
 
   local unit = Unit.getByName(unitName)
@@ -268,4 +296,125 @@ function bajas.getClosestEnemyVehicle(unitName)
     end
     return closestEnemy
   end
+end
+
+---
+--@param #number rad Direction in radians
+--@return #string A string representing a cardinal direction
+function bajas.radToCardinalDir(rad)
+
+  local dirNormalized = rad / math.pi / 2
+  local i = 1
+  if dirNormalized < (#bajas.CARDINAL_DIRECTIONS-1) / #bajas.CARDINAL_DIRECTIONS then
+    while dirNormalized > i/#bajas.CARDINAL_DIRECTIONS/2 do
+      i = i+2
+    end
+  end
+  local index = math.floor(i/2) + 1
+  return bajas.CARDINAL_DIRECTIONS[index]
+end
+
+---
+--@type bajas.UnitCluster
+--@field #list<#number> unitIDs
+--@field #Vec2 midPoint
+bajas.UnitCluster = {}
+
+---
+--@param #bajas.UnitCluster self
+--@param #list<#number> unitIDs
+--@param #Vec3 midPoint
+function bajas.UnitCluster:new(unitIDs, midPoint)
+  self = bajas.deepCopy(self)
+  self.unitIDs = unitIDs
+  self.midPoint = midPoint
+  return self
+end
+
+---
+--This function might be computationally expensive
+--@param DCSUnit#Unit unit
+--@param #number radius
+--@return #bajas.UnitCluster
+function bajas.getFriendlyVehiclesWithin(unit, radius)
+  local coalitionString
+  if unit:getCoalition() == coalition.side.BLUE then
+    coalitionString = "[blue]"
+  else
+    coalitionString  = "[red]"
+  end
+  local unitTableStr = coalitionString .. '[vehicle]'
+  local units = mist.makeUnitTable({ unitTableStr })
+
+  local addedVehiclesIDs = {unit:getID()}
+  local minPos = unit:getPosition().p
+  local maxPos = unit:getPosition().p
+
+  ---
+  --@param #list list
+  --@param value
+  local function contains(list, value)
+    for i=1, #list do
+      if list[i] == value then
+        return true
+      end
+    end
+    return false
+  end
+
+  ---
+  --@param DCSUnit#Unit unit
+  local function addUnit(unit)
+    local pos = unit:getPosition().p
+    if pos.x < minPos.x then minPos.x = pos.x end
+    if pos.z < minPos.z then minPos.z = pos.z end
+    if pos.x > maxPos.x then maxPos.x = pos.x end
+    if pos.z > maxPos.z then maxPos.z = pos.z end
+    addedVehiclesIDs[#addedVehiclesIDs+1] = unit:getID()
+  end
+
+  ---
+  --@param DCSUnit#Unit unit
+  local function vehiclesWithinRecurse(targetUnit)
+    for i=1, #units do
+      local nextUnit = Unit.getByName(units[i])
+      if nextUnit:getID() == targetUnit:getID() == false then
+        if bajas.getDistanceBetween(targetUnit:getPosition().p,nextUnit:getPosition().p) <= radius then
+          if contains(addedVehiclesIDs, nextUnit:getID()) == false then
+            addUnit(nextUnit)
+            vehiclesWithinRecurse(nextUnit)
+          end
+        end
+      end
+    end
+  end
+
+  vehiclesWithinRecurse(unit)
+
+  local dx = maxPos.x - minPos.x
+  local dz = maxPos.z - minPos.z
+
+  local midPoint = { -- 3D to 2D conversion implemented
+    x = minPos.x + dx / 2,
+    y = minPos.z + dz / 2
+  }
+
+  return bajas.UnitCluster:new(addedVehiclesIDs,midPoint)
+
+end
+
+---
+--@param DCSGroup#Group group
+function bajas.informOfClosestEnemyVehicles(group)
+
+  local firstGroupUnit = group:getUnit(1)
+  local closestEnemy = bajas.getClosestEnemyVehicle(firstGroupUnit:getName())
+
+  local enemyCluster = bajas.getFriendlyVehiclesWithin(closestEnemy,bajas.MAX_CLUSTER_DISTANCE)
+  local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
+  
+  local dir = mist.utils.getDir(mist.vec.sub(midPoint, firstGroupUnit:getPosition().p))
+  local cardinalDir = bajas.radToCardinalDir(dir)
+  
+  bajas.debug(#enemyCluster.unitIDs .. " enemies " .. cardinalDir)
 end
