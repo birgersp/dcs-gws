@@ -1,3 +1,5 @@
+-- Namespace and constants
+
 ---
 --@type bajas
 --@field #list<#string#> CARDINAL_DIRECTIONS
@@ -16,6 +18,37 @@ bajas = {
   lastCreatedUnitId = 0,
   lastCreatedGroupId = 0
 }
+
+-- Type definitions
+
+---
+--@type bajas.ReinforcementSetup
+--@field #string unitType
+--@field #number unitCount
+--@field #number country
+--@field #list<#string> spawnNames
+--@field #string destinationName
+bajas.ReinforcementSetup = {}
+
+---
+--@param #bajas.ReinforcementSetup self
+--@param #string unitType
+--@param #number unitCount
+--@param #number country
+--@param #list<#string> spawnNames
+--@param #string destinationName
+--@return #bajas.ReinforcementSetup
+function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, destinationName)
+  local self = bajas.deepCopy(self)
+  self.unitType = unitType
+  self.unitCount = unitCount
+  self.country = country
+  self.spawnNames = spawnNames
+  self.destinationName = destinationName
+  return self
+end
+
+-- Utility function definitions
 
 ---Deep copy a table
 --Code from https://gist.github.com/MihailJP/3931841
@@ -109,33 +142,6 @@ function bajas.toString(obj)
   end
 
   return toStringRecursively(obj, 1)
-end
-
----
---@type bajas.ReinforcementSetup
---@field #string unitType
---@field #number unitCount
---@field #number country
---@field #list<#string> spawnNames
---@field #string destinationName
-bajas.ReinforcementSetup = {}
-
----
---@param #bajas.ReinforcementSetup self
---@param #string unitType
---@param #number unitCount
---@param #number country
---@param #list<#string> spawnNames
---@param #string destinationName
---@return #bajas.ReinforcementSetup
-function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, destinationName)
-  local self = bajas.deepCopy(self)
-  self.unitType = unitType
-  self.unitCount = unitCount
-  self.country = country
-  self.spawnNames = spawnNames
-  self.destinationName = destinationName
-  return self
 end
 
 ---
