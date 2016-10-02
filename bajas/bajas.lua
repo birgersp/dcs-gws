@@ -19,9 +19,7 @@ bajas = {
   lastCreatedGroupId = 0
 }
 
-
 -- Type definitions
-
 
 -- ReinforcementSetup class
 
@@ -53,9 +51,7 @@ function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, 
   return self
 end
 
-
 -- ReinforcementSetupBuilder class
-
 ---
 --@type bajas.ReinforcementSetupBuilder
 --@field #bajas.ReinforcementSetup setup
@@ -139,6 +135,26 @@ function bajas.ReinforcementSetupBuilder:register()
   bajas.registerReinforcementSetup(self:build(),self.t)
 end
 
+-- UnitCluster class
+
+---
+--@type bajas.UnitCluster
+--@field #list<#number> unitIDs
+--@field #Vec2 midPoint
+bajas.UnitCluster = {}
+bajas.UnitCluster.__index = bajas.UnitCluster
+
+---
+--@param #bajas.UnitCluster self
+--@param #list<#number> unitIDs
+--@param #Vec3 midPoint
+--@return #bajas.UnitCluster self
+function bajas.UnitCluster:new(unitIDs, midPoint)
+  local self = setmetatable({}, bajas.UnitCluster)
+  self.unitIDs = unitIDs
+  self.midPoint = midPoint
+  return self
+end
 
 -- Utility function definitions
 
@@ -411,23 +427,6 @@ function bajas.radToCardinalDir(rad)
   end
   local index = math.floor(i/2) + 1
   return bajas.CARDINAL_DIRECTIONS[index]
-end
-
----
---@type bajas.UnitCluster
---@field #list<#number> unitIDs
---@field #Vec2 midPoint
-bajas.UnitCluster = {}
-
----
---@param #bajas.UnitCluster self
---@param #list<#number> unitIDs
---@param #Vec3 midPoint
-function bajas.UnitCluster:new(unitIDs, midPoint)
-  self = bajas.deepCopy(self)
-  self.unitIDs = unitIDs
-  self.midPoint = midPoint
-  return self
 end
 
 ---
