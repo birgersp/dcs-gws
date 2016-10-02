@@ -52,6 +52,7 @@ function bajas.RS:new(unitType, unitCount, country, spawnNames, destinationName)
 end
 
 -- RSBuilder class
+
 ---
 --@type bajas.RSBuilder
 --@field #bajas.RS setup
@@ -132,7 +133,14 @@ end
 ---
 --@param #bajas.RSBuilder self
 function bajas.RSBuilder:register()
-  bajas.registerReinforcementSetup(self:build(),self.t)
+  self:registerDelayed(1)
+end
+
+---
+--@param #bajas.RSBuilder self
+--@param #number delaySec
+function bajas.RSBuilder:registerDelayed(delaySec)
+  mist.scheduleFunction(bajas.registerReinforcementSetup,{self:build(), self.t}, timer.getTime() + delaySec)
 end
 
 -- UnitCluster class
@@ -522,18 +530,18 @@ function bajas.informOfClosestEnemyVehicles(group)
   local cardinalDir = bajas.radToCardinalDir(dir)
   local distance = bajas.getDistanceBetween(midPoint, groupUnitPos)
   local distanceKM = math.floor(distance / 1000 + 0.5)
-  
+
   local vehicleTypes = {}
   for i=1, #enemyCluster.unitNames do
     local type = Unit.getByName(enemyCluster.unitNames[i]):getTypeName()
     if vehicleTypes[type] == nil then
       vehicleTypes[type] = 0
     end
-    
+
     vehicleTypes[type] = vehicleTypes[type] + 1
   end
 
-  local text = ""  
+  local text = ""
   for key,val in pairs(vehicleTypes) do
     if (text ~= "") then
       text = text..", "

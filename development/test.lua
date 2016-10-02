@@ -11,8 +11,8 @@ if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
     :unitType("M-1 Abrams")
     :unitCount(2)
     :timeInterval(60)
-    
-  builder:register()
+
+  builder:registerDelayed(10)
 
   --  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone1"), 60)
   --  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone2"), 60)
