@@ -1,12 +1,5 @@
 -- Namespace and constants
 
----
---@type bajas
---@field #list<#string#> CARDINAL_DIRECTIONS
---@field #string GROUP_COMMAND_FLAG_NAME
---@field #number MAX_CLUSTER_DISTANCE
---@field #number lastCreatedUnitId
---@field #number lastCreatedGroupId
 bajas = {
   -- Constants
   GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger",
@@ -569,6 +562,8 @@ function bajas.enableIOCEVForGroups()
   addCommandForGroups(coalition.getGroups(1))
   addCommandForGroups(coalition.getGroups(2))
 end
+
+-- Unit type name constants
 
 bajas.unitTypes = {}
 bajas.unitTypes.navy = {}
