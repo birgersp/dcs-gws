@@ -140,14 +140,14 @@ end
 ---
 --@type bajas.UnitCluster
 --@field #list<#number> unitIDs
---@field #Vec2 midPoint
+--@field DCSTypes#Vec2 midPoint
 bajas.UnitCluster = {}
 bajas.UnitCluster.__index = bajas.UnitCluster
 
 ---
 --@param #bajas.UnitCluster self
 --@param #list<#number> unitIDs
---@param #Vec3 midPoint
+--@param DCSTypes#Vec3 midPoint
 --@return #bajas.UnitCluster self
 function bajas.UnitCluster:new(unitIDs, midPoint)
   local self = setmetatable({}, bajas.UnitCluster)
