@@ -59,6 +59,7 @@ end
 ---
 --@type bajas.ReinforcementSetupBuilder
 --@field #bajas.ReinforcementSetup setup
+--@field #number timeInterval
 bajas.ReinforcementSetupBuilder = {}
 bajas.ReinforcementSetupBuilder.__index = bajas.ReinforcementSetupBuilder
 
@@ -118,9 +119,24 @@ end
 
 ---
 --@param #bajas.ReinforcementSetupBuilder self
+--@param #number timeInterval
+--@return #bajas.ReinforcementSetupBuilder
+function bajas.ReinforcementSetupBuilder:timeInterval(timeInterval)
+  self.timeInterval = timeInterval
+  return self
+end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
 --@return #bajas.ReinforcementSetup
 function bajas.ReinforcementSetupBuilder:build()
   return bajas.deepCopy(self.setup)
+end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+function bajas.ReinforcementSetupBuilder:register()
+  bajas.registerReinforcementSetup(self:build(),self.timeInterval)
 end
 
 

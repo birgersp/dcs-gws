@@ -7,10 +7,12 @@ if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
   builder
     :country(country.id.USA)
     :spawnNames({"spawnB1"})
+    :destinationName("combatZone1")
     :unitType("M-1 Abrams")
     :unitCount(2)
-
-  bajas.registerReinforcementSetup(builder:destinationName("combatZone1"):build(), 60)
+    :timeInterval(60)
+    
+  builder:register()
 
   --  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone1"), 60)
   --  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone2"), 60)
