@@ -50,6 +50,7 @@ end
 --@type bajas.RSBuilder
 --@field #bajas.RS setup
 --@field #number t
+--@field #list<#string> initialSpawnNames
 bajas.RSBuilder = {}
 bajas.RSBuilder.__index = bajas.RSBuilder
 
@@ -126,7 +127,16 @@ end
 ---
 --@param #bajas.RSBuilder self
 function bajas.RSBuilder:register()
-  self:registerDelayed(1)
+  local t = self.t
+  if self.initialSpawnNames == nil then
+    t = 1
+  else
+    local spawnNamesCopy = bajas.deepCopy(self.setup.spawnNames)
+    self.setup.spawnNames = self.initialSpawnNames
+    bajas.reinforce(self.setup)
+    self.setup.spawnNames = spawnNamesCopy
+  end
+  self:registerDelayed(t)
 end
 
 ---
@@ -134,6 +144,15 @@ end
 --@param #number delaySec
 function bajas.RSBuilder:registerDelayed(delaySec)
   mist.scheduleFunction(bajas.registerReinforcementSetup,{self:build(), self.t}, timer.getTime() + delaySec)
+end
+
+---
+--@param #bajas.RSBuilder self
+--@param #list<#string> initialSpawnNames
+--@return #bajas.RS
+function bajas.RSBuilder:initialSpawns(initialSpawnNames)
+  self.initialSpawnNames = initialSpawnNames
+  return self
 end
 
 -- UnitCluster class
@@ -154,6 +173,8 @@ function bajas.UnitCluster:new()
   self.midPoint = {}
   return self
 end
+
+
 
 -- Utility function definitions
 
@@ -756,5 +777,6 @@ bajas.unitTypes.vehicles.unarmed = {
   ZIL131_KUNG = "ZIL-131 KUNG",
   ZIL4331 = "ZIL-4331"
 }
+
 
 
