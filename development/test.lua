@@ -3,7 +3,7 @@ devInitTargetVal = 0
 if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
   assert(loadfile([[C:\Users\birge\Workspace\dcs-bajas\bajas\bajas.lua]]))()
 
-  local builder = bajas.ReinforcementSetupBuilder:new()
+  local builder = bajas.RSBuilder:new()
   builder
     :country(country.id.USA)
     :spawnNames({"spawnB1"})

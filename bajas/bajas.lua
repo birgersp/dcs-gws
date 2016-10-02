@@ -21,28 +21,28 @@ bajas = {
 
 -- Type definitions
 
--- ReinforcementSetup class
+-- RS (reinforcement setup) class
 
 ---
---@type bajas.ReinforcementSetup
+--@type bajas.RS
 --@field #string unitType
 --@field #number unitCount
 --@field #number country
 --@field #list<#string> spawnNames
 --@field #string destinationName
-bajas.ReinforcementSetup = {}
-bajas.ReinforcementSetup.__index = bajas.ReinforcementSetup
+bajas.RS = {}
+bajas.RS.__index = bajas.RS
 
 ---
---@param #bajas.ReinforcementSetup self
+--@param #bajas.RS self
 --@param #string unitType
 --@param #number unitCount
 --@param #number country
 --@param #list<#string> spawnNames
 --@param #string destinationName
---@return #bajas.ReinforcementSetup
-function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, destinationName)
-  local self = setmetatable({}, bajas.ReinforcementSetup)
+--@return #bajas.RS
+function bajas.RS:new(unitType, unitCount, country, spawnNames, destinationName)
+  local self = setmetatable({}, bajas.RS)
   self.unitType = unitType
   self.unitCount = unitCount
   self.country = country
@@ -53,85 +53,85 @@ end
 
 -- ReinforcementSetupBuilder class
 ---
---@type bajas.ReinforcementSetupBuilder
---@field #bajas.ReinforcementSetup setup
+--@type bajas.RSBuilder
+--@field #bajas.RS setup
 --@field #number t
-bajas.ReinforcementSetupBuilder = {}
-bajas.ReinforcementSetupBuilder.__index = bajas.ReinforcementSetupBuilder
+bajas.RSBuilder = {}
+bajas.RSBuilder.__index = bajas.RSBuilder
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
---@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:new()
-  local self = setmetatable({}, bajas.ReinforcementSetupBuilder)
-  self.setup = bajas.ReinforcementSetup:new(nil,nil,nil,nil,nil)
+--@param #bajas.RSBuilder self
+--@return #bajas.RSBuilder
+function bajas.RSBuilder:new()
+  local self = setmetatable({}, bajas.RSBuilder)
+  self.setup = bajas.RS:new(nil,nil,nil,nil,nil)
   return self
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
+--@param #bajas.RSBuilder self
 --@param #string unitType
---@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:unitType(unitType)
+--@return #bajas.RSBuilder
+function bajas.RSBuilder:unitType(unitType)
   self.setup.unitType = unitType
   return self
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
+--@param #bajas.RSBuilder self
 --@param #number unitCount
---@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:unitCount(unitCount)
+--@return #bajas.RSBuilder
+function bajas.RSBuilder:unitCount(unitCount)
   self.setup.unitCount = unitCount
   return self
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
+--@param #bajas.RSBuilder self
 --@param #number country
---@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:country(country)
+--@return #bajas.RSBuilder
+function bajas.RSBuilder:country(country)
   self.setup.country = country
   return self
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
+--@param #bajas.RSBuilder self
 --@param #list<#string> spawnNames
---@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:spawnNames(spawnNames)
+--@return #bajas.RSBuilder
+function bajas.RSBuilder:spawnNames(spawnNames)
   self.setup.spawnNames = spawnNames
   return self
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
+--@param #bajas.RSBuilder self
 --@param #string destinationName
---@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:destinationName(destinationName)
+--@return #bajas.RSBuilder
+function bajas.RSBuilder:destinationName(destinationName)
   self.setup.destinationName = destinationName
   return self
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
+--@param #bajas.RSBuilder self
 --@param #number timeInterval
---@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:timeInterval(timeInterval)
+--@return #bajas.RSBuilder
+function bajas.RSBuilder:timeInterval(timeInterval)
   self.t = timeInterval
   return self
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
---@return #bajas.ReinforcementSetup
-function bajas.ReinforcementSetupBuilder:build()
+--@param #bajas.RSBuilder self
+--@return #bajas.RS
+function bajas.RSBuilder:build()
   return bajas.deepCopy(self.setup)
 end
 
 ---
---@param #bajas.ReinforcementSetupBuilder self
-function bajas.ReinforcementSetupBuilder:register()
+--@param #bajas.RSBuilder self
+function bajas.RSBuilder:register()
   bajas.registerReinforcementSetup(self:build(),self.t)
 end
 
@@ -253,7 +253,7 @@ function bajas.toString(obj)
 end
 
 ---
---@param #bajas.ReinforcementSetup reinforcementSetup
+--@param #bajas.RS reinforcementSetup
 function bajas.reinforce(reinforcementSetup)
 
   local xAdd = 20
@@ -310,7 +310,7 @@ function bajas.reinforce(reinforcementSetup)
 end
 
 ---
---@param #bajas.ReinforcementSetup setup
+--@param #bajas.RS setup
 function bajas.reinforceCasualties(setup)
 
   -- Determine coalition search string
@@ -342,7 +342,7 @@ function bajas.reinforceCasualties(setup)
 end
 
 ---
---@param #bajas.ReinforcementSetup setup
+--@param #bajas.RS setup
 --@param #number timeInterval Minimum time between reinforcement waves (sec)
 function bajas.registerReinforcementSetup(setup, timeInterval)
   return mist.scheduleFunction(bajas.reinforceCasualties, {setup}, timer.getTime()+1, timeInterval)
