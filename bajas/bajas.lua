@@ -19,7 +19,11 @@ bajas = {
   lastCreatedGroupId = 0
 }
 
+
 -- Type definitions
+
+
+-- ReinforcementSetup class
 
 ---
 --@type bajas.ReinforcementSetup
@@ -49,6 +53,9 @@ function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, 
   return self
 end
 
+
+-- ReinforcementSetupBuilder class
+
 ---
 --@type bajas.ReinforcementSetupBuilder
 --@field #bajas.ReinforcementSetup setup
@@ -66,21 +73,56 @@ end
 
 ---
 --@param #bajas.ReinforcementSetupBuilder self
---@param #string ut
+--@param #string unitType
 --@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:unitType(ut)
-  self.setup.unitType = ut
+function bajas.ReinforcementSetupBuilder:unitType(unitType)
+  self.setup.unitType = unitType
   return self
 end
 
 ---
 --@param #bajas.ReinforcementSetupBuilder self
---@param #string ut
+--@param #number unitCount
 --@return #bajas.ReinforcementSetupBuilder
-function bajas.ReinforcementSetupBuilder:unitType(ut)
-  self.setup.unitType = ut
+function bajas.ReinforcementSetupBuilder:unitCount(unitCount)
+  self.setup.unitCount = unitCount
   return self
 end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+--@param #number country
+--@return #bajas.ReinforcementSetupBuilder
+function bajas.ReinforcementSetupBuilder:country(country)
+  self.setup.country = country
+  return self
+end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+--@param #list<#string> spawnNames
+--@return #bajas.ReinforcementSetupBuilder
+function bajas.ReinforcementSetupBuilder:spawnNames(spawnNames)
+  self.setup.spawnNames = spawnNames
+  return self
+end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+--@param #string destinationName
+--@return #bajas.ReinforcementSetupBuilder
+function bajas.ReinforcementSetupBuilder:destinationName(destinationName)
+  self.setup.destinationName = destinationName
+  return self
+end
+
+---
+--@param #bajas.ReinforcementSetupBuilder self
+--@return #bajas.ReinforcementSetup
+function bajas.ReinforcementSetupBuilder:build()
+  return bajas.deepCopy(self.setup)
+end
+
 
 -- Utility function definitions
 
