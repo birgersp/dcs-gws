@@ -51,7 +51,7 @@ function bajas.RS:new(unitType, unitCount, country, spawnNames, destinationName)
   return self
 end
 
--- ReinforcementSetupBuilder class
+-- RSBuilder class
 ---
 --@type bajas.RSBuilder
 --@field #bajas.RS setup
@@ -139,20 +139,18 @@ end
 
 ---
 --@type bajas.UnitCluster
---@field #list<#number> unitIDs
+--@field #list<#string> unitNames
 --@field DCSTypes#Vec2 midPoint
 bajas.UnitCluster = {}
 bajas.UnitCluster.__index = bajas.UnitCluster
 
 ---
 --@param #bajas.UnitCluster self
---@param #list<#number> unitIDs
---@param DCSTypes#Vec3 midPoint
---@return #bajas.UnitCluster self
-function bajas.UnitCluster:new(unitIDs, midPoint)
+--@return #bajas.UnitCluster
+function bajas.UnitCluster:new()
   local self = setmetatable({}, bajas.UnitCluster)
-  self.unitIDs = unitIDs
-  self.midPoint = midPoint
+  self.unitNames = {}
+  self.midPoint = {}
   return self
 end
 
@@ -444,7 +442,7 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
   local unitTableStr = coalitionString .. '[vehicle]'
   local units = mist.makeUnitTable({ unitTableStr })
 
-  local addedVehiclesIDs = {unit:getID()}
+  local addedVehiclesNames = {unit:getName()}
   local minPos = unit:getPosition().p
   local maxPos = unit:getPosition().p
 
@@ -468,7 +466,7 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
     if pos.z < minPos.z then minPos.z = pos.z end
     if pos.x > maxPos.x then maxPos.x = pos.x end
     if pos.z > maxPos.z then maxPos.z = pos.z end
-    addedVehiclesIDs[#addedVehiclesIDs+1] = unit:getID()
+    addedVehiclesNames[#addedVehiclesNames+1] = unit:getName()
   end
 
   ---
@@ -478,7 +476,7 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
       local nextUnit = Unit.getByName(units[i])
       if nextUnit:getID() == targetUnit:getID() == false then
         if bajas.getDistanceBetween(targetUnit:getPosition().p,nextUnit:getPosition().p) <= radius then
-          if contains(addedVehiclesIDs, nextUnit:getID()) == false then
+          if contains(addedVehiclesNames, nextUnit:getName()) == false then
             addUnit(nextUnit)
             vehiclesWithinRecurse(nextUnit)
           end
@@ -497,7 +495,10 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
     y = minPos.z + dz / 2
   }
 
-  return bajas.UnitCluster:new(addedVehiclesIDs,midPoint)
+  local result = bajas.UnitCluster:new()
+  result.unitNames = addedVehiclesNames
+  result.midPoint = midPoint
+  return result
 
 end
 
@@ -521,7 +522,26 @@ function bajas.informOfClosestEnemyVehicles(group)
   local cardinalDir = bajas.radToCardinalDir(dir)
   local distance = bajas.getDistanceBetween(midPoint, groupUnitPos)
   local distanceKM = math.floor(distance / 1000 + 0.5)
-  local text = #enemyCluster.unitIDs .. " enemy vehicles located " .. distanceKM .. "km " .. cardinalDir
+  
+  local vehicleTypes = {}
+  for i=1, #enemyCluster.unitNames do
+    local type = Unit.getByName(enemyCluster.unitNames[i]):getTypeName()
+    if vehicleTypes[type] == nil then
+      vehicleTypes[type] = 0
+    end
+    
+    vehicleTypes[type] = vehicleTypes[type] + 1
+  end
+
+  local text = ""  
+  for key,val in pairs(vehicleTypes) do
+    if (text ~= "") then
+      text = text..", "
+    end
+    text = text..val.." "..key
+  end
+
+  text = text .. " located " .. distanceKM .. "km " .. cardinalDir
   trigger.action.outTextForGroup(group:getID(), text, 30)
 
 end
