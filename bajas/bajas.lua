@@ -40,8 +40,7 @@ bajas.ReinforcementSetup.__index = bajas.ReinforcementSetup
 --@param #string destinationName
 --@return #bajas.ReinforcementSetup
 function bajas.ReinforcementSetup:new(unitType, unitCount, country, spawnNames, destinationName)
-  local self = bajas.deepCopy(self)
-  self = setmetatable(self, bajas.ReinforcementSetup)
+  local self = setmetatable({}, bajas.ReinforcementSetup)
   self.unitType = unitType
   self.unitCount = unitCount
   self.country = country
@@ -60,9 +59,9 @@ bajas.ReinforcementSetupBuilder.__index = bajas.ReinforcementSetupBuilder
 --@param #bajas.ReinforcementSetupBuilder self
 --@return #bajas.ReinforcementSetupBuilder
 function bajas.ReinforcementSetupBuilder:new()
-  local self = bajas.deepCopy(self)
-  self = setmetatable(self, bajas.ReinforcementSetupBuilder)
+  local self = setmetatable({}, bajas.ReinforcementSetupBuilder)
   self.setup = bajas.ReinforcementSetup:new(nil,nil,nil,nil,nil)
+  return self
 end
 
 ---
@@ -93,7 +92,7 @@ function bajas.deepCopy(t)
   local target = {}
   for k, v in pairs(t) do
     if type(v) == "table" then
-      target[k] = clone(v)
+      target[k] = bajas.deepCopy(v)
     else
       target[k] = v
     end

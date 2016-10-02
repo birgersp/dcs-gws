@@ -3,12 +3,12 @@ devInitTargetVal = 0
 if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
   assert(loadfile([[C:\Users\birge\Workspace\dcs-bajas\bajas\bajas.lua]]))()
 
---  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone1"), 60)
---  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone2"), 60)
---  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone3"), 60)
---  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("T-90", 2, country.id.RUSSIA, {"spawnR1"}, "combatZone1"), 60)
---  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("T-90", 2, country.id.RUSSIA, {"spawnR1"}, "combatZone2"), 60)
---  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("T-90", 2, country.id.RUSSIA, {"spawnR1"}, "combatZone3"), 60)
+  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone1"), 60)
+  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone2"), 60)
+  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("M-1 Abrams", 2, country.id.USA, {"spawnB1", "spawnB2"}, "combatZone3"), 60)
+  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("T-90", 2, country.id.RUSSIA, {"spawnR1"}, "combatZone1"), 60)
+  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("T-90", 2, country.id.RUSSIA, {"spawnR1"}, "combatZone2"), 60)
+  bajas.registerReinforcementSetup(bajas.ReinforcementSetup:new("T-90", 2, country.id.RUSSIA, {"spawnR1"}, "combatZone3"), 60)
 
   local function callback(name)
     local group = Group.getByName(name)
