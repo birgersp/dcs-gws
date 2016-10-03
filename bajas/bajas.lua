@@ -14,7 +14,10 @@ bajas = {
 
   -- Counters
   lastCreatedUnitId = 0,
-  lastCreatedGroupId = 0
+  lastCreatedGroupId = 0,
+
+  -- Misc
+  debug = false
 }
 
 -- Type definitions
@@ -48,28 +51,19 @@ end
 
 ---
 --@type bajas.RS
---@field #string unitType
---@field #number unitCount
---@field #number country
---@field #list<#string> spawnNames
+--@field #bajas.SpawnGroupSpec groupSpec
 --@field #string destinationName
 bajas.RS = {}
 bajas.RS.__index = bajas.RS
 
 ---
 --@param #bajas.RS self
---@param #string unitType
---@param #number unitCount
---@param #number country
---@param #list<#string> spawnNames
+--@param #bajas.SpawnGroupSpec groupSpec
 --@param #string destinationName
 --@return #bajas.RS
-function bajas.RS:new(unitType, unitCount, country, spawnNames, destinationName)
+function bajas.RS:new(groupSpec, destinationName)
   local self = setmetatable({}, bajas.RS)
-  self.unitType = unitType
-  self.unitCount = unitCount
-  self.country = country
-  self.spawnNames = spawnNames
+  self.groupSpec = groupSpec
   self.destinationName = destinationName
   return self
 end
@@ -89,7 +83,7 @@ bajas.RSBuilder.__index = bajas.RSBuilder
 --@return #bajas.RSBuilder
 function bajas.RSBuilder:new()
   local self = setmetatable({}, bajas.RSBuilder)
-  self.setup = bajas.RS:new(nil,nil,nil,nil,nil)
+  self.setup = bajas.RS:new(bajas.SpawnGroupSpec:new(nil,nil,nil,nil),nil)
   return self
 end
 
@@ -98,7 +92,7 @@ end
 --@param #string unitType
 --@return #bajas.RSBuilder
 function bajas.RSBuilder:unitType(unitType)
-  self.setup.unitType = unitType
+  self.setup.groupSpec.unitType = unitType
   return self
 end
 
@@ -107,7 +101,7 @@ end
 --@param #number unitCount
 --@return #bajas.RSBuilder
 function bajas.RSBuilder:unitCount(unitCount)
-  self.setup.unitCount = unitCount
+  self.setup.groupSpec.unitCount = unitCount
   return self
 end
 
@@ -116,7 +110,7 @@ end
 --@param #number country
 --@return #bajas.RSBuilder
 function bajas.RSBuilder:country(country)
-  self.setup.country = country
+  self.setup.groupSpec.country = country
   return self
 end
 
@@ -125,7 +119,7 @@ end
 --@param #list<#string> spawnNames
 --@return #bajas.RSBuilder
 function bajas.RSBuilder:spawnNames(spawnNames)
-  self.setup.spawnNames = spawnNames
+  self.setup.groupSpec.spawnNames = spawnNames
   return self
 end
 
@@ -161,10 +155,10 @@ function bajas.RSBuilder:register()
   if self.initialSpawnNames == nil then
     t = 1
   else
-    local spawnNamesCopy = bajas.deepCopy(self.setup.spawnNames)
-    self.setup.spawnNames = self.initialSpawnNames
+    local spawnNamesCopy = bajas.deepCopy(self.setup.groupSpec.spawnNames)
+    self.setup.groupSpec.spawnNames = self.initialSpawnNames
     bajas.reinforce(self.setup)
-    self.setup.spawnNames = spawnNamesCopy
+    self.setup.groupSpec.spawnNames = spawnNamesCopy
   end
   self:registerDelayed(t)
 end
@@ -268,103 +262,10 @@ end
 
 -- Utility function definitions
 
----Deep copy a table
---Code from https://gist.github.com/MihailJP/3931841
-function bajas.deepCopy(t)
-  if type(t) ~= "table" then return t end
-  local meta = getmetatable(t)
-  local target = {}
-  for k, v in pairs(t) do
-    if type(v) == "table" then
-      target[k] = bajas.deepCopy(v)
-    else
-      target[k] = v
-    end
-  end
-  setmetatable(target, meta)
-  return target
-end
-
----
---@param #string str
---@param #number time
-function bajas.printIngame(str, time)
-  if (time == nil) then
-    time = 1
-  end
-  trigger.action.outText(str, time)
-end
-
----
-function bajas.debug(variable)
-  bajas.printIngame(bajas.toString(variable))
-end
-
----Returns a string representation of an object
-function bajas.toString(obj)
-
-  local indent = "    "
-  local function toStringRecursively(obj, level)
-
-    if (obj == nil) then
-      return "(nil)"
-    end
-
-    local str = ""
-    if (type(obj) == "table") then
-      if (level ~= 0) then
-        str = str .. "{"
-      end
-      local isFirst = true
-      for key, value in pairs(obj) do
-        if (isFirst == false) then
-          str = str .. ","
-        end
-        str = str .. "\n"
-        for i = 1, level do
-          str = str .. indent
-        end
-
-        if (type(key) == "number") then
-          str = str .. "[\"" .. key .. "\"]"
-        else
-          str = str .. key
-        end
-        str = str .. " = "
-
-        if (type(value) == "function") then
-          str = str .. "(function)"
-        else
-          str = str .. toStringRecursively(value, level + 1)
-        end
-        isFirst = false
-      end
-
-      if (level ~= 0) then
-        str = str .. "\n"
-        for i = 1, level - 1 do
-          str = str .. indent
-        end
-        str = str .. "}"
-      end
-    else
-      str = obj
-      if (type(obj) == "string") then
-        str = "\"" .. str .. "\""
-      elseif type(obj) == "boolean" then
-        str = ""..obj
-      end
-    end
-
-    return str
-  end
-
-  return toStringRecursively(obj, 1)
-end
-
 ---
 --@param #bajas.RS reinforcementSetup
 function bajas.reinforce(reinforcementSetup)
+  local spec = reinforcementSetup.groupSpec
 
   local xAdd = 20
   local yAdd = 20
@@ -372,10 +273,10 @@ function bajas.reinforce(reinforcementSetup)
   local units = {}
 
   local randomValue = math.random()
-  local spawnZoneIndex = math.floor(randomValue * #reinforcementSetup.spawnNames + 1)
-  local spawnZone = trigger.misc.getZone(reinforcementSetup.spawnNames[spawnZoneIndex])
-  for i = 1, reinforcementSetup.unitCount do
-    local unitType = reinforcementSetup.unitType
+  local spawnZoneIndex = math.floor(randomValue * #spec.spawnNames + 1)
+  local spawnZone = trigger.misc.getZone(spec.spawnNames[spawnZoneIndex])
+  for i = 1, spec.unitCount do
+    local unitType = spec.unitType
     units[i] = {
       ["type"] = unitType,
       ["transportable"] =
@@ -401,7 +302,7 @@ function bajas.reinforce(reinforcementSetup)
     ["name"] = groupName
   }
 
-  coalition.addGroup(reinforcementSetup.country, Group.Category.GROUND, groupData)
+  coalition.addGroup(spec.country, Group.Category.GROUND, groupData)
   bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
 
   local destinationZone = trigger.misc.getZone(reinforcementSetup.destinationName)
@@ -423,20 +324,22 @@ end
 --@param #bajas.RS setup
 function bajas.reinforceCasualties(setup)
 
+  local spec = setup.groupSpec
+
   -- Determine coalition search string
   local coalitionString = "[blue]"
-  if coalition.getCountryCoalition(setup.country) == 1 then
+  if coalition.getCountryCoalition(spec.country) == 1 then
     coalitionString = "[red]"
   end
 
   -- Count units of desired type in target zone
   local unitTableStr = coalitionString .. '[vehicle]'
   local defendingVehicles = mist.makeUnitTable({ unitTableStr })
-  local reinforcementCount = setup.unitCount
+  local reinforcementCount = spec.unitCount
   if (#defendingVehicles > 0) then
     local zoneVehicles = mist.getUnitsInZones(defendingVehicles, { setup.destinationName })
     for zoneVehicleIndex = 1, #zoneVehicles do
-      if (Object.getTypeName(zoneVehicles[zoneVehicleIndex]) == setup.unitType) then
+      if (Object.getTypeName(zoneVehicles[zoneVehicleIndex]) == spec.unitType) then
         reinforcementCount = reinforcementCount - 1
       end
     end
@@ -444,10 +347,10 @@ function bajas.reinforceCasualties(setup)
 
   -- If there are any casualties, reinforce
   if (reinforcementCount > 0) then
-    local initialUC = setup.unitCount
-    setup.unitCount = reinforcementCount
+    local initialUC = spec.unitCount
+    spec.unitCount = reinforcementCount
     bajas.reinforce(setup)
-    setup.unitCount = initialUC
+    spec.unitCount = initialUC
   end
 end
 
@@ -672,6 +575,102 @@ function bajas.enableIOCEVForGroups()
 
   addCommandForGroups(coalition.getGroups(1))
   addCommandForGroups(coalition.getGroups(2))
+end
+
+---Deep copy a table
+--Code from https://gist.github.com/MihailJP/3931841
+function bajas.deepCopy(t)
+  if type(t) ~= "table" then return t end
+  local meta = getmetatable(t)
+  local target = {}
+  for k, v in pairs(t) do
+    if type(v) == "table" then
+      target[k] = bajas.deepCopy(v)
+    else
+      target[k] = v
+    end
+  end
+  setmetatable(target, meta)
+  return target
+end
+
+---
+--@param #string str
+--@param #number time
+function bajas.printIngame(str, time)
+  if (time == nil) then
+    time = 1
+  end
+  trigger.action.outText(str, time)
+end
+
+---
+function bajas.debugVariable(variable)
+  if bajas.debug then
+    bajas.printIngame(bajas.toString(variable), 10)
+  end
+end
+
+---Returns a string representation of an object
+function bajas.toString(obj)
+
+  local indent = "    "
+  local function toStringRecursively(obj, level)
+
+    if (obj == nil) then
+      return "(nil)"
+    end
+
+    local str = ""
+    if (type(obj) == "table") then
+      if (level ~= 0) then
+        str = str .. "{"
+      end
+      local isFirst = true
+      for key, value in pairs(obj) do
+        if (isFirst == false) then
+          str = str .. ","
+        end
+        str = str .. "\n"
+        for i = 1, level do
+          str = str .. indent
+        end
+
+        if (type(key) == "number") then
+          str = str .. "[\"" .. key .. "\"]"
+        else
+          str = str .. key
+        end
+        str = str .. " = "
+
+        if (type(value) == "function") then
+          str = str .. "(function)"
+        else
+          str = str .. toStringRecursively(value, level + 1)
+        end
+        isFirst = false
+      end
+
+      if (level ~= 0) then
+        str = str .. "\n"
+        for i = 1, level - 1 do
+          str = str .. indent
+        end
+        str = str .. "}"
+      end
+    else
+      str = obj
+      if (type(obj) == "string") then
+        str = "\"" .. str .. "\""
+      elseif type(obj) == "boolean" then
+        str = ""..obj
+      end
+    end
+
+    return str
+  end
+
+  return toStringRecursively(obj, 1)
 end
 
 -- Unit type name constants

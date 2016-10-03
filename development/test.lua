@@ -2,6 +2,7 @@
 devInitTargetVal = 0
 if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
   assert(loadfile([[C:\Users\birge\Workspace\dcs-bajas\bajas\bajas.lua]]))()
+  bajas.debug = true
 
   local builder = bajas.RSBuilder:new()
   builder
@@ -11,11 +12,11 @@ if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
     :unitType(bajas.unitTypes.vehicles.Tanks.M1_Abrams)
     :unitCount(2)
     :timeInterval(60)
-
+    
   builder:register()
 
   bajas.enableIOCEVForGroups()
-  bajas.debug("Test script initialized")
+--  bajas.debug("Test script initialized")
 
   devInitVal = devInitTargetVal
 end
