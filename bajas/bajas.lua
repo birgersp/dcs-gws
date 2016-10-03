@@ -19,6 +19,31 @@ bajas = {
 
 -- Type definitions
 
+---Spawning group specification
+--@type bajas.SpawnGroupSpec
+--@field #string unitType
+--@field #number unitCount
+--@field #number country
+--@field #list<#string> spawnNames
+bajas.SpawnGroupSpec = {}
+bajas.SpawnGroupSpec.__index = bajas.SpawnGroupSpec
+
+---
+--@param #bajas.SpawnGroupSpec self
+--@param #string unitType
+--@param #number unitCount
+--@param #number country
+--@param #list<#string> spawnNames
+--@return #bajas.SpawnGroupSpec
+function bajas.SpawnGroupSpec:new(unitType, unitCount, country, spawnNames)
+  local self = setmetatable({}, bajas.SpawnGroupSpec)
+  self.unitType = unitType
+  self.unitCount = unitCount
+  self.country = country
+  self.spawnNames = spawnNames
+  return self
+end
+
 -- RS (reinforcement setup) class
 
 ---
