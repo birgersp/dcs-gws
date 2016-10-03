@@ -6,6 +6,11 @@ bajas = {
   CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"},
   MAX_CLUSTER_DISTANCE = 1000,
   IOCEV_COMMAND_TEXT = "Request location of closest enemy vehicles",
+  ZONE_STATES = {
+    CONTESTED = coalition.side.NEUTRAL,
+    RED = coalition.side.RED,
+    BLUE = coalition.side.BLUE
+  },
 
   -- Counters
   lastCreatedUnitId = 0,
@@ -174,7 +179,21 @@ function bajas.UnitCluster:new()
   return self
 end
 
+---
+--@type bajas.TaskZone
+--@field #string zoneName
+--@field #number state
+bajas.TaskZone = {}
+bajas.TaskZone.__index = bajas.TaskZone
 
+---
+--@param #bajas.TaskZone self
+--@param #string zoneName
+function bajas.TaskZone:new(zoneName)
+  self = setmetatable({}, bajas.TaskZone)
+  self.zoneName = zoneName
+  return self
+end
 
 -- Utility function definitions
 
@@ -777,6 +796,8 @@ bajas.unitTypes.vehicles.unarmed = {
   ZIL131_KUNG = "ZIL-131 KUNG",
   ZIL4331 = "ZIL-4331"
 }
+
+
 
 
 
