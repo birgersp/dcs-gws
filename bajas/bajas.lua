@@ -6,7 +6,7 @@ bajas = {
   CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"},
   MAX_CLUSTER_DISTANCE = 1000,
   IOCEV_COMMAND_TEXT = "Request location of closest enemy vehicles",
-  ZONE_STATES = {
+  ZONE_STATUS = {
     CONTESTED = coalition.side.NEUTRAL,
     RED = coalition.side.RED,
     BLUE = coalition.side.BLUE
@@ -179,20 +179,45 @@ function bajas.UnitCluster:new()
   return self
 end
 
+-- Task zone class
+
 ---
 --@type bajas.TaskZone
 --@field #string zoneName
---@field #number state
+--@field #number status
 bajas.TaskZone = {}
 bajas.TaskZone.__index = bajas.TaskZone
 
 ---
 --@param #bajas.TaskZone self
 --@param #string zoneName
+--@return #bajas.TaskZone
 function bajas.TaskZone:new(zoneName)
   self = setmetatable({}, bajas.TaskZone)
   self.zoneName = zoneName
+  self:updateStatus()
   return self
+end
+
+---
+--@param #bajas.TaskZone self
+function bajas.TaskZone:updateStatus()
+  local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
+  local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
+  
+  local newStatus = bajas.ZONE_STATUS.CONTESTED
+  if #mist.getUnitsInZones(redVehicles, { self.zoneName }) > 0 then
+    newStatus = bajas.ZONE_STATUS.RED
+  end
+  
+  if #mist.getUnitsInZones(blueVehicles, { self.zoneName }) > 0 then
+    if newStatus == bajas.ZONE_STATUS.RED then
+      newStatus = bajas.ZONE_STATUS.CONTESTED
+    else
+      newStatus = bajas.ZONE_STATUS.BLUE
+    end
+  end
+  self.status = newStatus
 end
 
 -- Utility function definitions
