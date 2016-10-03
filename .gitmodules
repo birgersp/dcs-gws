@@ -1,0 +1,4 @@
+[submodule "mist"]
+	path = mist
+	url = git@github.com:mrSkortch/MissionScriptingTools.git
+	branch = master
