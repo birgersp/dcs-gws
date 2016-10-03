@@ -244,6 +244,7 @@ end
 ---
 --@type bajas.TaskSequence
 --@field #list<#bajas.TaskZone> zones
+--@field #list<#bajas.SpawnGroupSpec> groupSpecs
 bajas.TaskSequence = {}
 bajas.TaskSequence.__index = bajas.TaskSequence
 
@@ -257,7 +258,15 @@ function bajas.TaskSequence:new(zoneNames)
   for i=1, #zoneNames do
     self.zones[i] = bajas.TaskZone:new(zoneNames[i])
   end
+  self.groupSpecs = {}
   return self
+end
+
+---
+--@param #bajas.TaskSequence self
+--@param #bajas.SpawnGroupSpec groupSpec
+function bajas.TaskSequence:addGroupSpec(groupSpec)
+  self.groupSpecs[#self.groupSpecs+1] = groupSpec 
 end
 
 -- Utility function definitions

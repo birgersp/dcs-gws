@@ -12,11 +12,14 @@ if (devInitVal == nil or devInitVal ~= devInitTargetVal) then
     :unitType(bajas.unitTypes.vehicles.Tanks.M1_Abrams)
     :unitCount(2)
     :timeInterval(60)
-    
+
+  -- Create task sequence
+  local taskSequence = bajas.TaskSequence:new({"taskZone1","taskZone2","taskZone3"})
+  taskSequence:addGroupSpec(builder:build().groupSpec)
+
   builder:register()
 
   bajas.enableIOCEVForGroups()
---  bajas.debug("Test script initialized")
 
   devInitVal = devInitTargetVal
 end
