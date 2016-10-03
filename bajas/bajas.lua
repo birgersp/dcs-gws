@@ -204,12 +204,12 @@ end
 function bajas.TaskZone:updateStatus()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
-  
+
   local newStatus = bajas.ZONE_STATUS.CONTESTED
   if #mist.getUnitsInZones(redVehicles, { self.zoneName }) > 0 then
     newStatus = bajas.ZONE_STATUS.RED
   end
-  
+
   if #mist.getUnitsInZones(blueVehicles, { self.zoneName }) > 0 then
     if newStatus == bajas.ZONE_STATUS.RED then
       newStatus = bajas.ZONE_STATUS.CONTESTED
@@ -218,6 +218,27 @@ function bajas.TaskZone:updateStatus()
     end
   end
   self.status = newStatus
+end
+
+-- Task sequence
+
+---
+--@type bajas.TaskSequence
+--@field #list<#bajas.TaskZone> zones
+bajas.TaskSequence = {}
+bajas.TaskSequence.__index = bajas.TaskSequence
+
+---
+--@param #bajas.TaskSequence self
+--@param #list<#string> zoneNames
+--@return #bajas.TaskSequence
+function bajas.TaskSequence:new(zoneNames)
+  self = setmetatable({}, bajas.TaskSequence)
+  self.zones = {}
+  for i=1, #zoneNames do
+    self.zones[i] = bajas.TaskZone:new(zoneNames[i])
+  end
+  return self
 end
 
 -- Utility function definitions
@@ -821,8 +842,3 @@ bajas.unitTypes.vehicles.unarmed = {
   ZIL131_KUNG = "ZIL-131 KUNG",
   ZIL4331 = "ZIL-4331"
 }
-
-
-
-
-
