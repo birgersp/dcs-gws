@@ -14,7 +14,7 @@ if (initialized == nil or initialized == false) then
   end
 
   local function addAndSpawnSetup(unitType,unitCount,country,spawnNames,defenceName,firstSpawnNames)
-    local rs = bajas.ReinforcementSetup:new(unitType,unitCount,country,spawnNames,defenceName)
+    local rs = bajas.RS:new(unitType,unitCount,country,spawnNames,defenceName)
     reinforceImmediately(rs,firstSpawnNames)
     reinforcementSetups[#reinforcementSetups+1] = rs
   end
