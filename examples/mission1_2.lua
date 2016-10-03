@@ -1,5 +1,3 @@
-assert(loadfile([[C:\Users\birge\Workspace\dcs-bajas\bajas\bajas.lua]]))()
-
 local MIN_REINFORCEMENT_T = 1800
 local reinforcementSetups = {}
 local vehicles = bajas.unitTypes.vehicles
