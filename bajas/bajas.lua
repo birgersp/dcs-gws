@@ -1,24 +1,6 @@
--- Namespace and constants
+-- Namespace declaration
 
-bajas = {
-  -- Constants
-  GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger",
-  CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"},
-  MAX_CLUSTER_DISTANCE = 1000,
-  IOCEV_COMMAND_TEXT = "Request location of closest enemy vehicles",
-  ZONE_STATUS = {
-    CONTESTED = coalition.side.NEUTRAL,
-    RED = coalition.side.RED,
-    BLUE = coalition.side.BLUE
-  },
-
-  -- Counters
-  lastCreatedUnitId = 0,
-  lastCreatedGroupId = 0,
-
-  -- Misc
-  debug = false
-}
+bajas = {}
 
 -- Type definitions
 
@@ -198,23 +180,40 @@ function bajas.UnitCluster:new()
   return self
 end
 
+-- Zone state class
+
+---
+--@type bajas.ZoneState
+--@field #number value
+bajas.ZoneState = {}
+bajas.ZoneState.__index = bajas.ZoneState
+
+---
+--@param #bajas.ZoneState self
+--@param #number value
+function bajas.ZoneState:new(value)
+  self = setmetatable({}, bajas.ZoneState)
+  self.value = value
+  return self
+end
+
 -- Task zone class
 
 ---
 --@type bajas.TaskZone
---@field #string zoneName
---@field #number status
+--@field #string name
+--@field #bajas.ZoneState status
 bajas.TaskZone = {}
 bajas.TaskZone.__index = bajas.TaskZone
 
 ---
 --@param #bajas.TaskZone self
---@param #string zoneName
+--@param #string name
 --@return #bajas.TaskZone
-function bajas.TaskZone:new(zoneName)
+function bajas.TaskZone:new(name)
   self = setmetatable({}, bajas.TaskZone)
-  self.zoneName = zoneName
-  self:updateStatus()
+  self.name = name
+  self.status = bajas.zoneState.CONTESTED
   return self
 end
 
@@ -224,52 +223,202 @@ function bajas.TaskZone:updateStatus()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
 
-  local newStatus = bajas.ZONE_STATUS.CONTESTED
-  if #mist.getUnitsInZones(redVehicles, { self.zoneName }) > 0 then
-    newStatus = bajas.ZONE_STATUS.RED
+  local newStatus = self.status
+  if #mist.getUnitsInZones(redVehicles, { self.name }) > 0 then
+    newStatus = bajas.zoneState.RED
   end
 
-  if #mist.getUnitsInZones(blueVehicles, { self.zoneName }) > 0 then
-    if newStatus == bajas.ZONE_STATUS.RED then
-      newStatus = bajas.ZONE_STATUS.CONTESTED
+  if #mist.getUnitsInZones(blueVehicles, { self.name }) > 0 then
+    if newStatus == bajas.zoneState.RED then
+      newStatus = bajas.zoneState.CONTESTED
     else
-      newStatus = bajas.ZONE_STATUS.BLUE
+      newStatus = bajas.zoneState.BLUE
     end
   end
-  self.status = newStatus
+
+  if newStatus ~= self.status then
+    self.status = newStatus
+  end
 end
 
--- Task sequence
+-- Unit spec
 
 ---
---@type bajas.TaskSequence
---@field #list<#bajas.TaskZone> zones
---@field #list<#bajas.SpawnGroupSpec> groupSpecs
-bajas.TaskSequence = {}
-bajas.TaskSequence.__index = bajas.TaskSequence
+--@type bajas.UnitSpec
+--@field #number count
+--@field #string type
+bajas.UnitSpec = {}
+bajas.UnitSpec.__index = bajas.UnitSpec
 
 ---
---@param #bajas.TaskSequence self
---@param #list<#string> zoneNames
---@return #bajas.TaskSequence
-function bajas.TaskSequence:new(zoneNames)
-  self = setmetatable({}, bajas.TaskSequence)
-  self.zones = {}
-  for i=1, #zoneNames do
-    self.zones[i] = bajas.TaskZone:new(zoneNames[i])
+--@param #bajas.UnitSpec self
+--@param #number count
+--@param #string type
+--@return #bajas.UnitSpec
+function bajas.UnitSpec:new(count, type)
+  self = setmetatable({}, bajas.UnitSpec)
+  self.count = count
+  self.type = type
+  return self
+end
+
+-- Task force
+
+---
+--@type bajas.TaskForce
+--@field #number country
+--@field #string spawnZone
+--@field #list<#bajas.UnitSpec> unitSpecs
+--@field #list<#bajas.TaskZone> taskZones
+--@field #list<DCSGroup#Group> groups
+bajas.TaskForce = {}
+bajas.TaskForce.__index = bajas.TaskForce
+
+---
+--@param #bajas.TaskForce self
+--@param #number country
+--@param #string spawnZoneName
+--@return #bajas.TaskForce
+function bajas.TaskForce:new(country, spawnZoneName, taskZoneNames)
+  self = setmetatable({}, bajas.TaskForce)
+  self.country = country
+  self.spawnZone = spawnZoneName
+  self.unitSpecs = {}
+  self.taskZones = {}
+  for i=1, #taskZoneNames do
+    self.taskZones[i] = bajas.TaskZone:new(taskZoneNames[i])
   end
-  self.groupSpecs = {}
+  self.groups = {}
   return self
 end
 
 ---
---@param #bajas.TaskSequence self
---@param #bajas.SpawnGroupSpec groupSpec
-function bajas.TaskSequence:addGroupSpec(groupSpec)
-  self.groupSpecs[#self.groupSpecs+1] = groupSpec 
+--@param #bajas.TaskForce self
+--@param #number count
+--@param #string type
+function bajas.TaskForce:addUnitSpec(count, type)
+  self.unitSpecs[#self.unitSpecs+1] = bajas.UnitSpec:new(count, type)
+end
+
+---
+--@param #bajas.TaskForce self
+function bajas.TaskForce:reinforce()
+  local spawnedUnitCount = 0
+  self:cleanGroups()
+  for i=1, #self.unitSpecs do
+    local unitSpec = self.unitSpecs[i]
+    local replacements = unitSpec.count
+    for groupIndex=1, #self.groups do
+      replacements = replacements - bajas.countUnitsOfType(self.groups[groupIndex]:getUnits(),unitSpec.type)
+    end
+
+    local units = {}
+    local spawnZone = trigger.misc.getZone(self.spawnZone)
+    for i = 1, unitSpec.count do
+      units[i] = {
+        ["type"] = unitSpec.type,
+        ["transportable"] =
+        {
+          ["randomTransportable"] = false,
+        },
+        ["x"] = spawnZone.point.x + 15*spawnedUnitCount,
+        ["y"] = spawnZone.point.z - 15*spawnedUnitCount,
+        ["name"] = "Unit no " .. bajas.lastCreatedUnitId,
+        ["unitId"] = bajas.lastCreatedUnitId,
+        ["skill"] = "Excellent",
+        ["playerCanDrive"] = true
+      }
+      spawnedUnitCount = spawnedUnitCount + 1
+
+      bajas.lastCreatedUnitId = bajas.lastCreatedUnitId + 1
+    end
+
+    local groupName = "Group #00" .. bajas.lastCreatedGroupId
+    local groupData = {
+      ["route"] = {},
+      ["groupId"] = bajas.lastCreatedGroupId,
+      ["units"] = units,
+      ["name"] = groupName
+    }
+
+    coalition.addGroup(self.country, Group.Category.GROUND, groupData)
+    bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
+    self.groups[#self.groups+1] = Group.getByName(groupName)
+  end
+end
+
+---
+--@param #bajas.TaskForce self
+function bajas.TaskForce:cleanGroups()
+  local newGroups = {}
+  for i=1, #self.groups do
+    local group = self.groups[i]
+    if group:isExist() then
+      newGroups[#newGroups+1] = group
+    end
+  end
+  self.groups = newGroups
+end
+
+---
+--@param #bajas.TaskForce self
+function bajas.TaskForce:advance()
+  local issued = false
+  local taskZoneI = 1
+
+  self:cleanGroups()
+  while taskZoneI <= #self.taskZones and issued == false do
+    local taskZone = self.taskZones[taskZoneI]
+    taskZone:updateStatus()
+    if coalition.getCountryCoalition(self.country) ~= taskZone.status.value then
+      bajas.issueGroupsTo(self.groups, taskZone.name)
+      issued = true
+    end
+    taskZoneI = taskZoneI + 1
+  end
+
+  if issued == false then
+    bajas.issueGroupsTo(self.groups, self.taskZones[#self.taskZones])
+  end
 end
 
 -- Utility function definitions
+
+---
+--@param #list<DCSGroup#Group> groups
+--@param #string zoneName
+function bajas.issueGroupsTo(groups, zoneName)
+  for i=1, #groups do
+    local destinationZone = trigger.misc.getZone(zoneName)
+    local destinationZonePos2 = {
+      x = destinationZone.point.x,
+      y = destinationZone.point.z
+    }
+    local randomPointVars = {
+      group = Group.getByName(groups[i]:getName()),
+      point = destinationZonePos2,
+      radius = destinationZone.radius * 0.8,
+      speed = 100,
+      disableRoads = true
+    }
+    mist.groupToRandomPoint(randomPointVars)
+  end
+end
+
+---
+--@param #list<DCSUnit#Unit> units
+--@param #string type
+--@return #number
+function bajas.countUnitsOfType(units, type)
+  local count=0
+  local unit
+  for i=1, #units do
+    if units[i]:getTypeName() == type then
+      count = count+1
+    end
+  end
+  return count
+end
 
 ---
 --@param #bajas.RS reinforcementSetup
@@ -682,8 +831,26 @@ function bajas.toString(obj)
   return toStringRecursively(obj, 1)
 end
 
--- Unit type name constants
+-- Constant declarations
 
+bajas.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
+bajas.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+bajas.MAX_CLUSTER_DISTANCE = 1000
+bajas.IOCEV_COMMAND_TEXT = "Request location of closest enemy vehicles"
+bajas.zoneState = {
+  CONTESTED = bajas.ZoneState:new(coalition.side.NEUTRAL),
+  RED = bajas.ZoneState:new(coalition.side.RED),
+  BLUE = bajas.ZoneState:new(coalition.side.BLUE)
+}
+
+-- Counters
+bajas.lastCreatedUnitId = 0
+bajas.lastCreatedGroupId = 0
+
+-- Misc
+bajas.debug = false
+
+-- Unit types
 bajas.unitTypes = {}
 bajas.unitTypes.navy = {}
 bajas.unitTypes.navy.blue = {
