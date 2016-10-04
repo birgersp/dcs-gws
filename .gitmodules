@@ -2,3 +2,7 @@
 	path = mist
 	url = git@github.com:mrSkortch/MissionScriptingTools.git
 	branch = master
+[submodule "dcs-definitions"]
+	path = dcs-definitions
+	url = git@github.com:birgersp/dcs-sse-luadoc.git
+	branch = master
