@@ -1,5 +1,7 @@
 -- Mission initialization
 
+bajas.debug = true
+
 local MIN_REINFORCEMENT_T = 1800
 local MIN_ADVANCEMENT_TIME = 600
 
@@ -9,10 +11,10 @@ taskForce1:addUnitSpec(12, bajas.unitTypes.vehicles.IFV.MCV80)
 taskForce1:addUnitSpec(6, bajas.unitTypes.vehicles.Tanks.Challenger2)
 
 local taskForce2 = bajas.TaskForce:new(country.id.RUSSIA,"spawnR21",{"taskZone4", "taskZone3","taskZone2", "taskZone1"})
-taskForce1:addUnitSpec(10, bajas.unitTypes.vehicles.IFV.MTLB)
-taskForce1:addUnitSpec(10, bajas.unitTypes.vehicles.IFV.MTLB)
-taskForce1:addUnitSpec(10, bajas.unitTypes.vehicles.IFV.MTLB)
-taskForce1:addUnitSpec(10, bajas.unitTypes.vehicles.Tanks.T72B)
+taskForce2:addUnitSpec(10, bajas.unitTypes.vehicles.IFV.MTLB)
+taskForce2:addUnitSpec(10, bajas.unitTypes.vehicles.IFV.MTLB)
+taskForce2:addUnitSpec(10, bajas.unitTypes.vehicles.IFV.MTLB)
+taskForce2:addUnitSpec(10, bajas.unitTypes.vehicles.Tanks.T72B)
 
 local function advance()
   taskForce1:advance()
@@ -20,6 +22,7 @@ local function advance()
 end
 
 local function reinforce()
+  bajas.debugVariable(taskForce1)
   taskForce1:reinforce()
   taskForce2:reinforce()
 end
