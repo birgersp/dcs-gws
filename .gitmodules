@@ -1,0 +1,8 @@
+[submodule "dcs-definitions"]
+	path = dcs-definitions
+	url = https://github.com/birgersp/dcs-sse-luadoc.git
+	branch = master
+[submodule "mist"]
+	path = mist
+	url = https://github.com/mrSkortch/MissionScriptingTools.git
+	branch = master
