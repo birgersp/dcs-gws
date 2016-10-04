@@ -1,23 +1,8 @@
 -- Mission initialization
 if (initialized == nil or initialized == false) then
+  
   local MIN_REINFORCEMENT_T = 1800
-  local reinforcementSetups = {}
-
-  ---
-  --@param #bajas.ReinforcementSetup setup
-  --@param #list<#string> spawnNamesOverride
-  local function reinforceImmediately(setup, spawnNamesOverride)
-    local initialSpawnNames = bajas.deepCopy(setup.spawnNames)
-    setup.spawnNames = spawnNamesOverride
-    bajas.reinforce(setup)
-    setup.spawnNames = initialSpawnNames
-  end
-
-  local function addAndSpawnSetup(unitType,unitCount,country,spawnNames,defenceName,firstSpawnNames)
-    local rs = bajas.RS:new(unitType,unitCount,country,spawnNames,defenceName)
-    reinforceImmediately(rs,firstSpawnNames)
-    reinforcementSetups[#reinforcementSetups+1] = rs
-  end
+  local MIN_ADVANCEMENT_TIME = 600
 
   -- Some type names:
   -- BRDM-2
@@ -28,30 +13,29 @@ if (initialized == nil or initialized == false) then
 
   -- M-1 Abrams
   -- Leopard-2
-
-  -- Reinforcement setups
-  addAndSpawnSetup("BMP-3", 3, country.id.USA, {"spawnB1.1", "spawnB1.2"}, "defenceB1", {"spawnB1.0"})
-  addAndSpawnSetup("BRDM-2", 2, country.id.USA, {"spawnB1.1", "spawnB1.2"}, "defenceB1", {"spawnB1.0"})
-  addAndSpawnSetup("LAV-25", 4, country.id.USA, {"spawnB1.1", "spawnB1.2"}, "defenceB1", {"spawnB1.0"})
-
-  addAndSpawnSetup("BMP-3", 3, country.id.USA, {"spawnB2.1","spawnB2.2"}, "defenceB2", {"spawnB2.0"})
-  addAndSpawnSetup("BRDM-2", 2, country.id.USA, {"spawnB2.1","spawnB2.2"}, "defenceB2", {"spawnB2.0"})
-  addAndSpawnSetup("LAV-25", 4, country.id.USA, {"spawnB2.1","spawnB2.2"}, "defenceB2", {"spawnB2.0"})
-  addAndSpawnSetup("M-1 Abrams", 3, country.id.USA, {"spawnB2.1","spawnB2.2"}, "defenceB2", {"spawnB2.0"})
-
-  addAndSpawnSetup("BMP-3", 3, country.id.RUSSIA, {"spawnR1.1","spawnR1.2"}, "defenceR1", {"spawnR1.0"})
-  addAndSpawnSetup("BRDM-2", 2, country.id.RUSSIA, {"spawnR1.1","spawnR1.2"}, "defenceR1", {"spawnR1.0"})
-  addAndSpawnSetup("BTR-80", 4, country.id.RUSSIA, {"spawnR1.1","spawnR1.2"}, "defenceR1", {"spawnR1.0"})
-
-  addAndSpawnSetup("BMP-3", 3, country.id.RUSSIA, {"spawnR2.1","spawnR2.2"}, "defenceR2", {"spawnR2.0"})
-  addAndSpawnSetup("BRDM-2", 2, country.id.RUSSIA, {"spawnR2.1","spawnR2.2"}, "defenceR2", {"spawnR2.0"})
-  addAndSpawnSetup("BTR-80", 4, country.id.RUSSIA, {"spawnR2.1","spawnR2.2"}, "defenceR2", {"spawnR2.0"})
-  addAndSpawnSetup("T-72B", 3, country.id.RUSSIA, {"spawnR2.1","spawnR2.2"}, "defenceR2", {"spawnR2.0"})
-
-  for i=1, #reinforcementSetups do
-    local setup = reinforcementSetups[i]
-    mist.scheduleFunction(bajas.registerReinforcementSetup,{setup, MIN_REINFORCEMENT_T},timer.getTime() + MIN_REINFORCEMENT_T)
+  
+  local taskForce1 = bajas.TaskForce:new(country.id.USA,"task1",{"task2", "task3"})
+  taskForce1:addUnitSpec(3, bajas.unitTypes.vehicles.Tanks.M1_Abrams)
+  taskForce1:addUnitSpec(3, bajas.unitTypes.vehicles.IFV.LAV25)
+  taskForce1:reinforce()
+  
+  local taskForce2 = bajas.TaskForce:new(country.id.USA,"task1",{"task2", "task3"})
+  taskForce1:addUnitSpec(3, bajas.unitTypes.vehicles.Tanks.M1_Abrams)
+  taskForce1:addUnitSpec(3, bajas.unitTypes.vehicles.IFV.LAV25)
+  taskForce1:reinforce() 
+  
+  local function advance()
+    taskForce1:advance()
+    taskForce2:advance()
   end
+  
+  local function reinforce()
+    taskForce1:reinforce()
+    taskForce2:reinforce()
+  end
+  
+  mist.scheduleFunction(reinforce, nil, timer.getTime()+1, MIN_REINFORCEMENT_T)
+  mist.scheduleFunction(advance, nil, timer.getTime()+5, MIN_ADVANCEMENT_TIME)
   
   bajas.enableIOCEVForGroups()
 
