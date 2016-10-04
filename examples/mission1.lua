@@ -22,7 +22,6 @@ local function advance()
 end
 
 local function reinforce()
-  bajas.debugVariable(taskForce1)
   taskForce1:reinforce()
   taskForce2:reinforce()
 end
