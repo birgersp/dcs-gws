@@ -140,9 +140,15 @@ end
 function bajas.TaskForce:reinforce()
   local spawnedUnitCount = 0
   self:cleanGroups()
+  local desiredUnits = {}
   for i=1, #self.unitSpecs do
     local unitSpec = self.unitSpecs[i]
-    local replacements = unitSpec.count
+    if desiredUnits[unitSpec.type] == nil then
+      desiredUnits[unitSpec.type] = 0
+    end
+    
+    desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count 
+    local replacements = desiredUnits[unitSpec.type]
     for groupIndex=1, #self.groups do
       replacements = replacements - bajas.countUnitsOfType(self.groups[groupIndex]:getUnits(),unitSpec.type)
     end
