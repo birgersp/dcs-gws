@@ -235,7 +235,8 @@ function bajas.TaskForce:enableAdvanceInterval(timeIntervalSec)
     self:advance()
   end
 
-  return mist.scheduleFunction(advance,nil, timer.getTime()+1, timeIntervalSec)
+  -- Give it a couple of seconds before initial advance
+  return mist.scheduleFunction(advance,nil, timer.getTime()+3, timeIntervalSec)
 end
 
 ---
