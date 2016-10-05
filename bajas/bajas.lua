@@ -525,9 +525,7 @@ end
 
 ---
 function bajas.debugVariable(variable)
-  if bajas.debug then
-    bajas.printIngame(bajas.toString(variable), 10)
-  end
+  bajas.printIngame(bajas.toString(variable), 10)
 end
 
 ---
@@ -608,9 +606,6 @@ bajas.zoneState = {
 -- Counters
 bajas.lastCreatedUnitId = 0
 bajas.lastCreatedGroupId = 0
-
--- Misc
-bajas.debug = false
 
 -- Unit types
 bajas.unitTypes = {}
