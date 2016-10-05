@@ -5,7 +5,6 @@ bajas = {}
 -- Type definitions
 
 ---
---
 -- @type bajas.UnitCluster
 -- @field #list<#string> unitNames
 -- @field DCSTypes#Vec2 midPoint
@@ -22,8 +21,6 @@ function bajas.UnitCluster:new()
   return self
 end
 
--- Zone state class
-
 ---
 -- @type bajas.ZoneState
 -- @field #number value
@@ -38,8 +35,6 @@ function bajas.ZoneState:new(value)
   self.value = value
   return self
 end
-
--- Task zone class
 
 ---
 -- @type bajas.TaskZone
@@ -82,8 +77,6 @@ function bajas.TaskZone:updateStatus()
     self.status = newStatus
   end
 end
-
--- Unit spec
 
 ---
 -- @type bajas.UnitSpec
