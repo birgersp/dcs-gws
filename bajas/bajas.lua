@@ -146,39 +146,42 @@ function bajas.TaskForce:reinforce()
     for groupIndex=1, #self.groups do
       replacements = replacements - bajas.countUnitsOfType(self.groups[groupIndex]:getUnits(),unitSpec.type)
     end
+    
+    if replacements > 0 then
+      local units = {}
+      local spawnZone = trigger.misc.getZone(self.spawnZone)
+      for i = 1, replacements do
+        units[i] = {
+          ["type"] = unitSpec.type,
+          ["transportable"] =
+          {
+            ["randomTransportable"] = false,
+          },
+          ["x"] = spawnZone.point.x + 15*spawnedUnitCount,
+          ["y"] = spawnZone.point.z - 15*spawnedUnitCount,
+          ["name"] = "Unit no " .. bajas.lastCreatedUnitId,
+          ["unitId"] = bajas.lastCreatedUnitId,
+          ["skill"] = "Excellent",
+          ["playerCanDrive"] = true
+        }
+        spawnedUnitCount = spawnedUnitCount + 1
 
-    local units = {}
-    local spawnZone = trigger.misc.getZone(self.spawnZone)
-    for i = 1, unitSpec.count do
-      units[i] = {
-        ["type"] = unitSpec.type,
-        ["transportable"] =
-        {
-          ["randomTransportable"] = false,
-        },
-        ["x"] = spawnZone.point.x + 15*spawnedUnitCount,
-        ["y"] = spawnZone.point.z - 15*spawnedUnitCount,
-        ["name"] = "Unit no " .. bajas.lastCreatedUnitId,
-        ["unitId"] = bajas.lastCreatedUnitId,
-        ["skill"] = "Excellent",
-        ["playerCanDrive"] = true
+        bajas.lastCreatedUnitId = bajas.lastCreatedUnitId + 1
+      end
+
+      local groupName = "Group #00" .. bajas.lastCreatedGroupId
+      local groupData = {
+        ["route"] = {},
+        ["groupId"] = bajas.lastCreatedGroupId,
+        ["units"] = units,
+        ["name"] = groupName
       }
-      spawnedUnitCount = spawnedUnitCount + 1
 
-      bajas.lastCreatedUnitId = bajas.lastCreatedUnitId + 1
+      coalition.addGroup(self.country, Group.Category.GROUND, groupData)
+      bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
+      self.groups[#self.groups+1] = Group.getByName(groupName)
+      bajas.debug("!")
     end
-
-    local groupName = "Group #00" .. bajas.lastCreatedGroupId
-    local groupData = {
-      ["route"] = {},
-      ["groupId"] = bajas.lastCreatedGroupId,
-      ["units"] = units,
-      ["name"] = groupName
-    }
-
-    coalition.addGroup(self.country, Group.Category.GROUND, groupData)
-    bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
-    self.groups[#self.groups+1] = Group.getByName(groupName)
   end
 end
 
@@ -213,7 +216,7 @@ function bajas.TaskForce:advance()
   end
 
   if issued == false then
-    bajas.issueGroupsTo(self.groups, self.taskZones[#self.taskZones])
+    bajas.issueGroupsTo(self.groups, self.taskZones[#self.taskZones].name)
   end
 end
 
@@ -256,7 +259,7 @@ function bajas.issueGroupsTo(groups, zoneName)
     local randomPointVars = {
       group = Group.getByName(groups[i]:getName()),
       point = destinationZonePos2,
-      radius = destinationZone.radius * 0.8,
+      radius = destinationZone.radius,
       speed = 100,
       disableRoads = true
     }
@@ -524,8 +527,8 @@ function bajas.printIngame(str, time)
 end
 
 ---
-function bajas.debugVariable(variable)
-  bajas.printIngame(bajas.toString(variable), 10)
+function bajas.debug(variable, t)
+  bajas.printIngame(bajas.toString(variable), t)
 end
 
 ---
