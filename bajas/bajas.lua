@@ -217,6 +217,30 @@ function bajas.TaskForce:advance()
   end
 end
 
+---
+-- @param #bajas.TaskForce self
+-- @param #number timeIntervalSec
+-- @return #number
+function bajas.TaskForce:enableAdvanceInterval(timeIntervalSec)
+  local function advance()
+    self:advance()
+  end
+
+  return mist.scheduleFunction(advance,nil, timer.getTime()+1, timeIntervalSec)
+end
+
+---
+-- @param #bajas.TaskForce self
+-- @param #number timeIntervalSec
+-- @return #number
+function bajas.TaskForce:enableReinforceInterval(timeIntervalSec)
+  local function reinforce()
+    self:reinforce()
+  end
+
+  return mist.scheduleFunction(reinforce,nil, timer.getTime()+1, timeIntervalSec)
+end
+
 -- Utility function definitions
 
 ---
