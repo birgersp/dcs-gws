@@ -4,43 +4,17 @@ bajas = {}
 
 -- Type definitions
 
----Spawning group specification
---@type bajas.SpawnGroupSpec
---@field #string unitType
---@field #number unitCount
---@field #number country
---@field #list<#string> spawnNames
-bajas.SpawnGroupSpec = {}
-bajas.SpawnGroupSpec.__index = bajas.SpawnGroupSpec
-
 ---
---@param #bajas.SpawnGroupSpec self
---@param #string unitType
---@param #number unitCount
---@param #number country
---@param #list<#string> spawnNames
---@return #bajas.SpawnGroupSpec
-function bajas.SpawnGroupSpec:new(unitType, unitCount, country, spawnNames)
-  local self = setmetatable({}, bajas.SpawnGroupSpec)
-  self.unitType = unitType
-  self.unitCount = unitCount
-  self.country = country
-  self.spawnNames = spawnNames
-  return self
-end
-
--- UnitCluster class
-
----
---@type bajas.UnitCluster
---@field #list<#string> unitNames
---@field DCSTypes#Vec2 midPoint
+--
+-- @type bajas.UnitCluster
+-- @field #list<#string> unitNames
+-- @field DCSTypes#Vec2 midPoint
 bajas.UnitCluster = {}
 bajas.UnitCluster.__index = bajas.UnitCluster
 
 ---
---@param #bajas.UnitCluster self
---@return #bajas.UnitCluster
+-- @param #bajas.UnitCluster self
+-- @return #bajas.UnitCluster
 function bajas.UnitCluster:new()
   local self = setmetatable({}, bajas.UnitCluster)
   self.unitNames = {}
@@ -51,14 +25,14 @@ end
 -- Zone state class
 
 ---
---@type bajas.ZoneState
---@field #number value
+-- @type bajas.ZoneState
+-- @field #number value
 bajas.ZoneState = {}
 bajas.ZoneState.__index = bajas.ZoneState
 
 ---
---@param #bajas.ZoneState self
---@param #number value
+-- @param #bajas.ZoneState self
+-- @param #number value
 function bajas.ZoneState:new(value)
   self = setmetatable({}, bajas.ZoneState)
   self.value = value
@@ -68,16 +42,16 @@ end
 -- Task zone class
 
 ---
---@type bajas.TaskZone
---@field #string name
---@field #bajas.ZoneState status
+-- @type bajas.TaskZone
+-- @field #string name
+-- @field #bajas.ZoneState status
 bajas.TaskZone = {}
 bajas.TaskZone.__index = bajas.TaskZone
 
 ---
---@param #bajas.TaskZone self
---@param #string name
---@return #bajas.TaskZone
+-- @param #bajas.TaskZone self
+-- @param #string name
+-- @return #bajas.TaskZone
 function bajas.TaskZone:new(name)
   self = setmetatable({}, bajas.TaskZone)
   self.name = name
@@ -86,7 +60,7 @@ function bajas.TaskZone:new(name)
 end
 
 ---
---@param #bajas.TaskZone self
+-- @param #bajas.TaskZone self
 function bajas.TaskZone:updateStatus()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
@@ -112,17 +86,17 @@ end
 -- Unit spec
 
 ---
---@type bajas.UnitSpec
---@field #number count
---@field #string type
+-- @type bajas.UnitSpec
+-- @field #number count
+-- @field #string type
 bajas.UnitSpec = {}
 bajas.UnitSpec.__index = bajas.UnitSpec
 
 ---
---@param #bajas.UnitSpec self
---@param #number count
---@param #string type
---@return #bajas.UnitSpec
+-- @param #bajas.UnitSpec self
+-- @param #number count
+-- @param #string type
+-- @return #bajas.UnitSpec
 function bajas.UnitSpec:new(count, type)
   self = setmetatable({}, bajas.UnitSpec)
   self.count = count
@@ -133,20 +107,20 @@ end
 -- Task force
 
 ---
---@type bajas.TaskForce
---@field #number country
---@field #string spawnZone
---@field #list<#bajas.UnitSpec> unitSpecs
---@field #list<#bajas.TaskZone> taskZones
---@field #list<DCSGroup#Group> groups
+-- @type bajas.TaskForce
+-- @field #number country
+-- @field #string spawnZone
+-- @field #list<#bajas.UnitSpec> unitSpecs
+-- @field #list<#bajas.TaskZone> taskZones
+-- @field #list<DCSGroup#Group> groups
 bajas.TaskForce = {}
 bajas.TaskForce.__index = bajas.TaskForce
 
 ---
---@param #bajas.TaskForce self
---@param #number country
---@param #string spawnZoneName
---@return #bajas.TaskForce
+-- @param #bajas.TaskForce self
+-- @param #number country
+-- @param #string spawnZoneName
+-- @return #bajas.TaskForce
 function bajas.TaskForce:new(country, spawnZoneName, taskZoneNames)
   self = setmetatable({}, bajas.TaskForce)
   self.country = country
@@ -161,15 +135,15 @@ function bajas.TaskForce:new(country, spawnZoneName, taskZoneNames)
 end
 
 ---
---@param #bajas.TaskForce self
---@param #number count
---@param #string type
+-- @param #bajas.TaskForce self
+-- @param #number count
+-- @param #string type
 function bajas.TaskForce:addUnitSpec(count, type)
   self.unitSpecs[#self.unitSpecs+1] = bajas.UnitSpec:new(count, type)
 end
 
 ---
---@param #bajas.TaskForce self
+-- @param #bajas.TaskForce self
 function bajas.TaskForce:reinforce()
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -216,7 +190,7 @@ function bajas.TaskForce:reinforce()
 end
 
 ---
---@param #bajas.TaskForce self
+-- @param #bajas.TaskForce self
 function bajas.TaskForce:cleanGroups()
   local newGroups = {}
   for i=1, #self.groups do
@@ -229,7 +203,7 @@ function bajas.TaskForce:cleanGroups()
 end
 
 ---
---@param #bajas.TaskForce self
+-- @param #bajas.TaskForce self
 function bajas.TaskForce:advance()
   local issued = false
   local taskZoneI = 1
@@ -253,8 +227,8 @@ end
 -- Utility function definitions
 
 ---
---@param #list<DCSGroup#Group> groups
---@param #string zoneName
+-- @param #list<DCSGroup#Group> groups
+-- @param #string zoneName
 function bajas.issueGroupsTo(groups, zoneName)
   for i=1, #groups do
     local destinationZone = trigger.misc.getZone(zoneName)
@@ -274,9 +248,9 @@ function bajas.issueGroupsTo(groups, zoneName)
 end
 
 ---
---@param #list<DCSUnit#Unit> units
---@param #string type
---@return #number
+-- @param #list<DCSUnit#Unit> units
+-- @param #string type
+-- @return #number
 function bajas.countUnitsOfType(units, type)
   local count=0
   local unit
@@ -289,9 +263,9 @@ function bajas.countUnitsOfType(units, type)
 end
 
 ---
---@param #number groupName
---@param #string commandName
---@param #function callback
+-- @param #number groupName
+-- @param #string commandName
+-- @param #function callback
 function bajas.registerGroupCommand(groupName, commandName, callback)
 
   local group = Group.getByName(groupName)
@@ -312,9 +286,9 @@ function bajas.registerGroupCommand(groupName, commandName, callback)
 end
 
 ---
---@param #vec3
---@param #vec3
---@return #number
+-- @param #vec3
+-- @param #vec3
+-- @return #number
 function bajas.getDistanceBetween(a, b)
   local dx = a.x - b.x
   local dy = a.y - b.y
@@ -323,8 +297,8 @@ function bajas.getDistanceBetween(a, b)
 end
 
 ---
---@param #string unitName
---@return DCSUnit#Unit
+-- @param #string unitName
+-- @return DCSUnit#Unit
 function bajas.getClosestEnemyVehicle(unitName)
 
   local unit = Unit.getByName(unitName)
@@ -354,8 +328,8 @@ function bajas.getClosestEnemyVehicle(unitName)
 end
 
 ---
---@param #number rad Direction in radians
---@return #string A string representing a cardinal direction
+-- @param #number rad Direction in radians
+-- @return #string A string representing a cardinal direction
 function bajas.radToCardinalDir(rad)
 
   local dirNormalized = rad / math.pi / 2
@@ -371,9 +345,9 @@ end
 
 ---
 --This function might be computationally expensive
---@param DCSUnit#Unit unit
---@param #number radius
---@return #bajas.UnitCluster
+-- @param DCSUnit#Unit unit
+-- @param #number radius
+-- @return #bajas.UnitCluster
 function bajas.getFriendlyVehiclesWithin(unit, radius)
   local coalitionString
   if unit:getCoalition() == coalition.side.BLUE then
@@ -389,8 +363,8 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
   local maxPos = unit:getPosition().p
 
   ---
-  --@param #list list
-  --@param value
+  -- @param #list list
+  -- @param value
   local function contains(list, value)
     for i=1, #list do
       if list[i] == value then
@@ -401,7 +375,7 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
   end
 
   ---
-  --@param DCSUnit#Unit unit
+  -- @param DCSUnit#Unit unit
   local function addUnit(unit)
     local pos = unit:getPosition().p
     if pos.x < minPos.x then minPos.x = pos.x end
@@ -412,7 +386,7 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
   end
 
   ---
-  --@param DCSUnit#Unit unit
+  -- @param DCSUnit#Unit unit
   local function vehiclesWithinRecurse(targetUnit)
     for i=1, #units do
       local nextUnit = Unit.getByName(units[i])
@@ -446,7 +420,7 @@ end
 
 ---
 --Prints out a message to a group, describing nearest enemy vehicles
---@param DCSGroup#Group group
+-- @param DCSGroup#Group group
 function bajas.informOfClosestEnemyVehicles(group)
 
   local firstGroupUnit = group:getUnit(1)
@@ -504,7 +478,8 @@ function bajas.enableIOCEVForGroups()
   addCommandForGroups(coalition.getGroups(2))
 end
 
----Deep copy a table
+---
+-- Deep copy a table
 --Code from https://gist.github.com/MihailJP/3931841
 function bajas.deepCopy(t)
   if type(t) ~= "table" then return t end
@@ -522,8 +497,8 @@ function bajas.deepCopy(t)
 end
 
 ---
---@param #string str
---@param #number time
+-- @param #string str
+-- @param #number time
 function bajas.printIngame(str, time)
   if (time == nil) then
     time = 1
@@ -538,7 +513,8 @@ function bajas.debugVariable(variable)
   end
 end
 
----Returns a string representation of an object
+---
+-- Returns a string representation of an object
 function bajas.toString(obj)
 
   local indent = "    "
