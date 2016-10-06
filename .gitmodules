@@ -2,3 +2,7 @@
 	path = mist
 	url = https://github.com/mrSkortch/MissionScriptingTools.git
 	branch = master
+[submodule "unit-types"]
+	path = unit-types
+	url = https://github.com/birgersp/dcs-unit-types.git
+	branch = master
