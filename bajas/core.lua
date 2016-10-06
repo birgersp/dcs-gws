@@ -186,7 +186,6 @@ function bajas.TaskForce:reinforce()
       coalition.addGroup(self.country, Group.Category.GROUND, groupData)
       bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
       self.groups[#self.groups+1] = Group.getByName(groupName)
-      bajas.debug("!")
     end
   end
 end
