@@ -146,13 +146,13 @@ function bajas.TaskForce:reinforce()
     if desiredUnits[unitSpec.type] == nil then
       desiredUnits[unitSpec.type] = 0
     end
-    
-    desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count 
+
+    desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
     local replacements = desiredUnits[unitSpec.type]
     for groupIndex=1, #self.groups do
       replacements = replacements - bajas.countUnitsOfType(self.groups[groupIndex]:getUnits(),unitSpec.type)
     end
-    
+
     if replacements > 0 then
       local units = {}
       local spawnZone = trigger.misc.getZone(self.spawnZone)
@@ -206,6 +206,27 @@ end
 
 ---
 -- @param #bajas.TaskForce self
+-- @param #string zoneName
+function bajas.TaskForce:advanceTo(zoneName)
+  for i=1, #groups do
+    local destinationZone = trigger.misc.getZone(zoneName)
+    local destinationZonePos2 = {
+      x = destinationZone.point.x,
+      y = destinationZone.point.z
+    }
+    local randomPointVars = {
+      group = Group.getByName(groups[i]:getName()),
+      point = destinationZonePos2,
+      radius = destinationZone.radius,
+      speed = 100,
+      disableRoads = true
+    }
+    mist.groupToRandomPoint(randomPointVars)
+  end
+end
+
+---
+-- @param #bajas.TaskForce self
 function bajas.TaskForce:advance()
   local issued = false
   local taskZoneI = 1
@@ -215,14 +236,14 @@ function bajas.TaskForce:advance()
     local taskZone = self.taskZones[taskZoneI]
     taskZone:updateStatus()
     if coalition.getCountryCoalition(self.country) ~= taskZone.status.value then
-      bajas.issueGroupsTo(self.groups, taskZone.name)
+      self:advanceTo(taskZone.name)
       issued = true
     end
     taskZoneI = taskZoneI + 1
   end
 
   if issued == false then
-    bajas.issueGroupsTo(self.groups, self.taskZones[#self.taskZones].name)
+    self:advanceTo(taskZone.name)
   end
 end
 
@@ -252,27 +273,6 @@ function bajas.TaskForce:enableReinforceInterval(timeIntervalSec)
 end
 
 -- Utility function definitions
-
----
--- @param #list<DCSGroup#Group> groups
--- @param #string zoneName
-function bajas.issueGroupsTo(groups, zoneName)
-  for i=1, #groups do
-    local destinationZone = trigger.misc.getZone(zoneName)
-    local destinationZonePos2 = {
-      x = destinationZone.point.x,
-      y = destinationZone.point.z
-    }
-    local randomPointVars = {
-      group = Group.getByName(groups[i]:getName()),
-      point = destinationZonePos2,
-      radius = destinationZone.radius,
-      speed = 100,
-      disableRoads = true
-    }
-    mist.groupToRandomPoint(randomPointVars)
-  end
-end
 
 ---
 -- @param #list<DCSUnit#Unit> units
