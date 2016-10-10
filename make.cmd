@@ -8,6 +8,7 @@ set build_standalone=%output_dir%\bajas-standalone.lua
 
 set comment_prefix=--
 
+echo Time is %time%
 if not exist %output_dir% md %output_dir%
 set input=%sources%
 set output=%build%
