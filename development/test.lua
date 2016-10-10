@@ -1,17 +1,17 @@
 if initialized == nil then
   assert(loadfile([[C:\Users\birge\Workspace\dcs-bajas\build\bajas.lua]]))()
   
-  local taskForce1 = bajas.TaskForce:new(country.id.USA,"task1", {"task1", "task2", "task3"})
-  taskForce1:addUnitSpec(2,unitType.vehicle.tank.M1_Abrams)
-  taskForce1:addUnitSpec(2,unitType.vehicle.tank.M1_Abrams)
-  taskForce1:enableAdvanceInterval(300)
-  taskForce1:enableReinforceInterval(60)
+  local taskForce1 = bajas.TaskForce:new(country.id.USA,{"task1"}, {"task2", "taskMid", "task3"})
+  taskForce1:addUnitSpec(3,unitType.vehicle.tank.M1_Abrams)
+  taskForce1:enableAutoIssue(300)
+  taskForce1:enableAutoReinforce(120)
   
-  local taskForce2 = bajas.TaskForce:new(country.id.RUSSIA,"task3", {"task3", "task2", "task1"})
-  taskForce2:addUnitSpec(2,unitType.vehicle.tank.T72B)
-  taskForce2:addUnitSpec(2,unitType.vehicle.tank.T72B)
-  taskForce2:enableAdvanceInterval(300)
-  taskForce2:enableReinforceInterval(60)
+  local taskForce2 = bajas.TaskForce:new(country.id.RUSSIA,{"task4"}, {"task3", "taskMid", "task2"})
+  taskForce2:addUnitSpec(3,unitType.vehicle.tank.T90)
+  taskForce2:addUnitSpec(3,unitType.vehicle.tank.T90)
+  taskForce2:enableAutoIssue(300)
+  taskForce2:enableAutoReinforce(300)
   
   initialized = true
 end
+

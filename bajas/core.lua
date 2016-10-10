@@ -22,21 +22,6 @@ function bajas.UnitCluster:new()
 end
 
 ---
--- @type bajas.ZoneState
--- @field #number value
-bajas.ZoneState = {}
-bajas.ZoneState.__index = bajas.ZoneState
-
----
--- @param #bajas.ZoneState self
--- @param #number value
-function bajas.ZoneState:new(value)
-  self = setmetatable({}, bajas.ZoneState)
-  self.value = value
-  return self
-end
-
----
 -- @type bajas.UnitSpec
 -- @field #number count
 -- @field #string type
@@ -58,7 +43,7 @@ end
 ---
 -- @type bajas.ControlZone
 -- @field #string name
--- @field #bajas.ZoneState status
+-- @field #number coalition
 bajas.ControlZone = {}
 bajas.ControlZone.__index = bajas.ControlZone
 
@@ -67,9 +52,9 @@ bajas.ControlZone.__index = bajas.ControlZone
 -- @param #string name
 -- @return #bajas.ControlZone
 function bajas.ControlZone:new(name)
-  self = setmetatabl({}, bajas.ControlZone)
+  self = setmetatable({}, bajas.ControlZone)
   self.name = name
-  self.status = nil
+  self.coalition = coalition.side.NEUTRAL
   return self
 end
 
@@ -94,10 +79,11 @@ function bajas.TaskForce:new(country, spawnZones, controlZones)
   self = setmetatable({}, bajas.TaskForce)
   self.country = country
   self.spawnZones = spawnZones
-  self.controlZones = {}
   self.unitSpecs = {}
+  self.controlZones = {}
   for i=1, #controlZones do
-    self.controlZones[#self.controlZones + 1] = bajas.ControlZone:new(controlZones[i])
+    local controlZone = controlZones[i]
+    self.controlZones[#self.controlZones + 1] = bajas.ControlZone:new(controlZone)
   end
   self.groups = {}
   return self
@@ -142,8 +128,8 @@ function bajas.TaskForce:reinforce()
 
     if replacements > 0 then
       local units = {}
-      local spawnZoneIndex = math.random(#self.spawnZoneNames)
-      local spawnZone = trigger.misc.getZone(self.spawnZoneNames[spawnZoneIndex])
+      local spawnZoneIndex = math.random(#self.spawnZones)
+      local spawnZone = trigger.misc.getZone(self.spawnZones[spawnZoneIndex])
       for i = 1, replacements do
         units[i] = {
           ["type"] = unitSpec.type,
@@ -174,7 +160,9 @@ function bajas.TaskForce:reinforce()
       coalition.addGroup(self.country, Group.Category.GROUND, groupData)
       bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
       self.groups[#self.groups+1] = Group.getByName(groupName)
-      bajas.issueGroupTo(groupName, self.target)
+      if self.target ~= nil then
+        bajas.issueGroupTo(groupName, self.target)
+      end
     end
   end
 end
@@ -187,19 +175,18 @@ function bajas.TaskForce:updateTarget()
 
   local done = false
   local zoneIndex = 1
-  while done == false and zoneIndex <= self.controlZones do
+  while done == false and zoneIndex <= #self.controlZones do
     local zone = self.controlZones[zoneIndex]
-    local hasRed = false
     local newStatus = nil
     if #mist.getUnitsInZones(redVehicles, {zone.name}) > 0 then
-      newStatus = bajas.zoneState.RED
+      newStatus = coalition.side.RED
     end
 
     if #mist.getUnitsInZones(blueVehicles, {zone.name}) > 0 then
-      if newStatus == bajas.zoneState.RED then
-        newStatus = bajas.zoneState.CONTESTED
+      if newStatus == coalition.side.RED then
+        newStatus = coalition.side.NEUTRAL
       else
-        newStatus = bajas.zoneState.BLUE
+        newStatus = coalition.side.BLUE
       end
     end
 
@@ -213,14 +200,26 @@ function bajas.TaskForce:updateTarget()
     end
     zoneIndex = zoneIndex + 1
   end
+
+  if self.target == nil then
+    self.target = self.controlZones[#self.controlZones].name
+  end
 end
 
 ---
 -- @param #bajas.TaskForce self
+-- @param #string zone
 function bajas.TaskForce:issueTo(zone)
+  self:cleanGroups()
   for i=1, #self.groups do
-    bajas.issueGroupTo(self.groups[i], self.target)
+    bajas.issueGroupTo(self.groups[i]:getName(), self.target)
   end
+end
+
+---
+-- @param #bajas.TaskForce self
+function bajas.TaskForce:issueToTarget()
+  self:issueTo(self.target)
 end
 
 ---
@@ -230,11 +229,11 @@ end
 function bajas.TaskForce:enableAutoIssue(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
-    self:issueTo(self.target)
+    self:issueToTarget()
   end
 
   -- Give it a couple of seconds before initial advance
-  return mist.scheduleFunction(autoIssue, nil, timer.getTime()+3, timeIntervalSec)
+  return mist.scheduleFunction(autoIssue, nil, timer.getTime()+2, timeIntervalSec)
 end
 
 ---
@@ -588,7 +587,11 @@ function bajas.toString(obj)
       if (type(obj) == "string") then
         str = "\"" .. str .. "\""
       elseif type(obj) == "boolean" then
-        str = ""..obj
+        if obj == true then
+          str = "true"
+        else
+          str = "false"
+        end
       end
     end
 
@@ -604,11 +607,6 @@ bajas.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
 bajas.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 bajas.MAX_CLUSTER_DISTANCE = 1000
 bajas.IOCEV_COMMAND_TEXT = "Request location of closest enemy vehicles"
-bajas.zoneState = {
-  CONTESTED = bajas.ZoneState:new(coalition.side.NEUTRAL),
-  RED = bajas.ZoneState:new(coalition.side.RED),
-  BLUE = bajas.ZoneState:new(coalition.side.BLUE)
-}
 
 -- Counters
 bajas.lastCreatedUnitId = 0
