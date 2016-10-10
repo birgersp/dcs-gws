@@ -12,6 +12,8 @@ if initialized == nil then
   taskForce2:enableAutoIssue(300)
   taskForce2:enableAutoReinforce(300)
   
+  bajas.enableIOCEVForGroups()
+  
   initialized = true
 end
 

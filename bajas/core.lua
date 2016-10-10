@@ -457,8 +457,9 @@ function bajas.informOfClosestEnemyVehicles(group)
   local enemyCluster = bajas.getFriendlyVehiclesWithin(closestEnemy,bajas.MAX_CLUSTER_DISTANCE)
   local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
-  local dir = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
-  local cardinalDir = bajas.radToCardinalDir(dir)
+  local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
+  local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
+--  local cardinalDir = bajas.radToCardinalDir(dirRad)
   local distance = bajas.getDistanceBetween(midPoint, groupUnitPos)
   local distanceKM = math.floor(distance / 1000 + 0.5)
 
@@ -480,7 +481,7 @@ function bajas.informOfClosestEnemyVehicles(group)
     text = text..val.." "..key
   end
 
-  text = text .. " located " .. distanceKM .. "km " .. cardinalDir
+  text = text .. " located " .. distanceKM .. "km at ~" .. dirDegree
   trigger.action.outTextForGroup(group:getID(), text, 30)
 
 end
@@ -606,7 +607,7 @@ end
 bajas.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
 bajas.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 bajas.MAX_CLUSTER_DISTANCE = 1000
-bajas.IOCEV_COMMAND_TEXT = "Request location of closest enemy vehicles"
+bajas.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
 
 -- Counters
 bajas.lastCreatedUnitId = 0
