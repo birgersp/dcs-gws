@@ -37,48 +37,6 @@ function bajas.ZoneState:new(value)
 end
 
 ---
--- @type bajas.TaskZone
--- @field #string name
--- @field #bajas.ZoneState status
-bajas.TaskZone = {}
-bajas.TaskZone.__index = bajas.TaskZone
-
----
--- @param #bajas.TaskZone self
--- @param #string name
--- @return #bajas.TaskZone
-function bajas.TaskZone:new(name)
-  self = setmetatable({}, bajas.TaskZone)
-  self.name = name
-  self.status = bajas.zoneState.CONTESTED
-  return self
-end
-
----
--- @param #bajas.TaskZone self
-function bajas.TaskZone:updateStatus()
-  local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
-  local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
-
-  local newStatus = self.status
-  if #mist.getUnitsInZones(redVehicles, { self.name }) > 0 then
-    newStatus = bajas.zoneState.RED
-  end
-
-  if #mist.getUnitsInZones(blueVehicles, { self.name }) > 0 then
-    if newStatus == bajas.zoneState.RED then
-      newStatus = bajas.zoneState.CONTESTED
-    else
-      newStatus = bajas.zoneState.BLUE
-    end
-  end
-
-  if newStatus ~= self.status then
-    self.status = newStatus
-  end
-end
-
----
 -- @type bajas.UnitSpec
 -- @field #number count
 -- @field #string type
@@ -97,31 +55,49 @@ function bajas.UnitSpec:new(count, type)
   return self
 end
 
--- Task force
+---
+-- @type bajas.ControlZone
+-- @field #string name
+-- @field #bajas.ZoneState status
+bajas.ControlZone = {}
+bajas.ControlZone.__index = bajas.ControlZone
+
+---
+-- @param #bajas.ControlZone self
+-- @param #string name
+-- @return #bajas.ControlZone
+function bajas.ControlZone:new(name)
+  self = setmetatabl({}, bajas.ControlZone)
+  self.name = name
+  self.status = nil
+  return self
+end
 
 ---
 -- @type bajas.TaskForce
 -- @field #number country
--- @field #string spawnZone
+-- @field #list<#string> spawnZones
+-- @field #list<#bajas.ControlZone> controlZones
 -- @field #list<#bajas.UnitSpec> unitSpecs
--- @field #list<#bajas.TaskZone> taskZones
 -- @field #list<DCSGroup#Group> groups
+-- @field #string target
 bajas.TaskForce = {}
 bajas.TaskForce.__index = bajas.TaskForce
 
 ---
 -- @param #bajas.TaskForce self
 -- @param #number country
--- @param #string spawnZoneName
+-- @param #list<#string> spawnZones
+-- @param #list<#string> controlZones
 -- @return #bajas.TaskForce
-function bajas.TaskForce:new(country, spawnZoneName, taskZoneNames)
+function bajas.TaskForce:new(country, spawnZones, controlZones)
   self = setmetatable({}, bajas.TaskForce)
   self.country = country
-  self.spawnZone = spawnZoneName
+  self.spawnZones = spawnZones
+  self.controlZones = {}
   self.unitSpecs = {}
-  self.taskZones = {}
-  for i=1, #taskZoneNames do
-    self.taskZones[i] = bajas.TaskZone:new(taskZoneNames[i])
+  for i=1, #controlZones do
+    self.controlZones[#self.controlZones + 1] = bajas.ControlZone:new(controlZones[i])
   end
   self.groups = {}
   return self
@@ -133,6 +109,17 @@ end
 -- @param #string type
 function bajas.TaskForce:addUnitSpec(count, type)
   self.unitSpecs[#self.unitSpecs+1] = bajas.UnitSpec:new(count, type)
+end
+
+---
+-- @param #bajas.TaskForce self
+function bajas.TaskForce:cleanGroups()
+  local newGroups = {}
+  for i=1, #self.groups do
+    local group = self.groups[i]
+    if #group:getUnits() > 0 then newGroups[#newGroups+1] = group end
+  end
+  self.groups = newGroups
 end
 
 ---
@@ -155,7 +142,8 @@ function bajas.TaskForce:reinforce()
 
     if replacements > 0 then
       local units = {}
-      local spawnZone = trigger.misc.getZone(self.spawnZone)
+      local spawnZoneIndex = math.random(#self.spawnZoneNames)
+      local spawnZone = trigger.misc.getZone(self.spawnZoneNames[spawnZoneIndex])
       for i = 1, replacements do
         units[i] = {
           ["type"] = unitSpec.type,
@@ -167,7 +155,7 @@ function bajas.TaskForce:reinforce()
           ["y"] = spawnZone.point.z - 15*spawnedUnitCount,
           ["name"] = "Unit no " .. bajas.lastCreatedUnitId,
           ["unitId"] = bajas.lastCreatedUnitId,
-          ["skill"] = "Excellent",
+          ["skill"] = "High",
           ["playerCanDrive"] = true
         }
         spawnedUnitCount = spawnedUnitCount + 1
@@ -186,64 +174,52 @@ function bajas.TaskForce:reinforce()
       coalition.addGroup(self.country, Group.Category.GROUND, groupData)
       bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
       self.groups[#self.groups+1] = Group.getByName(groupName)
+      bajas.issueGroupTo(groupName, self.target)
     end
   end
 end
 
 ---
 -- @param #bajas.TaskForce self
-function bajas.TaskForce:cleanGroups()
-  local newGroups = {}
+function bajas.TaskForce:updateTarget()
+  local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
+  local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
+
+  local done = false
+  local zoneIndex = 1
+  while done == false and zoneIndex <= self.controlZones do
+    local zone = self.controlZones[zoneIndex]
+    local hasRed = false
+    local newStatus = nil
+    if #mist.getUnitsInZones(redVehicles, {zone.name}) > 0 then
+      newStatus = bajas.zoneState.RED
+    end
+
+    if #mist.getUnitsInZones(blueVehicles, {zone.name}) > 0 then
+      if newStatus == bajas.zoneState.RED then
+        newStatus = bajas.zoneState.CONTESTED
+      else
+        newStatus = bajas.zoneState.BLUE
+      end
+    end
+
+    if newStatus ~= nil then
+      zone.status = newStatus
+    end
+
+    if zone.status ~= coalition.getCountryCoalition(self.country) then
+      self.target = zone.name
+      done = true
+    end
+    zoneIndex = zoneIndex + 1
+  end
+end
+
+---
+-- @param #bajas.TaskForce self
+function bajas.TaskForce:issueTo(zone)
   for i=1, #self.groups do
-    local group = self.groups[i]
-    if group:isExist() then
-      newGroups[#newGroups+1] = group
-    end
-  end
-  self.groups = newGroups
-end
-
----
--- @param #bajas.TaskForce self
--- @param #string zoneName
-function bajas.TaskForce:advanceTo(zoneName)
-  local groups = self.groups
-  for i=1, #groups do
-    local destinationZone = trigger.misc.getZone(zoneName)
-    local destinationZonePos2 = {
-      x = destinationZone.point.x,
-      y = destinationZone.point.z
-    }
-    local randomPointVars = {
-      group = Group.getByName(groups[i]:getName()),
-      point = destinationZonePos2,
-      radius = destinationZone.radius,
-      speed = 100,
-      disableRoads = true
-    }
-    mist.groupToRandomPoint(randomPointVars)
-  end
-end
-
----
--- @param #bajas.TaskForce self
-function bajas.TaskForce:advance()
-  local issued = false
-  local taskZoneI = 1
-
-  self:cleanGroups()
-  while taskZoneI <= #self.taskZones and issued == false do
-    local taskZone = self.taskZones[taskZoneI]
-    taskZone:updateStatus()
-    if coalition.getCountryCoalition(self.country) ~= taskZone.status.value then
-      self:advanceTo(taskZone.name)
-      issued = true
-    end
-    taskZoneI = taskZoneI + 1
-  end
-
-  if issued == false then
-    self:advanceTo(taskZone.name)
+    bajas.issueGroupTo(self.groups[i], self.target)
   end
 end
 
@@ -251,20 +227,21 @@ end
 -- @param #bajas.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function bajas.TaskForce:enableAdvanceInterval(timeIntervalSec)
-  local function advance()
-    self:advance()
+function bajas.TaskForce:enableAutoIssue(timeIntervalSec)
+  local function autoIssue()
+    self:updateTarget()
+    self:issueTo(self.target)
   end
 
   -- Give it a couple of seconds before initial advance
-  return mist.scheduleFunction(advance,nil, timer.getTime()+3, timeIntervalSec)
+  return mist.scheduleFunction(autoIssue, nil, timer.getTime()+3, timeIntervalSec)
 end
 
 ---
 -- @param #bajas.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function bajas.TaskForce:enableReinforceInterval(timeIntervalSec)
+function bajas.TaskForce:enableAutoReinforce(timeIntervalSec)
   local function reinforce()
     self:reinforce()
   end
@@ -272,7 +249,27 @@ function bajas.TaskForce:enableReinforceInterval(timeIntervalSec)
   return mist.scheduleFunction(reinforce,nil, timer.getTime()+1, timeIntervalSec)
 end
 
+
 -- Utility function definitions
+
+---
+-- @param #string groupName
+-- @param #string zoneName
+function bajas.issueGroupTo(groupName, zoneName)
+  local destinationZone = trigger.misc.getZone(zoneName)
+  local destinationZonePos2 = {
+    x = destinationZone.point.x,
+    y = destinationZone.point.z
+  }
+  local randomPointVars = {
+    group = Group.getByName(groupName),
+    point = destinationZonePos2,
+    radius = destinationZone.radius,
+    speed = 100,
+    disableRoads = true
+  }
+  mist.groupToRandomPoint(randomPointVars)
+end
 
 ---
 -- @param #list<DCSUnit#Unit> units
@@ -534,8 +531,8 @@ function bajas.printIngame(str, time)
 end
 
 ---
-function bajas.debug(variable, t)
-  bajas.printIngame(bajas.toString(variable), t)
+function bajas.debug(variable)
+  bajas.printIngame(bajas.toString(variable))
 end
 
 ---
