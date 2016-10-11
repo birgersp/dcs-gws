@@ -248,6 +248,12 @@ function bajas.TaskForce:enableAutoReinforce(timeIntervalSec)
   return mist.scheduleFunction(reinforce,nil, timer.getTime()+1, timeIntervalSec)
 end
 
+---
+-- @param #bajas.TaskForce self
+function bajas.TaskForce:enableDefault()
+  self:enableAutoIssue(bajas.DEFAULT_AUTO_ISSUE_DELAY)
+  self:enableAutoReinforce(bajas.DEFAULT_AUTO_REINFORCE_DELAY)
+end
 
 -- Utility function definitions
 
@@ -289,6 +295,7 @@ end
 -- @param #number groupName
 -- @param #string commandName
 -- @param #function callback
+-- @return #number ID of scheduled function
 function bajas.registerGroupCommand(groupName, commandName, callback)
 
   local group = Group.getByName(groupName)
@@ -304,7 +311,7 @@ function bajas.registerGroupCommand(groupName, commandName, callback)
     end
   end
 
-  mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 1)
+  return mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 1)
 
 end
 
@@ -459,7 +466,7 @@ function bajas.informOfClosestEnemyVehicles(group)
 
   local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
   local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
---  local cardinalDir = bajas.radToCardinalDir(dirRad)
+  --  local cardinalDir = bajas.radToCardinalDir(dirRad)
   local distance = bajas.getDistanceBetween(midPoint, groupUnitPos)
   local distanceKM = math.floor(distance / 1000 + 0.5)
 
@@ -492,14 +499,29 @@ function bajas.enableIOCEVForGroups()
     bajas.informOfClosestEnemyVehicles(group)
   end
 
-  local function addCommandForGroups(groups)
-    for i=1, #groups do
-      bajas.registerGroupCommand(groups[i]:getName(), bajas.IOCEV_COMMAND_TEXT, callback)
+  local functionIDS = {}
+  local function enableForAll()
+  
+    -- Disable timers from previous enable
+    for i=1, #functionIDS do
+      mist.removeFunction(functionIDS[i])
     end
+    functionIDS = {}
+
+    -- Re-enable command for all groups
+    local function enableForGroups(groups)
+      for i=1, #groups do
+        local group = groups[i]
+        trigger.action.removeOtherCommandForGroup(group:getID(), bajas.IOCEV_COMMAND_TEXT)
+        functionIDS[#functionIDS + 1] = bajas.registerGroupCommand(group:getName(), bajas.IOCEV_COMMAND_TEXT, callback)
+      end
+    end
+
+    enableForGroups(coalition.getGroups(1))
+    enableForGroups(coalition.getGroups(2))
   end
 
-  addCommandForGroups(coalition.getGroups(1))
-  addCommandForGroups(coalition.getGroups(2))
+  mist.scheduleFunction(enableForAll,nil,timer.getTime() + 1, 30)
 end
 
 ---
@@ -608,6 +630,8 @@ bajas.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
 bajas.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 bajas.MAX_CLUSTER_DISTANCE = 1000
 bajas.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+bajas.DEFAULT_AUTO_ISSUE_DELAY = 300
+bajas.DEFAULT_AUTO_REINFORCE_DELAY = 600
 
 -- Counters
 bajas.lastCreatedUnitId = 0
