@@ -488,14 +488,12 @@ function bajas.informOfClosestEnemyVehicles(group)
 end
 
 function bajas.enableIOCEVForGroups()
-
-  local functionIDS = {}
-
   local function callback(name)
     local group = Group.getByName(name)
     bajas.informOfClosestEnemyVehicles(group)
   end
 
+  local functionIDS = {}
   local function enableForAll()
   
     -- Disable timers from previous enable
@@ -509,7 +507,7 @@ function bajas.enableIOCEVForGroups()
       for i=1, #groups do
         local group = groups[i]
         trigger.action.removeOtherCommandForGroup(group:getID(), bajas.IOCEV_COMMAND_TEXT)
-        functionIDS[i] = bajas.registerGroupCommand(group:getName(), bajas.IOCEV_COMMAND_TEXT, callback)
+        functionIDS[#functionIDS + 1] = bajas.registerGroupCommand(group:getName(), bajas.IOCEV_COMMAND_TEXT, callback)
       end
     end
 
