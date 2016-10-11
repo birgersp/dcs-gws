@@ -248,6 +248,12 @@ function bajas.TaskForce:enableAutoReinforce(timeIntervalSec)
   return mist.scheduleFunction(reinforce,nil, timer.getTime()+1, timeIntervalSec)
 end
 
+---
+-- @param #bajas.TaskForce self
+function bajas.TaskForce:enableDefault()
+  self:enableAutoIssue(bajas.DEFAULT_AUTO_ISSUE_DELAY)
+  self:enableAutoReinforce(bajas.DEFAULT_AUTO_REINFORCE_DELAY)
+end
 
 -- Utility function definitions
 
@@ -624,6 +630,8 @@ bajas.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
 bajas.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 bajas.MAX_CLUSTER_DISTANCE = 1000
 bajas.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+bajas.DEFAULT_AUTO_ISSUE_DELAY = 300
+bajas.DEFAULT_AUTO_REINFORCE_DELAY = 600
 
 -- Counters
 bajas.lastCreatedUnitId = 0
