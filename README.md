@@ -18,7 +18,7 @@ Gives each player (client) in the mission the ability to get direction and dista
 ### Aircraft balancing
 Spawns AI aircrafts to join the battle when there is an imbalance between REDFOR and BLUEFOR aircrafts. Useful when you want to keep air-to-air battle somewhat balanced.
 
-### How to use in your mission
+## How to use in your mission
 1. Add a mission start trigger
 2. Add a do script action, loading the `bajas-standalone.lua` file
 3. Add another do script action, loading your own script to utilize our script
