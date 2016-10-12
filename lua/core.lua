@@ -630,8 +630,8 @@ mint.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
 mint.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 mint.MAX_CLUSTER_DISTANCE = 1000
 mint.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
-mint.DEFAULT_AUTO_ISSUE_DELAY = 300
-mint.DEFAULT_AUTO_REINFORCE_DELAY = 600
+mint.DEFAULT_AUTO_ISSUE_DELAY = 600
+mint.DEFAULT_AUTO_REINFORCE_DELAY = 1800
 
 -- Counters
 mint.lastCreatedUnitId = 0
