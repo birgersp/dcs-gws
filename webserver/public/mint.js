@@ -1,5 +1,6 @@
-function MissionIntelApp() {
+var MissionIntelApp = function() {
     
-    console.log("Hello world!");
+    var gui = new MissionIntelApp.GUI();
+    gui.initialize();
     
-}
+};
