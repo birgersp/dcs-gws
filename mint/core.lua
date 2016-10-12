@@ -7,7 +7,7 @@ bajas = {}
 ---
 -- @type bajas.UnitCluster
 -- @field #list<#string> unitNames
--- @field DCSTypes#Vec2 midPoint
+-- @field DCSTypes#Vec2 midPoint 
 bajas.UnitCluster = {}
 bajas.UnitCluster.__index = bajas.UnitCluster
 
