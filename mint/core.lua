@@ -1,105 +1,105 @@
 -- Namespace declaration
 
-bajas = {}
+mint = {}
 
 -- Type definitions
 
 ---
--- @type bajas.UnitCluster
+-- @type mint.UnitCluster
 -- @field #list<#string> unitNames
--- @field DCSTypes#Vec2 midPoint
-bajas.UnitCluster = {}
-bajas.UnitCluster.__index = bajas.UnitCluster
+-- @field DCSTypes#Vec2 midPoint 
+mint.UnitCluster = {}
+mint.UnitCluster.__index = mint.UnitCluster
 
 ---
--- @param #bajas.UnitCluster self
--- @return #bajas.UnitCluster
-function bajas.UnitCluster:new()
-  local self = setmetatable({}, bajas.UnitCluster)
+-- @param #mint.UnitCluster self
+-- @return #mint.UnitCluster
+function mint.UnitCluster:new()
+  local self = setmetatable({}, mint.UnitCluster)
   self.unitNames = {}
   self.midPoint = {}
   return self
 end
 
 ---
--- @type bajas.UnitSpec
+-- @type mint.UnitSpec
 -- @field #number count
 -- @field #string type
-bajas.UnitSpec = {}
-bajas.UnitSpec.__index = bajas.UnitSpec
+mint.UnitSpec = {}
+mint.UnitSpec.__index = mint.UnitSpec
 
 ---
--- @param #bajas.UnitSpec self
+-- @param #mint.UnitSpec self
 -- @param #number count
 -- @param #string type
--- @return #bajas.UnitSpec
-function bajas.UnitSpec:new(count, type)
-  self = setmetatable({}, bajas.UnitSpec)
+-- @return #mint.UnitSpec
+function mint.UnitSpec:new(count, type)
+  self = setmetatable({}, mint.UnitSpec)
   self.count = count
   self.type = type
   return self
 end
 
 ---
--- @type bajas.ControlZone
+-- @type mint.ControlZone
 -- @field #string name
 -- @field #number coalition
-bajas.ControlZone = {}
-bajas.ControlZone.__index = bajas.ControlZone
+mint.ControlZone = {}
+mint.ControlZone.__index = mint.ControlZone
 
 ---
--- @param #bajas.ControlZone self
+-- @param #mint.ControlZone self
 -- @param #string name
--- @return #bajas.ControlZone
-function bajas.ControlZone:new(name)
-  self = setmetatable({}, bajas.ControlZone)
+-- @return #mint.ControlZone
+function mint.ControlZone:new(name)
+  self = setmetatable({}, mint.ControlZone)
   self.name = name
   self.coalition = coalition.side.NEUTRAL
   return self
 end
 
 ---
--- @type bajas.TaskForce
+-- @type mint.TaskForce
 -- @field #number country
 -- @field #list<#string> spawnZones
--- @field #list<#bajas.ControlZone> controlZones
--- @field #list<#bajas.UnitSpec> unitSpecs
+-- @field #list<#mint.ControlZone> controlZones
+-- @field #list<#mint.UnitSpec> unitSpecs
 -- @field #list<DCSGroup#Group> groups
 -- @field #string target
-bajas.TaskForce = {}
-bajas.TaskForce.__index = bajas.TaskForce
+mint.TaskForce = {}
+mint.TaskForce.__index = mint.TaskForce
 
 ---
--- @param #bajas.TaskForce self
+-- @param #mint.TaskForce self
 -- @param #number country
 -- @param #list<#string> spawnZones
 -- @param #list<#string> controlZones
--- @return #bajas.TaskForce
-function bajas.TaskForce:new(country, spawnZones, controlZones)
-  self = setmetatable({}, bajas.TaskForce)
+-- @return #mint.TaskForce
+function mint.TaskForce:new(country, spawnZones, controlZones)
+  self = setmetatable({}, mint.TaskForce)
   self.country = country
   self.spawnZones = spawnZones
   self.unitSpecs = {}
   self.controlZones = {}
   for i=1, #controlZones do
     local controlZone = controlZones[i]
-    self.controlZones[#self.controlZones + 1] = bajas.ControlZone:new(controlZone)
+    self.controlZones[#self.controlZones + 1] = mint.ControlZone:new(controlZone)
   end
   self.groups = {}
   return self
 end
 
 ---
--- @param #bajas.TaskForce self
+-- @param #mint.TaskForce self
 -- @param #number count
 -- @param #string type
-function bajas.TaskForce:addUnitSpec(count, type)
-  self.unitSpecs[#self.unitSpecs+1] = bajas.UnitSpec:new(count, type)
+function mint.TaskForce:addUnitSpec(count, type)
+  self.unitSpecs[#self.unitSpecs+1] = mint.UnitSpec:new(count, type)
 end
 
 ---
--- @param #bajas.TaskForce self
-function bajas.TaskForce:cleanGroups()
+-- @param #mint.TaskForce self
+function mint.TaskForce:cleanGroups()
   local newGroups = {}
   for i=1, #self.groups do
     local group = self.groups[i]
@@ -109,8 +109,8 @@ function bajas.TaskForce:cleanGroups()
 end
 
 ---
--- @param #bajas.TaskForce self
-function bajas.TaskForce:reinforce()
+-- @param #mint.TaskForce self
+function mint.TaskForce:reinforce()
   local spawnedUnitCount = 0
   self:cleanGroups()
   local desiredUnits = {}
@@ -123,7 +123,7 @@ function bajas.TaskForce:reinforce()
     desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
     local replacements = desiredUnits[unitSpec.type]
     for groupIndex=1, #self.groups do
-      replacements = replacements - bajas.countUnitsOfType(self.groups[groupIndex]:getUnits(),unitSpec.type)
+      replacements = replacements - mint.countUnitsOfType(self.groups[groupIndex]:getUnits(),unitSpec.type)
     end
 
     if replacements > 0 then
@@ -139,37 +139,37 @@ function bajas.TaskForce:reinforce()
           },
           ["x"] = spawnZone.point.x + 15*spawnedUnitCount,
           ["y"] = spawnZone.point.z - 15*spawnedUnitCount,
-          ["name"] = "Unit no " .. bajas.lastCreatedUnitId,
-          ["unitId"] = bajas.lastCreatedUnitId,
+          ["name"] = "Unit no " .. mint.lastCreatedUnitId,
+          ["unitId"] = mint.lastCreatedUnitId,
           ["skill"] = "High",
           ["playerCanDrive"] = true
         }
         spawnedUnitCount = spawnedUnitCount + 1
 
-        bajas.lastCreatedUnitId = bajas.lastCreatedUnitId + 1
+        mint.lastCreatedUnitId = mint.lastCreatedUnitId + 1
       end
 
-      local groupName = "Group #00" .. bajas.lastCreatedGroupId
+      local groupName = "Group #00" .. mint.lastCreatedGroupId
       local groupData = {
         ["route"] = {},
-        ["groupId"] = bajas.lastCreatedGroupId,
+        ["groupId"] = mint.lastCreatedGroupId,
         ["units"] = units,
         ["name"] = groupName
       }
 
       coalition.addGroup(self.country, Group.Category.GROUND, groupData)
-      bajas.lastCreatedGroupId = bajas.lastCreatedGroupId + 1
+      mint.lastCreatedGroupId = mint.lastCreatedGroupId + 1
       self.groups[#self.groups+1] = Group.getByName(groupName)
       if self.target ~= nil then
-        bajas.issueGroupTo(groupName, self.target)
+        mint.issueGroupTo(groupName, self.target)
       end
     end
   end
 end
 
 ---
--- @param #bajas.TaskForce self
-function bajas.TaskForce:updateTarget()
+-- @param #mint.TaskForce self
+function mint.TaskForce:updateTarget()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
 
@@ -207,26 +207,26 @@ function bajas.TaskForce:updateTarget()
 end
 
 ---
--- @param #bajas.TaskForce self
+-- @param #mint.TaskForce self
 -- @param #string zone
-function bajas.TaskForce:issueTo(zone)
+function mint.TaskForce:issueTo(zone)
   self:cleanGroups()
   for i=1, #self.groups do
-    bajas.issueGroupTo(self.groups[i]:getName(), self.target)
+    mint.issueGroupTo(self.groups[i]:getName(), self.target)
   end
 end
 
 ---
--- @param #bajas.TaskForce self
-function bajas.TaskForce:issueToTarget()
+-- @param #mint.TaskForce self
+function mint.TaskForce:issueToTarget()
   self:issueTo(self.target)
 end
 
 ---
--- @param #bajas.TaskForce self
+-- @param #mint.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function bajas.TaskForce:enableAutoIssue(timeIntervalSec)
+function mint.TaskForce:enableAutoIssue(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:issueToTarget()
@@ -237,10 +237,10 @@ function bajas.TaskForce:enableAutoIssue(timeIntervalSec)
 end
 
 ---
--- @param #bajas.TaskForce self
+-- @param #mint.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function bajas.TaskForce:enableAutoReinforce(timeIntervalSec)
+function mint.TaskForce:enableAutoReinforce(timeIntervalSec)
   local function reinforce()
     self:reinforce()
   end
@@ -249,10 +249,10 @@ function bajas.TaskForce:enableAutoReinforce(timeIntervalSec)
 end
 
 ---
--- @param #bajas.TaskForce self
-function bajas.TaskForce:enableDefault()
-  self:enableAutoIssue(bajas.DEFAULT_AUTO_ISSUE_DELAY)
-  self:enableAutoReinforce(bajas.DEFAULT_AUTO_REINFORCE_DELAY)
+-- @param #mint.TaskForce self
+function mint.TaskForce:enableDefault()
+  self:enableAutoIssue(mint.DEFAULT_AUTO_ISSUE_DELAY)
+  self:enableAutoReinforce(mint.DEFAULT_AUTO_REINFORCE_DELAY)
 end
 
 -- Utility function definitions
@@ -260,7 +260,7 @@ end
 ---
 -- @param #string groupName
 -- @param #string zoneName
-function bajas.issueGroupTo(groupName, zoneName)
+function mint.issueGroupTo(groupName, zoneName)
   local destinationZone = trigger.misc.getZone(zoneName)
   local destinationZonePos2 = {
     x = destinationZone.point.x,
@@ -280,7 +280,7 @@ end
 -- @param #list<DCSUnit#Unit> units
 -- @param #string type
 -- @return #number
-function bajas.countUnitsOfType(units, type)
+function mint.countUnitsOfType(units, type)
   local count=0
   local unit
   for i=1, #units do
@@ -296,11 +296,11 @@ end
 -- @param #string commandName
 -- @param #function callback
 -- @return #number ID of scheduled function
-function bajas.registerGroupCommand(groupName, commandName, callback)
+function mint.registerGroupCommand(groupName, commandName, callback)
 
   local group = Group.getByName(groupName)
   local groupId = group:getID()
-  local flagName = bajas.GROUP_COMMAND_FLAG_NAME..groupId
+  local flagName = mint.GROUP_COMMAND_FLAG_NAME..groupId
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(groupId, commandName, flagName, 1)
 
@@ -319,7 +319,7 @@ end
 -- @param #vec3
 -- @param #vec3
 -- @return #number
-function bajas.getDistanceBetween(a, b)
+function mint.getDistanceBetween(a, b)
   local dx = a.x - b.x
   local dy = a.y - b.y
   local dz = a.z - b.z
@@ -329,7 +329,7 @@ end
 ---
 -- @param #string unitName
 -- @return DCSUnit#Unit
-function bajas.getClosestEnemyVehicle(unitName)
+function mint.getClosestEnemyVehicle(unitName)
 
   local unit = Unit.getByName(unitName)
   local unitPosition = unit:getPosition().p
@@ -343,12 +343,12 @@ function bajas.getClosestEnemyVehicle(unitName)
   if #enemyVehicles > 0 then
     local closestEnemy = Unit.getByName(enemyVehicles[1])
     enemyUnitPosition = closestEnemy:getPosition().p
-    local closestEnemyDistance = bajas.getDistanceBetween(unitPosition, enemyUnitPosition)
+    local closestEnemyDistance = mint.getDistanceBetween(unitPosition, enemyUnitPosition)
     local newClosestEnemy = {}
     local newClosestEnemyDistance = 0
     for i=2, #enemyVehicles do
       newClosestEnemy = Unit.getByName(enemyVehicles[i])
-      newClosestEnemyDistance = bajas.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
+      newClosestEnemyDistance = mint.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
       if (newClosestEnemyDistance < closestEnemyDistance) then
         closestEnemy = newClosestEnemy
       end
@@ -360,25 +360,25 @@ end
 ---
 -- @param #number rad Direction in radians
 -- @return #string A string representing a cardinal direction
-function bajas.radToCardinalDir(rad)
+function mint.radToCardinalDir(rad)
 
   local dirNormalized = rad / math.pi / 2
   local i = 1
-  if dirNormalized < (#bajas.CARDINAL_DIRECTIONS-1) / #bajas.CARDINAL_DIRECTIONS then
-    while dirNormalized > i/#bajas.CARDINAL_DIRECTIONS/2 do
+  if dirNormalized < (#mint.CARDINAL_DIRECTIONS-1) / #mint.CARDINAL_DIRECTIONS then
+    while dirNormalized > i/#mint.CARDINAL_DIRECTIONS/2 do
       i = i+2
     end
   end
   local index = math.floor(i/2) + 1
-  return bajas.CARDINAL_DIRECTIONS[index]
+  return mint.CARDINAL_DIRECTIONS[index]
 end
 
 ---
 --This function might be computationally expensive
 -- @param DCSUnit#Unit unit
 -- @param #number radius
--- @return #bajas.UnitCluster
-function bajas.getFriendlyVehiclesWithin(unit, radius)
+-- @return #mint.UnitCluster
+function mint.getFriendlyVehiclesWithin(unit, radius)
   local coalitionString
   if unit:getCoalition() == coalition.side.BLUE then
     coalitionString = "[blue]"
@@ -421,7 +421,7 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
     for i=1, #units do
       local nextUnit = Unit.getByName(units[i])
       if nextUnit:getID() == targetUnit:getID() == false then
-        if bajas.getDistanceBetween(targetUnit:getPosition().p,nextUnit:getPosition().p) <= radius then
+        if mint.getDistanceBetween(targetUnit:getPosition().p,nextUnit:getPosition().p) <= radius then
           if contains(addedVehiclesNames, nextUnit:getName()) == false then
             addUnit(nextUnit)
             vehiclesWithinRecurse(nextUnit)
@@ -441,7 +441,7 @@ function bajas.getFriendlyVehiclesWithin(unit, radius)
     y = minPos.z + dz / 2
   }
 
-  local result = bajas.UnitCluster:new()
+  local result = mint.UnitCluster:new()
   result.unitNames = addedVehiclesNames
   result.midPoint = midPoint
   return result
@@ -451,23 +451,23 @@ end
 ---
 --Prints out a message to a group, describing nearest enemy vehicles
 -- @param DCSGroup#Group group
-function bajas.informOfClosestEnemyVehicles(group)
+function mint.informOfClosestEnemyVehicles(group)
 
   local firstGroupUnit = group:getUnit(1)
-  local closestEnemy = bajas.getClosestEnemyVehicle(firstGroupUnit:getName())
+  local closestEnemy = mint.getClosestEnemyVehicle(firstGroupUnit:getName())
   local groupUnitPos = {
     x = firstGroupUnit:getPosition().p.x,
     y = 0,
     z = firstGroupUnit:getPosition().p.z
   }
 
-  local enemyCluster = bajas.getFriendlyVehiclesWithin(closestEnemy,bajas.MAX_CLUSTER_DISTANCE)
+  local enemyCluster = mint.getFriendlyVehiclesWithin(closestEnemy,mint.MAX_CLUSTER_DISTANCE)
   local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
   local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
   local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
-  --  local cardinalDir = bajas.radToCardinalDir(dirRad)
-  local distance = bajas.getDistanceBetween(midPoint, groupUnitPos)
+  --  local cardinalDir = mint.radToCardinalDir(dirRad)
+  local distance = mint.getDistanceBetween(midPoint, groupUnitPos)
   local distanceKM = math.floor(distance / 1000 + 0.5)
 
   local vehicleTypes = {}
@@ -493,10 +493,10 @@ function bajas.informOfClosestEnemyVehicles(group)
 
 end
 
-function bajas.enableIOCEVForGroups()
+function mint.enableIOCEVForGroups()
   local function callback(name)
     local group = Group.getByName(name)
-    bajas.informOfClosestEnemyVehicles(group)
+    mint.informOfClosestEnemyVehicles(group)
   end
 
   local functionIDS = {}
@@ -512,8 +512,8 @@ function bajas.enableIOCEVForGroups()
     local function enableForGroups(groups)
       for i=1, #groups do
         local group = groups[i]
-        trigger.action.removeOtherCommandForGroup(group:getID(), bajas.IOCEV_COMMAND_TEXT)
-        functionIDS[#functionIDS + 1] = bajas.registerGroupCommand(group:getName(), bajas.IOCEV_COMMAND_TEXT, callback)
+        trigger.action.removeOtherCommandForGroup(group:getID(), mint.IOCEV_COMMAND_TEXT)
+        functionIDS[#functionIDS + 1] = mint.registerGroupCommand(group:getName(), mint.IOCEV_COMMAND_TEXT, callback)
       end
     end
 
@@ -527,13 +527,13 @@ end
 ---
 -- Deep copy a table
 --Code from https://gist.github.com/MihailJP/3931841
-function bajas.deepCopy(t)
+function mint.deepCopy(t)
   if type(t) ~= "table" then return t end
   local meta = getmetatable(t)
   local target = {}
   for k, v in pairs(t) do
     if type(v) == "table" then
-      target[k] = bajas.deepCopy(v)
+      target[k] = mint.deepCopy(v)
     else
       target[k] = v
     end
@@ -545,7 +545,7 @@ end
 ---
 -- @param #string str
 -- @param #number time
-function bajas.printIngame(str, time)
+function mint.printIngame(str, time)
   if (time == nil) then
     time = 1
   end
@@ -553,13 +553,13 @@ function bajas.printIngame(str, time)
 end
 
 ---
-function bajas.debug(variable)
-  bajas.printIngame(bajas.toString(variable))
+function mint.debug(variable)
+  mint.printIngame(mint.toString(variable))
 end
 
 ---
 -- Returns a string representation of an object
-function bajas.toString(obj)
+function mint.toString(obj)
 
   local indent = "    "
   local function toStringRecursively(obj, level)
@@ -626,13 +626,13 @@ end
 
 -- Constant declarations
 
-bajas.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
-bajas.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
-bajas.MAX_CLUSTER_DISTANCE = 1000
-bajas.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
-bajas.DEFAULT_AUTO_ISSUE_DELAY = 300
-bajas.DEFAULT_AUTO_REINFORCE_DELAY = 600
+mint.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
+mint.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+mint.MAX_CLUSTER_DISTANCE = 1000
+mint.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+mint.DEFAULT_AUTO_ISSUE_DELAY = 300
+mint.DEFAULT_AUTO_REINFORCE_DELAY = 600
 
 -- Counters
-bajas.lastCreatedUnitId = 0
-bajas.lastCreatedGroupId = 0
+mint.lastCreatedUnitId = 0
+mint.lastCreatedGroupId = 0
