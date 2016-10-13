@@ -258,7 +258,7 @@ end
 ---
 -- @type mint.GroupCommand
 -- @field #string commandName
--- @field #string groupName
+-- @field #number groupId
 -- @field #function func
 -- @field #number timerId
 mint.GroupCommand = {}
@@ -267,13 +267,13 @@ mint.GroupCommand.__index = mint.GroupCommand
 ---
 -- @param #mint.GroupCommand self
 -- @param #string commandName
--- @param #string groupName
+-- @param #string groupId
 -- @param #function func
 -- @param #number timerId
-function mint.GroupCommand:new(commandName, groupName, func)
+function mint.GroupCommand:new(commandName, groupId, func)
   self = setmetatable({}, mint.GroupCommand)
   self.commandName = commandName
-  self.groupName = groupName
+  self.groupId = groupId
   self.func = func
   return self
 end
@@ -281,8 +281,7 @@ end
 ---
 -- @param #mint.GroupCommand self
 function mint.GroupCommand:enable()
-  local groupId = Group.getByName(self.groupName):getID()
-  local flagName = mint.GROUP_COMMAND_FLAG_NAME..groupId
+  local flagName = mint.GROUP_COMMAND_FLAG_NAME..self.groupId
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(groupId, self.commandName, flagName, 1)
 
@@ -298,10 +297,11 @@ end
 ---
 -- @param #mint.GroupCommand self
 function mint.GroupCommand:disable()
-  local groupId = Group.getByName(self.groupName):getID()
-  mist.removeFunction(self.timerId)
-  trigger.action.removeOtherCommandForGroup(groupId, self.commandName)
+  -- Remove group command from mission
+  trigger.action.removeOtherCommandForGroup(self.groupId, self.commandName)
+  -- Remove function timer
   self.timerId = nil
+  mist.removeFunction(self.timerId)
 end
 
 -- Utility function definitions
@@ -544,7 +544,21 @@ end
 
 function mint.enableIOCEV()
 
+  local enabledGroups = {}
 
+  local function groupIsEnabled(groupId)
+    local groupFound = false
+    local i = 1
+    while i <= #enabledGroups and not groupFound do
+      if enabledGroups[i].groupId == groupId then groupFound = true end
+      i = i + 1
+    end
+    return groupFound
+  end
+
+  
+  
+  
 
 end
 
