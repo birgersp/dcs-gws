@@ -1,5 +1,5 @@
 # DCS World Mission Intel (MInt)
-Birger And Jens' Asset Script for DCS mission making
+DCS World Utility
 
 ## Current features
 
