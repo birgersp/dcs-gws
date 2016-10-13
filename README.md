@@ -1,4 +1,4 @@
-# DCS-BAJAS
+# DCS World Mission Intel (MInt)
 Birger And Jens' Asset Script for DCS mission making
 
 ## Current features
