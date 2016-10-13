@@ -230,10 +230,11 @@ function mint.TaskForce:enableAutoIssue(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:issueToTarget()
+    timer.scheduleFunction(autoIssue,{},timer.getTime()+timeIntervalSec)
   end
 
   -- Give it a couple of seconds before initial advance
-  return mist.scheduleFunction(autoIssue, nil, timer.getTime()+2, timeIntervalSec)
+  timer.scheduleFunction(autoIssue,{},timer.getTime()+2)
 end
 
 ---
@@ -243,9 +244,10 @@ end
 function mint.TaskForce:enableAutoReinforce(timeIntervalSec)
   local function reinforce()
     self:reinforce()
+    timer.scheduleFunction(reinforce,{},timer.getTime()+timeIntervalSec)
   end
 
-  return mist.scheduleFunction(reinforce,nil, timer.getTime()+1, timeIntervalSec)
+  reinforce()
 end
 
 ---
@@ -258,22 +260,25 @@ end
 ---
 -- @type mint.GroupCommand
 -- @field #string commandName
+-- @field #string groupName
 -- @field #number groupId
 -- @field #function func
 -- @field #number timerId
+-- @field #boolean enabled
 mint.GroupCommand = {}
 mint.GroupCommand.__index = mint.GroupCommand
 
 ---
 -- @param #mint.GroupCommand self
 -- @param #string commandName
--- @param #string groupId
+-- @param #string groupName
 -- @param #function func
--- @param #number timerId
-function mint.GroupCommand:new(commandName, groupId, func)
+-- @return #mint.GroupCommand
+function mint.GroupCommand:new(commandName, groupName, func)
   self = setmetatable({}, mint.GroupCommand)
   self.commandName = commandName
-  self.groupId = groupId
+  self.groupName = groupName
+  self.groupId = Group.getByName(groupName):getID()
   self.func = func
   return self
 end
@@ -281,17 +286,22 @@ end
 ---
 -- @param #mint.GroupCommand self
 function mint.GroupCommand:enable()
+  self.enabled = true
+
   local flagName = mint.GROUP_COMMAND_FLAG_NAME..self.groupId
   trigger.action.setUserFlag(flagName, 0)
-  trigger.action.addOtherCommandForGroup(groupId, self.commandName, flagName, 1)
+  trigger.action.addOtherCommandForGroup(self.groupId, self.commandName, flagName, 1)
 
   local function checkTrigger()
-    if (trigger.misc.getUserFlag(flagName) == 1) then
-      trigger.action.setUserFlag(flagName, 0)
-      self.func()
+    if self.enabled == true then
+      if (trigger.misc.getUserFlag(flagName) == 1) then
+        trigger.action.setUserFlag(flagName, 0)
+        self.func()
+      end
+      timer.scheduleFunction(checkTrigger, {}, timer.getTime() + 1)
     end
   end
-  self.timerId = mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 1)
+  checkTrigger()
 end
 
 ---
@@ -299,9 +309,7 @@ end
 function mint.GroupCommand:disable()
   -- Remove group command from mission
   trigger.action.removeOtherCommandForGroup(self.groupId, self.commandName)
-  -- Remove function timer
-  self.timerId = nil
-  mist.removeFunction(self.timerId)
+  self.enabled = false
 end
 
 -- Utility function definitions
@@ -338,30 +346,6 @@ function mint.countUnitsOfType(units, type)
     end
   end
   return count
-end
-
----
--- @param #number groupName
--- @param #string commandName
--- @param #function callback
--- @return #number ID of scheduled function
-function mint.registerGroupCommand(groupName, commandName, callback)
-
-  local group = Group.getByName(groupName)
-  local groupId = group:getID()
-  local flagName = mint.GROUP_COMMAND_FLAG_NAME..groupId
-  trigger.action.setUserFlag(flagName, 0)
-  trigger.action.addOtherCommandForGroup(groupId, commandName, flagName, 1)
-
-  local function checkTrigger()
-    if (trigger.misc.getUserFlag(flagName) == 1) then
-      trigger.action.setUserFlag(flagName, 0)
-      callback(groupName)
-    end
-  end
-
-  return mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 1)
-
 end
 
 ---
@@ -544,21 +528,55 @@ end
 
 function mint.enableIOCEV()
 
-  local enabledGroups = {}
+  local enabledGroupCommands = {}
 
-  local function groupIsEnabled(groupId)
-    local groupFound = false
-    local i = 1
-    while i <= #enabledGroups and not groupFound do
-      if enabledGroups[i].groupId == groupId then groupFound = true end
-      i = i + 1
+  local function cleanEnabledGroupCommands()
+    local newEnabledGroupCommands = {}
+    for i=1, #enabledGroupCommands do
+      if not Group.getByName(enabledGroupCommands[i].groupName) then
+        enabledGroupCommands[i]:disable()
+      else
+        newEnabledGroupCommands[#newEnabledGroupCommands+1] = enabledGroupCommands[i]
+      end
     end
-    return groupFound
+    enabledGroupCommands = newEnabledGroupCommands
   end
 
-  
-  
-  
+  ---
+  -- @param #number groupId
+  local function groupHasCommandEnabled(groupId)
+    for i=1, #enabledGroupCommands do
+      if enabledGroupCommands[i].groupId == groupId then
+        return true
+      end
+    end
+    return false
+  end
+
+  ---
+  -- @param #list<DCSGroup#Group> groups
+  local function enableForGroups(groups)
+    for i=1, #groups do
+      local group = groups[i]
+      if not groupHasCommandEnabled(group:getID()) then
+        local function triggerCommand()
+          mint.informOfClosestEnemyVehicles(group)
+        end
+        local groupCommand = mint.GroupCommand:new(mint.IOCEV_COMMAND_TEXT,group:getName(),triggerCommand)
+        groupCommand:enable()
+        enabledGroupCommands[#enabledGroupCommands+1] = groupCommand
+      end
+    end
+  end
+
+  local function reEnablingLoop()
+    cleanEnabledGroupCommands()
+    enableForGroups(coalition.getGroups(coalition.side.RED))
+    enableForGroups(coalition.getGroups(coalition.side.BLUE))
+    timer.scheduleFunction(reEnablingLoop, {}, timer.getTime() + 30)
+  end
+
+  reEnablingLoop()
 
 end
 
