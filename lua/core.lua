@@ -7,7 +7,7 @@ mint = {}
 ---
 -- @type mint.UnitCluster
 -- @field #list<#string> unitNames
--- @field DCSTypes#Vec2 midPoint 
+-- @field DCSTypes#Vec2 midPoint
 mint.UnitCluster = {}
 mint.UnitCluster.__index = mint.UnitCluster
 
@@ -255,6 +255,55 @@ function mint.TaskForce:enableDefault()
   self:enableAutoReinforce(mint.DEFAULT_AUTO_REINFORCE_DELAY)
 end
 
+---
+-- @type mint.GroupCommand
+-- @field #string commandName
+-- @field #string groupName
+-- @field #function func
+-- @field #number timerId
+mint.GroupCommand = {}
+mint.GroupCommand.__index = mint.GroupCommand
+
+---
+-- @param #mint.GroupCommand self
+-- @param #string commandName
+-- @param #string groupName
+-- @param #function func
+-- @param #number timerId
+function mint.GroupCommand:new(commandName, groupName, func)
+  self = setmetatable({}, mint.GroupCommand)
+  self.commandName = commandName
+  self.groupName = groupName
+  self.func = func
+  return self
+end
+
+---
+-- @param #mint.GroupCommand self
+function mint.GroupCommand:enable()
+  local groupId = Group.getByName(self.groupName):getID()
+  local flagName = mint.GROUP_COMMAND_FLAG_NAME..groupId
+  trigger.action.setUserFlag(flagName, 0)
+  trigger.action.addOtherCommandForGroup(groupId, self.commandName, flagName, 1)
+
+  local function checkTrigger()
+    if (trigger.misc.getUserFlag(flagName) == 1) then
+      trigger.action.setUserFlag(flagName, 0)
+      self.func()
+    end
+  end
+  self.timerId = mist.scheduleFunction(checkTrigger, nil, timer.getTime()+1, 1)
+end
+
+---
+-- @param #mint.GroupCommand self
+function mint.GroupCommand:disable()
+  local groupId = Group.getByName(self.groupName):getID()
+  mist.removeFunction(self.timerId)
+  trigger.action.removeOtherCommandForGroup(groupId, self.commandName)
+  self.timerId = nil
+end
+
 -- Utility function definitions
 
 ---
@@ -493,35 +542,10 @@ function mint.informOfClosestEnemyVehicles(group)
 
 end
 
-function mint.enableIOCEVForGroups()
-  local function callback(name)
-    local group = Group.getByName(name)
-    mint.informOfClosestEnemyVehicles(group)
-  end
+function mint.enableIOCEV()
 
-  local functionIDS = {}
-  local function enableForAll()
-  
-    -- Disable timers from previous enable
-    for i=1, #functionIDS do
-      mist.removeFunction(functionIDS[i])
-    end
-    functionIDS = {}
 
-    -- Re-enable command for all groups
-    local function enableForGroups(groups)
-      for i=1, #groups do
-        local group = groups[i]
-        trigger.action.removeOtherCommandForGroup(group:getID(), mint.IOCEV_COMMAND_TEXT)
-        functionIDS[#functionIDS + 1] = mint.registerGroupCommand(group:getName(), mint.IOCEV_COMMAND_TEXT, callback)
-      end
-    end
 
-    enableForGroups(coalition.getGroups(1))
-    enableForGroups(coalition.getGroups(2))
-  end
-
-  mist.scheduleFunction(enableForAll,nil,timer.getTime() + 1, 30)
 end
 
 ---
