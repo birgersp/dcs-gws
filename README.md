@@ -22,7 +22,7 @@ Spawns AI aircrafts to join the battle when there is an imbalance between REDFOR
 
 ## How to use in your mission
 1. Add a mission start trigger
-2. Add a do script action, loading the `bajas-standalone.lua` file
+2. Add a do script action, loading the `mint-standalone.lua` file
 3. Add another do script action, loading your own script to utilize our script
 
 (More details coming soon)
