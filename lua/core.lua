@@ -1,105 +1,105 @@
 -- Namespace declaration
 
-mint = {}
+autogft = {}
 
 -- Type definitions
 
 ---
--- @type mint.UnitCluster
+-- @type autogft.UnitCluster
 -- @field #list<#string> unitNames
 -- @field DCSTypes#Vec2 midPoint
-mint.UnitCluster = {}
-mint.UnitCluster.__index = mint.UnitCluster
+autogft.UnitCluster = {}
+autogft.UnitCluster.__index = autogft.UnitCluster
 
 ---
--- @param #mint.UnitCluster self
--- @return #mint.UnitCluster
-function mint.UnitCluster:new()
-  local self = setmetatable({}, mint.UnitCluster)
+-- @param #autogft.UnitCluster self
+-- @return #autogft.UnitCluster
+function autogft.UnitCluster:new()
+  local self = setmetatable({}, autogft.UnitCluster)
   self.unitNames = {}
   self.midPoint = {}
   return self
 end
 
 ---
--- @type mint.UnitSpec
+-- @type autogft.UnitSpec
 -- @field #number count
 -- @field #string type
-mint.UnitSpec = {}
-mint.UnitSpec.__index = mint.UnitSpec
+autogft.UnitSpec = {}
+autogft.UnitSpec.__index = autogft.UnitSpec
 
 ---
--- @param #mint.UnitSpec self
+-- @param #autogft.UnitSpec self
 -- @param #number count
 -- @param #string type
--- @return #mint.UnitSpec
-function mint.UnitSpec:new(count, type)
-  self = setmetatable({}, mint.UnitSpec)
+-- @return #autogft.UnitSpec
+function autogft.UnitSpec:new(count, type)
+  self = setmetatable({}, autogft.UnitSpec)
   self.count = count
   self.type = type
   return self
 end
 
 ---
--- @type mint.ControlZone
+-- @type autogft.ControlZone
 -- @field #string name
 -- @field #number coalition
-mint.ControlZone = {}
-mint.ControlZone.__index = mint.ControlZone
+autogft.ControlZone = {}
+autogft.ControlZone.__index = autogft.ControlZone
 
 ---
--- @param #mint.ControlZone self
+-- @param #autogft.ControlZone self
 -- @param #string name
--- @return #mint.ControlZone
-function mint.ControlZone:new(name)
-  self = setmetatable({}, mint.ControlZone)
+-- @return #autogft.ControlZone
+function autogft.ControlZone:new(name)
+  self = setmetatable({}, autogft.ControlZone)
   self.name = name
   self.coalition = coalition.side.NEUTRAL
   return self
 end
 
 ---
--- @type mint.TaskForce
+-- @type autogft.TaskForce
 -- @field #number country
 -- @field #list<#string> spawnZones
--- @field #list<#mint.ControlZone> controlZones
--- @field #list<#mint.UnitSpec> unitSpecs
+-- @field #list<#autogft.ControlZone> controlZones
+-- @field #list<#autogft.UnitSpec> unitSpecs
 -- @field #list<DCSGroup#Group> groups
 -- @field #string target
-mint.TaskForce = {}
-mint.TaskForce.__index = mint.TaskForce
+autogft.TaskForce = {}
+autogft.TaskForce.__index = autogft.TaskForce
 
 ---
--- @param #mint.TaskForce self
+-- @param #autogft.TaskForce self
 -- @param #number country
 -- @param #list<#string> spawnZones
 -- @param #list<#string> controlZones
--- @return #mint.TaskForce
-function mint.TaskForce:new(country, spawnZones, controlZones)
-  self = setmetatable({}, mint.TaskForce)
+-- @return #autogft.TaskForce
+function autogft.TaskForce:new(country, spawnZones, controlZones)
+  self = setmetatable({}, autogft.TaskForce)
   self.country = country
   self.spawnZones = spawnZones
   self.unitSpecs = {}
   self.controlZones = {}
   for i = 1, #controlZones do
     local controlZone = controlZones[i]
-    self.controlZones[#self.controlZones + 1] = mint.ControlZone:new(controlZone)
+    self.controlZones[#self.controlZones + 1] = autogft.ControlZone:new(controlZone)
   end
   self.groups = {}
   return self
 end
 
 ---
--- @param #mint.TaskForce self
+-- @param #autogft.TaskForce self
 -- @param #number count
 -- @param #string type
-function mint.TaskForce:addUnitSpec(count, type)
-  self.unitSpecs[#self.unitSpecs + 1] = mint.UnitSpec:new(count, type)
+function autogft.TaskForce:addUnitSpec(count, type)
+  self.unitSpecs[#self.unitSpecs + 1] = autogft.UnitSpec:new(count, type)
 end
 
 ---
--- @param #mint.TaskForce self
-function mint.TaskForce:cleanGroups()
+-- @param #autogft.TaskForce self
+function autogft.TaskForce:cleanGroups()
   local newGroups = {}
   for i = 1, #self.groups do
     local group = self.groups[i]
@@ -109,8 +109,8 @@ function mint.TaskForce:cleanGroups()
 end
 
 ---
--- @param #mint.TaskForce self
-function mint.TaskForce:reinforce()
+-- @param #autogft.TaskForce self
+function autogft.TaskForce:reinforce()
   local spawnedUnitCount = 0
   self:cleanGroups()
   local desiredUnits = {}
@@ -123,7 +123,7 @@ function mint.TaskForce:reinforce()
     desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
     local replacements = desiredUnits[unitSpec.type]
     for groupIndex = 1, #self.groups do
-      replacements = replacements - mint.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
+      replacements = replacements - autogft.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
     end
 
     if replacements > 0 then
@@ -139,37 +139,37 @@ function mint.TaskForce:reinforce()
           },
           ["x"] = spawnZone.point.x + 15 * spawnedUnitCount,
           ["y"] = spawnZone.point.z - 15 * spawnedUnitCount,
-          ["name"] = "Unit no " .. mint.lastCreatedUnitId,
-          ["unitId"] = mint.lastCreatedUnitId,
+          ["name"] = "Unit no " .. autogft.lastCreatedUnitId,
+          ["unitId"] = autogft.lastCreatedUnitId,
           ["skill"] = "High",
           ["playerCanDrive"] = true
         }
         spawnedUnitCount = spawnedUnitCount + 1
 
-        mint.lastCreatedUnitId = mint.lastCreatedUnitId + 1
+        autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
       end
 
-      local groupName = "Group #00" .. mint.lastCreatedGroupId
+      local groupName = "Group #00" .. autogft.lastCreatedGroupId
       local groupData = {
         ["route"] = {},
-        ["groupId"] = mint.lastCreatedGroupId,
+        ["groupId"] = autogft.lastCreatedGroupId,
         ["units"] = units,
         ["name"] = groupName
       }
 
       coalition.addGroup(self.country, Group.Category.GROUND, groupData)
-      mint.lastCreatedGroupId = mint.lastCreatedGroupId + 1
+      autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
       self.groups[#self.groups + 1] = Group.getByName(groupName)
       if self.target ~= nil then
-        mint.issueGroupTo(groupName, self.target)
+        autogft.issueGroupTo(groupName, self.target)
       end
     end
   end
 end
 
 ---
--- @param #mint.TaskForce self
-function mint.TaskForce:updateTarget()
+-- @param #autogft.TaskForce self
+function autogft.TaskForce:updateTarget()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
 
@@ -207,26 +207,26 @@ function mint.TaskForce:updateTarget()
 end
 
 ---
--- @param #mint.TaskForce self
+-- @param #autogft.TaskForce self
 -- @param #string zone
-function mint.TaskForce:issueTo(zone)
+function autogft.TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
-    mint.issueGroupTo(self.groups[i]:getName(), self.target)
+    autogft.issueGroupTo(self.groups[i]:getName(), self.target)
   end
 end
 
 ---
--- @param #mint.TaskForce self
-function mint.TaskForce:issueToTarget()
+-- @param #autogft.TaskForce self
+function autogft.TaskForce:issueToTarget()
   self:issueTo(self.target)
 end
 
 ---
--- @param #mint.TaskForce self
+-- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function mint.TaskForce:enableAutoIssue(timeIntervalSec)
+function autogft.TaskForce:enableAutoIssue(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:issueToTarget()
@@ -238,10 +238,10 @@ function mint.TaskForce:enableAutoIssue(timeIntervalSec)
 end
 
 ---
--- @param #mint.TaskForce self
+-- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function mint.TaskForce:enableAutoReinforce(timeIntervalSec)
+function autogft.TaskForce:enableAutoReinforce(timeIntervalSec)
   local function reinforce()
     self:reinforce()
     timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
@@ -251,31 +251,31 @@ function mint.TaskForce:enableAutoReinforce(timeIntervalSec)
 end
 
 ---
--- @param #mint.TaskForce self
-function mint.TaskForce:enableDefault()
-  self:enableAutoIssue(mint.DEFAULT_AUTO_ISSUE_DELAY)
-  self:enableAutoReinforce(mint.DEFAULT_AUTO_REINFORCE_DELAY)
+-- @param #autogft.TaskForce self
+function autogft.TaskForce:enableDefault()
+  self:enableAutoIssue(autogft.DEFAULT_AUTO_ISSUE_DELAY)
+  self:enableAutoReinforce(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
 end
 
 ---
--- @type mint.GroupCommand
+-- @type autogft.GroupCommand
 -- @field #string commandName
 -- @field #string groupName
 -- @field #number groupId
 -- @field #function func
 -- @field #number timerId
 -- @field #boolean enabled
-mint.GroupCommand = {}
-mint.GroupCommand.__index = mint.GroupCommand
+autogft.GroupCommand = {}
+autogft.GroupCommand.__index = autogft.GroupCommand
 
 ---
--- @param #mint.GroupCommand self
+-- @param #autogft.GroupCommand self
 -- @param #string commandName
 -- @param #string groupName
 -- @param #function func
--- @return #mint.GroupCommand
-function mint.GroupCommand:new(commandName, groupName, func)
-  self = setmetatable({}, mint.GroupCommand)
+-- @return #autogft.GroupCommand
+function autogft.GroupCommand:new(commandName, groupName, func)
+  self = setmetatable({}, autogft.GroupCommand)
   self.commandName = commandName
   self.groupName = groupName
   self.groupId = Group.getByName(groupName):getID()
@@ -284,11 +284,11 @@ function mint.GroupCommand:new(commandName, groupName, func)
 end
 
 ---
--- @param #mint.GroupCommand self
-function mint.GroupCommand:enable()
+-- @param #autogft.GroupCommand self
+function autogft.GroupCommand:enable()
   self.enabled = true
 
-  local flagName = mint.GROUP_COMMAND_FLAG_NAME..self.groupId
+  local flagName = autogft.GROUP_COMMAND_FLAG_NAME..self.groupId
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(self.groupId, self.commandName, flagName, 1)
 
@@ -305,8 +305,8 @@ function mint.GroupCommand:enable()
 end
 
 ---
--- @param #mint.GroupCommand self
-function mint.GroupCommand:disable()
+-- @param #autogft.GroupCommand self
+function autogft.GroupCommand:disable()
   -- Remove group command from mission
   trigger.action.removeOtherCommandForGroup(self.groupId, self.commandName)
   self.enabled = false
@@ -317,7 +317,7 @@ end
 ---
 -- @param #string groupName
 -- @param #string zoneName
-function mint.issueGroupTo(groupName, zoneName)
+function autogft.issueGroupTo(groupName, zoneName)
   local destinationZone = trigger.misc.getZone(zoneName)
   local destinationZonePos2 = {
     x = destinationZone.point.x,
@@ -337,7 +337,7 @@ end
 -- @param #list<DCSUnit#Unit> units
 -- @param #string type
 -- @return #number
-function mint.countUnitsOfType(units, type)
+function autogft.countUnitsOfType(units, type)
   local count = 0
   local unit
   for i = 1, #units do
@@ -352,7 +352,7 @@ end
 -- @param #vec3
 -- @param #vec3
 -- @return #number
-function mint.getDistanceBetween(a, b)
+function autogft.getDistanceBetween(a, b)
   local dx = a.x - b.x
   local dy = a.y - b.y
   local dz = a.z - b.z
@@ -362,7 +362,7 @@ end
 ---
 -- @param #string unitName
 -- @return DCSUnit#Unit
-function mint.getClosestEnemyVehicle(unitName)
+function autogft.getClosestEnemyVehicle(unitName)
 
   local unit = Unit.getByName(unitName)
   local unitPosition = unit:getPosition().p
@@ -376,12 +376,12 @@ function mint.getClosestEnemyVehicle(unitName)
   if #enemyVehicles > 0 then
     local closestEnemy = Unit.getByName(enemyVehicles[1])
     enemyUnitPosition = closestEnemy:getPosition().p
-    local closestEnemyDistance = mint.getDistanceBetween(unitPosition, enemyUnitPosition)
+    local closestEnemyDistance = autogft.getDistanceBetween(unitPosition, enemyUnitPosition)
     local newClosestEnemy = {}
     local newClosestEnemyDistance = 0
     for i = 2, #enemyVehicles do
       newClosestEnemy = Unit.getByName(enemyVehicles[i])
-      newClosestEnemyDistance = mint.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
+      newClosestEnemyDistance = autogft.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
       if (newClosestEnemyDistance < closestEnemyDistance) then
         closestEnemy = newClosestEnemy
       end
@@ -393,25 +393,25 @@ end
 ---
 -- @param #number rad Direction in radians
 -- @return #string A string representing a cardinal direction
-function mint.radToCardinalDir(rad)
+function autogft.radToCardinalDir(rad)
 
   local dirNormalized = rad / math.pi / 2
   local i = 1
-  if dirNormalized < (#mint.CARDINAL_DIRECTIONS-1) / #mint.CARDINAL_DIRECTIONS then
-    while dirNormalized > i/#mint.CARDINAL_DIRECTIONS/2 do
+  if dirNormalized < (#autogft.CARDINAL_DIRECTIONS-1) / #autogft.CARDINAL_DIRECTIONS then
+    while dirNormalized > i/#autogft.CARDINAL_DIRECTIONS/2 do
       i = i + 2
     end
   end
   local index = math.floor(i/2) + 1
-  return mint.CARDINAL_DIRECTIONS[index]
+  return autogft.CARDINAL_DIRECTIONS[index]
 end
 
 ---
 --This function might be computationally expensive
 -- @param DCSUnit#Unit unit
 -- @param #number radius
--- @return #mint.UnitCluster
-function mint.getFriendlyVehiclesWithin(unit, radius)
+-- @return #autogft.UnitCluster
+function autogft.getFriendlyVehiclesWithin(unit, radius)
   local coalitionString
   if unit:getCoalition() == coalition.side.BLUE then
     coalitionString = "[blue]"
@@ -454,7 +454,7 @@ function mint.getFriendlyVehiclesWithin(unit, radius)
     for i = 1, #units do
       local nextUnit = Unit.getByName(units[i])
       if nextUnit:getID() == targetUnit:getID() == false then
-        if mint.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
+        if autogft.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
           if contains(addedVehiclesNames, nextUnit:getName()) == false then
             addUnit(nextUnit)
             vehiclesWithinRecurse(nextUnit)
@@ -474,7 +474,7 @@ function mint.getFriendlyVehiclesWithin(unit, radius)
     y = minPos.z + dz / 2
   }
 
-  local result = mint.UnitCluster:new()
+  local result = autogft.UnitCluster:new()
   result.unitNames = addedVehiclesNames
   result.midPoint = midPoint
   return result
@@ -484,23 +484,23 @@ end
 ---
 --Prints out a message to a group, describing nearest enemy vehicles
 -- @param DCSGroup#Group group
-function mint.informOfClosestEnemyVehicles(group)
+function autogft.informOfClosestEnemyVehicles(group)
 
   local firstGroupUnit = group:getUnit(1)
-  local closestEnemy = mint.getClosestEnemyVehicle(firstGroupUnit:getName())
+  local closestEnemy = autogft.getClosestEnemyVehicle(firstGroupUnit:getName())
   local groupUnitPos = {
     x = firstGroupUnit:getPosition().p.x,
     y = 0,
     z = firstGroupUnit:getPosition().p.z
   }
 
-  local enemyCluster = mint.getFriendlyVehiclesWithin(closestEnemy, mint.MAX_CLUSTER_DISTANCE)
+  local enemyCluster = autogft.getFriendlyVehiclesWithin(closestEnemy, autogft.MAX_CLUSTER_DISTANCE)
   local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
   local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
   local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
-  --  local cardinalDir = mint.radToCardinalDir(dirRad)
-  local distance = mint.getDistanceBetween(midPoint, groupUnitPos)
+  --  local cardinalDir = autogft.radToCardinalDir(dirRad)
+  local distance = autogft.getDistanceBetween(midPoint, groupUnitPos)
   local distanceKM = math.floor(distance / 1000 + 0.5)
 
   local vehicleTypes = {}
@@ -526,7 +526,7 @@ function mint.informOfClosestEnemyVehicles(group)
 
 end
 
-function mint.enableIOCEV()
+function autogft.enableIOCEV()
 
   local enabledGroupCommands = {}
 
@@ -560,9 +560,9 @@ function mint.enableIOCEV()
       local group = groups[i]
       if not groupHasCommandEnabled(group:getID()) then
         local function triggerCommand()
-          mint.informOfClosestEnemyVehicles(group)
+          autogft.informOfClosestEnemyVehicles(group)
         end
-        local groupCommand = mint.GroupCommand:new(mint.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
+        local groupCommand = autogft.GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
         groupCommand:enable()
         enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
       end
@@ -583,13 +583,13 @@ end
 ---
 -- Deep copy a table
 --Code from https://gist.github.com/MihailJP/3931841
-function mint.deepCopy(t)
+function autogft.deepCopy(t)
   if type(t) ~= "table" then return t end
   local meta = getmetatable(t)
   local target = {}
   for k, v in pairs(t) do
     if type(v) == "table" then
-      target[k] = mint.deepCopy(v)
+      target[k] = autogft.deepCopy(v)
     else
       target[k] = v
     end
@@ -601,7 +601,7 @@ end
 ---
 -- @param #string str
 -- @param #number time
-function mint.printIngame(str, time)
+function autogft.printIngame(str, time)
   if (time == nil) then
     time = 1
   end
@@ -609,13 +609,13 @@ function mint.printIngame(str, time)
 end
 
 ---
-function mint.debug(variable)
-  mint.printIngame(mint.toString(variable))
+function autogft.debug(variable)
+  autogft.printIngame(autogft.toString(variable))
 end
 
 ---
 -- Returns a string representation of an object
-function mint.toString(obj)
+function autogft.toString(obj)
 
   local indent = "    "
   local function toStringRecursively(obj, level)
@@ -682,13 +682,13 @@ end
 
 -- Constant declarations
 
-mint.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
-mint.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
-mint.MAX_CLUSTER_DISTANCE = 1000
-mint.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
-mint.DEFAULT_AUTO_ISSUE_DELAY = 600
-mint.DEFAULT_AUTO_REINFORCE_DELAY = 1800
+autogft.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
+autogft.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+autogft.MAX_CLUSTER_DISTANCE = 1000
+autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+autogft.DEFAULT_AUTO_ISSUE_DELAY = 600
+autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
 
 -- Counters
-mint.lastCreatedUnitId = 0
-mint.lastCreatedGroupId = 0
+autogft.lastCreatedUnitId = 0
+autogft.lastCreatedGroupId = 0
