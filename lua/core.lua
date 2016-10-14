@@ -226,7 +226,7 @@ end
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function autogft.TaskForce:enableAutoIssue(timeIntervalSec)
+function autogft.TaskForce:enableMoveTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:issueToTarget()
@@ -241,7 +241,7 @@ end
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function autogft.TaskForce:enableAutoReinforce(timeIntervalSec)
+function autogft.TaskForce:enableRespawnTimer(timeIntervalSec)
   local function reinforce()
     self:reinforce()
     timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
@@ -252,9 +252,9 @@ end
 
 ---
 -- @param #autogft.TaskForce self
-function autogft.TaskForce:enableDefault()
-  self:enableAutoIssue(autogft.DEFAULT_AUTO_ISSUE_DELAY)
-  self:enableAutoReinforce(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
+function autogft.TaskForce:enableDefaultTimers()
+  self:enableMoveTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
+  self:enableRespawnTimer(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
 end
 
 ---
