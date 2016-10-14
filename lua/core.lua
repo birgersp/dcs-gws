@@ -81,7 +81,7 @@ function mint.TaskForce:new(country, spawnZones, controlZones)
   self.spawnZones = spawnZones
   self.unitSpecs = {}
   self.controlZones = {}
-  for i=1, #controlZones do
+  for i = 1, #controlZones do
     local controlZone = controlZones[i]
     self.controlZones[#self.controlZones + 1] = mint.ControlZone:new(controlZone)
   end
@@ -94,16 +94,16 @@ end
 -- @param #number count
 -- @param #string type
 function mint.TaskForce:addUnitSpec(count, type)
-  self.unitSpecs[#self.unitSpecs+1] = mint.UnitSpec:new(count, type)
+  self.unitSpecs[#self.unitSpecs + 1] = mint.UnitSpec:new(count, type)
 end
 
 ---
 -- @param #mint.TaskForce self
 function mint.TaskForce:cleanGroups()
   local newGroups = {}
-  for i=1, #self.groups do
+  for i = 1, #self.groups do
     local group = self.groups[i]
-    if #group:getUnits() > 0 then newGroups[#newGroups+1] = group end
+    if #group:getUnits() > 0 then newGroups[#newGroups + 1] = group end
   end
   self.groups = newGroups
 end
@@ -114,7 +114,7 @@ function mint.TaskForce:reinforce()
   local spawnedUnitCount = 0
   self:cleanGroups()
   local desiredUnits = {}
-  for i=1, #self.unitSpecs do
+  for i = 1, #self.unitSpecs do
     local unitSpec = self.unitSpecs[i]
     if desiredUnits[unitSpec.type] == nil then
       desiredUnits[unitSpec.type] = 0
@@ -122,8 +122,8 @@ function mint.TaskForce:reinforce()
 
     desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
     local replacements = desiredUnits[unitSpec.type]
-    for groupIndex=1, #self.groups do
-      replacements = replacements - mint.countUnitsOfType(self.groups[groupIndex]:getUnits(),unitSpec.type)
+    for groupIndex = 1, #self.groups do
+      replacements = replacements - mint.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
     end
 
     if replacements > 0 then
@@ -137,8 +137,8 @@ function mint.TaskForce:reinforce()
           {
             ["randomTransportable"] = false,
           },
-          ["x"] = spawnZone.point.x + 15*spawnedUnitCount,
-          ["y"] = spawnZone.point.z - 15*spawnedUnitCount,
+          ["x"] = spawnZone.point.x + 15 * spawnedUnitCount,
+          ["y"] = spawnZone.point.z - 15 * spawnedUnitCount,
           ["name"] = "Unit no " .. mint.lastCreatedUnitId,
           ["unitId"] = mint.lastCreatedUnitId,
           ["skill"] = "High",
@@ -159,7 +159,7 @@ function mint.TaskForce:reinforce()
 
       coalition.addGroup(self.country, Group.Category.GROUND, groupData)
       mint.lastCreatedGroupId = mint.lastCreatedGroupId + 1
-      self.groups[#self.groups+1] = Group.getByName(groupName)
+      self.groups[#self.groups + 1] = Group.getByName(groupName)
       if self.target ~= nil then
         mint.issueGroupTo(groupName, self.target)
       end
@@ -211,7 +211,7 @@ end
 -- @param #string zone
 function mint.TaskForce:issueTo(zone)
   self:cleanGroups()
-  for i=1, #self.groups do
+  for i = 1, #self.groups do
     mint.issueGroupTo(self.groups[i]:getName(), self.target)
   end
 end
@@ -230,11 +230,11 @@ function mint.TaskForce:enableAutoIssue(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:issueToTarget()
-    timer.scheduleFunction(autoIssue,{},timer.getTime()+timeIntervalSec)
+    timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
   end
 
   -- Give it a couple of seconds before initial advance
-  timer.scheduleFunction(autoIssue,{},timer.getTime()+2)
+  timer.scheduleFunction(autoIssue, {}, timer.getTime() + 2)
 end
 
 ---
@@ -244,7 +244,7 @@ end
 function mint.TaskForce:enableAutoReinforce(timeIntervalSec)
   local function reinforce()
     self:reinforce()
-    timer.scheduleFunction(reinforce,{},timer.getTime()+timeIntervalSec)
+    timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
   end
 
   reinforce()
@@ -338,11 +338,11 @@ end
 -- @param #string type
 -- @return #number
 function mint.countUnitsOfType(units, type)
-  local count=0
+  local count = 0
   local unit
-  for i=1, #units do
+  for i = 1, #units do
     if units[i]:getTypeName() == type then
-      count = count+1
+      count = count + 1
     end
   end
   return count
@@ -356,7 +356,7 @@ function mint.getDistanceBetween(a, b)
   local dx = a.x - b.x
   local dy = a.y - b.y
   local dz = a.z - b.z
-  return math.sqrt(dx*dx + dy*dy + dz*dz)
+  return math.sqrt(dx * dx + dy * dy + dz * dz)
 end
 
 ---
@@ -379,7 +379,7 @@ function mint.getClosestEnemyVehicle(unitName)
     local closestEnemyDistance = mint.getDistanceBetween(unitPosition, enemyUnitPosition)
     local newClosestEnemy = {}
     local newClosestEnemyDistance = 0
-    for i=2, #enemyVehicles do
+    for i = 2, #enemyVehicles do
       newClosestEnemy = Unit.getByName(enemyVehicles[i])
       newClosestEnemyDistance = mint.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
       if (newClosestEnemyDistance < closestEnemyDistance) then
@@ -399,7 +399,7 @@ function mint.radToCardinalDir(rad)
   local i = 1
   if dirNormalized < (#mint.CARDINAL_DIRECTIONS-1) / #mint.CARDINAL_DIRECTIONS then
     while dirNormalized > i/#mint.CARDINAL_DIRECTIONS/2 do
-      i = i+2
+      i = i + 2
     end
   end
   local index = math.floor(i/2) + 1
@@ -429,7 +429,7 @@ function mint.getFriendlyVehiclesWithin(unit, radius)
   -- @param #list list
   -- @param value
   local function contains(list, value)
-    for i=1, #list do
+    for i = 1, #list do
       if list[i] == value then
         return true
       end
@@ -445,16 +445,16 @@ function mint.getFriendlyVehiclesWithin(unit, radius)
     if pos.z < minPos.z then minPos.z = pos.z end
     if pos.x > maxPos.x then maxPos.x = pos.x end
     if pos.z > maxPos.z then maxPos.z = pos.z end
-    addedVehiclesNames[#addedVehiclesNames+1] = unit:getName()
+    addedVehiclesNames[#addedVehiclesNames + 1] = unit:getName()
   end
 
   ---
   -- @param DCSUnit#Unit unit
   local function vehiclesWithinRecurse(targetUnit)
-    for i=1, #units do
+    for i = 1, #units do
       local nextUnit = Unit.getByName(units[i])
       if nextUnit:getID() == targetUnit:getID() == false then
-        if mint.getDistanceBetween(targetUnit:getPosition().p,nextUnit:getPosition().p) <= radius then
+        if mint.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
           if contains(addedVehiclesNames, nextUnit:getName()) == false then
             addUnit(nextUnit)
             vehiclesWithinRecurse(nextUnit)
@@ -494,7 +494,7 @@ function mint.informOfClosestEnemyVehicles(group)
     z = firstGroupUnit:getPosition().p.z
   }
 
-  local enemyCluster = mint.getFriendlyVehiclesWithin(closestEnemy,mint.MAX_CLUSTER_DISTANCE)
+  local enemyCluster = mint.getFriendlyVehiclesWithin(closestEnemy, mint.MAX_CLUSTER_DISTANCE)
   local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
   local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
@@ -504,7 +504,7 @@ function mint.informOfClosestEnemyVehicles(group)
   local distanceKM = math.floor(distance / 1000 + 0.5)
 
   local vehicleTypes = {}
-  for i=1, #enemyCluster.unitNames do
+  for i = 1, #enemyCluster.unitNames do
     local type = Unit.getByName(enemyCluster.unitNames[i]):getTypeName()
     if vehicleTypes[type] == nil then
       vehicleTypes[type] = 0
@@ -514,7 +514,7 @@ function mint.informOfClosestEnemyVehicles(group)
   end
 
   local text = ""
-  for key,val in pairs(vehicleTypes) do
+  for key, val in pairs(vehicleTypes) do
     if (text ~= "") then
       text = text..", "
     end
@@ -532,11 +532,11 @@ function mint.enableIOCEV()
 
   local function cleanEnabledGroupCommands()
     local newEnabledGroupCommands = {}
-    for i=1, #enabledGroupCommands do
+    for i = 1, #enabledGroupCommands do
       if not Group.getByName(enabledGroupCommands[i].groupName) then
         enabledGroupCommands[i]:disable()
       else
-        newEnabledGroupCommands[#newEnabledGroupCommands+1] = enabledGroupCommands[i]
+        newEnabledGroupCommands[#newEnabledGroupCommands + 1] = enabledGroupCommands[i]
       end
     end
     enabledGroupCommands = newEnabledGroupCommands
@@ -545,7 +545,7 @@ function mint.enableIOCEV()
   ---
   -- @param #number groupId
   local function groupHasCommandEnabled(groupId)
-    for i=1, #enabledGroupCommands do
+    for i = 1, #enabledGroupCommands do
       if enabledGroupCommands[i].groupId == groupId then
         return true
       end
@@ -556,15 +556,15 @@ function mint.enableIOCEV()
   ---
   -- @param #list<DCSGroup#Group> groups
   local function enableForGroups(groups)
-    for i=1, #groups do
+    for i = 1, #groups do
       local group = groups[i]
       if not groupHasCommandEnabled(group:getID()) then
         local function triggerCommand()
           mint.informOfClosestEnemyVehicles(group)
         end
-        local groupCommand = mint.GroupCommand:new(mint.IOCEV_COMMAND_TEXT,group:getName(),triggerCommand)
+        local groupCommand = mint.GroupCommand:new(mint.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
         groupCommand:enable()
-        enabledGroupCommands[#enabledGroupCommands+1] = groupCommand
+        enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
       end
     end
   end
