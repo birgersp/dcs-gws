@@ -1,5 +1,5 @@
-# DCS World Mission Intel (MInt)
-DCS World Utility
+# Autonomous Ground Force Tasking
+Utility script for DCS World mission making
 
 ## Current features
 
