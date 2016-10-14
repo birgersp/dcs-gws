@@ -4,9 +4,7 @@ taskForce1:enableDefaultTimers()
 
 local taskForce2 = autogft.TaskForce:new(country.id.RUSSIA, {"spawn2"}, {"task2", "task1"})
 taskForce2:addUnitSpec(4, unitType.vehicle.tank.T90)
-taskForce2:addUnitSpec(3, unitType.vehicle.ifv.T90)
-taskForce2:addUnitSpec(3, unitType.vehicle.ifv.T90)
 taskForce2:enableMoveTimer(120)
-taskForce2:enableRespawnTimer(300)
+taskForce2:enableRespawnTimer(300) 
 
 autogft.enableIOCEV()
