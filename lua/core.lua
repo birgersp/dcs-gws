@@ -43,7 +43,7 @@ end
 ---
 -- @type autogft.ControlZone
 -- @field #string name
--- @field #number coalition
+-- @field #number status
 autogft.ControlZone = {}
 autogft.ControlZone.__index = autogft.ControlZone
 
@@ -54,7 +54,7 @@ autogft.ControlZone.__index = autogft.ControlZone
 function autogft.ControlZone:new(name)
   self = setmetatable({}, autogft.ControlZone)
   self.name = name
-  self.coalition = coalition.side.NEUTRAL
+  self.status = coalition.side.NEUTRAL
   return self
 end
 
@@ -90,6 +90,7 @@ function autogft.TaskForce:new(country, spawnZones, controlZones)
     self.controlZones[#self.controlZones + 1] = autogft.ControlZone:new(controlZone)
   end
   self.groups = {}
+  self.target = controlZones[1]
   return self
 end
 
@@ -237,8 +238,7 @@ function autogft.TaskForce:enableMoveTimer(timeIntervalSec)
     timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
   end
 
-  -- Give it a couple of seconds before initial advance
-  timer.scheduleFunction(autoIssue, {}, timer.getTime() + 2)
+  timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
 end
 
 ---
@@ -251,7 +251,7 @@ function autogft.TaskForce:enableRespawnTimer(timeIntervalSec)
     timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
   end
 
-  reinforce()
+  timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
 end
 
 ---
