@@ -3,7 +3,7 @@
 set output_dir=build
 set sources=lua\core.lua unit-types\unittypes.lua
 set sources_standalone=%sources% mist\mist_4_3_74.lua
-set include=example\example.lua
+set include=example\example.lua unit-types\unittypes.lua
 set build=%output_dir%\autogft.lua
 set build_standalone=%output_dir%\autogft-standalone.lua
 
@@ -11,9 +11,9 @@ set comment_prefix=--
 
 echo Time is %time%
 if not exist %output_dir% md %output_dir%
-set input=%sources%
-set output=%build%
-call:make
+rem set input=%sources%
+rem set output=%build%
+rem call:make
 set input=%sources_standalone%
 set output=%build_standalone%
 call:make
