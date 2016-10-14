@@ -223,7 +223,7 @@ end
 
 ---
 -- @param #autogft.TaskForce self
-function autogft.TaskForce:issueToTarget()
+function autogft.TaskForce:moveToTarget()
   self:issueTo(self.target)
 end
 
@@ -234,7 +234,7 @@ end
 function autogft.TaskForce:enableMoveTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
-    self:issueToTarget()
+    self:moveToTarget()
     timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
   end
 

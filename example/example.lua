@@ -45,7 +45,7 @@ taskForce2:enableRespawnTimer(300)
 local taskForce3 = autogft.TaskForce:new(country.id.RUSSIA, {"task2"}, {"task2"})
 taskForce3:addUnitSpec(4, unitType.vehicle.ifv.BRDM2)
 taskForce3:reinforce()
-taskForce3:issueToTarget()
+taskForce3:moveToTarget()
 
 
 -- Enable F10 option for players to get intel (heading and distance) on closest enemy vehicles 
