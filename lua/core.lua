@@ -244,14 +244,25 @@ end
 ---
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
+-- @param #number maxReinforcementTime (optional)
 -- @return #number
-function autogft.TaskForce:enableRespawnTimer(timeIntervalSec)
+function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementTime)
+  local keepReinforcing = true
   local function reinforce()
-    self:reinforce()
-    timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
+    if keepReinforcing then
+      self:reinforce()
+      timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
+    end
   end
 
   timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
+
+  if maxReinforcementTime ~= nil and maxReinforcementTime > 0 then
+    local function killTimer()
+      keepReinforcing = false
+    end
+    timer.scheduleFunction(killTimer, {}, timer.getTime() + maxReinforcementTime)
+  end
 end
 
 ---
