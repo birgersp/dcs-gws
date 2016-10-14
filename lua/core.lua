@@ -63,6 +63,8 @@ end
 -- @field #number country
 -- @field #list<#string> spawnZones
 -- @field #list<#autogft.ControlZone> controlZones
+-- @field #number speed
+-- @field #string formation
 -- @field #list<#autogft.UnitSpec> unitSpecs
 -- @field #list<DCSGroup#Group> groups
 -- @field #string target
@@ -81,6 +83,8 @@ function autogft.TaskForce:new(country, spawnZones, controlZones)
   self.spawnZones = spawnZones
   self.unitSpecs = {}
   self.controlZones = {}
+  self.speed = 100
+  self.formation = "cone"
   for i = 1, #controlZones do
     local controlZone = controlZones[i]
     self.controlZones[#self.controlZones + 1] = autogft.ControlZone:new(controlZone)
@@ -212,7 +216,7 @@ end
 function autogft.TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
-    autogft.issueGroupTo(self.groups[i]:getName(), self.target)
+    autogft.issueGroupTo(self.groups[i]:getName(), self.target, self.speed, self.formation)
   end
 end
 
@@ -317,7 +321,7 @@ end
 ---
 -- @param #string groupName
 -- @param #string zoneName
-function autogft.issueGroupTo(groupName, zoneName)
+function autogft.issueGroupTo(groupName, zoneName, speed, formation)
   local destinationZone = trigger.misc.getZone(zoneName)
   local destinationZonePos2 = {
     x = destinationZone.point.x,
@@ -327,7 +331,8 @@ function autogft.issueGroupTo(groupName, zoneName)
     group = Group.getByName(groupName),
     point = destinationZonePos2,
     radius = destinationZone.radius,
-    speed = 100,
+    speed = speed,
+    formation = formation,
     disableRoads = true
   }
   mist.groupToRandomPoint(randomPointVars)

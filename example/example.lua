@@ -1,4 +1,5 @@
 local taskForce1 = autogft.TaskForce:new(country.id.USA, {"spawn1"}, {"task1", "task2"})
+taskForce1.speed = 10
 taskForce1:addUnitSpec(3, unitType.vehicle.tank.M1_Abrams)
 taskForce1:enableDefaultTimers()
 
