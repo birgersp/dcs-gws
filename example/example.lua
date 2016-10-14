@@ -19,8 +19,13 @@ taskForce1:reinforce()
 taskForce1:enableMoveTimer(120)
 
 
+
 -- Create a Russian task force
 local taskForce2 = autogft.TaskForce:new(country.id.RUSSIA, {"spawn2"}, {"task3", "task2", "task1"})
+
+-- Make task force go straight to second task by setting first control zone to red
+-- (Control zone statuses are not shared across task forces)
+taskForce2.controlZones[1].status = coalition.side.RED
 
 -- Add 4 T-90's to it
 taskForce2:addUnitSpec(4, unitType.vehicle.tank.T90)
@@ -34,6 +39,13 @@ taskForce2:enableMoveTimer(120)
 -- Enable automatic respawning, reinforcing the task force every 300 seconds
 taskForce2:enableRespawnTimer(300)
 
+
+ 
+-- Create another russian task force, spawning in and defending task 2
+local taskForce3 = autogft.TaskForce:new(country.id.RUSSIA, {"task2"}, {"task2"})
+taskForce3:addUnitSpec(4, unitType.vehicle.ifv.BRDM2)
+taskForce3:reinforce()
+taskForce3:issueToTarget()
 
 
 -- Enable F10 option for players to get intel (heading and distance) on closest enemy vehicles 
