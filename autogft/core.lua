@@ -115,7 +115,7 @@ end
 
 ---
 -- @param #autogft.TaskForce self
-function autogft.TaskForce:reinforce()
+function autogft.TaskForce:respawn()
   local spawnedUnitCount = 0
   self:cleanGroups()
   local desiredUnits = {}
@@ -248,14 +248,14 @@ end
 -- @return #number
 function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementTime)
   local keepReinforcing = true
-  local function reinforce()
+  local function respawn()
     if keepReinforcing then
-      self:reinforce()
-      timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
+      self:respawn()
+      timer.scheduleFunction(respawn, {}, timer.getTime() + timeIntervalSec)
     end
   end
 
-  timer.scheduleFunction(reinforce, {}, timer.getTime() + timeIntervalSec)
+  timer.scheduleFunction(respawn, {}, timer.getTime() + timeIntervalSec)
 
   if maxReinforcementTime ~= nil and maxReinforcementTime > 0 then
     local function killTimer()
