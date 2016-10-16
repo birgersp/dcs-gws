@@ -23,6 +23,8 @@ for %%a in (%include%) do (
 	copy %%a %output_dir%
 )
 
+copy README.md build\README.txt
+
 goto:eof
 
 :make
