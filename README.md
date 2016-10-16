@@ -16,10 +16,13 @@ This feature is meant to provide mission makers with an easy way to create dynam
 Gives each player (client) in the mission the ability to get direction and distance to enemy ground units. Ideal when players want a simple way to find enemy ground targets for A/G practice.
 
 ## How to use
-(Note: The demo video will show how steps 2-5 are performed)
+(Tip: The demo video will show how steps 2-5 are performed)
 
 1. Download and unpack [the latest release zip](https://github.com/birgersp/dcs-autogft/releases)
 2. (For the ground force tasking system) Add some trigger zones to your DCS World mission
 3. Make a script (a .lua file) for your mission, use the example provided to get started
 4. In your mission, create a mission start trigger
-5. Add two "do script file" actions to the trigger, one to load the autogft standalone (first) and another to load your mission script
+5. Add two "DO SCRIPT FILE" actions to the trigger, one to load the autogft standalone (first) and another to load your mission script
+6. If you want to change your mission script later, you need to reload it into your mission by clicking "open" in the do script file action and select it again
+
+Use the `unit-types.txt` to view a list of available unit types
