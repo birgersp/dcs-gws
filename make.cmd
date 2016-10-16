@@ -1,9 +1,9 @@
 @echo off
 
 set output_dir=build
-set sources=autogft\core.lua unit-types\unittypes.lua
+set sources=autogft\core.lua unit-types\unit-types.lua
 set sources_standalone=%sources% mist\mist_4_3_74.lua
-set include=example\example.lua unit-types\unittypes.lua
+set include=example\example.lua unit-types\unit-types.txt
 set build=%output_dir%\autogft.lua
 set build_standalone=%output_dir%\autogft-standalone.lua
 
