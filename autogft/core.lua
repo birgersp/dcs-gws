@@ -78,8 +78,14 @@ autogft.TaskForce.__index = autogft.TaskForce
 -- @param #list<#string> controlZones
 -- @return #autogft.TaskForce
 function autogft.TaskForce:new(country, spawnZones, controlZones)
+
+  local function verifyZoneExists(name)
+    assert(trigger.misc.getZone(name) ~= nil, "Zone \""..name.."\" does not exist in this mission.")
+  end
+
   self = setmetatable({}, autogft.TaskForce)
   self.country = country
+  for k,v in pairs(spawnZones) do verifyZoneExists(v) end
   self.spawnZones = spawnZones
   self.unitSpecs = {}
   self.controlZones = {}
@@ -87,6 +93,7 @@ function autogft.TaskForce:new(country, spawnZones, controlZones)
   self.formation = "cone"
   for i = 1, #controlZones do
     local controlZone = controlZones[i]
+    verifyZoneExists(controlZone)
     self.controlZones[#self.controlZones + 1] = autogft.ControlZone:new(controlZone)
   end
   self.groups = {}
@@ -231,7 +238,7 @@ end
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
 -- @return #number
-function autogft.TaskForce:enableMoveTimer(timeIntervalSec)
+function autogft.TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:moveToTarget()
@@ -268,7 +275,7 @@ end
 ---
 -- @param #autogft.TaskForce self
 function autogft.TaskForce:enableDefaultTimers()
-  self:enableMoveTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
+  self:enableObjectiveUpdateTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
   self:enableRespawnTimer(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
 end
 
