@@ -2,6 +2,23 @@
 
 autogft = {}
 
+-- Constants
+
+autogft.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+autogft.MAX_CLUSTER_DISTANCE = 1000
+autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+autogft.DEFAULT_AUTO_ISSUE_DELAY = 600
+autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
+
+-- Counters
+
+autogft.lastCreatedUnitId = 0
+autogft.lastCreatedGroupId = 0
+
+-- Misc
+
+autogft.debugMode = false
+
 -- Type definitions
 
 ---
@@ -105,12 +122,15 @@ end
 -- @param #autogft.TaskForce self
 -- @param #number count
 -- @param #string type
+-- @return #autogft.TaskForce
 function autogft.TaskForce:addUnitSpec(count, type)
   self.unitSpecs[#self.unitSpecs + 1] = autogft.UnitSpec:new(count, type)
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:cleanGroups()
   local newGroups = {}
   for i = 1, #self.groups do
@@ -118,10 +138,12 @@ function autogft.TaskForce:cleanGroups()
     if #group:getUnits() > 0 then newGroups[#newGroups + 1] = group end
   end
   self.groups = newGroups
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:respawn()
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -177,10 +199,12 @@ function autogft.TaskForce:respawn()
       end
     end
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:updateTarget()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
@@ -216,67 +240,75 @@ function autogft.TaskForce:updateTarget()
   if self.target == nil then
     self.target = self.controlZones[#self.controlZones].name
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
 -- @param #string zone
+-- @return #autogft.TaskForce
 function autogft.TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
     autogft.issueGroupTo(self.groups[i]:getName(), self.target, self.speed, self.formation)
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:moveToTarget()
   self:issueTo(self.target)
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
--- @return #number
+-- @return #autogft.TaskForce
 function autogft.TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:moveToTarget()
-    timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
+    autogft.scheduleFunction(autoIssue, timeIntervalSec)
   end
-
-  timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
+  autogft.scheduleFunction(autoIssue, timeIntervalSec)
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
 -- @param #number maxReinforcementTime (optional)
--- @return #number
+-- @return #autogft.TaskForce
 function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementTime)
   local keepReinforcing = true
   local function respawn()
     if keepReinforcing then
       self:respawn()
-      timer.scheduleFunction(respawn, {}, timer.getTime() + timeIntervalSec)
+      autogft.scheduleFunction(respawn, timeIntervalSec)
     end
   end
 
-  timer.scheduleFunction(respawn, {}, timer.getTime() + timeIntervalSec)
+  autogft.scheduleFunction(respawn, timeIntervalSec)
 
   if maxReinforcementTime ~= nil and maxReinforcementTime > 0 then
     local function killTimer()
       keepReinforcing = false
     end
-    timer.scheduleFunction(killTimer, {}, timer.getTime() + maxReinforcementTime)
+    autogft.scheduleFunction(killTimer, maxReinforcementTime)
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:enableDefaultTimers()
   self:enableObjectiveUpdateTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
   self:enableRespawnTimer(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
+  return self
 end
 
 ---
@@ -310,7 +342,7 @@ end
 function autogft.GroupCommand:enable()
   self.enabled = true
 
-  local flagName = autogft.GROUP_COMMAND_FLAG_NAME..self.groupId
+  local flagName = "groupCommandFlag"..self.groupId
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(self.groupId, self.commandName, flagName, 1)
 
@@ -320,7 +352,8 @@ function autogft.GroupCommand:enable()
         trigger.action.setUserFlag(flagName, 0)
         self.func()
       end
-      timer.scheduleFunction(checkTrigger, {}, timer.getTime() + 1)
+      autogft.scheduleFunction(checkTrigger, 1)
+    else
     end
   end
   checkTrigger()
@@ -389,7 +422,6 @@ function autogft.getClosestEnemyVehicle(unitName)
 
   local unit = Unit.getByName(unitName)
   local unitPosition = unit:getPosition().p
-  local enemyUnitPosition = {}
   local enemyCoalitionString = "[red]"
   if unit:getCoalition() == 1 then
     enemyCoalitionString = "[blue]"
@@ -397,16 +429,22 @@ function autogft.getClosestEnemyVehicle(unitName)
   local unitTableStr = enemyCoalitionString .. '[vehicle]'
   local enemyVehicles = mist.makeUnitTable({ unitTableStr })
   if #enemyVehicles > 0 then
-    local closestEnemy = Unit.getByName(enemyVehicles[1])
-    enemyUnitPosition = closestEnemy:getPosition().p
-    local closestEnemyDistance = autogft.getDistanceBetween(unitPosition, enemyUnitPosition)
+    local closestEnemy
+    local closestEnemyDistance
     local newClosestEnemy = {}
     local newClosestEnemyDistance = 0
-    for i = 2, #enemyVehicles do
+    for i = 1, #enemyVehicles do
       newClosestEnemy = Unit.getByName(enemyVehicles[i])
-      newClosestEnemyDistance = autogft.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
-      if (newClosestEnemyDistance < closestEnemyDistance) then
-        closestEnemy = newClosestEnemy
+      if newClosestEnemy ~= nil then
+        if closestEnemy == nil then
+          closestEnemy = newClosestEnemy
+          closestEnemyDistance = autogft.getDistanceBetween(unitPosition, closestEnemy:getPosition().p)
+        else
+          newClosestEnemyDistance = autogft.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
+          if (newClosestEnemyDistance < closestEnemyDistance) then
+            closestEnemy = newClosestEnemy
+          end
+        end
       end
     end
     return closestEnemy
@@ -430,7 +468,7 @@ function autogft.radToCardinalDir(rad)
 end
 
 ---
---This function might be computationally expensive
+-- This function might be computationally expensive
 -- @param DCSUnit#Unit unit
 -- @param #number radius
 -- @return #autogft.UnitCluster
@@ -476,11 +514,13 @@ function autogft.getFriendlyVehiclesWithin(unit, radius)
   local function vehiclesWithinRecurse(targetUnit)
     for i = 1, #units do
       local nextUnit = Unit.getByName(units[i])
-      if nextUnit:getID() == targetUnit:getID() == false then
-        if autogft.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
-          if contains(addedVehiclesNames, nextUnit:getName()) == false then
-            addUnit(nextUnit)
-            vehiclesWithinRecurse(nextUnit)
+      if nextUnit then
+        if nextUnit:getID() == targetUnit:getID() == false then
+          if autogft.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
+            if contains(addedVehiclesNames, nextUnit:getName()) == false then
+              addUnit(nextUnit)
+              vehiclesWithinRecurse(nextUnit)
+            end
           end
         end
       end
@@ -511,41 +551,45 @@ function autogft.informOfClosestEnemyVehicles(group)
 
   local firstGroupUnit = group:getUnit(1)
   local closestEnemy = autogft.getClosestEnemyVehicle(firstGroupUnit:getName())
-  local groupUnitPos = {
-    x = firstGroupUnit:getPosition().p.x,
-    y = 0,
-    z = firstGroupUnit:getPosition().p.z
-  }
+  if closestEnemy == nil then
+    trigger.action.outTextForGroup(group:getID(), "No enemy vehicles", 30)
+  else
+    local groupUnitPos = {
+      x = firstGroupUnit:getPosition().p.x,
+      y = 0,
+      z = firstGroupUnit:getPosition().p.z
+    }
 
-  local enemyCluster = autogft.getFriendlyVehiclesWithin(closestEnemy, autogft.MAX_CLUSTER_DISTANCE)
-  local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
+    local enemyCluster = autogft.getFriendlyVehiclesWithin(closestEnemy, autogft.MAX_CLUSTER_DISTANCE)
+    local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
-  local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
-  local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
-  --  local cardinalDir = autogft.radToCardinalDir(dirRad)
-  local distance = autogft.getDistanceBetween(midPoint, groupUnitPos)
-  local distanceKM = math.floor(distance / 1000 + 0.5)
+    local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
+    local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
+    --  local cardinalDir = autogft.radToCardinalDir(dirRad)
+    local distance = autogft.getDistanceBetween(midPoint, groupUnitPos)
+    local distanceKM = math.floor(distance / 1000 + 0.5)
 
-  local vehicleTypes = {}
-  for i = 1, #enemyCluster.unitNames do
-    local type = Unit.getByName(enemyCluster.unitNames[i]):getTypeName()
-    if vehicleTypes[type] == nil then
-      vehicleTypes[type] = 0
+    local vehicleTypes = {}
+    for i = 1, #enemyCluster.unitNames do
+      local type = Unit.getByName(enemyCluster.unitNames[i]):getTypeName()
+      if vehicleTypes[type] == nil then
+        vehicleTypes[type] = 0
+      end
+
+      vehicleTypes[type] = vehicleTypes[type] + 1
     end
 
-    vehicleTypes[type] = vehicleTypes[type] + 1
-  end
-
-  local text = ""
-  for key, val in pairs(vehicleTypes) do
-    if (text ~= "") then
-      text = text..", "
+    local text = ""
+    for key, val in pairs(vehicleTypes) do
+      if (text ~= "") then
+        text = text..", "
+      end
+      text = text..val.." "..key
     end
-    text = text..val.." "..key
-  end
 
-  text = text .. " located " .. distanceKM .. "km at ~" .. dirDegree
-  trigger.action.outTextForGroup(group:getID(), text, 30)
+    text = text .. " located " .. distanceKM .. "km at ~" .. dirDegree
+    trigger.action.outTextForGroup(group:getID(), text, 30)
+  end
 
 end
 
@@ -577,17 +621,29 @@ function autogft.enableIOCEV()
   end
 
   ---
+  -- @param DCSGroup#Group group
+  local function groupHasPlayer(group)
+    local units = group:getUnits()
+    for i = 1, #units do
+      if units[i]:getPlayerName() ~= nil then return true end
+    end
+    return false
+  end
+
+  ---
   -- @param #list<DCSGroup#Group> groups
   local function enableForGroups(groups)
     for i = 1, #groups do
       local group = groups[i]
-      if not groupHasCommandEnabled(group:getID()) then
-        local function triggerCommand()
-          autogft.informOfClosestEnemyVehicles(group)
+      if groupHasPlayer(group) then
+        if not groupHasCommandEnabled(group:getID()) then
+          local function triggerCommand()
+            autogft.informOfClosestEnemyVehicles(group)
+          end
+          local groupCommand = autogft.GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
+          groupCommand:enable()
+          enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
         end
-        local groupCommand = autogft.GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
-        groupCommand:enable()
-        enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
       end
     end
   end
@@ -596,7 +652,7 @@ function autogft.enableIOCEV()
     cleanEnabledGroupCommands()
     enableForGroups(coalition.getGroups(coalition.side.RED))
     enableForGroups(coalition.getGroups(coalition.side.BLUE))
-    timer.scheduleFunction(reEnablingLoop, {}, timer.getTime() + 30)
+    autogft.scheduleFunction(reEnablingLoop, 30)
   end
 
   reEnablingLoop()
@@ -631,9 +687,10 @@ function autogft.printIngame(str, time)
   trigger.action.outText(str, time)
 end
 
----
-function autogft.debug(variable)
-  autogft.printIngame(autogft.toString(variable))
+function autogft.log(variable)
+  if autogft.debugMode then
+    autogft.printIngame(autogft.toString(variable))
+  end
 end
 
 ---
@@ -703,15 +760,10 @@ function autogft.toString(obj)
   return toStringRecursively(obj, 1)
 end
 
--- Constant declarations
-
-autogft.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
-autogft.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
-autogft.MAX_CLUSTER_DISTANCE = 1000
-autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
-autogft.DEFAULT_AUTO_ISSUE_DELAY = 600
-autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
-
--- Counters
-autogft.lastCreatedUnitId = 0
-autogft.lastCreatedGroupId = 0
+function autogft.scheduleFunction(func, time)
+  local function triggerFunction()
+    local success, message = pcall(func)
+    autogft.log("Error in scheduled function: "..message)
+  end
+  timer.scheduleFunction(triggerFunction, {}, timer.getTime() + time)
+end
