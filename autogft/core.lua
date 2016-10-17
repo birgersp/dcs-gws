@@ -310,7 +310,7 @@ end
 function autogft.GroupCommand:enable()
   self.enabled = true
 
-  local flagName = autogft.GROUP_COMMAND_FLAG_NAME..self.groupId
+  local flagName = "groupCommandFlag"..self.groupId
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(self.groupId, self.commandName, flagName, 1)
 
@@ -321,8 +321,11 @@ function autogft.GroupCommand:enable()
         self.func()
       end
       timer.scheduleFunction(checkTrigger, {}, timer.getTime() + 1)
+    else
+      autogft.log("Disabling check trigger \""..flagName.."\"")
     end
   end
+  autogft.log("Enabling check trigger \""..flagName.."\"")
   checkTrigger()
 end
 
@@ -577,17 +580,29 @@ function autogft.enableIOCEV()
   end
 
   ---
+  -- @param DCSGroup#Group group
+  local function groupHasPlayer(group)
+    local units = group:getUnits()
+    for i = 1, #units do
+      if units[i]:getPlayerName() ~= nil then return true end
+    end
+    return false
+  end
+
+  ---
   -- @param #list<DCSGroup#Group> groups
   local function enableForGroups(groups)
     for i = 1, #groups do
       local group = groups[i]
-      if not groupHasCommandEnabled(group:getID()) then
-        local function triggerCommand()
-          autogft.informOfClosestEnemyVehicles(group)
+      if groupHasPlayer(group) then
+        if not groupHasCommandEnabled(group:getID()) then
+          local function triggerCommand()
+            autogft.informOfClosestEnemyVehicles(group)
+          end
+          local groupCommand = autogft.GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
+          groupCommand:enable()
+          enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
         end
-        local groupCommand = autogft.GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
-        groupCommand:enable()
-        enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
       end
     end
   end
@@ -706,7 +721,6 @@ end
 
 -- Constant declarations
 
-autogft.GROUP_COMMAND_FLAG_NAME = "groupCommandTrigger"
 autogft.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 autogft.MAX_CLUSTER_DISTANCE = 1000
 autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
