@@ -631,9 +631,10 @@ function autogft.printIngame(str, time)
   trigger.action.outText(str, time)
 end
 
----
-function autogft.debug(variable)
-  autogft.printIngame(autogft.toString(variable))
+function autogft.log(variable)
+  if autogft.debugMode then
+    autogft.printIngame(autogft.toString(variable))
+  end
 end
 
 ---
@@ -715,3 +716,6 @@ autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
 -- Counters
 autogft.lastCreatedUnitId = 0
 autogft.lastCreatedGroupId = 0
+
+-- Misc
+autogft.debugMode = false
