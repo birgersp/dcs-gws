@@ -122,12 +122,15 @@ end
 -- @param #autogft.TaskForce self
 -- @param #number count
 -- @param #string type
+-- @return #autogft.TaskForce
 function autogft.TaskForce:addUnitSpec(count, type)
   self.unitSpecs[#self.unitSpecs + 1] = autogft.UnitSpec:new(count, type)
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:cleanGroups()
   local newGroups = {}
   for i = 1, #self.groups do
@@ -135,10 +138,12 @@ function autogft.TaskForce:cleanGroups()
     if #group:getUnits() > 0 then newGroups[#newGroups + 1] = group end
   end
   self.groups = newGroups
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:respawn()
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -194,10 +199,12 @@ function autogft.TaskForce:respawn()
       end
     end
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:updateTarget()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
@@ -233,43 +240,48 @@ function autogft.TaskForce:updateTarget()
   if self.target == nil then
     self.target = self.controlZones[#self.controlZones].name
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
 -- @param #string zone
+-- @return #autogft.TaskForce
 function autogft.TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
     autogft.issueGroupTo(self.groups[i]:getName(), self.target, self.speed, self.formation)
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:moveToTarget()
   self:issueTo(self.target)
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
--- @return #number
+-- @return #autogft.TaskForce
 function autogft.TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:moveToTarget()
     timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
-  end
-
+  end  
   timer.scheduleFunction(autoIssue, {}, timer.getTime() + timeIntervalSec)
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
 -- @param #number maxReinforcementTime (optional)
--- @return #number
+-- @return #autogft.TaskForce
 function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementTime)
   local keepReinforcing = true
   local function respawn()
@@ -287,13 +299,16 @@ function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementT
     end
     timer.scheduleFunction(killTimer, {}, timer.getTime() + maxReinforcementTime)
   end
+  return self
 end
 
 ---
 -- @param #autogft.TaskForce self
+-- @return #autogft.TaskForce
 function autogft.TaskForce:enableDefaultTimers()
   self:enableObjectiveUpdateTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
   self:enableRespawnTimer(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
+  return self
 end
 
 ---
