@@ -2,6 +2,23 @@
 
 autogft = {}
 
+-- Constants
+
+autogft.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+autogft.MAX_CLUSTER_DISTANCE = 1000
+autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+autogft.DEFAULT_AUTO_ISSUE_DELAY = 600
+autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
+
+-- Counters
+
+autogft.lastCreatedUnitId = 0
+autogft.lastCreatedGroupId = 0
+
+-- Misc
+
+autogft.debugMode = false
+
 -- Type definitions
 
 ---
@@ -718,18 +735,3 @@ function autogft.toString(obj)
 
   return toStringRecursively(obj, 1)
 end
-
--- Constant declarations
-
-autogft.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
-autogft.MAX_CLUSTER_DISTANCE = 1000
-autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
-autogft.DEFAULT_AUTO_ISSUE_DELAY = 600
-autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
-
--- Counters
-autogft.lastCreatedUnitId = 0
-autogft.lastCreatedGroupId = 0
-
--- Misc
-autogft.debugMode = false
