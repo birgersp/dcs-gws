@@ -763,7 +763,9 @@ end
 function autogft.scheduleFunction(func, time)
   local function triggerFunction()
     local success, message = pcall(func)
-    autogft.log("Error in scheduled function: "..message)
+    if not success then
+      env.error("Error in scheduled function: "..message, true)
+    end
   end
   timer.scheduleFunction(triggerFunction, {}, timer.getTime() + time)
 end
