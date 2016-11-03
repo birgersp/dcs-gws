@@ -78,7 +78,7 @@ end
 ---
 -- @type autogft.TaskForce
 -- @field #number country
--- @field #list<#string> spawnZones
+-- @field #list<#string> stagingZones
 -- @field #list<#autogft.ControlZone> controlZones
 -- @field #number speed
 -- @field #string formation
@@ -91,10 +91,10 @@ autogft.TaskForce.__index = autogft.TaskForce
 ---
 -- @param #autogft.TaskForce self
 -- @param #number country
--- @param #list<#string> spawnZones
+-- @param #list<#string> stagingZones
 -- @param #list<#string> controlZones
 -- @return #autogft.TaskForce
-function autogft.TaskForce:new(country, spawnZones, controlZones)
+function autogft.TaskForce:new(country, stagingZones, controlZones)
 
   local function verifyZoneExists(name)
     assert(trigger.misc.getZone(name) ~= nil, "Zone \""..name.."\" does not exist in this mission.")
@@ -102,8 +102,8 @@ function autogft.TaskForce:new(country, spawnZones, controlZones)
 
   self = setmetatable({}, autogft.TaskForce)
   self.country = country
-  for k,v in pairs(spawnZones) do verifyZoneExists(v) end
-  self.spawnZones = spawnZones
+  for k,v in pairs(stagingZones) do verifyZoneExists(v) end
+  self.stagingZones = stagingZones
   self.unitSpecs = {}
   self.controlZones = {}
   self.speed = 100
@@ -149,6 +149,7 @@ function autogft.TaskForce:respawn()
   self:cleanGroups()
   local desiredUnits = {}
   for i = 1, #self.unitSpecs do
+    -- Determine desired replacement units of this spec
     local unitSpec = self.unitSpecs[i]
     if desiredUnits[unitSpec.type] == nil then
       desiredUnits[unitSpec.type] = 0
@@ -159,11 +160,12 @@ function autogft.TaskForce:respawn()
     for groupIndex = 1, #self.groups do
       replacements = replacements - autogft.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
     end
-
+    
+    -- Spawn replacement units
     if replacements > 0 then
       local units = {}
-      local spawnZoneIndex = math.random(#self.spawnZones)
-      local spawnZone = trigger.misc.getZone(self.spawnZones[spawnZoneIndex])
+      local spawnZoneIndex = math.random(#self.stagingZones)
+      local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
       for i = 1, replacements do
         units[i] = {
           ["type"] = unitSpec.type,
@@ -190,9 +192,10 @@ function autogft.TaskForce:respawn()
         ["units"] = units,
         ["name"] = groupName
       }
-
       coalition.addGroup(self.country, Group.Category.GROUND, groupData)
       autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
+
+      -- Issue group to control zone
       self.groups[#self.groups + 1] = Group.getByName(groupName)
       if self.target ~= nil then
         autogft.issueGroupTo(groupName, self.target)
@@ -662,6 +665,27 @@ function autogft.enableIOCEV()
 end
 
 ---
+-- @param #string str
+-- @param #number time
+function autogft.printIngame(str, time)
+  if (time == nil) then
+    time = 1
+  end
+  trigger.action.outText(str, time)
+end
+
+---
+-- 
+function autogft.spawnUnits()
+end
+
+function autogft.log(variable)
+  if autogft.debugMode then
+    autogft.printIngame(autogft.toString(variable))
+  end
+end
+
+---
 -- Deep copy a table
 --Code from https://gist.github.com/MihailJP/3931841
 function autogft.deepCopy(t)
@@ -677,22 +701,6 @@ function autogft.deepCopy(t)
   end
   setmetatable(target, meta)
   return target
-end
-
----
--- @param #string str
--- @param #number time
-function autogft.printIngame(str, time)
-  if (time == nil) then
-    time = 1
-  end
-  trigger.action.outText(str, time)
-end
-
-function autogft.log(variable)
-  if autogft.debugMode then
-    autogft.printIngame(autogft.toString(variable))
-  end
 end
 
 ---
