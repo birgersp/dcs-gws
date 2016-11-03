@@ -143,8 +143,9 @@ end
 
 ---
 -- @param #autogft.TaskForce self
+-- @param #boolean spawn
 -- @return #autogft.TaskForce
-function autogft.TaskForce:respawn()
+function autogft.TaskForce:reinforce(spawn)
   local spawnedUnitCount = 0
   self:cleanGroups()
   local desiredUnits = {}
@@ -160,40 +161,47 @@ function autogft.TaskForce:respawn()
     for groupIndex = 1, #self.groups do
       replacements = replacements - autogft.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
     end
-    
-    -- Spawn replacement units
+
+    -- Get replacements
     if replacements > 0 then
-      local units = {}
-      local spawnZoneIndex = math.random(#self.stagingZones)
-      local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
-      for i = 1, replacements do
-        units[i] = {
-          ["type"] = unitSpec.type,
-          ["transportable"] =
-          {
-            ["randomTransportable"] = false,
-          },
-          ["x"] = spawnZone.point.x + 15 * spawnedUnitCount,
-          ["y"] = spawnZone.point.z - 15 * spawnedUnitCount,
-          ["name"] = "Unit no " .. autogft.lastCreatedUnitId,
-          ["unitId"] = autogft.lastCreatedUnitId,
-          ["skill"] = "High",
-          ["playerCanDrive"] = true
+
+      local groupName
+
+      if spawn then
+        local units = {}
+        local spawnZoneIndex = math.random(#self.stagingZones)
+        local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
+        for i = 1, replacements do
+          units[i] = {
+            ["type"] = unitSpec.type,
+            ["transportable"] =
+            {
+              ["randomTransportable"] = false,
+            },
+            ["x"] = spawnZone.point.x + 15 * spawnedUnitCount,
+            ["y"] = spawnZone.point.z - 15 * spawnedUnitCount,
+            ["name"] = "Unit no " .. autogft.lastCreatedUnitId,
+            ["unitId"] = autogft.lastCreatedUnitId,
+            ["skill"] = "High",
+            ["playerCanDrive"] = true
+          }
+          spawnedUnitCount = spawnedUnitCount + 1
+
+          autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
+        end
+
+        groupName = "Group #00" .. autogft.lastCreatedGroupId
+        local groupData = {
+          ["route"] = {},
+          ["groupId"] = autogft.lastCreatedGroupId,
+          ["units"] = units,
+          ["name"] = groupName
         }
-        spawnedUnitCount = spawnedUnitCount + 1
-
-        autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
+        coalition.addGroup(self.country, Group.Category.GROUND, groupData)
+        autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
+      else
+        -- TODO: Get replacement units from staging zone(s)
       end
-
-      local groupName = "Group #00" .. autogft.lastCreatedGroupId
-      local groupData = {
-        ["route"] = {},
-        ["groupId"] = autogft.lastCreatedGroupId,
-        ["units"] = units,
-        ["name"] = groupName
-      }
-      coalition.addGroup(self.country, Group.Category.GROUND, groupData)
-      autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
 
       -- Issue group to control zone
       self.groups[#self.groups + 1] = Group.getByName(groupName)
@@ -286,10 +294,10 @@ end
 -- @param #number maxReinforcementTime (optional)
 -- @return #autogft.TaskForce
 function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementTime)
-  local keepReinforcing = true
+  local keepRespawning = true
   local function respawn()
-    if keepReinforcing then
-      self:respawn()
+    if keepRespawning then
+      self:reinforce(true)
       autogft.scheduleFunction(respawn, timeIntervalSec)
     end
   end
@@ -298,7 +306,7 @@ function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementT
 
   if maxReinforcementTime ~= nil and maxReinforcementTime > 0 then
     local function killTimer()
-      keepReinforcing = false
+      keepRespawning = false
     end
     autogft.scheduleFunction(killTimer, maxReinforcementTime)
   end
@@ -675,7 +683,7 @@ function autogft.printIngame(str, time)
 end
 
 ---
--- 
+--
 function autogft.spawnUnits()
 end
 
