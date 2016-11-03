@@ -166,9 +166,10 @@ function autogft.TaskForce:reinforce(spawn)
     if replacements > 0 then
 
       local groupName
-
+      local units = {}
+      
+      -- Assign units to group
       if spawn then
-        local units = {}
         local spawnZoneIndex = math.random(#self.stagingZones)
         local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
         for i = 1, replacements do
@@ -189,7 +190,11 @@ function autogft.TaskForce:reinforce(spawn)
 
           autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
         end
+      else
+      end
 
+      if #units > 0 then
+        -- Create a group
         groupName = "Group #00" .. autogft.lastCreatedGroupId
         local groupData = {
           ["route"] = {},
@@ -199,14 +204,12 @@ function autogft.TaskForce:reinforce(spawn)
         }
         coalition.addGroup(self.country, Group.Category.GROUND, groupData)
         autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
-      else
-        -- TODO: Get replacement units from staging zone(s)
-      end
 
-      -- Issue group to control zone
-      self.groups[#self.groups + 1] = Group.getByName(groupName)
-      if self.target ~= nil then
-        autogft.issueGroupTo(groupName, self.target)
+        -- Issue group to control zone
+        self.groups[#self.groups + 1] = Group.getByName(groupName)
+        if self.target ~= nil then
+          autogft.issueGroupTo(groupName, self.target)
+        end
       end
     end
   end
