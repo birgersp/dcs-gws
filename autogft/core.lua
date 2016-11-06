@@ -589,7 +589,7 @@ function autogft.informOfClosestEnemyVehicles(group)
     end
 
     local distanceNMRounded = math.floor(distanceNM + 0.5)
-    text = text .. " located " .. distanceNMRounded .. "nm at ~" .. dirDegree
+    text = text .. " located " .. distanceNMRounded .. "nm at ~" .. dirDegree .. " from group lead"
     trigger.action.outTextForGroup(group:getID(), text, 30)
   end
 
