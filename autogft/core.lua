@@ -146,6 +146,14 @@ end
 -- @param #boolean spawn
 -- @return #autogft.TaskForce
 function autogft.TaskForce:reinforce(spawn)
+  local friendlyVehicles = {}
+  if spawn then
+    if coalition.getCountryCoalition(self.country) == coalition.side.RED then
+      friendlyVehicles = mist.makeUnitTable({'[red][vehicle]'})
+    else
+      friendlyVehicles = mist.makeUnitTable({'[blue][vehicle]'})
+    end
+  end
   local spawnedUnitCount = 0
   self:cleanGroups()
   local desiredUnits = {}
@@ -205,6 +213,20 @@ function autogft.TaskForce:reinforce(spawn)
         end
       else
       -- TODO: Select units from staging zones
+      --        local finished = false
+      --        local stagingZoneIndex
+      --        while not finished do
+      --          if stagingZoneIndex < #self.stagingZones then
+      --            local stagingZone = self.stagingZones[stagingZoneIndex]
+      --            local stagedUnits = mist.getUnitsInZones(friendlyVehicles, {stagingZone})
+      --            for stagedUnitIndex = 1, #stagedUnits do
+      --              local unitName = stagedUnits[stagedUnitIndex]
+      --            end
+      --            stagingZoneIndex = stagingZoneIndex + 1
+      --          else
+      --            finished = true
+      --          end
+      --        end
       end
 
       if #units > 0 then
