@@ -168,50 +168,43 @@ function autogft.TaskForce:reinforce(spawn)
       local groupName
       local units = {}
 
+      function addUnit(type, name, id, x, y, skill)
+        units[#units + 1] = {
+          ["type"] = type,
+          ["transportable"] =
+          {
+            ["randomTransportable"] = false,
+          },
+          ["x"] = x,
+          ["y"] = y,
+          ["name"] = name,
+          ["unitId"] = id,
+          ["skill"] = skill,
+          ["playerCanDrive"] = true
+        }
+      end
+
       -- Assign units to group
       if spawn then
         local spawnZoneIndex = math.random(#self.stagingZones)
         local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
 
-        local finished = false
         local replacedUnits = 0
-        while not finished do
+        while replacedUnits < replacements do
 
-          local x
-          local y
-          local id
-          local name
-          local skill
+          local id = autogft.lastCreatedUnitId
+          local name = "Unit no " .. autogft.lastCreatedUnitId
+          local x = spawnZone.point.x + 15 * spawnedUnitCount
+          local y = spawnZone.point.z - 15 * spawnedUnitCount
+          local skill = "High"
+          autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
+          addUnit(unitSpec.type, name, id, x, y, skill)
 
-          if spawn then
-            x = spawnZone.point.x + 15 * spawnedUnitCount
-            y = spawnZone.point.z - 15 * spawnedUnitCount
-            id = autogft.lastCreatedUnitId
-            name = "Unit no " .. autogft.lastCreatedUnitId
-            skill = "High"
-            autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
-          else
-          
-          end
-
-          units[i] = {
-            ["type"] = unitSpec.type,
-            ["transportable"] =
-            {
-              ["randomTransportable"] = false,
-            },
-            ["x"] = x,
-            ["y"] = y,
-            ["name"] = name,
-            ["unitId"] = id,
-            ["skill"] = skill,
-            ["playerCanDrive"] = true
-          }
           spawnedUnitCount = spawnedUnitCount + 1
           replacedUnits = replacedUnits + 1
         end
-
-        if replacedUnits >= replacements then finished = true end
+      else
+      -- TODO: Select units from staging zones
       end
 
       if #units > 0 then
