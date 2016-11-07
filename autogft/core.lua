@@ -340,6 +340,20 @@ function autogft.TaskForce:enableDefaultTimers()
 end
 
 ---
+-- @param #autogft.TaskForce self
+-- @param #string name
+-- @return #boolean
+function autogft.TaskForce:containsUnit(name)
+  for groupIndex = 1, #self.groups do
+    local units = self.groups[groupIndex]:getUnits()
+    for unitIndex = 1, #units do
+      if units[unitIndex]:getName() == name then return true end
+    end
+  end
+  return false
+end
+
+---
 -- @type autogft.GroupCommand
 -- @field #string commandName
 -- @field #string groupName
