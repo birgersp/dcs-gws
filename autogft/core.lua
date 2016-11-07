@@ -173,15 +173,16 @@ function autogft.TaskForce:reinforce(spawn)
         local spawnZoneIndex = math.random(#self.stagingZones)
         local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
 
-        -- Loop until: no more replacements needed OR no more staging units available
-        for i = 1, replacements do
-          
+        local finished = false
+        local replacedUnits = 0
+        while not finished do
+
           local x
           local y
           local id
           local name
           local skill
-          
+
           if spawn then
             x = spawnZone.point.x + 15 * spawnedUnitCount
             y = spawnZone.point.z - 15 * spawnedUnitCount
@@ -189,9 +190,10 @@ function autogft.TaskForce:reinforce(spawn)
             name = "Unit no " .. autogft.lastCreatedUnitId
             skill = "High"
             autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
+          else
+          
           end
 
-          
           units[i] = {
             ["type"] = unitSpec.type,
             ["transportable"] =
@@ -206,8 +208,10 @@ function autogft.TaskForce:reinforce(spawn)
             ["playerCanDrive"] = true
           }
           spawnedUnitCount = spawnedUnitCount + 1
+          replacedUnits = replacedUnits + 1
         end
-      else
+
+        if replacedUnits >= replacements then finished = true end
       end
 
       if #units > 0 then
