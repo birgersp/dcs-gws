@@ -149,9 +149,9 @@ function autogft.TaskForce:reinforce(spawn)
   local spawnedUnitCount = 0
   self:cleanGroups()
   local desiredUnits = {}
-  for i = 1, #self.unitSpecs do
+  for unitSpecIndex = 1, #self.unitSpecs do
     -- Determine desired replacement units of this spec
-    local unitSpec = self.unitSpecs[i]
+    local unitSpec = self.unitSpecs[unitSpecIndex]
     if desiredUnits[unitSpec.type] == nil then
       desiredUnits[unitSpec.type] = 0
     end
