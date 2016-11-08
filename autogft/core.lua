@@ -177,7 +177,7 @@ function autogft.TaskForce:reinforce(spawn)
 
       local groupName
       local units = {}
-      local function addUnit(type, name, id, x, y)
+      local function addUnit(type, name, id, x, y, heading)
         units[#units + 1] = {
           ["type"] = type,
           ["transportable"] =
@@ -186,6 +186,7 @@ function autogft.TaskForce:reinforce(spawn)
           },
           ["x"] = x,
           ["y"] = y,
+          ["heading"] = heading,
           ["name"] = name,
           ["unitId"] = id,
           ["skill"] = "High",
@@ -207,7 +208,7 @@ function autogft.TaskForce:reinforce(spawn)
           local x = spawnZone.point.x + 15 * spawnedUnitCount
           local y = spawnZone.point.z - 15 * spawnedUnitCount
           autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
-          addUnit(unitSpec.type, name, id, x, y)
+          addUnit(unitSpec.type, name, id, x, y, 0)
 
           spawnedUnitCount = spawnedUnitCount + 1
           replacedUnits = replacedUnits + 1
@@ -228,7 +229,9 @@ function autogft.TaskForce:reinforce(spawn)
               -- TODO: Assign proper coordinates to x and y
               local x = unit:getPosition()[1]
               local y = unit:getPosition()[2]
-              addUnit(unitSpec.type, unitName, unit:getID(), x, y)
+              -- TODO: Assign proper heading
+              local heading = 0
+              addUnit(unitSpec.type, unitName, unit:getID(), x, y, heading)
               addedUnitNames[#addedUnitNames + 1] = unitName
               replacedUnits = replacedUnits + 1
             end
