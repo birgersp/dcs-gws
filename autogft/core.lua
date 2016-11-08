@@ -159,7 +159,7 @@ function autogft.TaskForce:reinforce(spawn)
   self:cleanGroups()
   local desiredUnits = {}
   for unitSpecIndex = 1, #self.unitSpecs do
-    
+
     -- Determine desired replacement units of this spec
     local unitSpec = self.unitSpecs[unitSpecIndex]
     if desiredUnits[unitSpec.type] == nil then
@@ -740,11 +740,6 @@ function autogft.printIngame(str, time)
   trigger.action.outText(str, time)
 end
 
----
---
-function autogft.spawnUnits()
-end
-
 function autogft.log(variable)
   if autogft.debugMode then
     autogft.printIngame(autogft.toString(variable))
@@ -752,8 +747,21 @@ function autogft.log(variable)
 end
 
 ---
+-- @param #function func
+-- @param #number time
+function autogft.scheduleFunction(func, time)
+  local function triggerFunction()
+    local success, message = pcall(func)
+    if not success then
+      env.error("Error in scheduled function: "..message, true)
+    end
+  end
+  timer.scheduleFunction(triggerFunction, {}, timer.getTime() + time)
+end
+
+---
 -- Deep copy a table
---Code from https://gist.github.com/MihailJP/3931841
+-- Code from https://gist.github.com/MihailJP/3931841
 function autogft.deepCopy(t)
   if type(t) ~= "table" then return t end
   local meta = getmetatable(t)
@@ -834,14 +842,4 @@ function autogft.toString(obj)
   end
 
   return toStringRecursively(obj, 1)
-end
-
-function autogft.scheduleFunction(func, time)
-  local function triggerFunction()
-    local success, message = pcall(func)
-    if not success then
-      env.error("Error in scheduled function: "..message, true)
-    end
-  end
-  timer.scheduleFunction(triggerFunction, {}, timer.getTime() + time)
 end
