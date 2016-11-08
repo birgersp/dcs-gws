@@ -329,22 +329,23 @@ end
 ---
 -- @param #autogft.TaskForce self
 -- @param #number timeIntervalSec
+-- @param #boolean spawn
 -- @param #number maxReinforcementTime (optional)
 -- @return #autogft.TaskForce
-function autogft.TaskForce:enableRespawnTimer(timeIntervalSec, maxReinforcementTime)
-  local keepRespawning = true
-  local function respawn()
-    if keepRespawning then
-      self:reinforce(true)
-      autogft.scheduleFunction(respawn, timeIntervalSec)
+function autogft.TaskForce:enableReinforcementTimer(timeIntervalSec, spawn, maxReinforcementTime)
+  local keepReinforcing = true
+  local function reinforce()
+    if keepReinforcing then
+      self:reinforce(spawn)
+      autogft.scheduleFunction(reinforce, timeIntervalSec)
     end
   end
 
-  autogft.scheduleFunction(respawn, timeIntervalSec)
+  autogft.scheduleFunction(reinforce, timeIntervalSec)
 
   if maxReinforcementTime ~= nil and maxReinforcementTime > 0 then
     local function killTimer()
-      keepRespawning = false
+      keepReinforcing = false
     end
     autogft.scheduleFunction(killTimer, maxReinforcementTime)
   end
