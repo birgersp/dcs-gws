@@ -148,6 +148,7 @@ end
 function autogft.TaskForce:reinforce(spawn)
   -- If not spawning, use friendly vehicles for staging
   local friendlyVehicles = {}
+  local addedUnitNames = {}
   if not spawn then
     if coalition.getCountryCoalition(self.country) == coalition.side.RED then
       friendlyVehicles = mist.makeUnitTable({'[red][vehicle]'})
@@ -221,11 +222,14 @@ function autogft.TaskForce:reinforce(spawn)
           while replacedUnits < replacements and stagedUnitIndex < #stagedUnitNames do
             local unitName = stagedUnitNames[stagedUnitIndex]
             local unit = Unit.getByName(unitName)
-            if unit:getTypeName() == unitSpec.type and not self:containsUnit(unitName) then
+            if unit:getTypeName() == unitSpec.type
+              and not self:containsUnit(unitName)
+              and not autogft.contains(addedUnitNames, unitName) then
               -- TODO: Assign proper coordinates to x and y
               local x = unit:getPosition()[1]
               local y = unit:getPosition()[2]
               addUnit(unitSpec.type, unitName, unit:getID(), x, y)
+              addedUnitNames[#addedUnitNames + 1] = unitName
               replacedUnits = replacedUnits + 1
             end
             stagedUnitIndex = stagedUnitIndex + 1
@@ -842,4 +846,14 @@ function autogft.toString(obj)
   end
 
   return toStringRecursively(obj, 1)
+end
+
+---
+-- @param #list list
+-- @param # item
+function autogft.contains(list, item)
+  for i = 1, #list do
+    if list[i] == item then return true end
+  end
+  return false
 end
