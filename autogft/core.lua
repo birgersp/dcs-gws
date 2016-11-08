@@ -147,14 +147,10 @@ end
 -- @return #autogft.TaskForce
 function autogft.TaskForce:reinforce(spawn)
   -- If not spawning, use friendly vehicles for staging
-  local friendlyVehicles = {}
-  local addedUnitNames = {}
+  local stagedUnits = {}
+  local addedUnitIds = {}
   if not spawn then
-    if coalition.getCountryCoalition(self.country) == coalition.side.RED then
-      friendlyVehicles = mist.makeUnitTable({'[red][vehicle]'})
-    else
-      friendlyVehicles = mist.makeUnitTable({'[blue][vehicle]'})
-    end
+    stagedUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.stagingZones)
   end
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -173,91 +169,82 @@ function autogft.TaskForce:reinforce(spawn)
     end
 
     -- Get replacements
-    if replacements > 0 then
+    if replacements <= 0 then return self end
 
-      local groupName
-      local units = {}
-      local function addUnit(type, name, id, x, y, heading)
-        units[#units + 1] = {
-          ["type"] = type,
-          ["transportable"] =
-          {
-            ["randomTransportable"] = false,
-          },
-          ["x"] = x,
-          ["y"] = y,
-          ["heading"] = heading,
-          ["name"] = name,
-          ["unitId"] = id,
-          ["skill"] = "High",
-          ["playerCanDrive"] = true
-        }
+    local groupName
+    local units = {}
+    local function addUnit(type, name, id, x, y, heading)
+      units[#units + 1] = {
+        ["type"] = type,
+        ["transportable"] =
+        {
+          ["randomTransportable"] = false,
+        },
+        ["x"] = x,
+        ["y"] = y,
+        ["heading"] = heading,
+        ["name"] = name,
+        ["unitId"] = id,
+        ["skill"] = "High",
+        ["playerCanDrive"] = true
+      }
+    end
+
+    local replacedUnits = 0
+
+    -- Assign units to group
+    if spawn then
+      local spawnZoneIndex = math.random(#self.stagingZones)
+      local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
+
+      while replacedUnits < replacements do
+
+        local id = autogft.lastCreatedUnitId
+        local name = "Unit no " .. autogft.lastCreatedUnitId
+        local x = spawnZone.point.x + 15 * spawnedUnitCount
+        local y = spawnZone.point.z - 15 * spawnedUnitCount
+        autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
+        addUnit(unitSpec.type, name, id, x, y, 0)
+
+        spawnedUnitCount = spawnedUnitCount + 1
+        replacedUnits = replacedUnits + 1
       end
-
-      local replacedUnits = 0
-
-      -- Assign units to group
-      if spawn then
-        local spawnZoneIndex = math.random(#self.stagingZones)
-        local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
-
-        while replacedUnits < replacements do
-
-          local id = autogft.lastCreatedUnitId
-          local name = "Unit no " .. autogft.lastCreatedUnitId
-          local x = spawnZone.point.x + 15 * spawnedUnitCount
-          local y = spawnZone.point.z - 15 * spawnedUnitCount
-          autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
-          addUnit(unitSpec.type, name, id, x, y, 0)
-
-          spawnedUnitCount = spawnedUnitCount + 1
+    else
+      local stagedUnitIndex = 1
+      while replacedUnits < replacements and stagedUnitIndex < #stagedUnits do
+        local unit = stagedUnits[stagedUnitIndex]
+        if unit:isExist()
+          and unit:getTypeName() == unitSpec.type
+          and not self:containsUnit(unit)
+          and not autogft.contains(addedUnitIds, unit:getID()) then
+          local x = unit:getPosition().p.x
+          local y = unit:getPosition().p.z
+          -- TODO: (somehow) use heading from unit
+          local heading = 0
+          addUnit(unitSpec.type, unit:getName(), unit:getID(), x, y, heading)
+          addedUnitIds[#addedUnitIds + 1] = unit:getID()
           replacedUnits = replacedUnits + 1
         end
-      else
-        local stagingZoneIndex = 1
-        while replacedUnits < replacements and stagingZoneIndex < #self.stagingZones do
-
-          local stagingZone = self.stagingZones[stagingZoneIndex]
-          local stagedUnitNames = mist.getUnitsInZones(friendlyVehicles, {stagingZone})
-          local stagedUnitIndex = 1
-          while replacedUnits < replacements and stagedUnitIndex < #stagedUnitNames do
-            local unitName = stagedUnitNames[stagedUnitIndex]
-            local unit = Unit.getByName(unitName)
-            if unit:getTypeName() == unitSpec.type
-              and not self:containsUnit(unitName)
-              and not autogft.contains(addedUnitNames, unitName) then
-              -- TODO: Assign proper coordinates to x and y
-              local x = unit:getPosition()[1]
-              local y = unit:getPosition()[2]
-              -- TODO: Assign proper heading
-              local heading = 0
-              addUnit(unitSpec.type, unitName, unit:getID(), x, y, heading)
-              addedUnitNames[#addedUnitNames + 1] = unitName
-              replacedUnits = replacedUnits + 1
-            end
-            stagedUnitIndex = stagedUnitIndex + 1
-          end
-          stagingZoneIndex = stagingZoneIndex + 1
-        end
+        stagedUnitIndex = stagedUnitIndex + 1
       end
+    end
 
-      if #units > 0 then
-        -- Create a group
-        groupName = "Group #00" .. autogft.lastCreatedGroupId
-        local groupData = {
-          ["route"] = {},
-          ["groupId"] = autogft.lastCreatedGroupId,
-          ["units"] = units,
-          ["name"] = groupName
-        }
-        coalition.addGroup(self.country, Group.Category.GROUND, groupData)
-        autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
+    if #units > 0 then
+      -- Create a group
+      groupName = "Group #00" .. autogft.lastCreatedGroupId
+      local groupData = {
+        ["route"] = {},
+        ["groupId"] = autogft.lastCreatedGroupId,
+        ["units"] = units,
+        ["name"] = groupName
+      }
+      coalition.addGroup(self.country, Group.Category.GROUND, groupData)
+      autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
 
-        -- Issue group to control zone
-        self.groups[#self.groups + 1] = Group.getByName(groupName)
-        if self.target ~= nil then
-          autogft.issueGroupTo(groupName, self.target)
-        end
+      -- Issue group to control zone
+      self.groups[#self.groups + 1] = Group.getByName(groupName)
+      if self.target ~= nil then
+        autogft.issueGroupTo(groupName, self.target)
       end
     end
   end
@@ -375,13 +362,13 @@ end
 
 ---
 -- @param #autogft.TaskForce self
--- @param #string name
+-- @param DCSUnit#Unit unit
 -- @return #boolean
-function autogft.TaskForce:containsUnit(name)
+function autogft.TaskForce:containsUnit(unit)
   for groupIndex = 1, #self.groups do
     local units = self.groups[groupIndex]:getUnits()
     for unitIndex = 1, #units do
-      if units[unitIndex]:getName() == name then return true end
+      if units[unitIndex]:getID() == unit:getID() then return true end
     end
   end
   return false
@@ -737,20 +724,33 @@ function autogft.enableIOCEV()
 
 end
 
----
--- @param #string str
--- @param #number time
-function autogft.printIngame(str, time)
-  if (time == nil) then
-    time = 1
-  end
-  trigger.action.outText(str, time)
+function autogft.log(variable)
+  env.info(autogft.toString(variable), autogft.debugMode)
 end
 
-function autogft.log(variable)
-  if autogft.debugMode then
-    autogft.printIngame(autogft.toString(variable))
+---
+-- @param #number coalitionId
+-- @param #list<#string> zoneNames
+function autogft.getUnitsInZones(coalitionId, zoneNames)
+  local result = {}
+  local groups = coalition.getGroups(coalitionId)
+  for zoneNameIndex = 1, #zoneNames do
+    local zone = trigger.misc.getZone(zoneNames[zoneNameIndex])
+    local radiusSquared = zone.radius * zone.radius
+    for groupIndex = 1, #groups do
+      local units = groups[groupIndex]:getUnits()
+      for unitIndex = 1, #units do
+        local unit = units[unitIndex]
+        local pos = unit:getPosition().p
+        local dx = zone.point.x - pos.x
+        local dy = zone.point.z - pos.z
+        if (dx*dx + dy*dy) <= radiusSquared then
+          result[#result + 1] = units[unitIndex]
+        end
+      end
+    end
   end
+  return result
 end
 
 ---
