@@ -146,8 +146,9 @@ end
 -- @param #boolean spawn
 -- @return #autogft.TaskForce
 function autogft.TaskForce:reinforce(spawn)
+  -- If not spawning, use friendly vehicles for staging
   local friendlyVehicles = {}
-  if spawn then
+  if not spawn then
     if coalition.getCountryCoalition(self.country) == coalition.side.RED then
       friendlyVehicles = mist.makeUnitTable({'[red][vehicle]'})
     else
@@ -158,12 +159,12 @@ function autogft.TaskForce:reinforce(spawn)
   self:cleanGroups()
   local desiredUnits = {}
   for unitSpecIndex = 1, #self.unitSpecs do
+    
     -- Determine desired replacement units of this spec
     local unitSpec = self.unitSpecs[unitSpecIndex]
     if desiredUnits[unitSpec.type] == nil then
       desiredUnits[unitSpec.type] = 0
     end
-
     desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
     local replacements = desiredUnits[unitSpec.type]
     for groupIndex = 1, #self.groups do
@@ -175,8 +176,7 @@ function autogft.TaskForce:reinforce(spawn)
 
       local groupName
       local units = {}
-
-      function addUnit(type, name, id, x, y, skill)
+      local function addUnit(type, name, id, x, y)
         units[#units + 1] = {
           ["type"] = type,
           ["transportable"] =
@@ -187,46 +187,51 @@ function autogft.TaskForce:reinforce(spawn)
           ["y"] = y,
           ["name"] = name,
           ["unitId"] = id,
-          ["skill"] = skill,
+          ["skill"] = "High",
           ["playerCanDrive"] = true
         }
       end
+
+      local replacedUnits = 0
 
       -- Assign units to group
       if spawn then
         local spawnZoneIndex = math.random(#self.stagingZones)
         local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
 
-        local replacedUnits = 0
         while replacedUnits < replacements do
 
           local id = autogft.lastCreatedUnitId
           local name = "Unit no " .. autogft.lastCreatedUnitId
           local x = spawnZone.point.x + 15 * spawnedUnitCount
           local y = spawnZone.point.z - 15 * spawnedUnitCount
-          local skill = "High"
           autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
-          addUnit(unitSpec.type, name, id, x, y, skill)
+          addUnit(unitSpec.type, name, id, x, y)
 
           spawnedUnitCount = spawnedUnitCount + 1
           replacedUnits = replacedUnits + 1
         end
       else
-      -- TODO: Select units from staging zones
-      --        local finished = false
-      --        local stagingZoneIndex
-      --        while not finished do
-      --          if stagingZoneIndex < #self.stagingZones then
-      --            local stagingZone = self.stagingZones[stagingZoneIndex]
-      --            local stagedUnits = mist.getUnitsInZones(friendlyVehicles, {stagingZone})
-      --            for stagedUnitIndex = 1, #stagedUnits do
-      --              local unitName = stagedUnits[stagedUnitIndex]
-      --            end
-      --            stagingZoneIndex = stagingZoneIndex + 1
-      --          else
-      --            finished = true
-      --          end
-      --        end
+        local stagingZoneIndex = 1
+        while replacedUnits < replacements and stagingZoneIndex < #self.stagingZones do
+
+          local stagingZone = self.stagingZones[stagingZoneIndex]
+          local stagedUnitNames = mist.getUnitsInZones(friendlyVehicles, {stagingZone})
+          local stagedUnitIndex = 1
+          while replacedUnits < replacements and stagedUnitIndex < #stagedUnitNames do
+            local unitName = stagedUnitNames[stagedUnitIndex]
+            local unit = Unit.getByName(unitName)
+            if unit:getTypeName() == unitSpec.type and not self:containsUnit(unitName) then
+              -- TODO: Assign proper coordinates to x and y
+              local x = unit:getPosition()[1]
+              local y = unit:getPosition()[2]
+              addUnit(unitSpec.type, unitName, unit:getID(), x, y)
+              replacedUnits = replacedUnits + 1
+            end
+            stagedUnitIndex = stagedUnitIndex + 1
+          end
+          stagingZoneIndex = stagingZoneIndex + 1
+        end
       end
 
       if #units > 0 then
