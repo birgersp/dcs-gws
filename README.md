@@ -13,6 +13,8 @@ Task forces may be set to be automatically reinforced, by respawning units and r
 This feature is meant to provide mission makers with an easy way to create dynamic ground battle scenarios.
 
 ### Intel on close ground units
+(Currently bugged, under development)
+
 Gives each player (client) in the mission the ability to get direction and distance to enemy ground units. Ideal when players want a simple way to find enemy ground targets for A/G practice.
 
 ## How to use
