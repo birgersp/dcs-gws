@@ -16,7 +16,7 @@ autogft_TaskForce.__index = autogft_TaskForce
 -- @return #autogft_TaskForce
 function autogft_TaskForce:new()
   self = setmetatable({}, autogft_TaskForce)
-  self.country = ""
+  self.country = -1
   self.baseZones = {}
   self.targetZones = {}
   self.speed = 100
@@ -55,6 +55,7 @@ end
 -- @param #boolean spawn
 -- @return #autogft_TaskForce
 function autogft_TaskForce:reinforce(spawn)
+  self:assertValid()
   -- If not spawning, use friendly vehicles for staging
   local stagedUnits = {}
   local addedUnitIds = {}
@@ -239,6 +240,7 @@ end
 -- @param #number timeIntervalSec
 -- @return #autogft_TaskForce
 function autogft_TaskForce:setTargetUpdateTimer(timeIntervalSec)
+  self:assertValid()
   local function autoIssue()
     self:updateTarget()
     self:cleanGroups()
@@ -256,6 +258,7 @@ end
 -- @param #number maxReinforcementTime (optional)
 -- @return #autogft_TaskForce
 function autogft_TaskForce:setReinforcementTimer(timeIntervalSec, spawn, maxReinforcementTime)
+  self:assertValid()
   local keepReinforcing = true
   local function reinforce()
     if keepReinforcing then
@@ -358,5 +361,16 @@ function autogft_TaskForce:addTargetZone(targetZone)
   local targetControlZone = autogft_ControlZone:new(targetZone)
   self.targetZones[#self.targetZones + 1] = targetControlZone
   if #self.targetZones == 1 then self.target = targetZone end
+  return self
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:assertValid()
+  assert(self.country ~= -1, "Task force country is missing. Use \"setCountry\" to set a country.")
+  assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
+  assert(#self.targetZones > 0, "Task force has no target zones. Use \"addTargetZone\" to add a target zone.")
+  assert(#self.unitSpecs > 0, "Task force as no unit specifications. Use \"addUnitSpec\" to add a unit specification.")
   return self
 end
