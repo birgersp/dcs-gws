@@ -299,7 +299,20 @@ end
 function autogft.TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
-    autogft.issueGroupTo(self.groups[i]:getName(), self.target, self.speed, self.formation)
+    local hasExistingUnit = false
+    -- Verify that the group has live units
+    local units = self.groups[i]:getUnits()
+    local unitIndex = 1
+    while unitIndex < #units and not hasExistingUnit do
+      if units[unitIndex]:isExist() then
+        hasExistingUnit = true
+      else
+        unitIndex = unitIndex + 1
+      end
+    end
+    if hasExistingUnit then
+      autogft.issueGroupTo(self.groups[i]:getName(), self.target, self.speed, self.formation)
+    end
   end
   return self
 end
@@ -319,6 +332,7 @@ end
 function autogft.TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
+    self:cleanGroups()
     self:moveToTarget()
     autogft.scheduleFunction(autoIssue, timeIntervalSec)
   end
@@ -725,8 +739,10 @@ function autogft.enableIOCEV()
 
 end
 
-function autogft.log(variable)
-  env.info(autogft.toString(variable), autogft.debugMode)
+function autogft.debug(variable)
+  if autogft.debugMode then
+    env.info(autogft.toString(variable))
+  end
 end
 
 ---
