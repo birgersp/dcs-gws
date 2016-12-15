@@ -11,7 +11,7 @@ unit-types\unit-types.lua
 
 set output_dir=build
 set sources_standalone=%sources% mist\mist_4_3_74.lua
-set include=example\example.lua unit-types\unit-types.txt
+set include=example\example.lua unit-types\unit-types.txt example\example.miz
 set build=%output_dir%\autogft.lua
 set build_standalone=%output_dir%\autogft-standalone.lua
 
