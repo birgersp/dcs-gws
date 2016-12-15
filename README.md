@@ -1,7 +1,7 @@
 # Autonomous Ground Force Tasking
 Utility script for DCS World mission making
 
-[Demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
+[Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
 
 ## Current features
 
