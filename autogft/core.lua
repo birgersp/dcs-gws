@@ -453,3 +453,9 @@ function autogft.contains(list, item)
   end
   return false
 end
+
+---
+-- @param #string zoneName
+function autogft.assertZoneExists(zoneName)
+  assert(trigger.misc.getZone(zoneName) ~= nil, "Zone \""..zoneName.."\" does not exist in this mission.")
+end
