@@ -1,7 +1,15 @@
 @echo off
 
+set sources= ^
+autogft\controlzone.lua ^
+autogft\groupcommand.lua ^
+autogft\taskforce.lua ^
+autogft\unitcluster.lua ^
+autogft\unitspec.lua ^
+autogft\core.lua ^
+unit-types\unit-types.lua
+
 set output_dir=build
-set sources=autogft\core.lua unit-types\unit-types.lua
 set sources_standalone=%sources% mist\mist_4_3_74.lua
 set include=example\example.lua unit-types\unit-types.txt
 set build=%output_dir%\autogft.lua
