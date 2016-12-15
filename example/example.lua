@@ -4,7 +4,13 @@
 
 
 -- Create a task force of US units, set "SPAWN1"/"SPAWN2" as the spawn zone and "Combat" "1", "2" and "3" as objectives
-autogft.TaskForce:new(country.id.USA, {"SPAWN1", "SPAWN2"}, {"Combat1", "Combat2", "Combat3"})
+autogft.TaskForce:new()
+  :setCountry(country.id.USA)
+  :addBaseZone("SPAWN1")
+  :addBaseZone("SPAWN2")
+  :addTargetZone("Combat1")
+  :addTargetZone("Combat2")
+  :addTargetZone("Combat3")
   -- Add 4 M-1 Abrams to the task force
   :addUnitSpec(4, "M-1 Abrams")
   -- Add more units ...
@@ -20,7 +26,12 @@ autogft.TaskForce:new(country.id.USA, {"SPAWN1", "SPAWN2"}, {"Combat1", "Combat2
 
 
 -- Create a task force of Russian units, with some different spawn zone and objectives
-autogft.TaskForce:new(country.id.RUSSIA, {"STAGING1"}, {"Combat3", "Combat2", "Combat1"})
+autogft.TaskForce:new()
+  :setCountry(country.id.RUSSIA)
+  :addBaseZone("STAGING1")
+  :addTargetZone("Combat3")
+  :addTargetZone("Combat2")
+  :addTargetZone("Combat1")
   :addUnitSpec(4, "T-90")
   -- (Note there is no "true" parameter in this reinforcement, so it will only use pre-spawned units)
   :setTargetUpdateTimer(120)

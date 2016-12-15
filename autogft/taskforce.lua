@@ -2,7 +2,7 @@
 -- @type autogft_TaskForce
 -- @field #number country
 -- @field #list<#string> baseZones
--- @field #list<#autogft_ControlZone> targets
+-- @field #list<#autogft_ControlZone> targetZones
 -- @field #number speed
 -- @field #string formation
 -- @field #list<#autogft_UnitSpec> unitSpecs
@@ -13,31 +13,17 @@ autogft_TaskForce.__index = autogft_TaskForce
 
 ---
 -- @param #autogft_TaskForce self
--- @param #number country
--- @param #list<#string> baseZones
--- @param #list<#string> targetZones
 -- @return #autogft_TaskForce
-function autogft_TaskForce:new(country, baseZones, targetZones)
-
-  local function verifyZoneExists(name)
-    assert(trigger.misc.getZone(name) ~= nil, "Zone \""..name.."\" does not exist in this mission.")
-  end
-
+function autogft_TaskForce:new()
   self = setmetatable({}, autogft_TaskForce)
-  self.country = country
-  for k,v in pairs(baseZones) do verifyZoneExists(v) end
-  self.baseZones = baseZones
-  self.unitSpecs = {}
+  self.country = ""
+  self.baseZones = {}
   self.targetZones = {}
   self.speed = 100
   self.formation = "cone"
-  for i = 1, #targetZones do
-    local controlZone = targetZones[i]
-    verifyZoneExists(controlZone)
-    self.targetZones[#self.targetZones + 1] = autogft_ControlZone:new(controlZone)
-  end
+  self.unitSpecs = {}
   self.groups = {}
-  self.target = targetZones[1]
+  self.target = ""
   return self
 end
 
@@ -342,4 +328,35 @@ end
 -- @return #autogft_TaskForce
 function autogft_TaskForce:setRestageTimer(timeIntervalSec, maxRestageTime)
   return self:setReinforcementTimer(timeIntervalSec, false, maxRestageTime)
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @param #number country
+-- @return #autogft_TaskForce
+function autogft_TaskForce:setCountry(country)
+  self.country = country
+  return self
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @param #string baseZone
+-- @return #autogft_TaskForce
+function autogft_TaskForce:addBaseZone(baseZone)
+  autogft.assertZoneExists(baseZone)
+  self.baseZones[#self.baseZones + 1] = baseZone
+  return self
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @param #string targetZone
+-- @return #autogft_TaskForce
+function autogft_TaskForce:addTargetZone(targetZone)
+  autogft.assertZoneExists(targetZone)
+  local targetControlZone = autogft_ControlZone:new(targetZone)
+  self.targetZones[#self.targetZones + 1] = targetControlZone
+  if #self.targetZones == 1 then self.target = targetZone end
+  return self
 end
