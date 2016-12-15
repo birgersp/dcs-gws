@@ -1,8 +1,10 @@
 
 -- Autonomous Ground Force Tasking example script
 -- https://github.com/birgersp/dcs-autogft
--- (Lines beginning with "--" are comments and does not affect the code)
--- (Remember to re-load this script to your mission after you have edited it)
+
+-- Lines beginning with "--" are comments and does not affect the code
+-- Put the standalone script and this script in "do script file" actions in a mission start trigger
+-- Remember to re-load this script to your mission after you have edited it, it is not necessary to re-load the standalone
 -- Comments above code blocks explain what the code is doing
 
 
