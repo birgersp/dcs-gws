@@ -22,85 +22,85 @@ autogft.debugMode = false
 -- Type definitions
 
 ---
--- @type autogft.UnitCluster
+-- @type autogft_UnitCluster
 -- @field #list<#string> unitNames
 -- @field DCSTypes#Vec2 midPoint
-autogft.UnitCluster = {}
-autogft.UnitCluster.__index = autogft.UnitCluster
+autogft_UnitCluster = {}
+autogft_UnitCluster.__index = autogft_UnitCluster
 
 ---
--- @param #autogft.UnitCluster self
--- @return #autogft.UnitCluster
-function autogft.UnitCluster:new()
-  local self = setmetatable({}, autogft.UnitCluster)
+-- @param #autogft_UnitCluster self
+-- @return #autogft_UnitCluster
+function autogft_UnitCluster:new()
+  local self = setmetatable({}, autogft_UnitCluster)
   self.unitNames = {}
   self.midPoint = {}
   return self
 end
 
 ---
--- @type autogft.UnitSpec
+-- @type autogft_UnitSpec
 -- @field #number count
 -- @field #string type
-autogft.UnitSpec = {}
-autogft.UnitSpec.__index = autogft.UnitSpec
+autogft_UnitSpec = {}
+autogft_UnitSpec.__index = autogft_UnitSpec
 
 ---
--- @param #autogft.UnitSpec self
+-- @param #autogft_UnitSpec self
 -- @param #number count
 -- @param #string type
--- @return #autogft.UnitSpec
-function autogft.UnitSpec:new(count, type)
-  self = setmetatable({}, autogft.UnitSpec)
+-- @return #autogft_UnitSpec
+function autogft_UnitSpec:new(count, type)
+  self = setmetatable({}, autogft_UnitSpec)
   self.count = count
   self.type = type
   return self
 end
 
 ---
--- @type autogft.ControlZone
+-- @type autogft_ControlZone
 -- @field #string name
 -- @field #number status
-autogft.ControlZone = {}
-autogft.ControlZone.__index = autogft.ControlZone
+autogft_ControlZone = {}
+autogft_ControlZone.__index = autogft_ControlZone
 
 ---
--- @param #autogft.ControlZone self
+-- @param #autogft_ControlZone self
 -- @param #string name
--- @return #autogft.ControlZone
-function autogft.ControlZone:new(name)
-  self = setmetatable({}, autogft.ControlZone)
+-- @return #autogft_ControlZone
+function autogft_ControlZone:new(name)
+  self = setmetatable({}, autogft_ControlZone)
   self.name = name
   self.status = coalition.side.NEUTRAL
   return self
 end
 
 ---
--- @type autogft.TaskForce
+-- @type autogft_TaskForce
 -- @field #number country
 -- @field #list<#string> stagingZones
--- @field #list<#autogft.ControlZone> controlZones
+-- @field #list<#autogft_ControlZone> controlZones
 -- @field #number speed
 -- @field #string formation
--- @field #list<#autogft.UnitSpec> unitSpecs
+-- @field #list<#autogft_UnitSpec> unitSpecs
 -- @field #list<DCSGroup#Group> groups
 -- @field #string target
-autogft.TaskForce = {}
-autogft.TaskForce.__index = autogft.TaskForce
+autogft_TaskForce = {}
+autogft_TaskForce.__index = autogft_TaskForce
 
 ---
--- @param #autogft.TaskForce self
+-- @param #autogft_TaskForce self
 -- @param #number country
 -- @param #list<#string> stagingZones
 -- @param #list<#string> controlZones
--- @return #autogft.TaskForce
-function autogft.TaskForce:new(country, stagingZones, controlZones)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:new(country, stagingZones, controlZones)
 
   local function verifyZoneExists(name)
     assert(trigger.misc.getZone(name) ~= nil, "Zone \""..name.."\" does not exist in this mission.")
   end
 
-  self = setmetatable({}, autogft.TaskForce)
+  self = setmetatable({}, autogft_TaskForce)
   self.country = country
   for k,v in pairs(stagingZones) do verifyZoneExists(v) end
   self.stagingZones = stagingZones
@@ -111,7 +111,7 @@ function autogft.TaskForce:new(country, stagingZones, controlZones)
   for i = 1, #controlZones do
     local controlZone = controlZones[i]
     verifyZoneExists(controlZone)
-    self.controlZones[#self.controlZones + 1] = autogft.ControlZone:new(controlZone)
+    self.controlZones[#self.controlZones + 1] = autogft_ControlZone:new(controlZone)
   end
   self.groups = {}
   self.target = controlZones[1]
@@ -119,19 +119,19 @@ function autogft.TaskForce:new(country, stagingZones, controlZones)
 end
 
 ---
--- @param #autogft.TaskForce self
+-- @param #autogft_TaskForce self
 -- @param #number count
 -- @param #string type
--- @return #autogft.TaskForce
-function autogft.TaskForce:addUnitSpec(count, type)
-  self.unitSpecs[#self.unitSpecs + 1] = autogft.UnitSpec:new(count, type)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:addUnitSpec(count, type)
+  self.unitSpecs[#self.unitSpecs + 1] = autogft_UnitSpec:new(count, type)
   return self
 end
 
 ---
--- @param #autogft.TaskForce self
--- @return #autogft.TaskForce
-function autogft.TaskForce:cleanGroups()
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:cleanGroups()
   local newGroups = {}
   for i = 1, #self.groups do
     local group = self.groups[i]
@@ -142,10 +142,10 @@ function autogft.TaskForce:cleanGroups()
 end
 
 ---
--- @param #autogft.TaskForce self
+-- @param #autogft_TaskForce self
 -- @param #boolean spawn
--- @return #autogft.TaskForce
-function autogft.TaskForce:reinforce(spawn)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:reinforce(spawn)
   -- If not spawning, use friendly vehicles for staging
   local stagedUnits = {}
   local addedUnitIds = {}
@@ -252,9 +252,9 @@ function autogft.TaskForce:reinforce(spawn)
 end
 
 ---
--- @param #autogft.TaskForce self
--- @return #autogft.TaskForce
-function autogft.TaskForce:updateTarget()
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:updateTarget()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
 
@@ -293,10 +293,10 @@ function autogft.TaskForce:updateTarget()
 end
 
 ---
--- @param #autogft.TaskForce self
+-- @param #autogft_TaskForce self
 -- @param #string zone
--- @return #autogft.TaskForce
-function autogft.TaskForce:issueTo(zone)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
     local hasExistingUnit = false
@@ -318,18 +318,18 @@ function autogft.TaskForce:issueTo(zone)
 end
 
 ---
--- @param #autogft.TaskForce self
--- @return #autogft.TaskForce
-function autogft.TaskForce:moveToTarget()
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:moveToTarget()
   self:issueTo(self.target)
   return self
 end
 
 ---
--- @param #autogft.TaskForce self
+-- @param #autogft_TaskForce self
 -- @param #number timeIntervalSec
--- @return #autogft.TaskForce
-function autogft.TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:cleanGroups()
@@ -341,12 +341,12 @@ function autogft.TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
 end
 
 ---
--- @param #autogft.TaskForce self
+-- @param #autogft_TaskForce self
 -- @param #number timeIntervalSec
 -- @param #boolean spawn
 -- @param #number maxReinforcementTime (optional)
--- @return #autogft.TaskForce
-function autogft.TaskForce:enableReinforcementTimer(timeIntervalSec, spawn, maxReinforcementTime)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:enableReinforcementTimer(timeIntervalSec, spawn, maxReinforcementTime)
   local keepReinforcing = true
   local function reinforce()
     if keepReinforcing then
@@ -367,19 +367,19 @@ function autogft.TaskForce:enableReinforcementTimer(timeIntervalSec, spawn, maxR
 end
 
 ---
--- @param #autogft.TaskForce self
--- @return #autogft.TaskForce
-function autogft.TaskForce:enableDefaultTimers()
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:enableDefaultTimers()
   self:enableObjectiveUpdateTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
   self:enableRespawnTimer(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
   return self
 end
 
 ---
--- @param #autogft.TaskForce self
+-- @param #autogft_TaskForce self
 -- @param DCSUnit#Unit unit
 -- @return #boolean
-function autogft.TaskForce:containsUnit(unit)
+function autogft_TaskForce:containsUnit(unit)
   for groupIndex = 1, #self.groups do
     local units = self.groups[groupIndex]:getUnits()
     for unitIndex = 1, #units do
@@ -390,24 +390,24 @@ function autogft.TaskForce:containsUnit(unit)
 end
 
 ---
--- @type autogft.GroupCommand
+-- @type autogft_GroupCommand
 -- @field #string commandName
 -- @field #string groupName
 -- @field #number groupId
 -- @field #function func
 -- @field #number timerId
 -- @field #boolean enabled
-autogft.GroupCommand = {}
-autogft.GroupCommand.__index = autogft.GroupCommand
+autogft_GroupCommand = {}
+autogft_GroupCommand.__index = autogft_GroupCommand
 
 ---
--- @param #autogft.GroupCommand self
+-- @param #autogft_GroupCommand self
 -- @param #string commandName
 -- @param #string groupName
 -- @param #function func
--- @return #autogft.GroupCommand
-function autogft.GroupCommand:new(commandName, groupName, func)
-  self = setmetatable({}, autogft.GroupCommand)
+-- @return #autogft_GroupCommand
+function autogft_GroupCommand:new(commandName, groupName, func)
+  self = setmetatable({}, autogft_GroupCommand)
   self.commandName = commandName
   self.groupName = groupName
   self.groupId = Group.getByName(groupName):getID()
@@ -416,8 +416,8 @@ function autogft.GroupCommand:new(commandName, groupName, func)
 end
 
 ---
--- @param #autogft.GroupCommand self
-function autogft.GroupCommand:enable()
+-- @param #autogft_GroupCommand self
+function autogft_GroupCommand:enable()
   self.enabled = true
 
   local flagName = "groupCommandFlag"..self.groupId
@@ -438,8 +438,8 @@ function autogft.GroupCommand:enable()
 end
 
 ---
--- @param #autogft.GroupCommand self
-function autogft.GroupCommand:disable()
+-- @param #autogft_GroupCommand self
+function autogft_GroupCommand:disable()
   -- Remove group command from mission
   trigger.action.removeOtherCommandForGroup(self.groupId, self.commandName)
   self.enabled = false
@@ -549,7 +549,7 @@ end
 -- This function might be computationally expensive
 -- @param DCSUnit#Unit unit
 -- @param #number radius
--- @return #autogft.UnitCluster
+-- @return #autogft_UnitCluster
 function autogft.getFriendlyVehiclesWithin(unit, radius)
   local coalitionString
   if unit:getCoalition() == coalition.side.BLUE then
@@ -615,7 +615,7 @@ function autogft.getFriendlyVehiclesWithin(unit, radius)
     y = minPos.z + dz / 2
   }
 
-  local result = autogft.UnitCluster:new()
+  local result = autogft_UnitCluster:new()
   result.unitNames = addedVehiclesNames
   result.midPoint = midPoint
   return result
@@ -720,7 +720,7 @@ function autogft.enableIOCEV()
           local function triggerCommand()
             autogft.informOfClosestEnemyVehicles(group)
           end
-          local groupCommand = autogft.GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
+          local groupCommand = autogft_GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
           groupCommand:enable()
           enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
         end
