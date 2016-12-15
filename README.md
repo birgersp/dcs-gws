@@ -24,7 +24,7 @@ Gives each player (client) in the mission the ability to get direction and dista
 ## How to use
 (Tip: The demo video will show how steps 2-5 are performed)
 
-1. Download and unpack [the latest release zip](https://github.com/birgersp/dcs-autogft/releases)  
+1. Download and unpack [the latest autogft release zip](https://github.com/birgersp/dcs-autogft/releases/latest/)  
 2. Add some trigger zones to your DCS World mission  
 <img src="https://cloud.githubusercontent.com/assets/5260237/21239139/ef528744-c305-11e6-9fa4-d19f45ac4b78.jpg" width="640"/>
 3. Make a script (a .lua file) for your mission, use the example provided to get started  
