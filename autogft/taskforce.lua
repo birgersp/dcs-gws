@@ -1,8 +1,8 @@
 ---
 -- @type autogft_TaskForce
 -- @field #number country
--- @field #list<#string> stagingZones
--- @field #list<#autogft_ControlZone> controlZones
+-- @field #list<#string> baseZones
+-- @field #list<#autogft_ControlZone> targets
 -- @field #number speed
 -- @field #string formation
 -- @field #list<#autogft_UnitSpec> unitSpecs
@@ -14,10 +14,10 @@ autogft_TaskForce.__index = autogft_TaskForce
 ---
 -- @param #autogft_TaskForce self
 -- @param #number country
--- @param #list<#string> stagingZones
--- @param #list<#string> controlZones
+-- @param #list<#string> baseZones
+-- @param #list<#string> targetZones
 -- @return #autogft_TaskForce
-function autogft_TaskForce:new(country, stagingZones, controlZones)
+function autogft_TaskForce:new(country, baseZones, targetZones)
 
   local function verifyZoneExists(name)
     assert(trigger.misc.getZone(name) ~= nil, "Zone \""..name.."\" does not exist in this mission.")
@@ -25,19 +25,19 @@ function autogft_TaskForce:new(country, stagingZones, controlZones)
 
   self = setmetatable({}, autogft_TaskForce)
   self.country = country
-  for k,v in pairs(stagingZones) do verifyZoneExists(v) end
-  self.stagingZones = stagingZones
+  for k,v in pairs(baseZones) do verifyZoneExists(v) end
+  self.baseZones = baseZones
   self.unitSpecs = {}
-  self.controlZones = {}
+  self.targetZones = {}
   self.speed = 100
   self.formation = "cone"
-  for i = 1, #controlZones do
-    local controlZone = controlZones[i]
+  for i = 1, #targetZones do
+    local controlZone = targetZones[i]
     verifyZoneExists(controlZone)
-    self.controlZones[#self.controlZones + 1] = autogft_ControlZone:new(controlZone)
+    self.targetZones[#self.targetZones + 1] = autogft_ControlZone:new(controlZone)
   end
   self.groups = {}
-  self.target = controlZones[1]
+  self.target = targetZones[1]
   return self
 end
 
@@ -73,7 +73,7 @@ function autogft_TaskForce:reinforce(spawn)
   local stagedUnits = {}
   local addedUnitIds = {}
   if not spawn then
-    stagedUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.stagingZones)
+    stagedUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
   end
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -117,8 +117,8 @@ function autogft_TaskForce:reinforce(spawn)
 
     -- Assign units to group
     if spawn then
-      local spawnZoneIndex = math.random(#self.stagingZones)
-      local spawnZone = trigger.misc.getZone(self.stagingZones[spawnZoneIndex])
+      local spawnZoneIndex = math.random(#self.baseZones)
+      local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
 
       while replacedUnits < replacements do
 
@@ -183,8 +183,8 @@ function autogft_TaskForce:updateTarget()
 
   local done = false
   local zoneIndex = 1
-  while done == false and zoneIndex <= #self.controlZones do
-    local zone = self.controlZones[zoneIndex]
+  while done == false and zoneIndex <= #self.targetZones do
+    local zone = self.targetZones[zoneIndex]
     local newStatus = nil
     if #mist.getUnitsInZones(redVehicles, {zone.name}) > 0 then
       newStatus = coalition.side.RED
@@ -210,7 +210,7 @@ function autogft_TaskForce:updateTarget()
   end
 
   if self.target == nil then
-    self.target = self.controlZones[#self.controlZones].name
+    self.target = self.targetZones[#self.targetZones].name
   end
   return self
 end
@@ -252,7 +252,7 @@ end
 -- @param #autogft_TaskForce self
 -- @param #number timeIntervalSec
 -- @return #autogft_TaskForce
-function autogft_TaskForce:enableObjectiveUpdateTimer(timeIntervalSec)
+function autogft_TaskForce:setTargetUpdateTimer(timeIntervalSec)
   local function autoIssue()
     self:updateTarget()
     self:cleanGroups()
@@ -269,7 +269,7 @@ end
 -- @param #boolean spawn
 -- @param #number maxReinforcementTime (optional)
 -- @return #autogft_TaskForce
-function autogft_TaskForce:enableReinforcementTimer(timeIntervalSec, spawn, maxReinforcementTime)
+function autogft_TaskForce:setReinforcementTimer(timeIntervalSec, spawn, maxReinforcementTime)
   local keepReinforcing = true
   local function reinforce()
     if keepReinforcing then
@@ -293,7 +293,7 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:enableDefaultTimers()
-  self:enableObjectiveUpdateTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
+  self:setTargetUpdateTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
   self:enableRespawnTimer(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
   return self
 end
@@ -310,4 +310,36 @@ function autogft_TaskForce:containsUnit(unit)
     end
   end
   return false
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:respawn()
+  return self:reinforce(true)
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @param #number timeIntervalSec
+-- @param #number maxRespawnTime (optional)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:setRespawnTimer(timeIntervalSec, maxRespawnTime)
+  return self:setReinforcementTimer(timeIntervalSec, true, maxRespawnTime)
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:restage()
+  return self:reinforce(false)
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @param #number timeIntervalSec
+-- @param #number maxRestageTime (optional)
+-- @return #autogft_TaskForce
+function autogft_TaskForce:setRestageTimer(timeIntervalSec, maxRestageTime)
+  return self:setReinforcementTimer(timeIntervalSec, false, maxRestageTime)
 end

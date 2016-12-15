@@ -12,20 +12,20 @@ autogft.TaskForce:new(country.id.USA, {"SPAWN1", "SPAWN2"}, {"Combat1", "Combat2
   -- Add some LAV-25's aswell
   :addUnitSpec(4, "LAV-25")
   -- Spawn the task force once (the "true" parameter specifies to spawn the units)
-  :reinforce(true)
+  :respawn()
   -- Enable automatic objective update every 120 seconds
-  :enableObjectiveUpdateTimer(120)
+  :setTargetUpdateTimer(120)
   -- Enable automatic re-spawning of destroyed units every 300 seconds, for a total of 1200 seconds
-  :enableReinforcementTimer(300, true)
+  :setRespawnTimer(300)
 
 
 -- Create a task force of Russian units, with some different spawn zone and objectives
 autogft.TaskForce:new(country.id.RUSSIA, {"STAGING1"}, {"Combat3", "Combat2", "Combat1"})
   :addUnitSpec(4, "T-90")
   -- (Note there is no "true" parameter in this reinforcement, so it will only use pre-spawned units)
-  :enableObjectiveUpdateTimer(120)
+  :setTargetUpdateTimer(120)
   -- (Note there is no second time value in this timer, so this re-spawning will go on forever)
-  :enableReinforcementTimer(10)
+  :setRestageTimer(10)
 
 -- Enable "Intel On Closest Enemy Vehicle" radio command option (F10) for players
 -- Note: This is enabled 30 seconds after player group is activated
