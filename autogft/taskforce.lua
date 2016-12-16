@@ -44,7 +44,17 @@ function autogft_TaskForce:cleanGroups()
   local newGroups = {}
   for i = 1, #self.groups do
     local group = self.groups[i]
-    if #group:getUnits() > 0 then newGroups[#newGroups + 1] = group end
+    local units = group:getUnits()
+    if #units > 0 then
+      -- Verify that this group actually has existing units
+      local hasExistingUnit = false
+      local unitIndex = 1
+      while unitIndex < #units and not hasExistingUnit do
+        hasExistingUnit = units[unitIndex]:isExist()
+        unitIndex = unitIndex + 1
+      end
+      if hasExistingUnit then newGroups[#newGroups + 1] = group end
+    end
   end
   self.groups = newGroups
   return self
