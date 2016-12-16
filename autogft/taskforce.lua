@@ -148,13 +148,13 @@ function autogft_TaskForce:reinforce(spawn)
         ["units"] = units,
         ["name"] = groupName
       }
-      coalition.addGroup(self.country, Group.Category.GROUND, groupData)
+      local group = coalition.addGroup(self.country, Group.Category.GROUND, groupData)
       autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
 
       -- Issue group to control zone
-      self.groups[#self.groups + 1] = Group.getByName(groupName)
+      self.groups[#self.groups + 1] = group
       if self.target ~= nil then
-        autogft.issueGroupTo(groupName, self.target)
+        autogft.issueGroupTo(group, self.target)
       end
     end
   end
@@ -209,20 +209,7 @@ end
 function autogft_TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
-    local hasExistingUnit = false
-    -- Verify that the group has live units
-    local units = self.groups[i]:getUnits()
-    local unitIndex = 1
-    while unitIndex < #units and not hasExistingUnit do
-      if units[unitIndex]:isExist() then
-        hasExistingUnit = true
-      else
-        unitIndex = unitIndex + 1
-      end
-    end
-    if hasExistingUnit then
-      autogft.issueGroupTo(self.groups[i]:getName(), self.target, self.speed, self.formation)
-    end
+    autogft.issueGroupTo(self.groups[i], self.target, self.speed, self.formation)
   end
   return self
 end

@@ -24,16 +24,17 @@ autogft.debugMode = false
 -- Utility function definitions
 
 ---
+-- @param DCSGroup#Group group
 -- @param #string groupName
 -- @param #string zoneName
-function autogft.issueGroupTo(groupName, zoneName, speed, formation)
+function autogft.issueGroupTo(group, zoneName, speed, formation)
   local destinationZone = trigger.misc.getZone(zoneName)
   local destinationZonePos2 = {
     x = destinationZone.point.x,
     y = destinationZone.point.z
   }
   local randomPointVars = {
-    group = Group.getByName(groupName),
+    group = group,
     point = destinationZonePos2,
     radius = destinationZone.radius,
     speed = speed,
