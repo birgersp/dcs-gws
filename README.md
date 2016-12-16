@@ -1,8 +1,6 @@
 # Autonomous Ground Force Tasking
 Utility script for DCS World mission making
 
-[(Somewhat outdated) Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
-
 ## Current features
 
 ### Task forces
@@ -35,3 +33,5 @@ Gives each player (client) in the mission the ability to get direction and dista
 <img src="https://cloud.githubusercontent.com/assets/5260237/21239238/4ea96f3c-c306-11e6-9cc8-38d8360fcccc.jpg" width="640"/>
 
 Use the `unit-types.txt` to view a list of available unit types
+
+[(Outdated) Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
