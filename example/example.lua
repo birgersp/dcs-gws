@@ -45,8 +45,9 @@ autogft.TaskForce:new()
   :addTargetZone("Combat2")
   :addTargetZone("Combat1")
   :addUnitSpec(4, "T-90")
+  :reinforce()
   :setTargetUpdateTimer(120)
-  :setReinforceTimer(10)
+  :setReinforceTimer(300)
 
 
 
