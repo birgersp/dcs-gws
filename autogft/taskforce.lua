@@ -62,14 +62,14 @@ end
 
 ---
 -- @param #autogft_TaskForce self
--- @param #boolean spawn
+-- @param #boolean useSpawning
 -- @return #autogft_TaskForce
-function autogft_TaskForce:reinforce(spawn)
+function autogft_TaskForce:reinforce(useSpawning)
   self:assertValid()
   -- If not spawning, use friendly vehicles for staging
   local stagedUnits = {}
   local addedUnitIds = {}
-  if not spawn then
+  if not useSpawning then
     stagedUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
   end
   local spawnedUnitCount = 0
@@ -113,7 +113,7 @@ function autogft_TaskForce:reinforce(spawn)
     local replacedUnits = 0
 
     -- Assign units to group
-    if spawn then
+    if useSpawning then
       local spawnZoneIndex = math.random(#self.baseZones)
       local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
 
@@ -131,7 +131,7 @@ function autogft_TaskForce:reinforce(spawn)
       end
     else
       local stagedUnitIndex = 1
-      while replacedUnits < replacements and stagedUnitIndex < #stagedUnits do
+      while replacedUnits < replacements and stagedUnitIndex <= #stagedUnits do
         local unit = stagedUnits[stagedUnitIndex]
         if unit:isExist()
           and unit:getTypeName() == unitSpec.type
@@ -139,8 +139,7 @@ function autogft_TaskForce:reinforce(spawn)
           and not autogft.contains(addedUnitIds, unit:getID()) then
           local x = unit:getPosition().p.x
           local y = unit:getPosition().p.z
-          -- TODO: (somehow) use heading from unit
-          local heading = 0
+          local heading = mist.getHeading(unit)
           addUnit(unitSpec.type, unit:getName(), unit:getID(), x, y, heading)
           addedUnitIds[#addedUnitIds + 1] = unit:getID()
           replacedUnits = replacedUnits + 1
