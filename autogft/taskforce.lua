@@ -66,11 +66,12 @@ end
 -- @return #autogft_TaskForce
 function autogft_TaskForce:reinforce(useSpawning)
   self:assertValid()
-  -- If not spawning, use friendly vehicles for staging
-  local stagedUnits = {}
-  local addedUnitIds = {}
+  -- If not spawning, use existing vehicles for as reinforcements
+  local availableUnits
+  local addedUnitIds
   if not useSpawning then
-    stagedUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
+    availableUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
+    addedUnitIds = {}
   end
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -116,23 +117,20 @@ function autogft_TaskForce:reinforce(useSpawning)
     if useSpawning then
       local spawnZoneIndex = math.random(#self.baseZones)
       local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
-
       while replacedUnits < replacements do
-
         local id = autogft.lastCreatedUnitId
         local name = "Unit no " .. autogft.lastCreatedUnitId
         local x = spawnZone.point.x + 15 * spawnedUnitCount
         local y = spawnZone.point.z - 15 * spawnedUnitCount
         autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
         addUnit(unitSpec.type, name, id, x, y, 0)
-
         spawnedUnitCount = spawnedUnitCount + 1
         replacedUnits = replacedUnits + 1
       end
     else
-      local stagedUnitIndex = 1
-      while replacedUnits < replacements and stagedUnitIndex <= #stagedUnits do
-        local unit = stagedUnits[stagedUnitIndex]
+      local availableUnitIndex = 1
+      while replacedUnits < replacements and availableUnitIndex <= #availableUnits do
+        local unit = availableUnits[availableUnitIndex]
         if unit:isExist()
           and unit:getTypeName() == unitSpec.type
           and not self:containsUnit(unit)
@@ -144,7 +142,7 @@ function autogft_TaskForce:reinforce(useSpawning)
           addedUnitIds[#addedUnitIds + 1] = unit:getID()
           replacedUnits = replacedUnits + 1
         end
-        stagedUnitIndex = stagedUnitIndex + 1
+        availableUnitIndex = availableUnitIndex + 1
       end
     end
 
@@ -250,15 +248,15 @@ end
 ---
 -- @param #autogft_TaskForce self
 -- @param #number timeIntervalSec
--- @param #boolean spawn
 -- @param #number maxReinforcementTime (optional)
+-- @param #boolean useSpawning (optional)
 -- @return #autogft_TaskForce
-function autogft_TaskForce:setReinforcementTimer(timeIntervalSec, spawn, maxReinforcementTime)
+function autogft_TaskForce:setReinforceTimer(timeIntervalSec, maxReinforcementTime, useSpawning)
   self:assertValid()
   local keepReinforcing = true
   local function reinforce()
     if keepReinforcing then
-      self:reinforce(spawn)
+      self:reinforce(useSpawning)
       autogft.scheduleFunction(reinforce, timeIntervalSec)
     end
   end
@@ -310,23 +308,7 @@ end
 -- @param #number maxRespawnTime (optional)
 -- @return #autogft_TaskForce
 function autogft_TaskForce:setRespawnTimer(timeIntervalSec, maxRespawnTime)
-  return self:setReinforcementTimer(timeIntervalSec, true, maxRespawnTime)
-end
-
----
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
-function autogft_TaskForce:restage()
-  return self:reinforce(false)
-end
-
----
--- @param #autogft_TaskForce self
--- @param #number timeIntervalSec
--- @param #number maxRestageTime (optional)
--- @return #autogft_TaskForce
-function autogft_TaskForce:setRestageTimer(timeIntervalSec, maxRestageTime)
-  return self:setReinforcementTimer(timeIntervalSec, false, maxRestageTime)
+  return self:setReinforceTimer(timeIntervalSec, maxRespawnTime, true)
 end
 
 ---

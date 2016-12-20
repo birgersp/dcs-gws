@@ -11,7 +11,7 @@
 
 -- (SPAWNING EXAMPLE)
 -- 1. Creates a task force of US units
--- 2. Adds zones "SPAWN1" and "SPAWN2" as base zones (for spawning or staging)
+-- 2. Adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force)
 -- 3. Adds zones "Combat1", "Combat" and "Combat3" as target zones. "Combat1" will be the first target
 -- 4. Adds two groups of M1-Abrams, and a group of 4 LAV-25s
 -- 5. Respawns the task force (at the base zones)
@@ -36,8 +36,7 @@ autogft.TaskForce:new()
 
 -- (STAGING EXAMPLE)
 -- Same as the previous code, but this time for some russian units and with a different base 
--- Note this task force will not respawn, but "re-stage" instead
--- This means the task force will only be reinforced by units that are located in the base prior to reinforcing 
+-- Note this task force will not respawn units. Only pre-existing units located in the base zone will be used to reinforce it
 
 autogft.TaskForce:new()
   :setCountry(country.id.RUSSIA)
@@ -47,7 +46,7 @@ autogft.TaskForce:new()
   :addTargetZone("Combat1")
   :addUnitSpec(4, "T-90")
   :setTargetUpdateTimer(120)
-  :setRestageTimer(10)
+  :setReinforceTimer(10)
 
 
 
