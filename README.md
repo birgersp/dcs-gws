@@ -22,7 +22,7 @@ This features gives each player (client) in the mission the ability to get direc
 2. Add some trigger zones to your DCS World mission  
 <img src="https://cloud.githubusercontent.com/assets/5260237/21239139/ef528744-c305-11e6-9fa4-d19f45ac4b78.jpg" width="640"/>
 
-3. Make a script (a .lua file) for your mission, use the example provided to get started  
+3. Make a script (a .lua file) for your mission, use the example.lua fila (provided in the release zip) to get started  
 
 4. In your mission, create a mission start trigger  
 
