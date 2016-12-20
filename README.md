@@ -10,8 +10,8 @@ This project aims to enable DCS World mission makers to easily set up dynamic ba
 Task forces (AI units) will try to assume control of pre-defined mission trigger zones. Once the task force units has cleared a zone of enemy units, it will move to the next in the list (automatically). If any of the task force's previously controlled zones are invaded by enemies, the task force will retreat to retake that zone.
 
 When a task force is attacked and taking casualties, it can be set to be automatically reinforced using two modes:
-* Re-spawn units from base zones and reinforce task force
-* Assume control of units located in the base and reinforce task force
+* Spawn new units in the base(s)
+* Assume control of pre-existing units located in the base(s)
 
 ### Intel on close ground units
 This features gives each player (client) in the mission the ability to get direction and distance to enemy ground units. Ideal when players want a simple way to find enemy ground targets for A/G practice.
@@ -29,8 +29,7 @@ This features gives each player (client) in the mission the ability to get direc
 5. Add two "DO SCRIPT FILE" actions to the trigger, one to load the autogft standalone (first) and another to load your mission script  
 <img src="https://cloud.githubusercontent.com/assets/5260237/21239387/f762718c-c306-11e6-8f58-07480400e8fb.jpg" width="640"/>
 
-6. Start your mission  
-<img src="https://cloud.githubusercontent.com/assets/5260237/21239238/4ea96f3c-c306-11e6-9cc8-38d8360fcccc.jpg" width="640"/>
+6. Start your mission
 
 Please note: If you want to change your mission script later, you need to reload it into your mission by clicking "open" in the do script file action and select it again. The standalone script does not have to be re-loaded.  
 
