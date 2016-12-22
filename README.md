@@ -38,3 +38,10 @@ Please note: If you want to change your mission script later, you need to reload
 Use the [`unit-types.txt`](https://raw.githubusercontent.com/birgersp/dcs-unit-types/master/unit-types.txt) to view a list of available unit types
 
 [(Outdated) Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
+
+## Planned features
+(See [issue list](https://github.com/birgersp/dcs-autogft/issues))
+
+## Credits
+- [MIST project](https://github.com/mrSkortch/MissionScriptingTools)
+- [DCS-API](https://github.com/FlightControl-Master/DCS-API) initially written by [Sven](https://github.com/FlightControl-Master)
