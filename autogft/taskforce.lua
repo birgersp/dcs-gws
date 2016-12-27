@@ -5,6 +5,7 @@
 -- @field #list<#autogft_ControlZone> targetZones
 -- @field #number speed
 -- @field #string formation
+-- @field #string skill
 -- @field #list<#autogft_UnitSpec> unitSpecs
 -- @field #list<DCSGroup#Group> groups
 -- @field #string target
@@ -21,6 +22,7 @@ function autogft_TaskForce:new()
   self.targetZones = {}
   self.speed = 100
   self.formation = "cone"
+  self.skill = "High"
   self.unitSpecs = {}
   self.groups = {}
   self.target = ""
@@ -102,7 +104,7 @@ function autogft_TaskForce:reinforce(useSpawning)
         ["y"] = y,
         ["heading"] = heading,
         ["name"] = name,
-        ["skill"] = "High",
+        ["skill"] = self.skill,
         ["playerCanDrive"] = true
       }
     end
@@ -350,5 +352,14 @@ function autogft_TaskForce:assertValid()
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
   assert(#self.targetZones > 0, "Task force has no target zones. Use \"addTargetZone\" to add a target zone.")
   assert(#self.unitSpecs > 0, "Task force as no unit specifications. Use \"addUnitSpec\" to add a unit specification.")
+  return self
+end
+
+---
+-- @param #autogft_TaskForce self
+-- @param #string skill
+-- @return #autogft_TaskForce
+function autogft_TaskForce:setSkill(skill)
+  self.skill = skill
   return self
 end
