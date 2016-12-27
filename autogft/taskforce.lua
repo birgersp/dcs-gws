@@ -68,10 +68,8 @@ function autogft_TaskForce:reinforce(useSpawning)
   self:assertValid()
   -- If not spawning, use existing vehicles for as reinforcements
   local availableUnits
-  local addedUnitIds
   if not useSpawning then
     availableUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
-    addedUnitIds = {}
   end
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -92,9 +90,8 @@ function autogft_TaskForce:reinforce(useSpawning)
     -- Get replacements
     if replacements <= 0 then return self end
 
-    local groupName
     local units = {}
-    local function addUnit(type, name, id, x, y, heading)
+    local function addUnit(type, name, x, y, heading)
       units[#units + 1] = {
         ["type"] = type,
         ["transportable"] =
@@ -105,7 +102,6 @@ function autogft_TaskForce:reinforce(useSpawning)
         ["y"] = y,
         ["heading"] = heading,
         ["name"] = name,
-        ["unitId"] = id,
         ["skill"] = "High",
         ["playerCanDrive"] = true
       }
@@ -118,12 +114,14 @@ function autogft_TaskForce:reinforce(useSpawning)
       local spawnZoneIndex = math.random(#self.baseZones)
       local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
       while replacedUnits < replacements do
-        local id = autogft.lastCreatedUnitId
-        local name = "Unit no " .. autogft.lastCreatedUnitId
+        local name
+        while (not name) or Unit.getByName(name) do -- Make sure this unit does not exist
+          autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
+          name = "autogft unit #" .. autogft.lastCreatedUnitId
+        end
         local x = spawnZone.point.x + 15 * spawnedUnitCount
         local y = spawnZone.point.z - 15 * spawnedUnitCount
-        autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
-        addUnit(unitSpec.type, name, id, x, y, 0)
+        addUnit(unitSpec.type, name, x, y, 0)
         spawnedUnitCount = spawnedUnitCount + 1
         replacedUnits = replacedUnits + 1
       end
@@ -133,13 +131,11 @@ function autogft_TaskForce:reinforce(useSpawning)
         local unit = availableUnits[availableUnitIndex]
         if unit:isExist()
           and unit:getTypeName() == unitSpec.type
-          and not self:containsUnit(unit)
-          and not autogft.contains(addedUnitIds, unit:getID()) then
+          and not self:containsUnit(unit) then
           local x = unit:getPosition().p.x
           local y = unit:getPosition().p.z
           local heading = mist.getHeading(unit)
-          addUnit(unitSpec.type, unit:getName(), unit:getID(), x, y, heading)
-          addedUnitIds[#addedUnitIds + 1] = unit:getID()
+          addUnit(unitSpec.type, unit:getName(), x, y, heading)
           replacedUnits = replacedUnits + 1
         end
         availableUnitIndex = availableUnitIndex + 1
@@ -148,7 +144,11 @@ function autogft_TaskForce:reinforce(useSpawning)
 
     if #units > 0 then
       -- Create a group
-      groupName = "Group #00" .. autogft.lastCreatedGroupId
+      local groupName
+      while (not groupName) or Group.getByName(groupName) do
+        autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
+        groupName = "autogft group #" .. autogft.lastCreatedGroupId
+      end
       local groupData = {
         ["route"] = {},
         ["groupId"] = autogft.lastCreatedGroupId,
