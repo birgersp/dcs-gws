@@ -12,11 +12,6 @@ autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
 autogft.DEFAULT_AUTO_ISSUE_DELAY = 600
 autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
 
--- Counters
-
-autogft.lastCreatedUnitId = 0
-autogft.lastCreatedGroupId = 0
-
 -- Misc
 
 autogft.debugMode = false
