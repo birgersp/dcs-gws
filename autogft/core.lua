@@ -316,9 +316,13 @@ function autogft.enableIOCEV()
 
 end
 
-function autogft.debug(variable)
+function autogft.debug(variable, text)
   if autogft.debugMode then
-    env.info(autogft.toString(variable))
+    if text then
+      env.info(text .. ": " .. autogft.toString(variable))
+    else
+      env.info(autogft.toString(variable))
+    end
   end
 end
 
