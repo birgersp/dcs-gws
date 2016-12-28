@@ -110,6 +110,8 @@ function autogft_TaskForce:reinforce(useSpawning)
     end
 
     local replacedUnits = 0
+    local replacedUnitNameCounter = 0
+    local replacedGroupNameCounter = 0
 
     -- Assign units to group
     if useSpawning then
@@ -118,8 +120,8 @@ function autogft_TaskForce:reinforce(useSpawning)
       while replacedUnits < replacements do
         local name
         while (not name) or Unit.getByName(name) do -- Make sure this unit does not exist
-          autogft.lastCreatedUnitId = autogft.lastCreatedUnitId + 1
-          name = "autogft unit #" .. autogft.lastCreatedUnitId
+          replacedUnitNameCounter = replacedUnitNameCounter + 1
+          name = "autogft unit #" .. replacedUnitNameCounter
         end
         local x = spawnZone.point.x + 15 * spawnedUnitCount
         local y = spawnZone.point.z - 15 * spawnedUnitCount
@@ -148,17 +150,15 @@ function autogft_TaskForce:reinforce(useSpawning)
       -- Create a group
       local groupName
       while (not groupName) or Group.getByName(groupName) do
-        autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
-        groupName = "autogft group #" .. autogft.lastCreatedGroupId
+        replacedGroupNameCounter = replacedGroupNameCounter + 1
+        groupName = "autogft group #" .. replacedGroupNameCounter
       end
       local groupData = {
         ["route"] = {},
-        ["groupId"] = autogft.lastCreatedGroupId,
         ["units"] = units,
         ["name"] = groupName
       }
       local group = coalition.addGroup(self.country, Group.Category.GROUND, groupData)
-      autogft.lastCreatedGroupId = autogft.lastCreatedGroupId + 1
 
       -- Issue group to control zone
       self.groups[#self.groups + 1] = group
