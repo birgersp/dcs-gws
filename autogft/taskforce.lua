@@ -51,13 +51,14 @@ function autogft_TaskForce:cleanGroups()
       -- Verify that this group actually has existing units
       local hasExistingUnit = false
       local unitIndex = 1
-      while unitIndex < #units and not hasExistingUnit do
+      while unitIndex <= #units and not hasExistingUnit do
         hasExistingUnit = units[unitIndex]:isExist()
         unitIndex = unitIndex + 1
       end
       if hasExistingUnit then newGroups[#newGroups + 1] = group end
     end
   end
+  
   self.groups = newGroups
   return self
 end
@@ -85,8 +86,10 @@ function autogft_TaskForce:reinforce(useSpawning)
     end
     desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
     local replacements = desiredUnits[unitSpec.type]
+    
     for groupIndex = 1, #self.groups do
-      replacements = replacements - autogft.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
+      local existingUnits = autogft.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
+      replacements = replacements - existingUnits
     end
 
     -- Get replacements
