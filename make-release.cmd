@@ -1,5 +1,3 @@
-@echo off
-
 set archive_dir=build-zip
 set archive_file=%archive_dir%\autogft.zip
 
@@ -10,6 +8,8 @@ if exist %archive_dir% (
 ) else md %archive_dir%
 
 cd build
+
 copy "C:\Users\birge\Saved Games\DCS\Missions\autogft-example.miz" .
 ren autogft-example.miz example.miz
+
 7z a ..\%archive_file% *.*

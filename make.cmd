@@ -16,9 +16,10 @@ set build=%output_dir%\autogft.lua
 set build_standalone=%output_dir%\autogft-standalone.lua
 
 set comment_prefix=--
-
 echo Time is %time%
 if not exist %output_dir% md %output_dir%
+echo Cleaning contents of "%output_dir%"
+del /Q %output_dir%
 rem set input=%sources%
 rem set output=%build%
 rem call:make
