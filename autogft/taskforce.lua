@@ -58,7 +58,7 @@ function autogft_TaskForce:cleanGroups()
       if hasExistingUnit then newGroups[#newGroups + 1] = group end
     end
   end
-  
+
   self.groups = newGroups
   return self
 end
@@ -86,7 +86,7 @@ function autogft_TaskForce:reinforce(useSpawning)
     end
     desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
     local replacements = desiredUnits[unitSpec.type]
-    
+
     for groupIndex = 1, #self.groups do
       local existingUnits = autogft.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
       replacements = replacements - existingUnits
@@ -122,7 +122,8 @@ function autogft_TaskForce:reinforce(useSpawning)
       local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
       while replacedUnits < replacements do
         local name
-        while (not name) or Unit.getByName(name) do -- Make sure this unit does not exist
+        -- Find a unique unit name
+        while (not name) or Unit.getByName(name) do
           replacedUnitNameCounter = replacedUnitNameCounter + 1
           name = "autogft unit #" .. replacedUnitNameCounter
         end
@@ -150,8 +151,8 @@ function autogft_TaskForce:reinforce(useSpawning)
     end
 
     if #units > 0 then
-      -- Create a group
       local groupName
+      -- Find a unique group name
       while (not groupName) or Group.getByName(groupName) do
         replacedGroupNameCounter = replacedGroupNameCounter + 1
         groupName = "autogft group #" .. replacedGroupNameCounter
@@ -161,6 +162,7 @@ function autogft_TaskForce:reinforce(useSpawning)
         ["units"] = units,
         ["name"] = groupName
       }
+      -- Create a group
       local group = coalition.addGroup(self.country, Group.Category.GROUND, groupData)
 
       -- Issue group to control zone
