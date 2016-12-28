@@ -14,9 +14,10 @@
 -- 2. Adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force)
 -- 3. Adds zones "Combat1", "Combat" and "Combat3" as target zones. "Combat1" will be the first target
 -- 4. Adds two groups of M1-Abrams, and a group of 4 LAV-25s
--- 5. Respawns the task force (at the base zones)
--- 6. Sets a "target update timer" which a time interval (in seconds) of how often orders will be updated
--- 7. Sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
+-- 5. Set the skill of this task force to be "Excellent" (default is "High")
+-- 6. Respawns the task force (at the base zones)
+-- 7. Sets a "target update timer" which a time interval (in seconds) of how often orders will be updated
+-- 8. Sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
 
 autogft.TaskForce:new()
   :setCountry(country.id.USA)
@@ -28,6 +29,7 @@ autogft.TaskForce:new()
   :addUnitSpec(4, "M-1 Abrams")
   :addUnitSpec(3, "M-1 Abrams")
   :addUnitSpec(4, "LAV-25")
+  :setSkill("Excellent")
   :respawn()
   :setTargetUpdateTimer(120)
   :setRespawnTimer(300)
