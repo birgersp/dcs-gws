@@ -16,7 +16,7 @@
 -- 4. Adds two groups of M1-Abrams, and a group of 4 LAV-25s
 -- 5. Set the skill of this task force to be "Excellent" (default is "High")
 -- 6. Respawns the task force (at the base zones)
--- 7. Sets a "target update timer" which a time interval (in seconds) of how often orders will be updated
+-- 7. Sets a "advancement timer" which a time interval (in seconds) of how often orders will be updated and units will be set to move
 -- 8. Sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
 
 autogft_TaskForce:new()
@@ -31,7 +31,7 @@ autogft_TaskForce:new()
   :addUnitSpec(4, "LAV-25")
   :setSkill("Excellent")
   :respawn()
-  :setTargetUpdateTimer(120)
+  :setAdvancementTimer(120)
   :setRespawnTimer(300)
 
 
@@ -48,7 +48,7 @@ autogft_TaskForce:new()
   :addTargetZone("Combat1")
   :addUnitSpec(4, "T-90")
   :reinforce()
-  :setTargetUpdateTimer(120)
+  :setAdvancementTimer(120)
   :setReinforceTimer(300)
 
 

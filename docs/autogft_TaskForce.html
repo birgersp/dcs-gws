@@ -99,13 +99,13 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).enableDefaultTimers">autogft_TaskForce:enableDefaultTimers()</a></td>
 		<td class="summary">
-<p>Enables a target update timer (at 10 min intervals) and a respawning timer (at 30 min intervals). </p>
+<p>Enables a advancement timer (at 10 min intervals) and a respawning timer (at 30 min intervals).</p>
 </td>
 		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).formation">autogft_TaskForce.formation</a></td>
 		<td class="summary">
-<p>Formation of moving units</p>
+<p>Formation of moving units (default: "cone")</p>
 </td>
 		</tr>
 		<tr>
@@ -115,9 +115,15 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).issueTo">autogft_TaskForce:issueTo(zone)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).maxDistanceKM">autogft_TaskForce.maxDistanceKM</a></td>
 		<td class="summary">
-<p>Sets all units in the task force to move towards (attack) a zone.</p>
+<p>Maximum distance of task force routes between each advancement, in kilometres (default: 1)</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).moveGroupToTarget">autogft_TaskForce:moveGroupToTarget(group)</a></td>
+		<td class="summary">
+<p>Issues a group to move to a random point within a zone.</p>
 </td>
 		</tr>
 		<tr>
@@ -145,9 +151,21 @@
 </td>
 		</tr>
 		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setAdvancementTimer">autogft_TaskForce:setAdvancementTimer(timeInterval)</a></td>
+		<td class="summary">
+<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
+</td>
+		</tr>
+		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setCountry">autogft_TaskForce:setCountry(country)</a></td>
 		<td class="summary">
 <p>Sets the country ID of this task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setMaxRouteDistance">autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)</a></td>
+		<td class="summary">
+<p>Sets the maximum distance of unit routes (see <a href="##(autogft_TaskForce).maxDistanceKM">autogft_TaskForce.maxDistanceKM</a>).</p>
 </td>
 		</tr>
 		<tr>
@@ -169,21 +187,15 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setTargetUpdateTimer">autogft_TaskForce:setTargetUpdateTimer(timeInterval)</a></td>
-		<td class="summary">
-<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
-</td>
-		</tr>
-		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).skill">autogft_TaskForce.skill</a></td>
 		<td class="summary">
-<p>Skill of units</p>
+<p>Skill of units (default: "High")</p>
 </td>
 		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a></td>
 		<td class="summary">
-<p>Desired speed of moving units</p>
+<p>Desired speed of moving units (default: max speed)</p>
 </td>
 		</tr>
 		<tr>
@@ -440,7 +452,10 @@ True if this task force contains the unit, false otherwise.</p>
 </dt>
 <dd>
 	
-<p>Enables a target update timer (at 10 min intervals) and a respawning timer (at 30 min intervals). </p>
+<p>Enables a advancement timer (at 10 min intervals) and a respawning timer (at 30 min intervals).</p>
+
+	
+<p>See <a href="##(autogft_TaskForce).setAdvancementTimer">autogft_TaskForce.setAdvancementTimer</a> and <a href="##(autogft_TaskForce).enableRespawnTimer">autogft_TaskForce.enableRespawnTimer</a></p>
 
 		<h3>Return value</h3>
 				
@@ -459,7 +474,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Formation of moving units</p>
+<p>Formation of moving units (default: "cone")</p>
 
 </dd>
 </dl>
@@ -480,20 +495,34 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).issueTo" >
-<strong>autogft_TaskForce:issueTo(zone)</strong>
+		<em>#number</em>
+<a id="#(autogft_TaskForce).maxDistanceKM" >
+<strong>autogft_TaskForce.maxDistanceKM</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Sets all units in the task force to move towards (attack) a zone.</p>
+<p>Maximum distance of task force routes between each advancement, in kilometres (default: 1)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForce).moveGroupToTarget" >
+<strong>autogft_TaskForce:moveGroupToTarget(group)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Issues a group to move to a random point within a zone.</p>
 
 		<h3>Parameter</h3>
 		<ul>
 				<li>
 				
-<p><code><em>#string zone </em></code>: 
-Name of zone to move to (attack)</p>
+<p><code><em><a href="DCSGroup.html##(Group)">DCSGroup#Group</a> group </em></code>: 
+Group instance to move</p>
 
 				</li>
 		</ul>
@@ -592,6 +621,36 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
+<a id="#(autogft_TaskForce).setAdvancementTimer" >
+<strong>autogft_TaskForce:setAdvancementTimer(timeInterval)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
+
+	
+<p>Invokes <a href="##(autogft_TaskForce).moveToTarget">autogft_TaskForce.moveToTarget</a>.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number timeInterval </em></code>: 
+Seconds between each target update</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 <a id="#(autogft_TaskForce).setCountry" >
 <strong>autogft_TaskForce:setCountry(country)</strong>
 </a>
@@ -606,6 +665,38 @@ This instance (self)</p>
 				
 <p><code><em>#number country </em></code>: 
 Country ID</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForce).setMaxRouteDistance" >
+<strong>autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the maximum distance of unit routes (see <a href="##(autogft_TaskForce).maxDistanceKM">autogft_TaskForce.maxDistanceKM</a>).</p>
+
+	
+<p>If set, this number constrains how far groups of the task force will move between each move command (advancement).
+When units are moving towards a target, units will stop at this distance and wait for the next movement command.
+This prevents lag when computing routes over long distances.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number maxDistanceKM </em></code>: 
+Maximum distance (kilometres)</p>
 
 				</li>
 		</ul>
@@ -718,36 +809,6 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setTargetUpdateTimer" >
-<strong>autogft_TaskForce:setTargetUpdateTimer(timeInterval)</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
-
-	
-<p>Invokes <a href="##(autogft_TaskForce).moveToTarget">autogft_TaskForce.moveToTarget</a>. </p>
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#number timeInterval </em></code>: 
-Seconds between each target update</p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
-This instance (self)</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
 		<em>#string</em>
 <a id="#(autogft_TaskForce).skill" >
 <strong>autogft_TaskForce.skill</strong>
@@ -755,7 +816,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Skill of units</p>
+<p>Skill of units (default: "High")</p>
 
 </dd>
 </dl>
@@ -769,7 +830,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Desired speed of moving units</p>
+<p>Desired speed of moving units (default: max speed)</p>
 
 </dd>
 </dl>
@@ -830,6 +891,7 @@ This instance (self)</p>
 <p>This function iterates through the target zones, updating the status of each.
 If no enemies are present, and friendly units are present, the zone is considered "cleared".
 If enemies are present, the zone is considered "uncleared".
+If no units are present in the zone, its state is left unchanged.
 Once a zone is considered "uncleared", this is set as the task force's current target.
 If all zones are considered "cleared", the last target zone added will be set as the current target.</p>
 

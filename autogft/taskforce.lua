@@ -8,9 +8,10 @@
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
 -- @field #list<#autogft_ControlZone> targetZones List of target zones
--- @field #number speed Desired speed of moving units
--- @field #string formation Formation of moving units
--- @field #string skill Skill of units
+-- @field #number speed Desired speed of moving units (default: max speed)
+-- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 1)
+-- @field #string formation Formation of moving units (default: "cone")
+-- @field #string skill Skill of units (default: "High")
 -- @field #list<autogft_UnitSpec#autogft_UnitSpec> unitSpecs Unit specifications
 -- @field #list<DCSGroup#Group> groups Unit groups currently active
 -- @field #string target Name of the zone that this task force is currently targeting
@@ -26,6 +27,7 @@ function autogft_TaskForce:new()
   self.baseZones = {}
   self.targetZones = {}
   self.speed = 100
+  self.maxDistanceKM = 1
   self.formation = "cone"
   self.skill = "High"
   self.unitSpecs = {}
@@ -251,7 +253,7 @@ end
 -- @param #autogft_TaskForce self
 -- @param #number timeInterval Seconds between each target update
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:setTargetUpdateTimer(timeInterval)
+function autogft_TaskForce:setAdvancementTimer(timeInterval)
   self:assertValid()
   local function autoIssue()
     self:updateTarget()
@@ -292,11 +294,12 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
 end
 
 ---
--- Enables a target update timer (at 10 min intervals) and a respawning timer (at 30 min intervals).
+-- Enables a advancement timer (at 10 min intervals) and a respawning timer (at 30 min intervals).
+-- See @{#autogft_TaskForce.setAdvancementTimer} and @{#autogft_TaskForce.enableRespawnTimer}
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:enableDefaultTimers()
-  self:setTargetUpdateTimer(600)
+  self:setAdvancementTimer(600)
   self:enableRespawnTimer(1800)
   return self
 end
@@ -392,27 +395,67 @@ end
 
 ---
 -- Issues a group to move to a random point within a zone.
--- If a task force has a max distance, and the distance between the group and the zone is above it, the group will stop before reaching the zone.
 -- @param #autogft_TaskForce self
--- @param DCSGroup#Group group gro
+-- @param DCSGroup#Group group Group instance to move
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:moveGroupToTarget(group)
-  -- (If max distance is set)
-  -- Determine group lead
-  -- Check distance between group lead and zone
-  -- If distance over max, reduce distance and set radius to 0
 
   local destinationZone = trigger.misc.getZone(self.target)
   local destinationZonePos2 = {
     x = destinationZone.point.x,
     y = destinationZone.point.z
   }
+  local radius = destinationZone.radius
+
+  -- If the task force has a "max distance" specified
+  if self.maxDistanceKM > 0 then
+    local units = group:getUnits()
+    local unitIndex = 1
+    local groupLeader
+    while not groupLeader and unitIndex <= #units do
+      if units[unitIndex]:isExist() then
+        groupLeader = units[unitIndex]
+      else
+        unitIndex = unitIndex + 1
+      end
+    end
+    if not groupLeader then return self end
+    local groupPos = groupLeader:getPosition().p
+    local groupToZone = {
+      x = destinationZone.point.x - groupPos.x,
+      z = destinationZone.point.z - groupPos.z
+    }
+    local groupToZoneMag = math.sqrt(groupToZone.x^2 + groupToZone.z^2)
+    local maxDistanceM = self.maxDistanceKM * 1000
+    if groupToZoneMag - destinationZone.radius > maxDistanceM then
+      destinationZonePos2.x = groupPos.x + groupToZone.x / groupToZoneMag * maxDistanceM
+      destinationZonePos2.y = groupPos.z + groupToZone.z / groupToZoneMag * maxDistanceM
+      radius = 0
+    end
+  end
+
   local randomPointVars = {
     group = group,
     point = destinationZonePos2,
-    radius = destinationZone.radius,
+    radius = radius,
     speed = self.speed,
     formation = self.formation,
     disableRoads = true
   }
   mist.groupToRandomPoint(randomPointVars)
+  
+  return self
+end
+
+---
+-- Sets the maximum distance of unit routes (see @{#autogft_TaskForce.maxDistanceKM}).
+-- If set, this number constrains how far groups of the task force will move between each move command (advancement).
+-- When units are moving towards a target, units will stop at this distance and wait for the next movement command.
+-- This prevents lag when computing routes over long distances.
+-- @param #autogft_TaskForce self
+-- @param #number maxDistanceKM Maximum distance (kilometres)
+-- @return #autogft_TaskForce This instance (self)
+function autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)
+  self.maxDistanceKM = maxDistanceKM
+  return self
 end
