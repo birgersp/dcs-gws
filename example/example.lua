@@ -29,7 +29,6 @@ autogft_TaskForce:new()
   :addUnitSpec(4, "M-1 Abrams")
   :addUnitSpec(3, "M-1 Abrams")
   :addUnitSpec(4, "LAV-25")
-  :setSkill("Excellent")
   :respawn()
   :setAdvancementTimer(120)
   :setRespawnTimer(300)
@@ -50,6 +49,26 @@ autogft_TaskForce:new()
   :reinforce()
   :setAdvancementTimer(120)
   :setReinforceTimer(300)
+
+
+
+-- (VARIOUS OTHER FEATURES EXAMPLE)
+-- Another US task force, this one with using roads, excellent skill, max advancement distance 3km, low speed (5km/h)
+
+autogft_TaskForce:new()
+  :setCountry(country.id.USA)
+  :addBaseZone("SPAWN1")
+  :addTargetZone("Combat1")
+  :addTargetZone("Combat2")
+  :addTargetZone("Combat3")
+  :addUnitSpec(2, "M-1 Abrams")
+  :setUseRoads(true)
+  :setSkill("Excellent")
+  :setMaxRouteDistance(3)
+  :setSpeed(5)
+  :respawn()
+  :setAdvancementTimer(300)
+  :setRespawnTimer(300)
 
 
 
