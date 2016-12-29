@@ -248,7 +248,7 @@ function autogft_TaskForce:issueTo(zone)
 end
 
 ---
--- Sets all units to move towards the current target.
+-- Sets all units to move (directly) towards the current target.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:moveToTarget()
@@ -257,7 +257,8 @@ function autogft_TaskForce:moveToTarget()
 end
 
 ---
--- Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals. 
+-- Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.
+-- Invokes @{#autogft_TaskForce.moveToTarget}. 
 -- @param #autogft_TaskForce self
 -- @param #number timeInterval Seconds between each target update
 -- @return #autogft_TaskForce This instance (self)

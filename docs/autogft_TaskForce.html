@@ -123,7 +123,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).moveToTarget">autogft_TaskForce:moveToTarget()</a></td>
 		<td class="summary">
-<p>Sets all units to move towards the current target.</p>
+<p>Sets all units to move (directly) towards the current target.</p>
 </td>
 		</tr>
 		<tr>
@@ -171,7 +171,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setTargetUpdateTimer">autogft_TaskForce:setTargetUpdateTimer(timeInterval)</a></td>
 		<td class="summary">
-<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals. </p>
+<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
 </td>
 		</tr>
 		<tr>
@@ -513,7 +513,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Sets all units to move towards the current target.</p>
+<p>Sets all units to move (directly) towards the current target.</p>
 
 		<h3>Return value</h3>
 				
@@ -724,7 +724,10 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals. </p>
+<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
+
+	
+<p>Invokes <a href="##(autogft_TaskForce).moveToTarget">autogft_TaskForce.moveToTarget</a>. </p>
 
 		<h3>Parameter</h3>
 		<ul>
