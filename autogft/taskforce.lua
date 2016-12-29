@@ -8,9 +8,10 @@
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
 -- @field #list<#autogft_ControlZone> targetZones List of target zones
--- @field #number speed Desired speed of moving units (default: max speed)
+-- @field #number speed Desired speed of moving units, in km/h (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 1)
 -- @field #string formation Formation of moving units (default: "cone")
+-- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
 -- @field #list<autogft_UnitSpec#autogft_UnitSpec> unitSpecs Unit specifications
 -- @field #list<DCSGroup#Group> groups Unit groups currently active
@@ -29,6 +30,7 @@ function autogft_TaskForce:new()
   self.speed = 100
   self.maxDistanceKM = 1
   self.formation = "cone"
+  self.useRoads = false
   self.skill = "High"
   self.unitSpecs = {}
   self.groups = {}
@@ -440,10 +442,10 @@ function autogft_TaskForce:moveGroupToTarget(group)
     radius = radius,
     speed = self.speed,
     formation = self.formation,
-    disableRoads = true
+    disableRoads = not self.useRoads
   }
   mist.groupToRandomPoint(randomPointVars)
-  
+
   return self
 end
 
@@ -457,5 +459,28 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)
   self.maxDistanceKM = maxDistanceKM
+  return self
+end
+
+---
+-- Sets wether the task force should use roads or not (see @{#autogft_TaskForce.useRoads}).
+-- @param #autogft_TaskForce self
+-- @param #boolean useRoads (Optional) Wether to use roads or not (default: true)
+-- @return #autogft_TaskForce This instance (self)
+function autogft_TaskForce:setUseRoads(useRoads)
+  if useRoads == nil then
+    useRoads = true
+  end
+  self.useRoads = useRoads
+  return self
+end
+
+---
+-- Sets the desired speed of the task force units when advancing (see @{#autogft_TaskForce.speed}).
+-- @param #autogft_TaskForce self
+-- @param #boolean speed New speed (in km/h)
+-- @return #autogft_TaskForce This instance (self)
+function autogft_TaskForce:setSpeed(speed)
+  self.speed = speed
   return self
 end

@@ -187,6 +187,18 @@
 </td>
 		</tr>
 		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setSpeed">autogft_TaskForce:setSpeed(speed)</a></td>
+		<td class="summary">
+<p>Sets the desired speed of the task force units when advancing (see <a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a>).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setUseRoads">autogft_TaskForce:setUseRoads(useRoads)</a></td>
+		<td class="summary">
+<p>Sets wether the task force should use roads or not (see <a href="##(autogft_TaskForce).useRoads">autogft_TaskForce.useRoads</a>).</p>
+</td>
+		</tr>
+		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).skill">autogft_TaskForce.skill</a></td>
 		<td class="summary">
 <p>Skill of units (default: "High")</p>
@@ -195,7 +207,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a></td>
 		<td class="summary">
-<p>Desired speed of moving units (default: max speed)</p>
+<p>Desired speed of moving units, in km/h (default: max speed)</p>
 </td>
 		</tr>
 		<tr>
@@ -220,6 +232,12 @@
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).updateTarget">autogft_TaskForce:updateTarget()</a></td>
 		<td class="summary">
 <p>Checks the status of target zones, and sets the current target zone (<a href="##(autogft_TaskForce).target">autogft_TaskForce.target</a>) of this task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).useRoads">autogft_TaskForce.useRoads</a></td>
+		<td class="summary">
+<p>Wether the task force should use roads or not (default: false)</p>
 </td>
 		</tr>
 	</table>
@@ -809,6 +827,60 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
+<a id="#(autogft_TaskForce).setSpeed" >
+<strong>autogft_TaskForce:setSpeed(speed)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the desired speed of the task force units when advancing (see <a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a>).</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#boolean speed </em></code>: 
+New speed (in km/h)</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForce).setUseRoads" >
+<strong>autogft_TaskForce:setUseRoads(useRoads)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets wether the task force should use roads or not (see <a href="##(autogft_TaskForce).useRoads">autogft_TaskForce.useRoads</a>).</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#boolean useRoads </em></code>: 
+(Optional) Wether to use roads or not (default: true)</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 		<em>#string</em>
 <a id="#(autogft_TaskForce).skill" >
 <strong>autogft_TaskForce.skill</strong>
@@ -830,7 +902,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Desired speed of moving units (default: max speed)</p>
+<p>Desired speed of moving units, in km/h (default: max speed)</p>
 
 </dd>
 </dl>
@@ -899,6 +971,20 @@ If all zones are considered "cleared", the last target zone added will be set as
 				
 <p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
 This object (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#boolean</em>
+<a id="#(autogft_TaskForce).useRoads" >
+<strong>autogft_TaskForce.useRoads</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Wether the task force should use roads or not (default: false)</p>
 
 </dd>
 </dl>
