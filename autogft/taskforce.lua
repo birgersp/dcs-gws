@@ -1,4 +1,7 @@
 ---
+-- @module autogft_TaskForce
+
+---
 -- @type autogft_TaskForce
 -- @field #number country
 -- @field #list<#string> baseZones
@@ -10,13 +13,12 @@
 -- @field #list<DCSGroup#Group> groups
 -- @field #string target
 autogft_TaskForce = {}
-autogft_TaskForce.__index = autogft_TaskForce
 
 ---
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:new()
-  self = setmetatable({}, autogft_TaskForce)
+  self = setmetatable({}, {__index = autogft_TaskForce})
   self.country = -1
   self.baseZones = {}
   self.targetZones = {}

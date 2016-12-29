@@ -1,3 +1,6 @@
+---
+-- @module autogft
+
 -- Namespace declaration
 
 autogft = {

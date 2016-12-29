@@ -1,4 +1,7 @@
 ---
+-- @module autogft_GroupCommand
+
+---
 -- @type autogft_GroupCommand
 -- @field #string commandName
 -- @field #string groupName
@@ -7,7 +10,6 @@
 -- @field #number timerId
 -- @field #boolean enabled
 autogft_GroupCommand = {}
-autogft_GroupCommand.__index = autogft_GroupCommand
 
 ---
 -- @param #autogft_GroupCommand self
@@ -16,7 +18,7 @@ autogft_GroupCommand.__index = autogft_GroupCommand
 -- @param #function func
 -- @return #autogft_GroupCommand
 function autogft_GroupCommand:new(commandName, groupName, func)
-  self = setmetatable({}, autogft_GroupCommand)
+  self = setmetatable({}, {__index = autogft_GroupCommand})
   self.commandName = commandName
   self.groupName = groupName
   self.groupId = Group.getByName(groupName):getID()
