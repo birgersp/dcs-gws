@@ -39,8 +39,11 @@ Use the [`unit-types.txt`](https://raw.githubusercontent.com/birgersp/dcs-unit-t
 
 [(Outdated) Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
 
+## Documenation
+Available [here](https://birgersp.github.io/dcs-autogft/)
+
 ## Planned features
-(See [issue list](https://github.com/birgersp/dcs-autogft/issues))
+See [issue list](https://github.com/birgersp/dcs-autogft/issues)
 
 ## Credits
 - [MIST project](https://github.com/mrSkortch/MissionScriptingTools)
