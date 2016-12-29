@@ -17,5 +17,5 @@ if exist %archive_dir% (
 	if exist %archive_file% del %archive_file%
 ) else md %archive_dir%
 cd %build_dir%
-7z a ..\%archive_file% *.*
+7z a ..\%archive_file% *.* docs\
 cd ..
