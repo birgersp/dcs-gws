@@ -217,8 +217,7 @@ function autogft_informOfClosestEnemyVehicles(group)
     local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
     local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
-    local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
-    --  local cardinalDir = autogft_radToCardinalDir(dirRad)
+    local cardinalDir = autogft_radToCardinalDir(dirRad)
     local distanceM = autogft_getDistanceBetween(midPoint, groupUnitPos)
     local distanceKM = distanceM / 1000
     local distanceNM = distanceKM / 1.852
@@ -242,7 +241,7 @@ function autogft_informOfClosestEnemyVehicles(group)
     end
 
     local distanceNMRounded = math.floor(distanceNM + 0.5)
-    text = text .. " located " .. distanceNMRounded .. "nm at ~" .. dirDegree .. " from group lead"
+    text = text .. " located " .. distanceNMRounded .. "nm " .. cardinalDir .. " of group lead"
     trigger.action.outTextForGroup(group:getID(), text, 30)
   end
 
