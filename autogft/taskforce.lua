@@ -1,22 +1,25 @@
 ---
+-- Task Force.
 -- @module autogft_TaskForce
 
 ---
+-- AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.
 -- @type autogft_TaskForce
--- @field #number country
--- @field #list<#string> baseZones
--- @field #list<#autogft_ControlZone> targetZones
--- @field #number speed
--- @field #string formation
--- @field #string skill
--- @field #list<#autogft_UnitSpec> unitSpecs
--- @field #list<DCSGroup#Group> groups
--- @field #string target
+-- @field #number country Country ID
+-- @field #list<#string> baseZones List of base zones
+-- @field #list<#autogft_ControlZone> targetZones List of target zones
+-- @field #number speed Desired speed of moving units
+-- @field #string formation Formation of moving units
+-- @field #string skill Skill of units
+-- @field #list<autogft_UnitSpec#autogft_UnitSpec> unitSpecs Unit specifications
+-- @field #list<DCSGroup#Group> groups Unit groups currently active
+-- @field #string target Name of the zone that this task force is currently targeting
 autogft_TaskForce = {}
 
 ---
+-- Creates a new task force instance.
 -- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:new()
   self = setmetatable({}, {__index = autogft_TaskForce})
   self.country = -1
@@ -32,18 +35,22 @@ function autogft_TaskForce:new()
 end
 
 ---
+-- Adds a unit specification.
+-- Separate unit specifications will split respawned/reinforced units into groups.
+-- See "unit-types" for a complete list of available unit types.
 -- @param #autogft_TaskForce self
--- @param #number count
--- @param #string type
--- @return #autogft_TaskForce
+-- @param #number count Number of units for the unit specification
+-- @param #string type Type of unit
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addUnitSpec(count, type)
   self.unitSpecs[#self.unitSpecs + 1] = autogft_UnitSpec:new(count, type)
   return self
 end
 
 ---
+-- Removes destroyed/non-existing groups in the task force.
 -- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:cleanGroups()
   local newGroups = {}
   for i = 1, #self.groups do
@@ -66,9 +73,12 @@ function autogft_TaskForce:cleanGroups()
 end
 
 ---
+-- Attempts to reinforce the task force according to its unit specifications.
+-- Reinforcing can either be done by spawning units, or assuming control of pre-existing units in the base zones.
+-- Reinforcing units will immidiately start moving towards current target zone.
 -- @param #autogft_TaskForce self
--- @param #boolean useSpawning
--- @return #autogft_TaskForce
+-- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default)
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:reinforce(useSpawning)
   self:assertValid()
   -- If not spawning, use existing vehicles for as reinforcements
@@ -178,8 +188,14 @@ function autogft_TaskForce:reinforce(useSpawning)
 end
 
 ---
+-- Checks the status of target zones, and sets the current target zone (@{#autogft_TaskForce.target}) of this task force.
+-- This function iterates through the target zones, updating the status of each.
+-- If no enemies are present, and friendly units are present, the zone is considered "cleared".
+-- If enemies are present, the zone is considered "uncleared".
+-- Once a zone is considered "uncleared", this is set as the task force's current target.
+-- If all zones are considered "cleared", the last target zone added will be set as the current target.
 -- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @return #autogft_TaskForce This object (self)
 function autogft_TaskForce:updateTarget()
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
@@ -219,9 +235,10 @@ function autogft_TaskForce:updateTarget()
 end
 
 ---
+-- Sets all units in the task force to move towards (attack) a zone.
 -- @param #autogft_TaskForce self
--- @param #string zone
--- @return #autogft_TaskForce
+-- @param #string zone Name of zone to move to (attack)
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
@@ -231,69 +248,74 @@ function autogft_TaskForce:issueTo(zone)
 end
 
 ---
+-- Sets all units to move towards the current target.
 -- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:moveToTarget()
   self:issueTo(self.target)
   return self
 end
 
 ---
+-- Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals. 
 -- @param #autogft_TaskForce self
--- @param #number timeIntervalSec
--- @return #autogft_TaskForce
-function autogft_TaskForce:setTargetUpdateTimer(timeIntervalSec)
+-- @param #number timeInterval Seconds between each target update
+-- @return #autogft_TaskForce This instance (self)
+function autogft_TaskForce:setTargetUpdateTimer(timeInterval)
   self:assertValid()
   local function autoIssue()
     self:updateTarget()
     self:cleanGroups()
     self:moveToTarget()
-    autogft_scheduleFunction(autoIssue, timeIntervalSec)
+    autogft_scheduleFunction(autoIssue, timeInterval)
   end
-  autogft_scheduleFunction(autoIssue, timeIntervalSec)
+  autogft_scheduleFunction(autoIssue, timeInterval)
   return self
 end
 
 ---
+-- Starts a timer which reinforces the task force.
 -- @param #autogft_TaskForce self
--- @param #number timeIntervalSec
--- @param #number maxReinforcementTime (optional)
--- @param #boolean useSpawning (optional)
--- @return #autogft_TaskForce
-function autogft_TaskForce:setReinforceTimer(timeIntervalSec, maxReinforcementTime, useSpawning)
+-- @param #number timeInterval Seconds between each reinforcement
+-- @param #number maxTime (Optional) Maximum time the timer will run for
+-- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default)
+-- @return #autogft_TaskForce This instance (self)
+function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
   self:assertValid()
   local keepReinforcing = true
   local function reinforce()
     if keepReinforcing then
       self:reinforce(useSpawning)
-      autogft_scheduleFunction(reinforce, timeIntervalSec)
+      autogft_scheduleFunction(reinforce, timeInterval)
     end
   end
 
-  autogft_scheduleFunction(reinforce, timeIntervalSec)
+  autogft_scheduleFunction(reinforce, timeInterval)
 
-  if maxReinforcementTime ~= nil and maxReinforcementTime > 0 then
+  if maxTime ~= nil and maxTime > 0 then
     local function killTimer()
       keepReinforcing = false
     end
-    autogft_scheduleFunction(killTimer, maxReinforcementTime)
+    autogft_scheduleFunction(killTimer, maxTime)
   end
   return self
 end
 
 ---
+-- Enables a target update timer (at 10 min intervals) and a respawning timer (at 30 min intervals). 
 -- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:enableDefaultTimers()
-  self:setTargetUpdateTimer(autogft_DEFAULT_AUTO_ISSUE_DELAY)
-  self:enableRespawnTimer(autogft_DEFAULT_AUTO_REINFORCE_DELAY)
+  self:setTargetUpdateTimer(600)
+  self:enableRespawnTimer(1800)
   return self
 end
 
 ---
+-- Checks if a particular unit is present in this task force.
 -- @param #autogft_TaskForce self
--- @param DCSUnit#Unit unit
--- @return #boolean
+-- @param DCSUnit#Unit unit Unit in question
+-- @return #boolean True if this task force contains the unit, false otherwise.
 function autogft_TaskForce:containsUnit(unit)
   for groupIndex = 1, #self.groups do
     local units = self.groups[groupIndex]:getUnits()
@@ -305,34 +327,38 @@ function autogft_TaskForce:containsUnit(unit)
 end
 
 ---
+-- Reinforce the task force by spawning new units.
 -- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:respawn()
   return self:reinforce(true)
 end
 
 ---
+-- Starts a timer which reinforces the task force by spawning new units.
 -- @param #autogft_TaskForce self
--- @param #number timeIntervalSec
--- @param #number maxRespawnTime (optional)
--- @return #autogft_TaskForce
-function autogft_TaskForce:setRespawnTimer(timeIntervalSec, maxRespawnTime)
-  return self:setReinforceTimer(timeIntervalSec, maxRespawnTime, true)
+-- @param #number timeInterval Seconds between each reinforcement
+-- @param #number maxTime (Optional) Maximum time the timer will run for
+-- @return #autogft_TaskForce This instance (self)
+function autogft_TaskForce:setRespawnTimer(timeInterval, maxTime)
+  return self:setReinforceTimer(timeInterval, maxTime, true)
 end
 
 ---
+-- Sets the country ID of this task force.
 -- @param #autogft_TaskForce self
--- @param #number country
--- @return #autogft_TaskForce
+-- @param #number country Country ID
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setCountry(country)
   self.country = country
   return self
 end
 
 ---
+-- Adds a base zone to the task force, used for reinforcing (spawning or staging area).
 -- @param #autogft_TaskForce self
--- @param #string baseZone
--- @return #autogft_TaskForce
+-- @param #string baseZone Name of base zone
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addBaseZone(baseZone)
   autogft_assertZoneExists(baseZone)
   self.baseZones[#self.baseZones + 1] = baseZone
@@ -340,9 +366,10 @@ function autogft_TaskForce:addBaseZone(baseZone)
 end
 
 ---
+-- Adds a target control zone to the task force. The goal of the task force will be to clear this zone of enemy units.
 -- @param #autogft_TaskForce self
--- @param #string targetZone
--- @return #autogft_TaskForce
+-- @param #string targetZone Name of target control zone
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addTargetZone(targetZone)
   autogft_assertZoneExists(targetZone)
   local targetControlZone = autogft_ControlZone:new(targetZone)
@@ -352,8 +379,9 @@ function autogft_TaskForce:addTargetZone(targetZone)
 end
 
 ---
+-- Asserts that country, base zones, target zones and unit specifications are set.
 -- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:assertValid()
   assert(self.country ~= -1, "Task force country is missing. Use \"setCountry\" to set a country.")
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
@@ -363,9 +391,10 @@ function autogft_TaskForce:assertValid()
 end
 
 ---
+-- Sets the skill of the task force reinforcement units.
 -- @param #autogft_TaskForce self
--- @param #string skill
--- @return #autogft_TaskForce
+-- @param #string skill New skill
+-- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setSkill(skill)
   self.skill = skill
   return self

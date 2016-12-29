@@ -6,8 +6,6 @@
 autogft_CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 autogft_MAX_CLUSTER_DISTANCE = 1000
 autogft_IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
-autogft_DEFAULT_AUTO_ISSUE_DELAY = 600
-autogft_DEFAULT_AUTO_REINFORCE_DELAY = 1800
 
 -- Misc
 
