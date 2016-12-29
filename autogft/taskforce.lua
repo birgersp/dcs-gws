@@ -179,9 +179,7 @@ function autogft_TaskForce:reinforce(useSpawning)
 
       -- Issue group to control zone
       self.groups[#self.groups + 1] = group
-      if self.target ~= nil then
-        autogft_issueGroupTo(group, self.target)
-      end
+      self:moveGroupToTarget(group)
     end
   end
   return self
@@ -236,30 +234,20 @@ function autogft_TaskForce:updateTarget()
 end
 
 ---
--- Sets all units in the task force to move towards (attack) a zone.
+-- Sets all units to move (directly) towards the current target.
 -- @param #autogft_TaskForce self
--- @param #string zone Name of zone to move to (attack)
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:issueTo(zone)
+function autogft_TaskForce:moveToTarget()
   self:cleanGroups()
   for i = 1, #self.groups do
-    autogft_issueGroupTo(self.groups[i], self.target, self.speed, self.formation)
+    self:moveGroupToTarget(self.groups[i])
   end
   return self
 end
 
 ---
--- Sets all units to move (directly) towards the current target.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:moveToTarget()
-  self:issueTo(self.target)
-  return self
-end
-
----
 -- Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.
--- Invokes @{#autogft_TaskForce.moveToTarget}. 
+-- Invokes @{#autogft_TaskForce.moveToTarget}.
 -- @param #autogft_TaskForce self
 -- @param #number timeInterval Seconds between each target update
 -- @return #autogft_TaskForce This instance (self)
@@ -304,7 +292,7 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
 end
 
 ---
--- Enables a target update timer (at 10 min intervals) and a respawning timer (at 30 min intervals). 
+-- Enables a target update timer (at 10 min intervals) and a respawning timer (at 30 min intervals).
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:enableDefaultTimers()
@@ -400,4 +388,31 @@ end
 function autogft_TaskForce:setSkill(skill)
   self.skill = skill
   return self
+end
+
+---
+-- Issues a group to move to a random point within a zone.
+-- If a task force has a max distance, and the distance between the group and the zone is above it, the group will stop before reaching the zone.
+-- @param #autogft_TaskForce self
+-- @param DCSGroup#Group group gro
+function autogft_TaskForce:moveGroupToTarget(group)
+  -- (If max distance is set)
+  -- Determine group lead
+  -- Check distance between group lead and zone
+  -- If distance over max, reduce distance and set radius to 0
+
+  local destinationZone = trigger.misc.getZone(self.target)
+  local destinationZonePos2 = {
+    x = destinationZone.point.x,
+    y = destinationZone.point.z
+  }
+  local randomPointVars = {
+    group = group,
+    point = destinationZonePos2,
+    radius = destinationZone.radius,
+    speed = self.speed,
+    formation = self.formation,
+    disableRoads = true
+  }
+  mist.groupToRandomPoint(randomPointVars)
 end
