@@ -8,7 +8,7 @@
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
 -- @field #list<#autogft_ControlZone> targetZones List of target zones
--- @field #number speed Desired speed of moving units, in km/h (default: max speed)
+-- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 1)
 -- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
@@ -478,7 +478,7 @@ end
 ---
 -- Sets the desired speed of the task force units when advancing (see @{#autogft_TaskForce.speed}).
 -- @param #autogft_TaskForce self
--- @param #boolean speed New speed (in km/h)
+-- @param #boolean speed New speed (in knots)
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setSpeed(speed)
   self.speed = speed

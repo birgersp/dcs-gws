@@ -53,7 +53,7 @@ autogft_TaskForce:new()
 
 
 -- (VARIOUS OTHER FEATURES EXAMPLE)
--- Another US task force, this one with using roads, excellent skill, max advancement distance 3km, low speed (5km/h)
+-- Another US task force, this one with using roads, excellent skill, max advancement distance 3km, low speed (5knots)
 
 autogft_TaskForce:new()
   :setCountry(country.id.USA)
