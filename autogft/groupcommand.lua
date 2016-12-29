@@ -41,7 +41,7 @@ function autogft_GroupCommand:enable()
         trigger.action.setUserFlag(flagName, 0)
         self.func()
       end
-      autogft.scheduleFunction(checkTrigger, 1)
+      autogft_scheduleFunction(checkTrigger, 1)
     else
     end
   end

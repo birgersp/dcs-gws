@@ -19,7 +19,7 @@
 -- 7. Sets a "target update timer" which a time interval (in seconds) of how often orders will be updated
 -- 8. Sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
 
-autogft.TaskForce:new()
+autogft_TaskForce:new()
   :setCountry(country.id.USA)
   :addBaseZone("SPAWN1")
   :addBaseZone("SPAWN2")
@@ -40,7 +40,7 @@ autogft.TaskForce:new()
 -- Same as the previous code, but this time for some russian units and with a different base 
 -- Note this task force will not respawn units. Only pre-existing units located in the base zone will be used to reinforce it
 
-autogft.TaskForce:new()
+autogft_TaskForce:new()
   :setCountry(country.id.RUSSIA)
   :addBaseZone("STAGING1")
   :addTargetZone("Combat3")
@@ -57,4 +57,4 @@ autogft.TaskForce:new()
 -- Enable the "Intel On Closest Enemy Vehicle" radio command option (F10) for human players
 -- Note: This is enabled 30 seconds after player group is activated
 
-autogft.enableIOCEV()
+autogft_enableIOCEV()

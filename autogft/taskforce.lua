@@ -74,7 +74,7 @@ function autogft_TaskForce:reinforce(useSpawning)
   -- If not spawning, use existing vehicles for as reinforcements
   local availableUnits
   if not useSpawning then
-    availableUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
+    availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
   end
   local spawnedUnitCount = 0
   self:cleanGroups()
@@ -90,7 +90,7 @@ function autogft_TaskForce:reinforce(useSpawning)
     local replacements = desiredUnits[unitSpec.type]
 
     for groupIndex = 1, #self.groups do
-      local existingUnits = autogft.countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
+      local existingUnits = autogft_countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
       replacements = replacements - existingUnits
     end
 
@@ -170,7 +170,7 @@ function autogft_TaskForce:reinforce(useSpawning)
       -- Issue group to control zone
       self.groups[#self.groups + 1] = group
       if self.target ~= nil then
-        autogft.issueGroupTo(group, self.target)
+        autogft_issueGroupTo(group, self.target)
       end
     end
   end
@@ -225,7 +225,7 @@ end
 function autogft_TaskForce:issueTo(zone)
   self:cleanGroups()
   for i = 1, #self.groups do
-    autogft.issueGroupTo(self.groups[i], self.target, self.speed, self.formation)
+    autogft_issueGroupTo(self.groups[i], self.target, self.speed, self.formation)
   end
   return self
 end
@@ -248,9 +248,9 @@ function autogft_TaskForce:setTargetUpdateTimer(timeIntervalSec)
     self:updateTarget()
     self:cleanGroups()
     self:moveToTarget()
-    autogft.scheduleFunction(autoIssue, timeIntervalSec)
+    autogft_scheduleFunction(autoIssue, timeIntervalSec)
   end
-  autogft.scheduleFunction(autoIssue, timeIntervalSec)
+  autogft_scheduleFunction(autoIssue, timeIntervalSec)
   return self
 end
 
@@ -266,17 +266,17 @@ function autogft_TaskForce:setReinforceTimer(timeIntervalSec, maxReinforcementTi
   local function reinforce()
     if keepReinforcing then
       self:reinforce(useSpawning)
-      autogft.scheduleFunction(reinforce, timeIntervalSec)
+      autogft_scheduleFunction(reinforce, timeIntervalSec)
     end
   end
 
-  autogft.scheduleFunction(reinforce, timeIntervalSec)
+  autogft_scheduleFunction(reinforce, timeIntervalSec)
 
   if maxReinforcementTime ~= nil and maxReinforcementTime > 0 then
     local function killTimer()
       keepReinforcing = false
     end
-    autogft.scheduleFunction(killTimer, maxReinforcementTime)
+    autogft_scheduleFunction(killTimer, maxReinforcementTime)
   end
   return self
 end
@@ -285,8 +285,8 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:enableDefaultTimers()
-  self:setTargetUpdateTimer(autogft.DEFAULT_AUTO_ISSUE_DELAY)
-  self:enableRespawnTimer(autogft.DEFAULT_AUTO_REINFORCE_DELAY)
+  self:setTargetUpdateTimer(autogft_DEFAULT_AUTO_ISSUE_DELAY)
+  self:enableRespawnTimer(autogft_DEFAULT_AUTO_REINFORCE_DELAY)
   return self
 end
 
@@ -334,7 +334,7 @@ end
 -- @param #string baseZone
 -- @return #autogft_TaskForce
 function autogft_TaskForce:addBaseZone(baseZone)
-  autogft.assertZoneExists(baseZone)
+  autogft_assertZoneExists(baseZone)
   self.baseZones[#self.baseZones + 1] = baseZone
   return self
 end
@@ -344,7 +344,7 @@ end
 -- @param #string targetZone
 -- @return #autogft_TaskForce
 function autogft_TaskForce:addTargetZone(targetZone)
-  autogft.assertZoneExists(targetZone)
+  autogft_assertZoneExists(targetZone)
   local targetControlZone = autogft_ControlZone:new(targetZone)
   self.targetZones[#self.targetZones + 1] = targetControlZone
   if #self.targetZones == 1 then self.target = targetZone end

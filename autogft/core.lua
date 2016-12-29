@@ -9,15 +9,15 @@ autogft = {
 
 -- Constants
 
-autogft.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
-autogft.MAX_CLUSTER_DISTANCE = 1000
-autogft.IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
-autogft.DEFAULT_AUTO_ISSUE_DELAY = 600
-autogft.DEFAULT_AUTO_REINFORCE_DELAY = 1800
+autogft_CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+autogft_MAX_CLUSTER_DISTANCE = 1000
+autogft_IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+autogft_DEFAULT_AUTO_ISSUE_DELAY = 600
+autogft_DEFAULT_AUTO_REINFORCE_DELAY = 1800
 
 -- Misc
 
-autogft.debugMode = false
+autogft_debugMode = false
 
 -- Utility function definitions
 
@@ -25,7 +25,7 @@ autogft.debugMode = false
 -- @param DCSGroup#Group group
 -- @param #string groupName
 -- @param #string zoneName
-function autogft.issueGroupTo(group, zoneName, speed, formation)
+function autogft_issueGroupTo(group, zoneName, speed, formation)
   local destinationZone = trigger.misc.getZone(zoneName)
   local destinationZonePos2 = {
     x = destinationZone.point.x,
@@ -46,7 +46,7 @@ end
 -- @param #list<DCSUnit#Unit> units
 -- @param #string type
 -- @return #number
-function autogft.countUnitsOfType(units, type)
+function autogft_countUnitsOfType(units, type)
   local count = 0
   local unit
   for i = 1, #units do
@@ -61,7 +61,7 @@ end
 -- @param #vec3
 -- @param #vec3
 -- @return #number
-function autogft.getDistanceBetween(a, b)
+function autogft_getDistanceBetween(a, b)
   local dx = a.x - b.x
   local dy = a.y - b.y
   local dz = a.z - b.z
@@ -71,7 +71,7 @@ end
 ---
 -- @param #string unitName
 -- @return DCSUnit#Unit
-function autogft.getClosestEnemyVehicle(unitName)
+function autogft_getClosestEnemyVehicle(unitName)
 
   local unit = Unit.getByName(unitName)
   local unitPosition = unit:getPosition().p
@@ -91,9 +91,9 @@ function autogft.getClosestEnemyVehicle(unitName)
       if newClosestEnemy ~= nil then
         if closestEnemy == nil then
           closestEnemy = newClosestEnemy
-          closestEnemyDistance = autogft.getDistanceBetween(unitPosition, closestEnemy:getPosition().p)
+          closestEnemyDistance = autogft_getDistanceBetween(unitPosition, closestEnemy:getPosition().p)
         else
-          newClosestEnemyDistance = autogft.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
+          newClosestEnemyDistance = autogft_getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
           if (newClosestEnemyDistance < closestEnemyDistance) then
             closestEnemy = newClosestEnemy
           end
@@ -107,17 +107,17 @@ end
 ---
 -- @param #number rad Direction in radians
 -- @return #string A string representing a cardinal direction
-function autogft.radToCardinalDir(rad)
+function autogft_radToCardinalDir(rad)
 
   local dirNormalized = rad / math.pi / 2
   local i = 1
-  if dirNormalized < (#autogft.CARDINAL_DIRECTIONS-1) / #autogft.CARDINAL_DIRECTIONS then
-    while dirNormalized > i/#autogft.CARDINAL_DIRECTIONS/2 do
+  if dirNormalized < (#autogft_CARDINAL_DIRECTIONS-1) / #autogft_CARDINAL_DIRECTIONS then
+    while dirNormalized > i/#autogft_CARDINAL_DIRECTIONS/2 do
       i = i + 2
     end
   end
   local index = math.floor(i/2) + 1
-  return autogft.CARDINAL_DIRECTIONS[index]
+  return autogft_CARDINAL_DIRECTIONS[index]
 end
 
 ---
@@ -125,7 +125,7 @@ end
 -- @param DCSUnit#Unit unit
 -- @param #number radius
 -- @return #autogft_UnitCluster
-function autogft.getFriendlyVehiclesWithin(unit, radius)
+function autogft_getFriendlyVehiclesWithin(unit, radius)
   local coalitionString
   if unit:getCoalition() == coalition.side.BLUE then
     coalitionString = "[blue]"
@@ -169,7 +169,7 @@ function autogft.getFriendlyVehiclesWithin(unit, radius)
       local nextUnit = Unit.getByName(units[i])
       if nextUnit then
         if nextUnit:getID() == targetUnit:getID() == false then
-          if autogft.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
+          if autogft_getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
             if contains(addedVehiclesNames, nextUnit:getName()) == false then
               addUnit(nextUnit)
               vehiclesWithinRecurse(nextUnit)
@@ -200,10 +200,10 @@ end
 ---
 --Prints out a message to a group, describing nearest enemy vehicles
 -- @param DCSGroup#Group group
-function autogft.informOfClosestEnemyVehicles(group)
+function autogft_informOfClosestEnemyVehicles(group)
 
   local firstGroupUnit = group:getUnit(1)
-  local closestEnemy = autogft.getClosestEnemyVehicle(firstGroupUnit:getName())
+  local closestEnemy = autogft_getClosestEnemyVehicle(firstGroupUnit:getName())
   if closestEnemy == nil then
     trigger.action.outTextForGroup(group:getID(), "No enemy vehicles", 30)
   else
@@ -213,13 +213,13 @@ function autogft.informOfClosestEnemyVehicles(group)
       z = firstGroupUnit:getPosition().p.z
     }
 
-    local enemyCluster = autogft.getFriendlyVehiclesWithin(closestEnemy, autogft.MAX_CLUSTER_DISTANCE)
+    local enemyCluster = autogft_getFriendlyVehiclesWithin(closestEnemy, autogft_MAX_CLUSTER_DISTANCE)
     local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
     local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
     local dirDegree = math.floor(dirRad / math.pi * 18 + 0.5) * 10 -- Rounded to nearest 10
-    --  local cardinalDir = autogft.radToCardinalDir(dirRad)
-    local distanceM = autogft.getDistanceBetween(midPoint, groupUnitPos)
+    --  local cardinalDir = autogft_radToCardinalDir(dirRad)
+    local distanceM = autogft_getDistanceBetween(midPoint, groupUnitPos)
     local distanceKM = distanceM / 1000
     local distanceNM = distanceKM / 1.852
 
@@ -248,7 +248,7 @@ function autogft.informOfClosestEnemyVehicles(group)
 
 end
 
-function autogft.enableIOCEV()
+function autogft_enableIOCEV()
 
   local enabledGroupCommands = {}
 
@@ -293,9 +293,9 @@ function autogft.enableIOCEV()
       if groupHasPlayer(group) then
         if not groupHasCommandEnabled(group:getID()) then
           local function triggerCommand()
-            autogft.informOfClosestEnemyVehicles(group)
+            autogft_informOfClosestEnemyVehicles(group)
           end
-          local groupCommand = autogft_GroupCommand:new(autogft.IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
+          local groupCommand = autogft_GroupCommand:new(autogft_IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
           groupCommand:enable()
           enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
         end
@@ -307,19 +307,19 @@ function autogft.enableIOCEV()
     cleanEnabledGroupCommands()
     enableForGroups(coalition.getGroups(coalition.side.RED))
     enableForGroups(coalition.getGroups(coalition.side.BLUE))
-    autogft.scheduleFunction(reEnablingLoop, 30)
+    autogft_scheduleFunction(reEnablingLoop, 30)
   end
 
   reEnablingLoop()
 
 end
 
-function autogft.debug(variable, text)
-  if autogft.debugMode then
+function autogft_debug(variable, text)
+  if autogft_debugMode then
     if text then
-      env.info(text .. ": " .. autogft.toString(variable))
+      env.info(text .. ": " .. autogft_toString(variable))
     else
-      env.info(autogft.toString(variable))
+      env.info(autogft_toString(variable))
     end
   end
 end
@@ -327,7 +327,7 @@ end
 ---
 -- @param #number coalitionId
 -- @param #list<#string> zoneNames
-function autogft.getUnitsInZones(coalitionId, zoneNames)
+function autogft_getUnitsInZones(coalitionId, zoneNames)
   local result = {}
   local groups = coalition.getGroups(coalitionId)
   for zoneNameIndex = 1, #zoneNames do
@@ -352,7 +352,7 @@ end
 ---
 -- @param #function func
 -- @param #number time
-function autogft.scheduleFunction(func, time)
+function autogft_scheduleFunction(func, time)
   local function triggerFunction()
     local success, message = pcall(func)
     if not success then
@@ -365,13 +365,13 @@ end
 ---
 -- Deep copy a table
 -- Code from https://gist.github.com/MihailJP/3931841
-function autogft.deepCopy(t)
+function autogft_deepCopy(t)
   if type(t) ~= "table" then return t end
   local meta = getmetatable(t)
   local target = {}
   for k, v in pairs(t) do
     if type(v) == "table" then
-      target[k] = autogft.deepCopy(v)
+      target[k] = autogft_deepCopy(v)
     else
       target[k] = v
     end
@@ -382,7 +382,7 @@ end
 
 ---
 -- Returns a string representation of an object
-function autogft.toString(obj)
+function autogft_toString(obj)
 
   local indent = "    "
   local function toStringRecursively(obj, level)
@@ -450,7 +450,7 @@ end
 ---
 -- @param #list list
 -- @param # item
-function autogft.contains(list, item)
+function autogft_contains(list, item)
   for i = 1, #list do
     if list[i] == item then return true end
   end
@@ -459,6 +459,6 @@ end
 
 ---
 -- @param #string zoneName
-function autogft.assertZoneExists(zoneName)
+function autogft_assertZoneExists(zoneName)
   assert(trigger.misc.getZone(zoneName) ~= nil, "Zone \""..zoneName.."\" does not exist in this mission.")
 end
