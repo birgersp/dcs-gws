@@ -2,11 +2,12 @@
 
 set sources= ^
 autogft\controlzone.lua ^
+autogft\core.lua ^
 autogft\groupcommand.lua ^
+autogft\iocev.lua ^
 autogft\taskforce.lua ^
 autogft\unitcluster.lua ^
 autogft\unitspec.lua ^
-autogft\core.lua ^
 unit-types\unit-types.lua
 
 set output_dir=build
