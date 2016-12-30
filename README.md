@@ -40,8 +40,8 @@ Use the [`unit-types.txt`](https://raw.githubusercontent.com/birgersp/dcs-unit-t
 [(Outdated) Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
 
 ## Documenation
-[Example mission script](https://raw.githubusercontent.com/birgersp/dcs-autogft/master/example/example.lua)
-[Code API](https://birgersp.github.io/dcs-autogft/)
+- [Example mission script](https://raw.githubusercontent.com/birgersp/dcs-autogft/master/example/example.lua)
+- [Code API](https://birgersp.github.io/dcs-autogft/)
 
 ## Planned features
 See [issue list](https://github.com/birgersp/dcs-autogft/issues)
