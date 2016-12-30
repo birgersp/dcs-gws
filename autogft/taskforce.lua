@@ -1,19 +1,19 @@
 ---
 -- Task Force.
 -- AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.
--- @module autogft_TaskForce
+-- @module taskforce
 
 ---
 -- @type autogft_TaskForce
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
--- @field #list<#autogft_ControlZone> targetZones List of target zones
+-- @field #list<controlzone#autogft_ControlZone> targetZones List of target zones
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 1)
 -- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
--- @field #list<autogft_UnitSpec#autogft_UnitSpec> unitSpecs Unit specifications
+-- @field #list<unitspec#autogft_UnitSpec> unitSpecs Unit specifications
 -- @field #list<DCSGroup#Group> groups Unit groups currently active
 -- @field #string target Name of the zone that this task force is currently targeting
 autogft_TaskForce = {}
@@ -230,7 +230,7 @@ function autogft_TaskForce:updateTarget()
     end
     zoneIndex = zoneIndex + 1
   end
-
+  
   if self.target == nil then
     self.target = self.targetZones[#self.targetZones].name
   end

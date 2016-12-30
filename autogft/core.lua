@@ -1,5 +1,5 @@
 ---
--- @module autogft_core
+-- @module core
 
 -- Constants
 

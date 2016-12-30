@@ -1,5 +1,5 @@
 ---
--- @module autogft_UnitSpec
+-- @module unitspec
 
 ---
 -- @type autogft_UnitSpec

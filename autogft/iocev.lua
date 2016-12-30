@@ -1,5 +1,5 @@
 ---
--- @module autogft_iocev
+-- @module iocev
 
 ---
 -- @function autogft_enableIOCEV
@@ -74,7 +74,7 @@ end
 -- @function autogft_getFriendlyVehiclesWithin
 -- @param DCSUnit#Unit unit
 -- @param #number radius
--- @return #autogft_UnitCluster
+-- @return unitcluster#autogft_UnitCluster
 function autogft_getFriendlyVehiclesWithin(unit, radius)
   local coalitionString
   if unit:getCoalition() == coalition.side.BLUE then

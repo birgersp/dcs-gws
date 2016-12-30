@@ -1,5 +1,5 @@
 ---
--- @module autogft_ControlZone
+-- @module controlzone
 
 ---
 -- @type autogft_ControlZone

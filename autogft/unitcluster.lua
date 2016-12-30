@@ -1,5 +1,5 @@
 ---
--- @module autogft_UnitCluster
+-- @module unitcluster
 
 ---
 -- @type autogft_UnitCluster
