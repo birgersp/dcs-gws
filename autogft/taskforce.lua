@@ -1,9 +1,9 @@
 ---
 -- Task Force.
+-- AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.
 -- @module autogft_TaskForce
 
 ---
--- AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.
 -- @type autogft_TaskForce
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
@@ -363,13 +363,13 @@ end
 ---
 -- Adds a target control zone to the task force. The goal of the task force will be to clear this zone of enemy units.
 -- @param #autogft_TaskForce self
--- @param #string targetZone Name of target control zone
+-- @param #string name Name of target control zone
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:addTargetZone(targetZone)
-  autogft_assertZoneExists(targetZone)
-  local targetControlZone = autogft_ControlZone:new(targetZone)
+function autogft_TaskForce:addControlZone(name)
+  autogft_assertZoneExists(name)
+  local targetControlZone = autogft_ControlZone:new(name)
   self.targetZones[#self.targetZones + 1] = targetControlZone
-  if #self.targetZones == 1 then self.target = targetZone end
+  if #self.targetZones == 1 then self.target = name end
   return self
 end
 
@@ -380,7 +380,7 @@ end
 function autogft_TaskForce:assertValid()
   assert(self.country ~= -1, "Task force country is missing. Use \"setCountry\" to set a country.")
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
-  assert(#self.targetZones > 0, "Task force has no target zones. Use \"addTargetZone\" to add a target zone.")
+  assert(#self.targetZones > 0, "Task force has no target zones. Use \"addControlZone\" to add a target zone.")
   assert(#self.unitSpecs > 0, "Task force as no unit specifications. Use \"addUnitSpec\" to add a unit specification.")
   return self
 end

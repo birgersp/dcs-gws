@@ -31,6 +31,9 @@
    
 <p>Task Force.</p>
 
+   
+<p>AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.</p>
+
 	<h2>Global(s)</h2>
 	<table class="function_list">
 		<tr>
@@ -55,7 +58,7 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addTargetZone">autogft_TaskForce:addTargetZone(targetZone)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addControlZone">autogft_TaskForce:addControlZone(name)</a></td>
 		<td class="summary">
 <p>Adds a target control zone to the task force.</p>
 </td>
@@ -258,10 +261,7 @@
 </dd>
 </dl>
 	<h2><a id="#(autogft_TaskForce)" >Type <code>autogft_TaskForce</code></a></h2>
-		
-<p>AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.</p>
-
-	<h3>Field(s)</h3>
+		<h3>Field(s)</h3>
 		<dl class="function">
 <dt>
 
@@ -306,8 +306,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addTargetZone" >
-<strong>autogft_TaskForce:addTargetZone(targetZone)</strong>
+<a id="#(autogft_TaskForce).addControlZone" >
+<strong>autogft_TaskForce:addControlZone(name)</strong>
 </a>
 </dt>
 <dd>
@@ -321,7 +321,7 @@ This instance (self)</p>
 		<ul>
 				<li>
 				
-<p><code><em>#string targetZone </em></code>: 
+<p><code><em>#string name </em></code>: 
 Name of target control zone</p>
 
 				</li>
