@@ -1,5 +1,7 @@
 @echo off
 
+set version=1_4
+
 set sources= ^
 autogft\controlzone.lua ^
 autogft\core.lua ^
@@ -13,8 +15,8 @@ unit-types\unit-types.lua
 set output_dir=build
 set sources_standalone=%sources% mist\mist_4_3_74.lua
 set include=example\example.lua unit-types\unit-types.txt
-set build=%output_dir%\autogft.lua
-set build_standalone=%output_dir%\autogft-standalone.lua
+set build=%output_dir%\autogft-%version%.lua
+set build_standalone=%output_dir%\autogft-%version%-standalone.lua
 
 set comment_prefix=--
 echo Time is %time%
