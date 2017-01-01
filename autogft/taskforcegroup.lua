@@ -3,7 +3,7 @@
 
 ---
 -- @type autogft_TaskForceGroup
--- @field unitspec#autogft_UnitSpec dcsGroup
+-- @field unitspec#autogft_UnitSpec unitSpec
 -- @field DCSGroup#Group dcsGroup
 autogft_TaskForceGroup = {}
 
@@ -13,6 +13,7 @@ autogft_TaskForceGroup = {}
 -- @return #autogft_TaskForceGroup
 function autogft_TaskForceGroup:new(unitSpec)
   self = setmetatable({}, {__index = autogft_TaskForceGroup})
+  self.unitSpec = unitSpec
   return self
 end
 

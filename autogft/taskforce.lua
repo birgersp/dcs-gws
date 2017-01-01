@@ -12,7 +12,6 @@
 -- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
--- @field #list<unitspec#autogft_UnitSpec> unitSpecs Unit specifications
 -- @field #list<taskforcegroup#autogft_TaskForceGroup> groups Groups of the task force
 -- @field #string target Name of the zone that this task force is currently targeting
 autogft_TaskForce = {}
@@ -31,7 +30,6 @@ function autogft_TaskForce:new()
   self.formation = "cone"
   self.useRoads = false
   self.skill = "High"
-  self.unitSpecs = {}
   self.groups = {}
   self.target = ""
   return self
@@ -39,6 +37,7 @@ end
 
 ---
 -- Adds a group specification.
+-- Group specifications what kind of units the task force shall consist of.
 -- See "unit-types" for a complete list of available unit types.
 -- @param #autogft_TaskForce self
 -- @param #number count Number of units for the group
@@ -75,7 +74,7 @@ function autogft_TaskForce:reinforce(useSpawning)
     local group = self.groups[groupIndex]
     if not group:exists() then
 
-      local unitSpec = self.unitSpecs[groupIndex]
+      local unitSpec = group.unitSpec
 
       local groupUnits = {}
       local function addUnit(type, name, x, y, heading)
@@ -338,7 +337,7 @@ function autogft_TaskForce:assertValid()
   assert(self.country ~= -1, "Task force country is missing. Use \"setCountry\" to set a country.")
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
   assert(#self.targetZones > 0, "Task force has no target zones. Use \"addControlZone\" to add a target zone.")
-  assert(#self.unitSpecs > 0, "Task force as no unit specifications. Use \"addUnitSpec\" to add a unit specification.")
+  assert(#self.groups > 0, "Task force as no group specifications. Use \"addGroup\" to add a unit specification.")
   return self
 end
 
