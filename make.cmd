@@ -8,6 +8,7 @@ autogft\core.lua ^
 autogft\groupcommand.lua ^
 autogft\iocev.lua ^
 autogft\taskforce.lua ^
+autogft\taskforcegroup.lua ^
 autogft\unitcluster.lua ^
 autogft\unitspec.lua ^
 unit-types\unit-types.lua
