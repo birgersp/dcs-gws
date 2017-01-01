@@ -13,7 +13,7 @@
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
 -- @field #list<unitspec#autogft_UnitSpec> unitSpecs Unit specifications
--- @field #list<DCSGroup#Group> groups Unit groups currently active
+-- @field #list<taskforcegroup#autogft_TaskForceGroup> groups Groups of the task force
 -- @field #string target Name of the zone that this task force is currently targeting
 autogft_TaskForce = {}
 
@@ -38,40 +38,15 @@ function autogft_TaskForce:new()
 end
 
 ---
--- Adds a unit specification.
--- Separate unit specifications will split respawned/reinforced units into groups.
+-- Adds a group specification.
 -- See "unit-types" for a complete list of available unit types.
 -- @param #autogft_TaskForce self
--- @param #number count Number of units for the unit specification
+-- @param #number count Number of units for the group
 -- @param #string type Type of unit
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:addUnitSpec(count, type)
-  self.unitSpecs[#self.unitSpecs + 1] = autogft_UnitSpec:new(count, type)
-  return self
-end
-
----
--- Removes destroyed/non-existing groups in the task force.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:cleanGroups()
-  local newGroups = {}
-  for i = 1, #self.groups do
-    local group = self.groups[i]
-    local units = group:getUnits()
-    if #units > 0 then
-      -- Verify that this group actually has existing units
-      local hasExistingUnit = false
-      local unitIndex = 1
-      while unitIndex <= #units and not hasExistingUnit do
-        hasExistingUnit = units[unitIndex]:isExist()
-        unitIndex = unitIndex + 1
-      end
-      if hasExistingUnit then newGroups[#newGroups + 1] = group end
-    end
-  end
-
-  self.groups = newGroups
+function autogft_TaskForce:addGroup(count, type)
+  local unitSpec = autogft_UnitSpec:new(count, type)
+  self.groups[#self.groups + 1] = autogft_TaskForceGroup:new(unitSpec)
   return self
 end
 
@@ -90,99 +65,87 @@ function autogft_TaskForce:reinforce(useSpawning)
     availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
   end
   local spawnedUnitCount = 0
-  self:cleanGroups()
+
+  local replacedUnitNameCounter = 0
+  local replacedGroupNameCounter = 0
+
   local desiredUnits = {}
-  for unitSpecIndex = 1, #self.unitSpecs do
+  for groupIndex = 1, #self.groups do
 
-    -- Determine desired replacement units of this spec
-    local unitSpec = self.unitSpecs[unitSpecIndex]
-    if desiredUnits[unitSpec.type] == nil then
-      desiredUnits[unitSpec.type] = 0
-    end
-    desiredUnits[unitSpec.type] = desiredUnits[unitSpec.type] + unitSpec.count
-    local replacements = desiredUnits[unitSpec.type]
+    local group = self.groups[groupIndex]
+    if not group:exists() then
 
-    for groupIndex = 1, #self.groups do
-      local existingUnits = autogft_countUnitsOfType(self.groups[groupIndex]:getUnits(), unitSpec.type)
-      replacements = replacements - existingUnits
-    end
+      local unitSpec = self.unitSpecs[groupIndex]
 
-    -- Get replacements
-    if replacements <= 0 then return self end
+      local groupUnits = {}
+      local function addUnit(type, name, x, y, heading)
+        groupUnits[#groupUnits + 1] = {
+          ["type"] = type,
+          ["transportable"] =
+          {
+            ["randomTransportable"] = false,
+          },
+          ["x"] = x,
+          ["y"] = y,
+          ["heading"] = heading,
+          ["name"] = name,
+          ["skill"] = self.skill,
+          ["playerCanDrive"] = true
+        }
+      end
 
-    local units = {}
-    local function addUnit(type, name, x, y, heading)
-      units[#units + 1] = {
-        ["type"] = type,
-        ["transportable"] =
-        {
-          ["randomTransportable"] = false,
-        },
-        ["x"] = x,
-        ["y"] = y,
-        ["heading"] = heading,
-        ["name"] = name,
-        ["skill"] = self.skill,
-        ["playerCanDrive"] = true
-      }
-    end
+      -- Assign units to group
+      if useSpawning then
+        local spawnZoneIndex = math.random(#self.baseZones)
+        local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
 
-    local replacedUnits = 0
-    local replacedUnitNameCounter = 0
-    local replacedGroupNameCounter = 0
-
-    -- Assign units to group
-    if useSpawning then
-      local spawnZoneIndex = math.random(#self.baseZones)
-      local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
-      while replacedUnits < replacements do
-        local name
-        -- Find a unique unit name
-        while (not name) or Unit.getByName(name) do
-          replacedUnitNameCounter = replacedUnitNameCounter + 1
-          name = "autogft unit #" .. replacedUnitNameCounter
+        while #groupUnits < unitSpec.count do
+          local name
+          -- Find a unique unit name
+          while (not name) or Unit.getByName(name) do
+            replacedUnitNameCounter = replacedUnitNameCounter + 1
+            name = "autogft unit #" .. replacedUnitNameCounter
+          end
+          local x = spawnZone.point.x + 15 * spawnedUnitCount
+          local y = spawnZone.point.z - 15 * spawnedUnitCount
+          addUnit(unitSpec.type, name, x, y, 0)
+          spawnedUnitCount = spawnedUnitCount + 1
         end
-        local x = spawnZone.point.x + 15 * spawnedUnitCount
-        local y = spawnZone.point.z - 15 * spawnedUnitCount
-        addUnit(unitSpec.type, name, x, y, 0)
-        spawnedUnitCount = spawnedUnitCount + 1
-        replacedUnits = replacedUnits + 1
-      end
-    else
-      local availableUnitIndex = 1
-      while replacedUnits < replacements and availableUnitIndex <= #availableUnits do
-        local unit = availableUnits[availableUnitIndex]
-        if unit:isExist()
-          and unit:getTypeName() == unitSpec.type
-          and not self:containsUnit(unit) then
-          local x = unit:getPosition().p.x
-          local y = unit:getPosition().p.z
-          local heading = mist.getHeading(unit)
-          addUnit(unitSpec.type, unit:getName(), x, y, heading)
-          replacedUnits = replacedUnits + 1
+      else
+        local availableUnitIndex = 1
+        while #groupUnits < unitSpec.count and availableUnitIndex <= #availableUnits do
+          local unit = availableUnits[availableUnitIndex]
+          if unit:isExist()
+            and unit:getTypeName() == unitSpec.type
+            and not self:containsUnit(unit) then
+            local x = unit:getPosition().p.x
+            local y = unit:getPosition().p.z
+            local heading = mist.getHeading(unit)
+            addUnit(unitSpec.type, unit:getName(), x, y, heading)
+          end
+          availableUnitIndex = availableUnitIndex + 1
         end
-        availableUnitIndex = availableUnitIndex + 1
       end
-    end
 
-    if #units > 0 then
-      local groupName
-      -- Find a unique group name
-      while (not groupName) or Group.getByName(groupName) do
-        replacedGroupNameCounter = replacedGroupNameCounter + 1
-        groupName = "autogft group #" .. replacedGroupNameCounter
+      if #groupUnits > 0 then
+        local groupName
+        -- Find a unique group name
+        while (not groupName) or Group.getByName(groupName) do
+          replacedGroupNameCounter = replacedGroupNameCounter + 1
+          groupName = "autogft group #" .. replacedGroupNameCounter
+        end
+        local dcsGroupData = {
+          ["route"] = {},
+          ["units"] = groupUnits,
+          ["name"] = groupName
+        }
+        -- Create a group
+        local dcsGroup = coalition.addGroup(self.country, Group.Category.GROUND, dcsGroupData)
+
+        -- Issue group to control zone
+        self.groups[groupIndex].dcsGroup = dcsGroup
+        self:moveGroupToTarget(dcsGroup)
       end
-      local groupData = {
-        ["route"] = {},
-        ["units"] = units,
-        ["name"] = groupName
-      }
-      -- Create a group
-      local group = coalition.addGroup(self.country, Group.Category.GROUND, groupData)
-
-      -- Issue group to control zone
-      self.groups[#self.groups + 1] = group
-      self:moveGroupToTarget(group)
     end
   end
   return self
@@ -229,7 +192,7 @@ function autogft_TaskForce:updateTarget()
     end
     zoneIndex = zoneIndex + 1
   end
-  
+
   if self.target == nil then
     self.target = self.targetZones[#self.targetZones].name
   end
@@ -241,9 +204,8 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:moveToTarget()
-  self:cleanGroups()
   for i = 1, #self.groups do
-    self:moveGroupToTarget(self.groups[i])
+    if self.groups[i]:exists() then self:moveGroupToTarget(self.groups[i].dcsGroup) end
   end
   return self
 end
@@ -258,7 +220,6 @@ function autogft_TaskForce:setAdvancementTimer(timeInterval)
   self:assertValid()
   local function autoIssue()
     self:updateTarget()
-    self:cleanGroups()
     self:moveToTarget()
     autogft_scheduleFunction(autoIssue, timeInterval)
   end
@@ -312,10 +273,7 @@ end
 -- @return #boolean True if this task force contains the unit, false otherwise.
 function autogft_TaskForce:containsUnit(unit)
   for groupIndex = 1, #self.groups do
-    local units = self.groups[groupIndex]:getUnits()
-    for unitIndex = 1, #units do
-      if units[unitIndex]:getID() == unit:getID() then return true end
-    end
+    if self.groups[groupIndex]:containsUnit(unit) then return true end
   end
   return false
 end
