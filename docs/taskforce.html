@@ -46,7 +46,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).<">autogft_TaskForce.<</a></td>
 		<td class="summary">
-<p>CSGroup#Group> groups Unit groups currently active</p>
+<p>askforcegroup#autogft_TaskForceGroup> groups Groups of the task force</p>
 </td>
 		</tr>
 		<tr>
@@ -62,9 +62,9 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addUnitSpec">autogft_TaskForce:addUnitSpec(count, type)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addGroup">autogft_TaskForce:addGroup(count, type)</a></td>
 		<td class="summary">
-<p>Adds a unit specification.</p>
+<p>Adds a group specification.</p>
 </td>
 		</tr>
 		<tr>
@@ -77,12 +77,6 @@
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).baseZones">autogft_TaskForce.baseZones</a></td>
 		<td class="summary">
 
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).cleanGroups">autogft_TaskForce:cleanGroups()</a></td>
-		<td class="summary">
-<p>Removes destroyed/non-existing groups in the task force.</p>
 </td>
 		</tr>
 		<tr>
@@ -224,12 +218,6 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).unitSpecs">autogft_TaskForce.unitSpecs</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).updateTarget">autogft_TaskForce:updateTarget()</a></td>
 		<td class="summary">
 <p>Checks the status of target zones, and sets the current target zone (<a href="##(autogft_TaskForce).target">autogft_TaskForce.target</a>) of this task force.</p>
@@ -272,7 +260,7 @@
 </dt>
 <dd>
 	
-<p>CSGroup#Group> groups Unit groups currently active</p>
+<p>askforcegroup#autogft_TaskForceGroup> groups Groups of the task force</p>
 
 </dd>
 </dl>
@@ -336,16 +324,16 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addUnitSpec" >
-<strong>autogft_TaskForce:addUnitSpec(count, type)</strong>
+<a id="#(autogft_TaskForce).addGroup" >
+<strong>autogft_TaskForce:addGroup(count, type)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Adds a unit specification.</p>
+<p>Adds a group specification.</p>
 
 	
-<p>Separate unit specifications will split respawned/reinforced units into groups.
+<p>Group specifications what kind of units the task force shall consist of.
 See "unit-types" for a complete list of available unit types.</p>
 
 		<h3>Parameters</h3>
@@ -353,7 +341,7 @@ See "unit-types" for a complete list of available unit types.</p>
 				<li>
 				
 <p><code><em>#number count </em></code>: 
-Number of units for the unit specification</p>
+Number of units for the group</p>
 
 				</li>
 				<li>
@@ -399,24 +387,6 @@ This instance (self)</p>
 <dd>
 	
 
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(autogft_TaskForce).cleanGroups" >
-<strong>autogft_TaskForce:cleanGroups()</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Removes destroyed/non-existing groups in the task force.</p>
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
-This instance (self)</p>
 
 </dd>
 </dl>
@@ -926,20 +896,6 @@ This instance (self)</p>
 		<em></em>
 <a id="#(autogft_TaskForce).targetZones" >
 <strong>autogft_TaskForce.targetZones</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="#(autogft_TaskForce).unitSpecs" >
-<strong>autogft_TaskForce.unitSpecs</strong>
 </a>
 </dt>
 <dd>
