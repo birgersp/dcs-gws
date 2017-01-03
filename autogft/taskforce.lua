@@ -8,7 +8,7 @@
 -- @field #list<#string> baseZones List of base zones
 -- @field #list<controlzone#autogft_ControlZone> targetZones List of target zones
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
--- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 1)
+-- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
@@ -26,7 +26,7 @@ function autogft_TaskForce:new()
   self.baseZones = {}
   self.targetZones = {}
   self.speed = 100
-  self.maxDistanceKM = 1
+  self.maxDistanceKM = 10
   self.formation = "cone"
   self.useRoads = false
   self.skill = "High"

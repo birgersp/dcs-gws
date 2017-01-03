@@ -30,8 +30,8 @@ autogft_TaskForce:new()
   :addGroup(3, "M-1 Abrams")
   :addGroup(4, "LAV-25")
   :respawn()
-  :setAdvancementTimer(120)
-  :setRespawnTimer(300)
+  :setAdvancementTimer(300)
+  :setRespawnTimer(600)
 
 
 
@@ -47,8 +47,8 @@ autogft_TaskForce:new()
   :addControlZone("Combat1")
   :addGroup(4, "T-90")
   :reinforce()
-  :setAdvancementTimer(120)
-  :setReinforceTimer(300)
+  :setAdvancementTimer(300)
+  :setReinforceTimer(600)
 
 
 
