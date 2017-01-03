@@ -425,9 +425,10 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setUseRoads(useRoads)
   if useRoads == nil then
-    useRoads = true
+    self.useRoads = true
+  else
+    self.useRoads = useRoads
   end
-  self.useRoads = useRoads
   return self
 end
 
