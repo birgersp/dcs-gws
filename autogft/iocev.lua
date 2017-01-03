@@ -1,6 +1,86 @@
 ---
 -- (DISABLED MODULE)
 
+autogft_CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+autogft_IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+autogft_MAX_CLUSTER_DISTANCE = 1000
+
+---
+-- @param #number rad Direction in radians
+-- @return #string A string representing a cardinal direction
+function autogft_radToCardinalDir(rad)
+
+  local dirNormalized = rad / math.pi / 2
+  local i = 1
+  if dirNormalized < (#autogft_CARDINAL_DIRECTIONS-1) / #autogft_CARDINAL_DIRECTIONS then
+    while dirNormalized > i/#autogft_CARDINAL_DIRECTIONS/2 do
+      i = i + 2
+    end
+  end
+  local index = math.floor(i/2) + 1
+  return autogft_CARDINAL_DIRECTIONS[index]
+end
+
+---
+-- Prints out a message to a group, describing nearest enemy vehicles
+-- @param DCSGroup#Group group
+function autogft_informOfClosestEnemyVehicles(group)
+
+  local firstGroupUnit = group:getUnit(1)
+  local closestEnemy = autogft_getClosestEnemyVehicle(firstGroupUnit:getName())
+  if closestEnemy == nil then
+    trigger.action.outTextForGroup(group:getID(), "No enemy vehicles", 30)
+  else
+    local groupUnitPos = {
+      x = firstGroupUnit:getPosition().p.x,
+      y = 0,
+      z = firstGroupUnit:getPosition().p.z
+    }
+
+    local enemyCluster = autogft_getFriendlyVehiclesWithin(closestEnemy, autogft_MAX_CLUSTER_DISTANCE)
+    local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
+
+    local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
+    local cardinalDir = autogft_radToCardinalDir(dirRad)
+    local distanceM = autogft_getDistanceBetween(midPoint, groupUnitPos)
+    local distanceKM = distanceM / 1000
+    local distanceNM = distanceKM / 1.852
+
+    local vehicleTypes = {}
+    for i = 1, #enemyCluster.unitNames do
+      local type = Unit.getByName(enemyCluster.unitNames[i]):getTypeName()
+      if vehicleTypes[type] == nil then
+        vehicleTypes[type] = 0
+      end
+
+      vehicleTypes[type] = vehicleTypes[type] + 1
+    end
+
+    local text = ""
+    for key, val in pairs(vehicleTypes) do
+      if (text ~= "") then
+        text = text..", "
+      end
+      text = text..val.." "..key
+    end
+
+    local distanceNMRounded = math.floor(distanceNM + 0.5)
+    text = text .. " located " .. distanceNMRounded .. "nm " .. cardinalDir .. " of group lead"
+    trigger.action.outTextForGroup(group:getID(), text, 30)
+  end
+
+end
+
+function autogft_debug(variable, text)
+  if autogft_debugMode then
+    if text then
+      env.info(text .. ": " .. autogft_toString(variable))
+    else
+      env.info(autogft_toString(variable))
+    end
+  end
+end
+
 ---
 -- @function autogft_enableIOCEV
 function autogft_enableIOCEV()
