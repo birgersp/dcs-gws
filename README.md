@@ -15,9 +15,6 @@ When a task force is attacked and taking casualties, it can be set to be automat
 * Spawn new units in the base(s)
 * Assume control of pre-existing units located in the base(s)
 
-### Intel on close ground units
-This features gives each player (client) in the mission the ability to get direction and distance to enemy ground units. Ideal when players want a simple way to find enemy ground targets for A/G practice.
-
 ## Getting started
 1. Download and unpack [the latest autogft release zip](https://github.com/birgersp/dcs-autogft/releases/latest/)  
 
