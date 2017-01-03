@@ -1,3 +1,5 @@
+@echo off
+
 set /p version=<version.txt
 
 set example_mission="C:\Users\birge\Saved Games\DCS\Missions\autogft-example.miz"
