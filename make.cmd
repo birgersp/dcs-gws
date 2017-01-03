@@ -6,7 +6,6 @@ set sources= ^
 autogft\controlzone.lua ^
 autogft\core.lua ^
 autogft\groupcommand.lua ^
-autogft\iocev.lua ^
 autogft\taskforce.lua ^
 autogft\taskforcegroup.lua ^
 autogft\unitcluster.lua ^

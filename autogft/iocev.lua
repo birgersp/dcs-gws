@@ -1,5 +1,5 @@
 ---
--- @module iocev
+-- (DISABLED MODULE)
 
 ---
 -- @function autogft_enableIOCEV

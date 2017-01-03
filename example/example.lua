@@ -69,11 +69,3 @@ autogft_TaskForce:new()
   :respawn()
   :setAdvancementTimer(300)
   :setRespawnTimer(300)
-
-
-
--- (INTEL ON CLOSEST ENEMY VEHICLE FEATURE)
--- Enable the "Intel On Closest Enemy Vehicle" radio command option (F10) for human players
--- Note: This is enabled 30 seconds after player group is activated
-
-autogft_enableIOCEV()
