@@ -1,7 +1,5 @@
 @echo off
 
-set version=1_4
-
 set sources= ^
 autogft\controlzone.lua ^
 autogft\core.lua ^
@@ -11,6 +9,8 @@ autogft\taskforcegroup.lua ^
 autogft\unitcluster.lua ^
 autogft\unitspec.lua ^
 unit-types\unit-types.lua
+
+set /p version=<version.txt
 
 set output_dir=build
 set sources_standalone=%sources% mist\mist_4_3_74.lua
