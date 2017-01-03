@@ -17,40 +17,22 @@
 				<a href="index.html">index</a>
 			</li></ul>
 		<ul>
-					<li><a href="autogft_ControlZone.html">autogft_ControlZone</a></li>
-					<li><a href="autogft_GroupCommand.html">autogft_GroupCommand</a></li>
-					<li><a href="autogft_TaskForce.html">autogft_TaskForce</a></li>
-					<li><a href="autogft_UnitCluster.html">autogft_UnitCluster</a></li>
-					<li><a href="autogft_UnitSpec.html">autogft_UnitSpec</a></li>
-					<li>autogft_core</li>
-					<li><a href="autogft_iocev.html">autogft_iocev</a></li>
+					<li><a href="controlzone.html">controlzone</a></li>
+					<li>core</li>
+					<li><a href="groupcommand.html">groupcommand</a></li>
+					<li><a href="taskforce.html">taskforce</a></li>
+					<li><a href="taskforcegroup.html">taskforcegroup</a></li>
+					<li><a href="unitcluster.html">unitcluster</a></li>
+					<li><a href="unitspec.html">unitspec</a></li>
 		</ul>
 	</div>
 	<div id="content">
-   <h1>Module <code>autogft_core</code></h1>
+   <h1>Module <code>core</code></h1>
    
 
 
 	<h2>Global(s)</h2>
 	<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_CARDINAL_DIRECTIONS">autogft_CARDINAL_DIRECTIONS</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_IOCEV_COMMAND_TEXT">autogft_IOCEV_COMMAND_TEXT</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_MAX_CLUSTER_DISTANCE">autogft_MAX_CLUSTER_DISTANCE</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="#autogft_assertZoneExists">autogft_assertZoneExists(zoneName)</a></td>
 		<td class="summary">
@@ -65,12 +47,6 @@
 		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="#autogft_countUnitsOfType">autogft_countUnitsOfType(<, type, units)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_debug">autogft_debug(variable, text)</a></td>
 		<td class="summary">
 
 </td>
@@ -107,67 +83,19 @@ Code from https://gist.github.com/MihailJP/3931841</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_informOfClosestEnemyVehicles">autogft_informOfClosestEnemyVehicles(group)</a></td>
-		<td class="summary">
-<p>Prints out a message to a group, describing nearest enemy vehicles</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_radToCardinalDir">autogft_radToCardinalDir(rad)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
 		<td class="name" nowrap="nowrap"><a href="#autogft_scheduleFunction">autogft_scheduleFunction(func, time)</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="#autogft_toString">autogft_toString(obj)</a></td>
+		<td class="summary">
+<p>Returns a string representation of an object</p>
+</td>
+		</tr>
 	</table>
 	<h2>Global(s)</h2>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="autogft_CARDINAL_DIRECTIONS" >
-<strong>autogft_CARDINAL_DIRECTIONS</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#string</em>
-<a id="autogft_IOCEV_COMMAND_TEXT" >
-<strong>autogft_IOCEV_COMMAND_TEXT</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="autogft_MAX_CLUSTER_DISTANCE" >
-<strong>autogft_MAX_CLUSTER_DISTANCE</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
 		<dl class="function">
 <dt>
 
@@ -256,32 +184,6 @@ CSUnit#Unit> units</p>
 <p><em>#number:</em></p>
 
 
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="autogft_debug" >
-<strong>autogft_debug(variable, text)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em> variable </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em> text </em></code>: </p>
-
-				</li>
-		</ul>
 </dd>
 </dl>
 		<dl class="function">
@@ -424,54 +326,6 @@ string> zoneNames</p>
 		<dl class="function">
 <dt>
 
-<a id="autogft_informOfClosestEnemyVehicles" >
-<strong>autogft_informOfClosestEnemyVehicles(group)</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Prints out a message to a group, describing nearest enemy vehicles</p>
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="DCSGroup.html##(Group)">DCSGroup#Group</a> group </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="autogft_radToCardinalDir" >
-<strong>autogft_radToCardinalDir(rad)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#number rad </em></code>: 
-Direction in radians</p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em>#string:</em>
-A string representing a cardinal direction</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
 <a id="autogft_scheduleFunction" >
 <strong>autogft_scheduleFunction(func, time)</strong>
 </a>
@@ -495,7 +349,28 @@ A string representing a cardinal direction</p>
 		</ul>
 </dd>
 </dl>
-	<h2><a id="#(autogft_core)" >Type <code>autogft_core</code></a></h2>
+		<dl class="function">
+<dt>
+
+<a id="autogft_toString" >
+<strong>autogft_toString(obj)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Returns a string representation of an object</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em> obj </em></code>: </p>
+
+				</li>
+		</ul>
+</dd>
+</dl>
+	<h2><a id="#(core)" >Type <code>core</code></a></h2>
 	
 			<h2><a id="#(list)" >Type <code>list</code></a></h2>
 			
