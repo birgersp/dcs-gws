@@ -60,8 +60,10 @@ function autogft_TaskForce:reinforce(useSpawning)
   self:assertValid()
   -- If not spawning, use existing vehicles for as reinforcements
   local availableUnits
+  local takenUnits
   if not useSpawning then
     availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
+    takenUnits = {}
   end
   local spawnedUnitCount = 0
 
@@ -115,12 +117,13 @@ function autogft_TaskForce:reinforce(useSpawning)
         while #groupUnits < unitSpec.count and availableUnitIndex <= #availableUnits do
           local unit = availableUnits[availableUnitIndex]
           if unit:isExist()
-            and unit:getTypeName() == unitSpec.type
-            and not self:containsUnit(unit) then
+            and not takenUnits[availableUnitIndex]
+            and unit:getTypeName() == unitSpec.type then
             local x = unit:getPosition().p.x
             local y = unit:getPosition().p.z
             local heading = mist.getHeading(unit)
             addUnit(unitSpec.type, unit:getName(), x, y, heading)
+            takenUnits[availableUnitIndex] = true
           end
           availableUnitIndex = availableUnitIndex + 1
         end
