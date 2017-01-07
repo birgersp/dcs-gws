@@ -3,7 +3,7 @@
 
 ---
 -- @type autogft_TaskForceGroup
--- @field unitspec#autogft_UnitSpec unitSpec
+-- @field #list<unitspec#autogft_UnitSpec> unitSpecs
 -- @field DCSGroup#Group dcsGroup
 autogft_TaskForceGroup = {}
 
@@ -11,9 +11,9 @@ autogft_TaskForceGroup = {}
 -- @param #autogft_TaskForceGroup self
 -- @param unitspec#autogft_UnitSpec unitSpec
 -- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:new(unitSpec)
+function autogft_TaskForceGroup:new()
   self = setmetatable({}, {__index = autogft_TaskForceGroup})
-  self.unitSpec = unitSpec
+  self.unitSpecs = {}
   return self
 end
 
@@ -45,4 +45,12 @@ function autogft_TaskForceGroup:containsUnit(unit)
     end
   end
   return false
+end
+
+---
+-- @param #autogft_TaskForceGroup self
+-- @param unitspec#autogft_UnitSpec unitSpec
+function autogft_TaskForceGroup:addUnitSpec(unitSpec)
+  self.unitSpecs[#self.unitSpecs + 1] = unitSpec
+  return self
 end

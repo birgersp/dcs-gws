@@ -38,16 +38,19 @@ function autogft_TaskForce:new()
 end
 
 ---
--- Adds a group specification.
--- Group specifications what kind of units the task force shall consist of.
+-- Adds a group specification to declare which units the task force shall consist of.
+-- If no count or type is specified, an empty group is added. Units can be added to the group with @{#autogft_TaskForce.addUnits}.
 -- See "unit-types" for a complete list of available unit types.
 -- @param #autogft_TaskForce self
--- @param #number count Number of units for the group
--- @param #string type Type of unit
+-- @param #number count (Optional) Number of units for the group
+-- @param #string type (Optional) Type of unit
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addGroup(count, type)
   local unitSpec = autogft_UnitSpec:new(count, type)
-  self.groups[#self.groups + 1] = autogft_TaskForceGroup:new(unitSpec)
+  self.groups[#self.groups + 1] = autogft_TaskForceGroup:new()
+  if count and type then
+    self:addUnits(count, type)
+  end
   return self
 end
 
@@ -368,7 +371,7 @@ end
 function autogft_TaskForce:reinforceFromUnits(availableUnits)
 
   local finished = false
-  local spawnedUnitCount, takenUnits, replacedUnitNameCounter
+  local spawnedUnitCount, takenUnits, replacedUnitNameCounter, addedGroupUnitsCount
 
   if availableUnits then
     -- Cancel if the list of available units have a length of 0
@@ -387,10 +390,8 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits)
     local group = self.groups[groupIndex]
     if not group:exists() then
 
-      local unitSpec = group.unitSpec
-
       local groupUnits = {}
-      local function addUnit(type, name, x, y, heading)
+      local function addGroupUnit(type, name, x, y, heading)
         groupUnits[#groupUnits + 1] = {
           ["type"] = type,
           ["transportable"] =
@@ -404,44 +405,50 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits)
           ["skill"] = self.skill,
           ["playerCanDrive"] = true
         }
+        addedGroupUnitsCount = addedGroupUnitsCount + 1
       end
 
-      if availableUnits then
-        -- Use pre-existing units
-        local availableUnitIndex = 1
-        while #groupUnits < unitSpec.count and availableUnitIndex <= #availableUnits do
-          local unit = availableUnits[availableUnitIndex]
-          if unit:isExist()
-            and not takenUnits[availableUnitIndex]
-            and unit:getTypeName() == unitSpec.type then
-            local x = unit:getPosition().p.x
-            local y = unit:getPosition().p.z
-            local heading = mist.getHeading(unit)
-            addUnit(unitSpec.type, unit:getName(), x, y, heading)
-            takenUnits[availableUnitIndex] = true
-          end
-          availableUnitIndex = availableUnitIndex + 1
-        end
-        if #takenUnits >= #availableUnits then finished = true end
-      else
-        -- Spawn new units
-        local spawnZoneIndex = math.random(#self.baseZones)
-        local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
+      for unitSpecIndex = 1, #group.unitSpecs do
+        local unitSpec = group.unitSpecs[unitSpecIndex]
 
-        while #groupUnits < unitSpec.count do
-          local name
-          -- Find a unique unit name
-          while (not name) or Unit.getByName(name) do
-            replacedUnitNameCounter = replacedUnitNameCounter + 1
-            name = "autogft unit #" .. replacedUnitNameCounter
+        addedGroupUnitsCount = 0
+
+        if availableUnits then
+          -- Use pre-existing units
+          local availableUnitIndex = 1
+          while addedGroupUnitsCount < unitSpec.count and availableUnitIndex <= #availableUnits do
+            local unit = availableUnits[availableUnitIndex]
+            if unit:isExist()
+              and not takenUnits[availableUnitIndex]
+              and unit:getTypeName() == unitSpec.type then
+              local x = unit:getPosition().p.x
+              local y = unit:getPosition().p.z
+              local heading = mist.getHeading(unit)
+              addGroupUnit(unitSpec.type, unit:getName(), x, y, heading)
+              takenUnits[availableUnitIndex] = true
+            end
+            availableUnitIndex = availableUnitIndex + 1
           end
-          local x = spawnZone.point.x + 15 * spawnedUnitCount
-          local y = spawnZone.point.z - 15 * spawnedUnitCount
-          addUnit(unitSpec.type, name, x, y, 0)
-          spawnedUnitCount = spawnedUnitCount + 1
+          if #takenUnits >= #availableUnits then finished = true end
+        else
+          -- Spawn new units
+          local spawnZoneIndex = math.random(#self.baseZones)
+          local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
+
+          while addedGroupUnitsCount < unitSpec.count do
+            local name
+            -- Find a unique unit name
+            while (not name) or Unit.getByName(name) do
+              replacedUnitNameCounter = replacedUnitNameCounter + 1
+              name = "autogft unit #" .. replacedUnitNameCounter
+            end
+            local x = spawnZone.point.x + 15 * spawnedUnitCount
+            local y = spawnZone.point.z - 15 * spawnedUnitCount
+            addGroupUnit(unitSpec.type, name, x, y, 0)
+            spawnedUnitCount = spawnedUnitCount + 1
+          end
         end
       end
-
       if #groupUnits > 0 then
         local groupName
         -- Find a unique group name
@@ -454,6 +461,7 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits)
           ["units"] = groupUnits,
           ["name"] = groupName
         }
+
         -- Create a group
         local dcsGroup = coalition.addGroup(self.country, Group.Category.GROUND, dcsGroupData)
 
@@ -491,10 +499,20 @@ function autogft_TaskForce:scanUnits(groupNamePrefix)
 end
 
 ---
--- Stops the reinforcing/respawning timers
+-- Stops the reinforcing/respawning timers.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:stopReinforcing()
   self.keepReinforcing = false
+  return self
+end
+
+---
+-- Adds unit specifications to the most recently added group (see @{#autogft_TaskForce.addGroup}) of the task force.
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:addUnits(count, type)
+  assert(#self.groups > 0, "Task force as no group specifications. Use \"addGroup\" to add a unit specification.")
+  self.groups[#self.groups]:addUnitSpec(autogft_UnitSpec:new(count, type))
   return self
 end
