@@ -53,7 +53,12 @@ autogft_TaskForce:new()
 
 
 -- (VARIOUS OTHER FEATURES EXAMPLE)
--- Another US task force, this one with using roads, excellent skill, max advancement distance 3km, low speed (5knots)
+-- Another US task force;
+-- using roads,
+-- excellent skill,
+-- max advancement distance 3km,
+-- low speed (5knots),
+-- scanning units
 
 autogft_TaskForce:new()
   :setCountry(country.id.USA)
@@ -66,6 +71,7 @@ autogft_TaskForce:new()
   :setSkill("Excellent")
   :setMaxRouteDistance(3)
   :setSpeed(5)
+  :scanUnits("TF")
   :respawn()
   :setAdvancementTimer(300)
   :setRespawnTimer(300)
