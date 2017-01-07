@@ -7,13 +7,13 @@ set build_dir=build
 set archive_dir=build-zip
 set archive_file=%archive_dir%\autogft-%version%.zip
 
-set current_dir=%cd%
-cd ..
 call make.cmd
 call make-docs.cmd
 
-copy README.md %build_dir%\README.txt
+set current_dir=%cd%
+cd ..
 
+copy README.md %build_dir%\README.txt
 copy %example_mission% %build_dir%\example-%version%.miz
 
 md %build_dir%\docs
