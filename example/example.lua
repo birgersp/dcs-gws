@@ -13,7 +13,8 @@
 -- 1. Creates a task force of US units
 -- 2. Adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force)
 -- 3. Adds zones "Combat1", "Combat" and "Combat3" as target zones. "Combat1" will be the first target
--- 4. Adds two groups of M1-Abrams, and a group of 4 LAV-25s
+-- 4. Adds a group of M1-Abrams
+-- 5. Adds another group of LAV-25 and some more M1-Abrams
 -- 5. Set the skill of this task force to be "Excellent" (default is "High")
 -- 6. Respawns the task force (at the base zones)
 -- 7. Sets a "advancement timer" which a time interval (in seconds) of how often orders will be updated and units will be set to move
@@ -26,9 +27,8 @@ autogft_TaskForce:new()
   :addControlZone("Combat1")
   :addControlZone("Combat2")
   :addControlZone("Combat3")
-  :addGroup(4, "M-1 Abrams")
-  :addGroup(3, "M-1 Abrams")
-  :addGroup(4, "LAV-25")
+  :addGroup():addUnits(4, "M-1 Abrams")
+  :addGroup():addUnits(4, "LAV-25"):addUnits(3, "M-1 Abrams")
   :respawn()
   :setAdvancementTimer(300)
   :setRespawnTimer(600)
