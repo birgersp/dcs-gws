@@ -59,6 +59,7 @@ autogft_TaskForce:new()
 -- max advancement distance 3km,
 -- low speed (5knots),
 -- scanning units
+-- only keep respawning for 1200 sec (20 min)
 
 autogft_TaskForce:new()
   :setCountry(country.id.USA)
@@ -74,4 +75,4 @@ autogft_TaskForce:new()
   :scanUnits("TF")
   :respawn()
   :setAdvancementTimer(300)
-  :setRespawnTimer(300)
+  :setRespawnTimer(300, 1200)

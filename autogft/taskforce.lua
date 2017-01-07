@@ -14,6 +14,7 @@
 -- @field #string skill Skill of units (default: "High")
 -- @field #list<taskforcegroup#autogft_TaskForceGroup> groups Groups of the task force
 -- @field #string target Name of the zone that this task force is currently targeting
+-- @field #boolean keepReinforcing Declares wheter this task force should keep reinforcing (if timers are set) or not (default: true)
 autogft_TaskForce = {}
 
 ---
@@ -32,6 +33,7 @@ function autogft_TaskForce:new()
   self.skill = "High"
   self.groups = {}
   self.target = ""
+  self.keepReinforcing = true
   return self
 end
 
@@ -50,7 +52,7 @@ function autogft_TaskForce:addGroup(count, type)
 end
 
 ---
--- Triggers task force reinforcing (invokes @{#autogft_TaskForce.reinforceFromUnits}) by either looking up units in base zones or spawning new units.  
+-- Triggers task force reinforcing (invokes @{#autogft_TaskForce.reinforceFromUnits}) by either looking up units in base zones or spawning new units.
 -- @param #autogft_TaskForce self
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default is false, using units located in base)
 -- @return #autogft_TaskForce This instance (self)
@@ -148,9 +150,11 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
   self:assertValid()
-  local keepReinforcing = true
+
+  self.keepReinforcing = true
+
   local function reinforce()
-    if keepReinforcing then
+    if self.keepReinforcing then
       self:reinforce(useSpawning)
       autogft_scheduleFunction(reinforce, timeInterval)
     end
@@ -160,7 +164,7 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
 
   if maxTime ~= nil and maxTime > 0 then
     local function killTimer()
-      keepReinforcing = false
+      self.keepReinforcing = false
     end
     autogft_scheduleFunction(killTimer, maxTime)
   end
@@ -483,5 +487,14 @@ function autogft_TaskForce:scanUnits(groupNamePrefix)
     end
   end
   if #availableUnits > 0 then self:reinforceFromUnits(availableUnits) end
+  return self
+end
+
+---
+-- Stops the reinforcing/respawning timers
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:stopReinforcing()
+  self.keepReinforcing = false
   return self
 end
