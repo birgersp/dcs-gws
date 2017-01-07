@@ -63,7 +63,13 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addGroup">autogft_TaskForce:addGroup(count, type)</a></td>
 		<td class="summary">
-<p>Adds a group specification.</p>
+<p>Adds a group specification to declare which units the task force shall consist of.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addUnits">autogft_TaskForce:addUnits(count, type)</a></td>
+		<td class="summary">
+<p>Adds unit specifications to the most recently added group (see <a href="##(autogft_TaskForce).addGroup">autogft_TaskForce.addGroup</a>) of the task force.</p>
 </td>
 		</tr>
 		<tr>
@@ -106,6 +112,12 @@
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).groups">autogft_TaskForce.groups</a></td>
 		<td class="summary">
 
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).keepReinforcing">autogft_TaskForce.keepReinforcing</a></td>
+		<td class="summary">
+<p>Declares wheter this task force should keep reinforcing (if timers are set) or not (default: true)</p>
 </td>
 		</tr>
 		<tr>
@@ -214,6 +226,12 @@
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a></td>
 		<td class="summary">
 <p>Desired speed of moving units, in knots (default: max speed)</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).stopReinforcing">autogft_TaskForce:stopReinforcing()</a></td>
+		<td class="summary">
+<p>Stops the reinforcing/respawning timers.</p>
 </td>
 		</tr>
 		<tr>
@@ -341,10 +359,10 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Adds a group specification.</p>
+<p>Adds a group specification to declare which units the task force shall consist of.</p>
 
 	
-<p>Group specifications what kind of units the task force shall consist of.
+<p>If no count or type is specified, an empty group is added. Units can be added to the group with <a href="##(autogft_TaskForce).addUnits">autogft_TaskForce.addUnits</a>.
 See "unit-types" for a complete list of available unit types.</p>
 
 		<h3>Parameters</h3>
@@ -352,13 +370,13 @@ See "unit-types" for a complete list of available unit types.</p>
 				<li>
 				
 <p><code><em>#number count </em></code>: 
-Number of units for the group</p>
+(Optional) Number of units for the group</p>
 
 				</li>
 				<li>
 				
 <p><code><em>#string type </em></code>: 
-Type of unit</p>
+(Optional) Type of unit</p>
 
 				</li>
 		</ul>
@@ -366,6 +384,37 @@ Type of unit</p>
 				
 <p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
 This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForce).addUnits" >
+<strong>autogft_TaskForce:addUnits(count, type)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds unit specifications to the most recently added group (see <a href="##(autogft_TaskForce).addGroup">autogft_TaskForce.addGroup</a>) of the task force.</p>
+
+		<h3>Parameters</h3>
+		<ul>
+				<li>
+				
+<p><code><em> count </em></code>: </p>
+
+				</li>
+				<li>
+				
+<p><code><em> type </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+
 
 </dd>
 </dl>
@@ -494,6 +543,20 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
+		<em>#boolean</em>
+<a id="#(autogft_TaskForce).keepReinforcing" >
+<strong>autogft_TaskForce.keepReinforcing</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Declares wheter this task force should keep reinforcing (if timers are set) or not (default: true)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 		<em>#number</em>
 <a id="#(autogft_TaskForce).maxDistanceKM" >
 <strong>autogft_TaskForce.maxDistanceKM</strong>
@@ -578,9 +641,6 @@ This instance (self)</p>
 <dd>
 	
 <p>Triggers task force reinforcing (invokes <a href="##(autogft_TaskForce).reinforceFromUnits">autogft_TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
-
-	
-<p> </p>
 
 		<h3>Parameter</h3>
 		<ul>
@@ -948,6 +1008,24 @@ This instance (self)</p>
 <dd>
 	
 <p>Desired speed of moving units, in knots (default: max speed)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForce).stopReinforcing" >
+<strong>autogft_TaskForce:stopReinforcing()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Stops the reinforcing/respawning timers.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+
 
 </dd>
 </dl>
