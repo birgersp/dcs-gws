@@ -17,8 +17,10 @@ set sources_standalone=%sources% mist\mist_4_3_74.lua
 set include=example\example.lua unit-types\unit-types.txt
 set build=%output_dir%\autogft-%version%.lua
 set build_standalone=%output_dir%\autogft-%version%-standalone.lua
-
 set comment_prefix=--
+
+set current_dir=%cd%
+cd ..
 echo Time is %time%
 if not exist %output_dir% md %output_dir%
 echo Cleaning contents of "%output_dir%"
@@ -35,6 +37,7 @@ for %%a in (%include%) do (
 	copy %%a %output_dir%
 )
 
+cd %current_dir%
 goto:eof
 
 :make

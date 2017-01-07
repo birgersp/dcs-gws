@@ -7,6 +7,8 @@ set build_dir=build
 set archive_dir=build-zip
 set archive_file=%archive_dir%\autogft-%version%.zip
 
+set current_dir=%cd%
+cd ..
 call make.cmd
 call make-docs.cmd
 
@@ -22,4 +24,4 @@ if exist %archive_dir% (
 ) else md %archive_dir%
 cd %build_dir%
 7z a ..\%archive_file% *.* docs\
-cd ..
+cd %current_dir%
