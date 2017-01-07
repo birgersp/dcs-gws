@@ -135,13 +135,25 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).reinforce">autogft_TaskForce:reinforce(useSpawning)</a></td>
 		<td class="summary">
-<p>Attempts to reinforce the task force according to its unit specifications.</p>
+<p>Triggers task force reinforcing (invokes <a href="##(autogft_TaskForce).reinforceFromUnits">autogft_TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).reinforceFromUnits">autogft_TaskForce:reinforceFromUnits(<, availableUnits)</a></td>
+		<td class="summary">
+<p>Attempts to reinforce the task force according to its unit specifications using a list of available units.</p>
 </td>
 		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).respawn">autogft_TaskForce:respawn()</a></td>
 		<td class="summary">
 <p>Reinforce the task force by spawning new units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).scanUnits">autogft_TaskForce:scanUnits(groupNamePrefix)</a></td>
+		<td class="summary">
+<p>Scans the map once for any pre-existing units to control in this task force.</p>
 </td>
 		</tr>
 		<tr>
@@ -565,18 +577,52 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Attempts to reinforce the task force according to its unit specifications.</p>
+<p>Triggers task force reinforcing (invokes <a href="##(autogft_TaskForce).reinforceFromUnits">autogft_TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
 
 	
-<p>Reinforcing can either be done by spawning units, or assuming control of pre-existing units in the base zones.
-Reinforcing units will immidiately start moving towards current target zone.</p>
+<p> </p>
 
 		<h3>Parameter</h3>
 		<ul>
 				<li>
 				
 <p><code><em>#boolean useSpawning </em></code>: 
-(Optional) Specifies wether to spawn new units or use pre-existing units (default)</p>
+(Optional) Specifies wether to spawn new units or use pre-existing units (default is false, using units located in base)</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForce).reinforceFromUnits" >
+<strong>autogft_TaskForce:reinforceFromUnits(<, availableUnits)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Attempts to reinforce the task force according to its unit specifications using a list of available units.</p>
+
+	
+<p>Reinforced units will immidiately start moving towards current target zone (see <a href="##(autogft_TaskForce).target">autogft_TaskForce.target</a>).</p>
+
+		<h3>Parameters</h3>
+		<ul>
+				<li>
+				
+<p><code><em><a href="##(list)">#list</a> &lt; </em></code>: 
+CSUnit#Unit> availableUnits (Optional) Available units (if this list is not specified, units will be spawned)</p>
+
+				</li>
+				<li>
+				
+<p><code><em> availableUnits </em></code>: </p>
 
 				</li>
 		</ul>
@@ -602,6 +648,36 @@ This instance (self)</p>
 				
 <p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
 This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForce).scanUnits" >
+<strong>autogft_TaskForce:scanUnits(groupNamePrefix)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Scans the map once for any pre-existing units to control in this task force.</p>
+
+	
+<p>Groups with name starting with the scan prefix will be considered.
+A task force will only take control of units according to the task force unit specification.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em> groupNamePrefix </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+
 
 </dd>
 </dl>
