@@ -462,3 +462,26 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits)
   end
   return self
 end
+
+---
+-- Scans the map once for any pre-existing units to control in this task force.
+-- Groups with name starting with the scan prefix will be considered.
+-- A task force will only take control of units according to the task force unit specification.
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:scanUnits(groupNamePrefix)
+  local availableUnits = {}
+  local coalitionID = coalition.getCountryCoalition(self.country)
+  local groups = coalition.getGroups(coalitionID)
+  for groupIndex = 1, #groups do
+    local group = groups[groupIndex]
+    if group:getName():find(groupNamePrefix) == 1 then
+      local units = group:getUnits()
+      for unitIndex = 1, #units do
+        availableUnits[#availableUnits + 1] = units[unitIndex]
+      end
+    end
+  end
+  if #availableUnits > 0 then self:reinforceFromUnits(availableUnits) end
+  return self
+end
