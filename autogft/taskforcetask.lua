@@ -22,6 +22,11 @@ function autogft_TaskForceTask:new(zoneName, type)
   return self
 end
 
+---
+-- @type autogft_taskTypes
+-- @field #number CAPTURE Issues the task force to clear a zone of enemy units once.
+-- @field #number CONTROL Issues the task force to clear a zone of enemy units, and retreat to it if enemies re-appear.
+-- @field #number INTERMIDIATE Commands the task force to move through a zone when advancing through the tasks.
 autogft_taskTypes = {
   CAPTURE = 0,
   CONTROL = 1,
