@@ -6,6 +6,7 @@ autogft\core.lua ^
 autogft\groupcommand.lua ^
 autogft\taskforce.lua ^
 autogft\taskforcegroup.lua ^
+autogft\taskforcetask.lua ^
 autogft\unitcluster.lua ^
 autogft\unitspec.lua ^
 unit-types\unit-types.lua
