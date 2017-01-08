@@ -24,7 +24,7 @@ autogft_TaskForce = {}
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:new()
   self = setmetatable({}, {__index = autogft_TaskForce})
-  self.country = -1
+  self.country = country.id.RUSSIA
   self.baseZones = {}
   self.targetZones = {}
   self.speed = 100
@@ -62,7 +62,8 @@ end
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default is false, using units located in base)
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:reinforce(useSpawning)
-  self:assertValid()
+  assert(#self.groups > 0, "Task force as no group specifications. Use \"addGroup\" to add a specification.")
+  assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
   local availableUnits
   if not useSpawning then
     availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
@@ -81,6 +82,7 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This object (self)
 function autogft_TaskForce:updateTarget()
+
   local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
   local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
 
@@ -120,6 +122,7 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:advance()
+  assert(#self.targetZones > 0, "Task force has no target zones. Use \"addControlZone\" to add a target zone.")
   for i = 1, #self.groups do
     if self.groups[i]:exists() then self.groups[i]:advance() end
   end
@@ -133,7 +136,6 @@ end
 -- @param #number timeInterval Seconds between each target update
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setAdvancementTimer(timeInterval)
-  self:assertValid()
   local function autoIssue()
     self:updateTarget()
     self:advance()
@@ -151,8 +153,6 @@ end
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default)
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
-  self:assertValid()
-
   self:stopReinforcing()
 
   local function reinforce()
@@ -241,18 +241,6 @@ function autogft_TaskForce:addControlZone(name)
   autogft_assertZoneExists(name)
   local targetControlZone = autogft_ControlZone:new(name)
   self.targetZones[#self.targetZones + 1] = targetControlZone
-  return self
-end
-
----
--- Asserts that country, base zones, target zones and unit specifications are set.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:assertValid()
-  assert(self.country ~= -1, "Task force country is missing. Use \"setCountry\" to set a country.")
-  assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
-  assert(#self.targetZones > 0, "Task force has no target zones. Use \"addControlZone\" to add a target zone.")
-  assert(#self.groups > 0, "Task force as no group specifications. Use \"addGroup\" to add a unit specification.")
   return self
 end
 
