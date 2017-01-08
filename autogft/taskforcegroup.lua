@@ -110,3 +110,12 @@ function autogft_TaskForceGroup:moveToTarget()
 
   return self
 end
+
+---
+-- @param #autogft_TaskForceGroup self
+-- @param DCSGroup#Group newGroup
+-- @return #autogft_TaskForceGroup
+function autogft_TaskForceGroup:setDCSGroup(newGroup)
+  self.dcsGroup = newGroup
+  return self
+end

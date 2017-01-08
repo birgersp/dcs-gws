@@ -414,7 +414,7 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
         local dcsGroup = coalition.addGroup(self.country, Group.Category.GROUND, dcsGroupData)
 
         -- Issue group to control zone
-        self.groups[groupIndex].dcsGroup = dcsGroup
+        self.groups[groupIndex]:setDCSGroup(dcsGroup)
         self.groups[groupIndex]:moveToTarget()
       end
     end
