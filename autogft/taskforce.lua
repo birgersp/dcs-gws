@@ -252,9 +252,9 @@ function autogft_TaskForce:addBaseZone(baseZone)
 end
 
 ---
--- Adds a target control zone to the task force. The goal of the task force will be to clear this zone of enemy units.
+-- Adds a control zone task (see @{taskforcetask#autogft_taskTypes.CONTROL}).
 -- @param #autogft_TaskForce self
--- @param #string name Name of target control zone
+-- @param #string name Name of target zone
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addControlZone(name)
   local task = autogft_TaskForceTask:new(name, autogft_taskTypes.CONTROL)
