@@ -71,16 +71,6 @@ function autogft_informOfClosestEnemyVehicles(group)
 
 end
 
-function autogft_debug(variable, text)
-  if autogft_debugMode then
-    if text then
-      env.info(text .. ": " .. autogft_toString(variable))
-    else
-      env.info(autogft_toString(variable))
-    end
-  end
-end
-
 ---
 -- @function autogft_enableIOCEV
 function autogft_enableIOCEV()

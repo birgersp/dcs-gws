@@ -208,3 +208,13 @@ end
 function autogft_assertZoneExists(zoneName)
   assert(trigger.misc.getZone(zoneName) ~= nil, "Zone \""..zoneName.."\" does not exist in this mission.")
 end
+
+function autogft_debug(variable, text)
+  if autogft_debugMode then
+    if text then
+      env.info(text .. ": " .. autogft_toString(variable))
+    else
+      env.info(autogft_toString(variable))
+    end
+  end
+end
