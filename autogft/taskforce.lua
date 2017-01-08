@@ -47,7 +47,7 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addGroup(count, type)
   local unitSpec = autogft_UnitSpec:new(count, type)
-  self.groups[#self.groups + 1] = autogft_TaskForceGroup:new()
+  self.groups[#self.groups + 1] = autogft_TaskForceGroup:new(self)
   if count and type then
     self:addUnits(count, type)
   end
@@ -122,7 +122,7 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:moveToTarget()
   for i = 1, #self.groups do
-    if self.groups[i]:exists() then self:moveGroupToTarget(self.groups[i].dcsGroup) end
+    if self.groups[i]:exists() then self.groups[i]:moveToTarget() end
   end
   return self
 end
@@ -271,59 +271,6 @@ function autogft_TaskForce:setSkill(skill)
   return self
 end
 
----
--- Issues a group to move to a random point within a zone.
--- @param #autogft_TaskForce self
--- @param DCSGroup#Group group Group instance to move
--- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:moveGroupToTarget(group)
-
-  local destinationZone = trigger.misc.getZone(self.target)
-  local destinationZonePos2 = {
-    x = destinationZone.point.x,
-    y = destinationZone.point.z
-  }
-  local radius = destinationZone.radius
-
-  -- If the task force has a "max distance" specified
-  if self.maxDistanceKM > 0 then
-    local units = group:getUnits()
-    local unitIndex = 1
-    local groupLeader
-    while not groupLeader and unitIndex <= #units do
-      if units[unitIndex]:isExist() then
-        groupLeader = units[unitIndex]
-      else
-        unitIndex = unitIndex + 1
-      end
-    end
-    if not groupLeader then return self end
-    local groupPos = groupLeader:getPosition().p
-    local groupToZone = {
-      x = destinationZone.point.x - groupPos.x,
-      z = destinationZone.point.z - groupPos.z
-    }
-    local groupToZoneMag = math.sqrt(groupToZone.x^2 + groupToZone.z^2)
-    local maxDistanceM = self.maxDistanceKM * 1000
-    if groupToZoneMag - destinationZone.radius > maxDistanceM then
-      destinationZonePos2.x = groupPos.x + groupToZone.x / groupToZoneMag * maxDistanceM
-      destinationZonePos2.y = groupPos.z + groupToZone.z / groupToZoneMag * maxDistanceM
-      radius = 0
-    end
-  end
-
-  local randomPointVars = {
-    group = group,
-    point = destinationZonePos2,
-    radius = radius,
-    speed = self.speed,
-    formation = self.formation,
-    disableRoads = not self.useRoads
-  }
-  mist.groupToRandomPoint(randomPointVars)
-
-  return self
-end
 
 ---
 -- Sets the maximum distance of unit routes (see @{#autogft_TaskForce.maxDistanceKM}).
@@ -467,7 +414,7 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits)
 
         -- Issue group to control zone
         self.groups[groupIndex].dcsGroup = dcsGroup
-        self:moveGroupToTarget(dcsGroup)
+        self.groups[groupIndex]:moveToTarget()
       end
     end
     groupIndex = groupIndex + 1

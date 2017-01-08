@@ -4,16 +4,18 @@
 ---
 -- @type autogft_TaskForceGroup
 -- @field #list<unitspec#autogft_UnitSpec> unitSpecs
+-- @field taskforce#autogft_TaskForce taskForce
 -- @field DCSGroup#Group dcsGroup
 autogft_TaskForceGroup = {}
 
 ---
 -- @param #autogft_TaskForceGroup self
--- @param unitspec#autogft_UnitSpec unitSpec
+-- @param taskforce#autogft_TaskForce taskForce
 -- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:new()
+function autogft_TaskForceGroup:new(taskForce)
   self = setmetatable({}, {__index = autogft_TaskForceGroup})
   self.unitSpecs = {}
+  self.taskForce = taskForce
   return self
 end
 
@@ -52,5 +54,59 @@ end
 -- @param unitspec#autogft_UnitSpec unitSpec
 function autogft_TaskForceGroup:addUnitSpec(unitSpec)
   self.unitSpecs[#self.unitSpecs + 1] = unitSpec
+  return self
+end
+
+---
+-- @param #autogft_TaskForceGroup self
+-- @return #autogft_TaskForceGroup
+function autogft_TaskForceGroup:moveToTarget()
+
+  if self:exists() then
+    local destinationZone = trigger.misc.getZone(self.taskForce.target)
+    local destinationZonePos2 = {
+      x = destinationZone.point.x,
+      y = destinationZone.point.z
+    }
+    local radius = destinationZone.radius
+
+    -- If the task force has a "max distance" specified
+    if self.taskForce.maxDistanceKM > 0 then
+      local units = self.dcsGroup:getUnits()
+      local unitIndex = 1
+      local groupLeader
+      while not groupLeader and unitIndex <= #units do
+        if units[unitIndex]:isExist() then
+          groupLeader = units[unitIndex]
+        else
+          unitIndex = unitIndex + 1
+        end
+      end
+      if not groupLeader then return self end
+      local groupPos = groupLeader:getPosition().p
+      local groupToZone = {
+        x = destinationZone.point.x - groupPos.x,
+        z = destinationZone.point.z - groupPos.z
+      }
+      local groupToZoneMag = math.sqrt(groupToZone.x^2 + groupToZone.z^2)
+      local maxDistanceM = self.taskForce.maxDistanceKM * 1000
+      if groupToZoneMag - destinationZone.radius > maxDistanceM then
+        destinationZonePos2.x = groupPos.x + groupToZone.x / groupToZoneMag * maxDistanceM
+        destinationZonePos2.y = groupPos.z + groupToZone.z / groupToZoneMag * maxDistanceM
+        radius = 0
+      end
+    end
+
+    local randomPointVars = {
+      group = self.dcsGroup,
+      point = destinationZonePos2,
+      radius = radius,
+      speed = self.taskForce.speed,
+      formation = self.taskForce.formation,
+      disableRoads = not self.taskForce.useRoads
+    }
+    mist.groupToRandomPoint(randomPointVars)
+  end
+
   return self
 end
