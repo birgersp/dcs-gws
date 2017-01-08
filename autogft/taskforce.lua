@@ -13,7 +13,7 @@
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
 -- @field #list<taskforcegroup#autogft_TaskForceGroup> groups Groups of the task force
--- @field #string target Name of the zone that this task force is currently targeting
+-- @field #number target Current target zone index
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
 autogft_TaskForce = {}
@@ -33,7 +33,7 @@ function autogft_TaskForce:new()
   self.useRoads = false
   self.skill = "High"
   self.groups = {}
-  self.target = ""
+  self.target = 1
   self.reinforcementTimerId = nil
   self.stopReinforcementTimerId = nil
   return self
@@ -106,25 +106,22 @@ function autogft_TaskForce:updateTarget()
     end
 
     if zone.status ~= coalition.getCountryCoalition(self.country) then
-      self.target = zone.name
+      self.target = zoneIndex
       done = true
     end
     zoneIndex = zoneIndex + 1
   end
 
-  if self.target == nil then
-    self.target = self.targetZones[#self.targetZones].name
-  end
   return self
 end
 
 ---
--- Sets all units to move (directly) towards the current target.
+-- Sets all units to move towards the current target.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:moveToTarget()
+function autogft_TaskForce:advance()
   for i = 1, #self.groups do
-    if self.groups[i]:exists() then self.groups[i]:moveToTarget() end
+    if self.groups[i]:exists() then self.groups[i]:advance() end
   end
   return self
 end
@@ -139,7 +136,7 @@ function autogft_TaskForce:setAdvancementTimer(timeInterval)
   self:assertValid()
   local function autoIssue()
     self:updateTarget()
-    self:moveToTarget()
+    self:advance()
     autogft_scheduleFunction(autoIssue, timeInterval)
   end
   autogft_scheduleFunction(autoIssue, timeInterval)
@@ -244,7 +241,6 @@ function autogft_TaskForce:addControlZone(name)
   autogft_assertZoneExists(name)
   local targetControlZone = autogft_ControlZone:new(name)
   self.targetZones[#self.targetZones + 1] = targetControlZone
-  if #self.targetZones == 1 then self.target = name end
   return self
 end
 
@@ -415,7 +411,7 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
 
         -- Issue group to control zone
         self.groups[groupIndex]:setDCSGroup(dcsGroup)
-        self.groups[groupIndex]:moveToTarget()
+        self.groups[groupIndex]:advance()
       end
     end
     groupIndex = groupIndex + 1

@@ -60,10 +60,10 @@ end
 ---
 -- @param #autogft_TaskForceGroup self
 -- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:moveToTarget()
+function autogft_TaskForceGroup:advance()
 
   if self:exists() then
-    local destinationZone = trigger.misc.getZone(self.taskForce.target)
+    local destinationZone = trigger.misc.getZone(self.taskForce.targetZones[self.taskForce.target].name)
     local destinationZonePos2 = {
       x = destinationZone.point.x,
       y = destinationZone.point.z
