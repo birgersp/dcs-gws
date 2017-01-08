@@ -41,7 +41,7 @@ cd %current_dir%
 goto:eof
 
 :make
-	echo Writing to %cd%\%output%
+	echo Writing to %output%
 	
 	break>%output%
 	setlocal EnableDelayedExpansion
