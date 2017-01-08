@@ -6,12 +6,18 @@ set example_mission="C:\Users\birge\Saved Games\DCS\Missions\autogft-example.miz
 set build_dir=build
 set archive_dir=build-zip
 set archive_file=%archive_dir%\autogft-%version%.zip
+set include=example\example.lua unit-types\unit-types.txt
 
 call make.cmd
 call make-docs.cmd
 
 set current_dir=%cd%
 cd ..
+
+for %%a in (%include%) do (
+	echo Including %%a
+	copy %%a %build_dir%
+)
 
 copy README.md %build_dir%\README.txt
 copy %example_mission% %build_dir%\example-%version%.miz
