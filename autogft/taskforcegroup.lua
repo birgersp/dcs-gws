@@ -6,6 +6,7 @@
 -- @field #list<unitspec#autogft_UnitSpec> unitSpecs
 -- @field taskforce#autogft_TaskForce taskForce
 -- @field DCSGroup#Group dcsGroup
+-- @field #number destination
 autogft_TaskForceGroup = {}
 
 ---
@@ -16,6 +17,39 @@ function autogft_TaskForceGroup:new(taskForce)
   self = setmetatable({}, {__index = autogft_TaskForceGroup})
   self.unitSpecs = {}
   self.taskForce = taskForce
+  self:setDCSGroup(nil)
+  return self
+end
+
+---
+-- @param #autogft_TaskForceGroup self
+-- @return #autogft_TaskForceGroup
+function autogft_TaskForceGroup:updateDestination()
+
+  if self.dcsGroup then
+    local units = self.dcsGroup:getUnits()
+    if #units > 0 then
+      -- Get group lead
+      local groupLead
+      local unitIndex = 1
+      while unitIndex <= #units and not groupLead do
+        if units[unitIndex]:isExist() then groupLead = units[unitIndex] end
+      end
+
+      -- Check location of group lead
+      if groupLead then
+        local destinationZone = trigger.misc.getZone(self.taskForce.targetZones[self.destination].name)
+        if autogft_unitIsWithinZone(groupLead, destinationZone) then
+          -- If destination reached, update target
+          if self.destination < self.taskForce.target then
+            self.destination = self.destination + 1
+          elseif self.destination > self.taskForce.target then
+            self.destination = self.destination - 1
+          end
+        end
+      end
+    end
+  end
   return self
 end
 
@@ -61,9 +95,10 @@ end
 -- @param #autogft_TaskForceGroup self
 -- @return #autogft_TaskForceGroup
 function autogft_TaskForceGroup:advance()
-
   if self:exists() then
-    local destinationZone = trigger.misc.getZone(self.taskForce.targetZones[self.taskForce.target].name)
+    self:updateDestination()
+
+    local destinationZone = trigger.misc.getZone(self.taskForce.targetZones[self.destination].name)
     local destinationZonePos2 = {
       x = destinationZone.point.x,
       y = destinationZone.point.z
@@ -117,5 +152,6 @@ end
 -- @return #autogft_TaskForceGroup
 function autogft_TaskForceGroup:setDCSGroup(newGroup)
   self.dcsGroup = newGroup
+  self.destination = 1
   return self
 end

@@ -8,6 +8,21 @@ autogft_debugMode = false
 -- Utility function definitions
 
 ---
+-- @param DCSUnit#Unit unit
+-- @param DCSZone#Zone zone
+-- @return #boolean
+function autogft_unitIsWithinZone(unit, zone)
+  local pos = unit:getPosition().p
+  local dx = zone.point.x - pos.x
+  local dy = zone.point.z - pos.z
+  local radiusSquared = zone.radius * zone.radius
+  if (dx*dx + dy*dy) <= radiusSquared then
+    return true
+  end
+  return false
+end
+
+---
 -- @param #list<DCSUnit#Unit> units
 -- @param #string type
 -- @return #number
