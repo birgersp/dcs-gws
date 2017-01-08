@@ -122,7 +122,7 @@ function autogft_TaskForce:updateTarget()
           task.cleared = true
         end
       end
-    elseif task.type == autogft_taskTypes.CAPTURE then
+    elseif task.type == autogft_taskTypes.INTERMIDIATE then
       local enemyUnits = autogft_getUnitsInZones(enemyCoalition, {task.zoneName})
       if not task.cleared then
         if #enemyUnits <= 0 then
