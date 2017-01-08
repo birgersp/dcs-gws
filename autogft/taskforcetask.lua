@@ -23,10 +23,11 @@ function autogft_TaskForceTask:new(zoneName, type)
 end
 
 ---
+-- Defines various task types for task forces to complete.
 -- @type autogft_taskTypes
--- @field #number CAPTURE Issues the task force to clear a zone of enemy units once.
--- @field #number CONTROL Issues the task force to clear a zone of enemy units, and retreat to it if enemies re-appear.
--- @field #number INTERMIDIATE Commands the task force to move through a zone when advancing through the tasks.
+-- @field #number CAPTURE Clear a zone of enemy units once.
+-- @field #number CONTROL Clear a zone of enemy units, and retreat to it if enemies re-appear.
+-- @field #number INTERMIDIATE Move through a zone when advancing through the tasks.
 autogft_taskTypes = {
   CAPTURE = 0,
   CONTROL = 1,
