@@ -98,6 +98,8 @@ function autogft_TaskForceGroup:advance()
   if self:exists() then
     self:updateDestination()
 
+    local targetTask = self.taskForce.tasks[self.destination]
+
     local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
     local destinationZonePos2 = {
       x = destinationZone.point.x,
@@ -136,9 +138,9 @@ function autogft_TaskForceGroup:advance()
       group = self.dcsGroup,
       point = destinationZonePos2,
       radius = radius,
-      speed = self.taskForce.speed,
+      speed = targetTask.speed,
       formation = self.taskForce.formation,
-      disableRoads = not self.taskForce.useRoads
+      disableRoads = not targetTask.useRoads
     }
     mist.groupToRandomPoint(randomPointVars)
   end

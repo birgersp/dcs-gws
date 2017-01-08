@@ -6,6 +6,8 @@
 -- @field #number type
 -- @field #string zoneName
 -- @field #boolean cleared
+-- @field #boolean useRoads
+-- @field #number speed
 autogft_TaskForceTask = {}
 
 ---
@@ -19,6 +21,8 @@ function autogft_TaskForceTask:new(zoneName, type)
   self.zoneName = zoneName
   self.type = type
   self.cleared = false
+  self.useRoads = false
+  self.speed = 100
   return self
 end
 

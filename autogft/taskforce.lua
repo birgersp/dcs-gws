@@ -52,9 +52,11 @@ end
 ---
 -- Adds a task to the task force
 -- @param #autogft_TaskForce self
--- @param #autogft_TaskForceTask task
+-- @param taskforcetask#autogft_TaskForceTask task
 -- @return #autogft_TaskForce
 function autogft_TaskForce:addTask(task)
+  task.useRoads = self.useRoads
+  task.speed = self.speed
   self.tasks[#self.tasks + 1] = task
   return self
 end
@@ -306,6 +308,7 @@ function autogft_TaskForce:setUseRoads(useRoads)
   else
     self.useRoads = useRoads
   end
+  if #self.tasks > 0 then self.tasks[#self.tasks].useRoads = self.useRoads end
   return self
 end
 
@@ -316,6 +319,7 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setSpeed(speed)
   self.speed = speed
+  if #self.tasks > 0 then self.tasks[#self.tasks].speed = self.speed end
   return self
 end
 
