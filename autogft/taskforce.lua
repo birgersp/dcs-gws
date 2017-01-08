@@ -14,7 +14,8 @@
 -- @field #string skill Skill of units (default: "High")
 -- @field #list<taskforcegroup#autogft_TaskForceGroup> groups Groups of the task force
 -- @field #string target Name of the zone that this task force is currently targeting
--- @field #boolean keepReinforcing Declares wheter this task force should keep reinforcing (if timers are set) or not (default: true)
+-- @field #number reinforcementTimerId Reinforcement timer identifier
+-- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
 autogft_TaskForce = {}
 
 ---
@@ -33,7 +34,8 @@ function autogft_TaskForce:new()
   self.skill = "High"
   self.groups = {}
   self.target = ""
-  self.keepReinforcing = true
+  self.reinforcementTimerId = nil
+  self.stopReinforcementTimerId = nil
   return self
 end
 
@@ -154,22 +156,19 @@ end
 function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
   self:assertValid()
 
-  self.keepReinforcing = true
+  self:stopReinforcing()
 
   local function reinforce()
-    if self.keepReinforcing then
-      self:reinforce(useSpawning)
-      autogft_scheduleFunction(reinforce, timeInterval)
-    end
+    self:reinforce(useSpawning)
+    self.reinforcementTimerId = autogft_scheduleFunction(reinforce, timeInterval)
   end
-
-  autogft_scheduleFunction(reinforce, timeInterval)
+  self.reinforcementTimerId = autogft_scheduleFunction(reinforce, timeInterval)
 
   if maxTime ~= nil and maxTime > 0 then
     local function killTimer()
-      self:stopReinforcing()
+        self:stopReinforcing()
     end
-    autogft_scheduleFunction(killTimer, maxTime)
+    self.stopReinforcementTimerId = autogft_scheduleFunction(killTimer, maxTime)
   end
   return self
 end
@@ -314,8 +313,9 @@ end
 -- Reinforced units will immidiately start moving towards current target zone (see @{#autogft_TaskForce.target}).
 -- @param #autogft_TaskForce self
 -- @param #list<DCSUnit#Unit> availableUnits (Optional) Available units (if this list is not specified, units will be spawned)
+-- @param #string groupNamePrefix (Optional) Name prefix to use when creating groups
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:reinforceFromUnits(availableUnits)
+function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
 
   local finished = false
   local spawnedUnitCount, takenUnits, replacedUnitNameCounter, addedGroupUnitsCount
@@ -402,6 +402,7 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits)
         while (not groupName) or Group.getByName(groupName) do
           replacedGroupNameCounter = replacedGroupNameCounter + 1
           groupName = "autogft group #" .. replacedGroupNameCounter
+          if groupNamePrefix then groupName = groupNamePrefix .. "-" .. groupName end
         end
         local dcsGroupData = {
           ["route"] = {},
@@ -441,7 +442,7 @@ function autogft_TaskForce:scanUnits(groupNamePrefix)
       end
     end
   end
-  if #availableUnits > 0 then self:reinforceFromUnits(availableUnits) end
+  if #availableUnits > 0 then self:reinforceFromUnits(availableUnits, groupNamePrefix) end
   return self
 end
 
@@ -450,7 +451,17 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:stopReinforcing()
-  self.keepReinforcing = false
+  
+  if self.reinforcementTimerId then
+    timer.removeFunction(self.reinforcementTimerId)
+    self.reinforcementTimerId = nil
+  end
+  
+  if self.stopReinforcementTimerId then
+    timer.removeFunction(self.stopReinforcementTimerId)
+    self.stopReinforcementTimerId = nil
+  end
+  
   return self
 end
 

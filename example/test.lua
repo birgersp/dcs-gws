@@ -14,7 +14,7 @@ if not initialized then
     :addGroup(2, "M-1 Abrams")
     :respawn()
     :setAdvancementTimer(300)
-    :setRespawnTimer(600)
+    :setRespawnTimer(120)
 
   initialized = true
 end
