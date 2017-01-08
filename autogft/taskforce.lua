@@ -82,13 +82,7 @@ function autogft_TaskForce:reinforce(useSpawning)
 end
 
 ---
--- Checks the status of target zones, and sets the current target zone (@{#autogft_TaskForce.target}) of this task force.
--- This function iterates through the target zones, updating the status of each.
--- If no enemies are present, and friendly units are present, the zone is considered "cleared".
--- If enemies are present, the zone is considered "uncleared".
--- If no units are present in the zone, its state is left unchanged.
--- Once a zone is considered "uncleared", this is set as the task force's current target.
--- If all zones are considered "cleared", the last target zone added will be set as the current target.
+-- Checks the status of tasks, and sets the current target task (@{#autogft_TaskForce.target}) of this task force.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This object (self)
 function autogft_TaskForce:updateTarget()
