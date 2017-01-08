@@ -6,7 +6,7 @@
 -- @type autogft_TaskForce
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
--- @field #list<controlzone#autogft_ControlZone> targetZones List of target zones
+-- @field #list<taskforcetask#autogft_TaskForceTask> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #string formation Formation of moving units (default: "cone")
@@ -26,7 +26,7 @@ function autogft_TaskForce:new()
   self = setmetatable({}, {__index = autogft_TaskForce})
   self.country = country.id.RUSSIA
   self.baseZones = {}
-  self.targetZones = {}
+  self.tasks = {}
   self.speed = 100
   self.maxDistanceKM = 10
   self.formation = "cone"
@@ -36,6 +36,16 @@ function autogft_TaskForce:new()
   self.target = 1
   self.reinforcementTimerId = nil
   self.stopReinforcementTimerId = nil
+  return self
+end
+
+---
+-- Adds a task to the task force
+-- @param #autogft_TaskForce self
+-- @param #autogft_TaskForceTask task
+-- @return #autogft_TaskForce
+function autogft_TaskForce:addTask(task)
+  self.tasks[#self.tasks + 1] = task
   return self
 end
 
@@ -83,37 +93,52 @@ end
 -- @return #autogft_TaskForce This object (self)
 function autogft_TaskForce:updateTarget()
 
-  local redVehicles = mist.makeUnitTable({'[red][vehicle]'})
-  local blueVehicles = mist.makeUnitTable({'[blue][vehicle]'})
-
   local done = false
-  local zoneIndex = 1
-  while done == false and zoneIndex <= #self.targetZones do
-    local zone = self.targetZones[zoneIndex]
-    local newStatus = nil
-    if #mist.getUnitsInZones(redVehicles, {zone.name}) > 0 then
-      newStatus = coalition.side.RED
-    end
+  local newTarget
 
-    if #mist.getUnitsInZones(blueVehicles, {zone.name}) > 0 then
-      if newStatus == coalition.side.RED then
-        newStatus = coalition.side.NEUTRAL
-      else
-        newStatus = coalition.side.BLUE
-      end
-    end
-
-    if newStatus ~= nil then
-      zone.status = newStatus
-    end
-
-    if zone.status ~= coalition.getCountryCoalition(self.country) then
-      self.target = zoneIndex
-      done = true
-    end
-    zoneIndex = zoneIndex + 1
+  local ownCoalition = coalition.getCountryCoalition(self.country)
+  local enemyCoalition
+  if ownCoalition == coalition.side.RED then
+    enemyCoalition = coalition.side.BLUE
+  else
+    enemyCoalition = coalition.side.RED
   end
 
+  local taskIndex = 1
+  while not newTarget and taskIndex <= #self.tasks do
+    local task = self.tasks[taskIndex]
+
+    if task.type == autogft_taskTypes.CONTROL then
+      local enemyUnits = autogft_getUnitsInZones(enemyCoalition, {task.zoneName})
+      if #enemyUnits > 0 then
+        task.cleared = false
+      else
+        local ownUnits = autogft_getUnitsInZones(ownCoalition, {task.zoneName})
+        if #ownUnits > 0 then
+          task.cleared = true
+        end
+      end
+    elseif task.type == autogft_taskTypes.CAPTURE then
+      local enemyUnits = autogft_getUnitsInZones(enemyCoalition, {task.zoneName})
+      if not task.cleared then
+        if #enemyUnits <= 0 then
+          local ownUnits = autogft_getUnitsInZones(ownCoalition, {task.zoneName})
+          if #ownUnits > 0 then
+            task.cleared = true
+          end
+        end
+      end
+    else
+      task.cleared = true
+    end
+    if not task.cleared then
+      newTarget = taskIndex
+    else
+      taskIndex = taskIndex + 1
+    end
+  end
+  
+  if newTarget then self.target = newTarget end
   return self
 end
 
@@ -122,7 +147,7 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:advance()
-  assert(#self.targetZones > 0, "Task force has no target zones. Use \"addControlZone\" to add a target zone.")
+  assert(#self.tasks > 0, "Task force has no tasks. Use \"addControlTask\" to add a control zone task.")
   for i = 1, #self.groups do
     if self.groups[i]:exists() then self.groups[i]:advance() end
   end
@@ -163,7 +188,7 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
 
   if maxTime ~= nil and maxTime > 0 then
     local function killTimer()
-        self:stopReinforcing()
+      self:stopReinforcing()
     end
     self.stopReinforcementTimerId = autogft_scheduleFunction(killTimer, maxTime)
   end
@@ -238,10 +263,8 @@ end
 -- @param #string name Name of target control zone
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addControlZone(name)
-  autogft_assertZoneExists(name)
-  local targetControlZone = autogft_ControlZone:new(name)
-  self.targetZones[#self.targetZones + 1] = targetControlZone
-  return self
+  local task = autogft_TaskForceTask:new(name, autogft_taskTypes.CONTROL)
+  return self:addTask(task)
 end
 
 ---
@@ -435,17 +458,17 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:stopReinforcing()
-  
+
   if self.reinforcementTimerId then
     timer.removeFunction(self.reinforcementTimerId)
     self.reinforcementTimerId = nil
   end
-  
+
   if self.stopReinforcementTimerId then
     timer.removeFunction(self.stopReinforcementTimerId)
     self.stopReinforcementTimerId = nil
   end
-  
+
   return self
 end
 

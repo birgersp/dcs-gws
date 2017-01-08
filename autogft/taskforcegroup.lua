@@ -38,7 +38,7 @@ function autogft_TaskForceGroup:updateDestination()
 
       -- Check location of group lead
       if groupLead then
-        local destinationZone = trigger.misc.getZone(self.taskForce.targetZones[self.destination].name)
+        local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
         if autogft_unitIsWithinZone(groupLead, destinationZone) then
           -- If destination reached, update target
           if self.destination < self.taskForce.target then
@@ -98,7 +98,7 @@ function autogft_TaskForceGroup:advance()
   if self:exists() then
     self:updateDestination()
 
-    local destinationZone = trigger.misc.getZone(self.taskForce.targetZones[self.destination].name)
+    local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
     local destinationZonePos2 = {
       x = destinationZone.point.x,
       y = destinationZone.point.z
