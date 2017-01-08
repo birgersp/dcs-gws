@@ -40,6 +40,16 @@ function autogft_TaskForce:new()
 end
 
 ---
+-- Adds an intermidiate zone task (see @{taskforcetask#autogft_taskTypes.INTERMIDIATE}).
+-- @param #autogft_TaskForce self
+-- @param #string zoneName
+-- @return #autogft_TaskForce
+function autogft_TaskForce:addIntermidiateZone(zoneName)
+  local task = autogft_TaskForceTask:new(zoneName, autogft_taskTypes.INTERMIDIATE)
+  return self:addTask(task)
+end
+
+---
 -- Adds a task to the task force
 -- @param #autogft_TaskForce self
 -- @param #autogft_TaskForceTask task
