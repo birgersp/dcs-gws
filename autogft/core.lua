@@ -98,6 +98,7 @@ end
 ---
 -- @param #function func
 -- @param #number time
+-- @return #number Function id
 function autogft_scheduleFunction(func, time)
   local function triggerFunction()
     local success, message = pcall(func)
@@ -105,7 +106,7 @@ function autogft_scheduleFunction(func, time)
       env.error("Error in scheduled function: "..message, true)
     end
   end
-  timer.scheduleFunction(triggerFunction, {}, timer.getTime() + time)
+  return timer.scheduleFunction(triggerFunction, {}, timer.getTime() + time)
 end
 
 ---
