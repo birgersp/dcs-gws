@@ -62,19 +62,14 @@ function autogft_TaskForce:addTask(task)
 end
 
 ---
--- Adds a group specification to declare which units the task force shall consist of.
--- If no count or type is specified, an empty group is added. Units can be added to the group with @{#autogft_TaskForce.addUnits}.
+-- Adds another group specification to the task force.
+-- After a group is added, use @{#autogft_TaskForce.addUnits} to add units.
 -- See "unit-types" for a complete list of available unit types.
 -- @param #autogft_TaskForce self
--- @param #number count (Optional) Number of units for the group
--- @param #string type (Optional) Type of unit
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:addGroup(count, type)
+function autogft_TaskForce:addGroup()
   local unitSpec = autogft_UnitSpec:new(count, type)
   self.groups[#self.groups + 1] = autogft_TaskForceGroup:new(self)
-  if count and type then
-    self:addUnits(count, type)
-  end
   return self
 end
 
@@ -485,7 +480,7 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:addUnits(count, type)
-  assert(#self.groups > 0, "Task force as no group specifications. Use \"addGroup\" to add a unit specification.")
+  if #self.groups <= 0 then self:addGroup() end
   self.groups[#self.groups]:addUnitSpec(autogft_UnitSpec:new(count, type))
   return self
 end
