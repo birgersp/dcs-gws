@@ -42,6 +42,45 @@ function autogft_TaskForce:new()
 end
 
 ---
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:autoSpecifyUnits()
+
+  local ownUnitsInBases = autogft_getUnitsInZones(coalition.side.BLUE, self.baseZones)
+  if #ownUnitsInBases <= 0 then
+    ownUnitsInBases = autogft_getUnitsInZones(coalition.side.RED, self.baseZones)
+  end
+
+  if #ownUnitsInBases > 0 then
+    self.country = ownUnitsInBases[1]:getCountry()
+
+    local groupUnits = {}
+    for _, unit in pairs(ownUnitsInBases) do
+      local dcsGroup = unit:getGroup()
+      if not groupUnits[dcsGroup] then
+        self:addGroup()
+        groupUnits[dcsGroup] = {}
+      end
+      
+      local type = unit:getTypeName()
+      if not groupUnits[dcsGroup][type] then
+        groupUnits[dcsGroup][type] = 0
+      end
+      groupUnits[dcsGroup][type] = groupUnits[dcsGroup][type] + 1
+    end
+
+    for _, group in pairs(groupUnits) do
+      self:addGroup()
+      for type, count in pairs(group) do
+        self:addUnits(count, type)
+      end
+    end
+  end
+
+  return self
+end
+
+---
 -- Stops the advancement timer
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
