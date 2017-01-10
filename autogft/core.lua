@@ -88,6 +88,7 @@ end
 -- @function autogft_getUnitsInZones
 -- @param #number coalitionId
 -- @param #list<#string> zoneNames
+-- @return #list<DCSUnit#Unit>
 function autogft_getUnitsInZones(coalitionId, zoneNames)
   local result = {}
   local groups = coalition.getGroups(coalitionId)
@@ -170,8 +171,10 @@ function autogft_toString(obj)
 
         if (type(key) == "number") then
           str = str .. "[\"" .. key .. "\"]"
+        elseif (type(key) == "table") then
+          str = str .. tostring(key)
         else
-          str = str .. key
+          str = str .. "\"" .. key .. "\""
         end
         str = str .. " = "
 
