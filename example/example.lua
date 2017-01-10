@@ -10,12 +10,13 @@
 
 
 -- (SPAWNING EXAMPLE)
--- 1. Creates a task force of US units
--- 2. Adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force)
--- 3. Adds zones "Combat1", "Combat" and "Combat3" as control zone tasks. "Combat1" will be the first target
--- 4. Adds a group of M1-Abrams and LAV-25s
--- 5. Respawns the task force (at the base zones)
--- 6. Sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
+-- This example:
+-- creates a US task force,
+-- adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force),
+-- adds zones "Combat1", "Combat" and "Combat3" as control zone tasks. "Combat1" will be the first target,
+-- adds a group of M1-Abrams and LAV-25s,
+-- respawns the task force (at the base zones), and
+-- sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
 
 autogft_TaskForce:new()
   :setCountry(country.id.USA)
