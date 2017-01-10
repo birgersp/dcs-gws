@@ -12,13 +12,10 @@
 -- (SPAWNING EXAMPLE)
 -- 1. Creates a task force of US units
 -- 2. Adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force)
--- 3. Adds zones "Combat1", "Combat" and "Combat3" as target zones. "Combat1" will be the first target
--- 4. Adds a group of M1-Abrams
--- 5. Adds another group of LAV-25 and some more M1-Abrams
--- 5. Set the skill of this task force to be "Excellent" (default is "High")
--- 6. Respawns the task force (at the base zones)
--- 7. Sets a "advancement timer" which a time interval (in seconds) of how often orders will be updated and units will be set to move
--- 8. Sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
+-- 3. Adds zones "Combat1", "Combat" and "Combat3" as control zone tasks. "Combat1" will be the first target
+-- 4. Adds a group of M1-Abrams and LAV-25s
+-- 5. Respawns the task force (at the base zones)
+-- 6. Sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
 
 autogft_TaskForce:new()
   :setCountry(country.id.USA)
@@ -27,10 +24,9 @@ autogft_TaskForce:new()
   :addControlZone("Combat1")
   :addControlZone("Combat2")
   :addControlZone("Combat3")
-  :addGroup():addUnits(4, "M-1 Abrams")
-  :addGroup():addUnits(4, "LAV-25"):addUnits(3, "M-1 Abrams")
+  :addUnits(6, "M-1 Abrams")
+  :addUnits(4, "LAV-25")
   :respawn()
-  :setAdvancementTimer(300)
   :setRespawnTimer(600)
 
 
@@ -45,20 +41,21 @@ autogft_TaskForce:new()
   :addControlZone("Combat3")
   :addControlZone("Combat2")
   :addControlZone("Combat1")
-  :addGroup(4, "T-90")
+  :addUnits(4, "T-90")
   :reinforce()
-  :setAdvancementTimer(300)
   :setReinforceTimer(600)
 
 
 
 -- (VARIOUS OTHER FEATURES EXAMPLE)
 -- Another US task force;
+-- units split into multiple groups
 -- using roads,
 -- excellent skill,
 -- max advancement distance 3km,
 -- low speed (5knots),
 -- scanning units
+-- advance every 600 seconds (instead of default value)
 -- only keep respawning for 1200 sec (20 min)
 
 autogft_TaskForce:new()
@@ -67,12 +64,13 @@ autogft_TaskForce:new()
   :addControlZone("Combat1")
   :addControlZone("Combat2")
   :addControlZone("Combat3")
-  :addGroup(2, "M-1 Abrams")
+  :addGroup():addUnits(4, "M-1 Abrams")
+  :addGroup():addUnits(3, "M-1 Abrams")
   :setUseRoads(true)
   :setSkill("Excellent")
   :setMaxRouteDistance(3)
   :setSpeed(5)
   :scanUnits("TF")
   :respawn()
-  :setAdvancementTimer(300)
+  :setAdvancementTimer(600)
   :setRespawnTimer(300, 1200)
