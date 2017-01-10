@@ -61,7 +61,7 @@ function autogft_TaskForce:autoSpecifyUnits()
         self:addGroup()
         groupUnits[dcsGroup] = {}
       end
-      
+
       local type = unit:getTypeName()
       if not groupUnits[dcsGroup][type] then
         groupUnits[dcsGroup][type] = 0
@@ -382,7 +382,7 @@ end
 function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
 
   local finished = false
-  local spawnedUnitCount, takenUnits, replacedUnitNameCounter, addedGroupUnitsCount
+  local spawnedUnitCount, takenUnits, replacedUnitNameCounter, addedGroupUnitsCount, spawnZone
 
   if availableUnits then
     -- Cancel if the list of available units have a length of 0
@@ -419,6 +419,10 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
         addedGroupUnitsCount = addedGroupUnitsCount + 1
       end
 
+      if not availableUnits then
+        spawnZone = trigger.misc.getZone(self.baseZones[math.random(#self.baseZones)])
+      end
+
       for unitSpecIndex = 1, #group.unitSpecs do
         local unitSpec = group.unitSpecs[unitSpecIndex]
 
@@ -443,9 +447,6 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
           if #takenUnits >= #availableUnits then finished = true end
         else
           -- Spawn new units
-          local spawnZoneIndex = math.random(#self.baseZones)
-          local spawnZone = trigger.misc.getZone(self.baseZones[spawnZoneIndex])
-
           while addedGroupUnitsCount < unitSpec.count do
             local name
             -- Find a unique unit name
