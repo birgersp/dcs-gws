@@ -16,6 +16,7 @@
 -- @field #number target Current target zone index
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
+-- @field #number advancementTimerId Advancement timer identifier
 autogft_TaskForce = {}
 
 ---
@@ -36,6 +37,19 @@ function autogft_TaskForce:new()
   self.target = 1
   self.reinforcementTimerId = nil
   self.stopReinforcementTimerId = nil
+  self:setAdvancementTimer(300)
+  return self
+end
+
+---
+-- Stops the advancement timer
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:stopAdvancementTimer()
+  if self.advancementTimerId then
+    timer.removeFunction(self.advancementTimerId)
+    self.advancementTimerId = nil
+  end
   return self
 end
 
@@ -138,7 +152,7 @@ function autogft_TaskForce:updateTarget()
       taskIndex = taskIndex + 1
     end
   end
-  
+
   if newTarget then self.target = newTarget end
   return self
 end
@@ -162,12 +176,13 @@ end
 -- @param #number timeInterval Seconds between each target update
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setAdvancementTimer(timeInterval)
-  local function autoIssue()
+  self:stopAdvancementTimer()
+  local function updateAndAdvance()
     self:updateTarget()
     self:advance()
-    autogft_scheduleFunction(autoIssue, timeInterval)
+    self.advancementTimerId = autogft_scheduleFunction(updateAndAdvance, timeInterval)
   end
-  autogft_scheduleFunction(autoIssue, timeInterval)
+  self.advancementTimerId = autogft_scheduleFunction(updateAndAdvance, timeInterval)
   return self
 end
 
