@@ -1,0 +1,5 @@
+autogft_TaskForce:new()
+  :addBaseZone("BASE1")
+  :addControlZone("Combat1")
+  :addControlZone("Combat2")
+  :addControlZone("Combat3")
