@@ -9,55 +9,51 @@
 
 
 
--- (SPAWNING EXAMPLE)
--- This example:
--- creates a US task force,
+-- (BLUE TASK FORCE)
+-- These lines of code:
+-- creates a new task force,
 -- adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force),
--- adds zones "Combat1", "Combat" and "Combat3" as control zone tasks. "Combat1" will be the first target,
--- adds a group of M1-Abrams and LAV-25s,
--- respawns the task force (at the base zones), and
--- sets a "respawn timer" which is a time interval of how often the task force will be reinforced by spawning new units
+-- adds zones "Combat1", "Combat" and "Combat3" as control zone tasks. "Combat1" will be the first target
 
 autogft_TaskForce:new()
-  :setCountry(country.id.USA)
-  :addBaseZone("SPAWN1")
-  :addBaseZone("SPAWN2")
+  :addBaseZone("BLUE_BASE")
   :addControlZone("Combat1")
   :addControlZone("Combat2")
   :addControlZone("Combat3")
-  :addUnits(6, "M-1 Abrams")
-  :addUnits(4, "LAV-25")
-  :respawn()
-  :setRespawnTimer(600)
 
 
 
--- (STAGING EXAMPLE)
--- Same as the previous code, but this time for some russian units and with a different base 
--- Note this task force will not respawn units. Only pre-existing units located in the base zone will be used to reinforce it
+-- (RED TASK FORCE 1)
 
 autogft_TaskForce:new()
-  :setCountry(country.id.RUSSIA)
-  :addBaseZone("STAGING1")
+  :addBaseZone("RED_BASE1")
   :addControlZone("Combat3")
   :addControlZone("Combat2")
   :addControlZone("Combat1")
-  :addUnits(4, "T-90")
-  :reinforce()
-  :setReinforceTimer(600)
 
 
 
+-- (RED TASK FORCE 2)
+-- (This task force will ignore "Combat1")
+
+autogft_TaskForce:new()
+  :addBaseZone("RED_BASE2")
+  :addControlZone("Combat3")
+  :addControlZone("Combat2")
+
+  
+  
 -- (VARIOUS OTHER FEATURES EXAMPLE)
+-- (Showing optional stuff you can do with the task force)
 -- Another US task force;
--- units split into multiple groups
+-- manually specifying groups and units
 -- using roads,
 -- excellent skill,
 -- max advancement distance 3km,
 -- low speed (5knots),
--- scanning units
--- advance every 600 seconds (instead of default value)
--- only keep respawning for 1200 sec (20 min)
+-- scanning units,
+-- manually setting the advance timer to 600 second intervals,
+-- manually setting the respawning timer to 300 second intervals, for a total of 1200 sec (20 min)
 
 autogft_TaskForce:new()
   :setCountry(country.id.USA)
@@ -75,3 +71,4 @@ autogft_TaskForce:new()
   :respawn()
   :setAdvancementTimer(600)
   :setRespawnTimer(300, 1200)
+  
