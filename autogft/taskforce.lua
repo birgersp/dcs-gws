@@ -35,17 +35,19 @@ function autogft_TaskForce:new()
   self.skill = "High"
   self.groups = {}
   self.target = 1
-  self.reinforcementTimerId = nil
-  self.stopReinforcementTimerId = nil
+  self:setRespawnTimer(600)
   self:setAdvancementTimer(300)
   return self
 end
 
 ---
+-- Automatically adds groups and units.
+-- Determines which groups and units that should be added to the task force by looking at units located in the base zones and copying the layout.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:autoSpecifyUnits()
 
+  -- Determine coalition based on units in base zones
   local ownUnitsInBases = autogft_getUnitsInZones(coalition.side.BLUE, self.baseZones)
   if #ownUnitsInBases <= 0 then
     ownUnitsInBases = autogft_getUnitsInZones(coalition.side.RED, self.baseZones)
@@ -54,21 +56,29 @@ function autogft_TaskForce:autoSpecifyUnits()
   if #ownUnitsInBases > 0 then
     self.country = ownUnitsInBases[1]:getCountry()
 
+    -- Create a table of groups {group = {type = count}}
     local groupUnits = {}
+    
+    -- Iterate through own base units
     for _, unit in pairs(ownUnitsInBases) do
       local dcsGroup = unit:getGroup()
+      
+      -- Check if table has this group
       if not groupUnits[dcsGroup] then
-        self:addGroup()
         groupUnits[dcsGroup] = {}
       end
-
+      
+      -- Check if group has this type
       local type = unit:getTypeName()
       if not groupUnits[dcsGroup][type] then
         groupUnits[dcsGroup][type] = 0
       end
+      
+      -- Count the number of units in this group of that type
       groupUnits[dcsGroup][type] = groupUnits[dcsGroup][type] + 1
     end
 
+    -- Iterate through the table of groups, add groups and units
     for _, group in pairs(groupUnits) do
       self:addGroup()
       for type, count in pairs(group) do
