@@ -24,6 +24,7 @@ autogft_TaskForce = {}
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:new()
+
   self = setmetatable({}, {__index = autogft_TaskForce})
   self.country = country.id.RUSSIA
   self.baseZones = {}
@@ -35,8 +36,18 @@ function autogft_TaskForce:new()
   self.skill = "High"
   self.groups = {}
   self.target = 1
+  
+  local function autoInitialize()
+    if #self.groups <= 0 then
+      self:autoSpecifyUnits()
+      self:reinforce()
+    end 
+  end
+  autogft_scheduleFunction(autoInitialize, 1)
+  
   self:setRespawnTimer(600)
   self:setAdvancementTimer(300)
+  
   return self
 end
 
