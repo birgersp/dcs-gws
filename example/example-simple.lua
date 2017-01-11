@@ -40,35 +40,4 @@ autogft_TaskForce:new()
   :addBaseZone("RED_BASE2")
   :addControlZone("Combat3")
   :addControlZone("Combat2")
-
-  
-  
--- (VARIOUS OTHER FEATURES EXAMPLE)
--- (Showing optional stuff you can do with the task force)
--- Another US task force;
--- manually specifying groups and units
--- using roads,
--- excellent skill,
--- max advancement distance 3km,
--- low speed (5knots),
--- scanning units,
--- manually setting the advance timer to 600 second intervals,
--- manually setting the respawning timer to 300 second intervals, for a total of 1200 sec (20 min)
-
-autogft_TaskForce:new()
-  :setCountry(country.id.USA)
-  :addBaseZone("RED_BASE3")
-  :addControlZone("Combat1")
-  :addControlZone("Combat2")
-  :addControlZone("Combat3")
-  :addGroup():addUnits(4, "M-1 Abrams")
-  :addGroup():addUnits(3, "M-1 Abrams")
-  :setUseRoads(true)
-  :setSkill("Excellent")
-  :setMaxRouteDistance(3)
-  :setSpeed(5)
-  :scanUnits("TF")
-  :respawn()
-  :setAdvancementTimer(600)
-  :setRespawnTimer(300, 1200)
   
