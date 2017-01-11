@@ -57,7 +57,7 @@ autogft_TaskForce:new()
 
 autogft_TaskForce:new()
   :setCountry(country.id.USA)
-  :addBaseZone("SPAWN1")
+  :addBaseZone("RED_BASE3")
   :addControlZone("Combat1")
   :addControlZone("Combat2")
   :addControlZone("Combat3")
