@@ -22,6 +22,7 @@
 					<li><a href="groupcommand.html">groupcommand</a></li>
 					<li><a href="taskforce.html">taskforce</a></li>
 					<li>taskforcegroup</li>
+					<li><a href="taskforcetask.html">taskforcetask</a></li>
 					<li><a href="unitcluster.html">unitcluster</a></li>
 					<li><a href="unitspec.html">unitspec</a></li>
 		</ul>
@@ -55,6 +56,12 @@
 </td>
 		</tr>
 		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).advance">autogft_TaskForceGroup:advance()</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).containsUnit">autogft_TaskForceGroup:containsUnit(unit)</a></td>
 		<td class="summary">
 
@@ -67,19 +74,43 @@
 </td>
 		</tr>
 		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).destination">autogft_TaskForceGroup.destination</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).exists">autogft_TaskForceGroup:exists()</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).new">autogft_TaskForceGroup:new(unitSpec)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).new">autogft_TaskForceGroup:new(taskForce)</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).setDCSGroup">autogft_TaskForceGroup:setDCSGroup(newGroup)</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).taskForce">autogft_TaskForceGroup.taskForce</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).unitSpecs">autogft_TaskForceGroup.unitSpecs</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForceGroup).updateDestination">autogft_TaskForceGroup:updateDestination()</a></td>
 		<td class="summary">
 
 </td>
@@ -143,6 +174,24 @@
 		<dl class="function">
 <dt>
 
+<a id="#(autogft_TaskForceGroup).advance" >
+<strong>autogft_TaskForceGroup:advance()</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForceGroup)">#autogft_TaskForceGroup</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 <a id="#(autogft_TaskForceGroup).containsUnit" >
 <strong>autogft_TaskForceGroup:containsUnit(unit)</strong>
 </a>
@@ -183,6 +232,20 @@
 		<dl class="function">
 <dt>
 
+		<em>#number</em>
+<a id="#(autogft_TaskForceGroup).destination" >
+<strong>autogft_TaskForceGroup.destination</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 <a id="#(autogft_TaskForceGroup).exists" >
 <strong>autogft_TaskForceGroup:exists()</strong>
 </a>
@@ -202,7 +265,7 @@
 <dt>
 
 <a id="#(autogft_TaskForceGroup).new" >
-<strong>autogft_TaskForceGroup:new(unitSpec)</strong>
+<strong>autogft_TaskForceGroup:new(taskForce)</strong>
 </a>
 </dt>
 <dd>
@@ -213,13 +276,53 @@
 		<ul>
 				<li>
 				
-<p><code><em><a href="unitspec.html##(autogft_UnitSpec)">unitspec#autogft_UnitSpec</a> unitSpec </em></code>: </p>
+<p><code><em><a href="taskforce.html##(autogft_TaskForce)">taskforce#autogft_TaskForce</a> taskForce </em></code>: </p>
 
 				</li>
 		</ul>
 		<h3>Return value</h3>
 				
 <p><em><a href="##(autogft_TaskForceGroup)">#autogft_TaskForceGroup</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForceGroup).setDCSGroup" >
+<strong>autogft_TaskForceGroup:setDCSGroup(newGroup)</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em><a href="DCSGroup.html##(Group)">DCSGroup#Group</a> newGroup </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForceGroup)">#autogft_TaskForceGroup</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em><a href="taskforce.html##(autogft_TaskForce)">taskforce#autogft_TaskForce</a></em>
+<a id="#(autogft_TaskForceGroup).taskForce" >
+<strong>autogft_TaskForceGroup.taskForce</strong>
+</a>
+</dt>
+<dd>
+	
 
 
 </dd>
@@ -234,6 +337,24 @@
 </dt>
 <dd>
 	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(autogft_TaskForceGroup).updateDestination" >
+<strong>autogft_TaskForceGroup:updateDestination()</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(autogft_TaskForceGroup)">#autogft_TaskForceGroup</a>:</em></p>
 
 
 </dd>
