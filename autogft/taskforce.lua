@@ -72,23 +72,23 @@ function autogft_TaskForce:autoSpecifyUnits()
     
     -- Iterate through own base units
     for _, unit in pairs(ownUnitsInBases) do
-      local dcsGroup = unit:getGroup()
+      local dcsGroupId = unit:getGroup():getID()
       
       -- Check if table has this group
-      if not groupUnits[dcsGroup] then
-        groupUnits[dcsGroup] = {}
+      if not groupUnits[dcsGroupId] then
+        groupUnits[dcsGroupId] = {}
       end
       
       -- Check if group has this type
-      local type = unit:getTypeName()
-      if not groupUnits[dcsGroup][type] then
-        groupUnits[dcsGroup][type] = 0
+      local typeName = unit:getTypeName()
+      if not groupUnits[dcsGroupId][typeName] then
+        groupUnits[dcsGroupId][typeName] = 0
       end
       
       -- Count the number of units in this group of that type
-      groupUnits[dcsGroup][type] = groupUnits[dcsGroup][type] + 1
+      groupUnits[dcsGroupId][typeName] = groupUnits[dcsGroupId][typeName] + 1
     end
-
+    
     -- Iterate through the table of groups, add groups and units
     for _, group in pairs(groupUnits) do
       self:addGroup()
@@ -153,7 +153,7 @@ end
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default is false, using units located in base)
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:reinforce(useSpawning)
-  assert(#self.groups > 0, "Task force as no group specifications. Use \"addGroup\" to add a specification.")
+  assert(#self.groups > 0, "Task force as no group/unit specifications.")
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
   local availableUnits
   if not useSpawning then
