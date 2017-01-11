@@ -21,6 +21,8 @@ autogft_TaskForce = {}
 
 ---
 -- Creates a new task force instance.
+-- A new task force instance will reinforce by respawning from the bases every 10 minutes.
+-- To override, use ${autogft_TaskForce.setReinforceTimer} or ${autogft_TaskForce.setRespawnTimer}.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:new()
@@ -92,7 +94,7 @@ function autogft_TaskForce:autoAddUnitLayout(units)
 end
 
 ---
--- Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${autogft_TaskForce.autoAddUnits})
+-- Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${autogft_TaskForce.autoAddUnitLayout})
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:autoAddUnitLayoutFromBases()
@@ -258,6 +260,7 @@ end
 
 ---
 -- Starts a timer which reinforces the task force.
+-- Spawning is optional.
 -- @param #autogft_TaskForce self
 -- @param #number timeInterval Seconds between each reinforcement
 -- @param #number maxTime (Optional) Maximum time the timer will run for
