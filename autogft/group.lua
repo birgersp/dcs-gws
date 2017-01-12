@@ -1,5 +1,5 @@
 ---
--- @module taskforcegroup
+-- @module group
 
 ---
 -- @type autogft_TaskForceGroup

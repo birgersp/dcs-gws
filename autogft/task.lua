@@ -1,5 +1,5 @@
 ---
--- @module taskforcetask
+-- @module task
 
 ---
 -- @type autogft_TaskForceTask

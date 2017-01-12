@@ -6,13 +6,13 @@
 -- @type autogft_TaskForce
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
--- @field #list<taskforcetask#autogft_TaskForceTask> tasks List of tasks
+-- @field #list<task#autogft_TaskForceTask> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
--- @field #list<taskforcegroup#autogft_TaskForceGroup> groups Groups of the task force
+-- @field #list<group#autogft_TaskForceGroup> groups Groups of the task force
 -- @field #number target Current target zone index
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
@@ -126,7 +126,7 @@ function autogft_TaskForce:stopAdvancementTimer()
 end
 
 ---
--- Adds an intermidiate zone task (see @{taskforcetask#autogft_taskTypes.INTERMIDIATE}).
+-- Adds an intermidiate zone task (see @{task#autogft_taskTypes.INTERMIDIATE}).
 -- @param #autogft_TaskForce self
 -- @param #string zoneName
 -- @return #autogft_TaskForce
@@ -138,7 +138,7 @@ end
 ---
 -- Adds a task to the task force
 -- @param #autogft_TaskForce self
--- @param taskforcetask#autogft_TaskForceTask task
+-- @param task#autogft_TaskForceTask task
 -- @return #autogft_TaskForce
 function autogft_TaskForce:addTask(task)
   task.useRoads = self.useRoads
@@ -347,7 +347,7 @@ function autogft_TaskForce:addBaseZone(baseZone)
 end
 
 ---
--- Adds a control zone task (see @{taskforcetask#autogft_taskTypes.CONTROL}).
+-- Adds a control zone task (see @{task#autogft_taskTypes.CONTROL}).
 -- @param #autogft_TaskForce self
 -- @param #string name Name of target zone
 -- @return #autogft_TaskForce This instance (self)

@@ -3,10 +3,10 @@
 set sources= ^
 autogft\controlzone.lua ^
 autogft\core.lua ^
+autogft\group.lua ^
 autogft\groupcommand.lua ^
+autogft\task.lua ^
 autogft\taskforce.lua ^
-autogft\taskforcegroup.lua ^
-autogft\taskforcetask.lua ^
 autogft\unitcluster.lua ^
 autogft\unitspec.lua ^
 unit-types\unit-types.lua
