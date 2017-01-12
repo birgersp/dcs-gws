@@ -7,6 +7,7 @@
 -- @field taskforce#autogft_TaskForce taskForce
 -- @field DCSGroup#Group dcsGroup
 -- @field #number destination
+-- @field #boolean progressing
 autogft_TaskForceGroup = {}
 
 ---
@@ -17,6 +18,7 @@ function autogft_TaskForceGroup:new(taskForce)
   self = setmetatable({}, {__index = autogft_TaskForceGroup})
   self.unitSpecs = {}
   self.taskForce = taskForce
+  self.progressing = true
   self:setDCSGroup(nil)
   return self
 end
@@ -43,8 +45,10 @@ function autogft_TaskForceGroup:updateDestination()
           -- If destination reached, update target
           if self.destination < self.taskForce.target then
             self.destination = self.destination + 1
+            self.progressing = true
           elseif self.destination > self.taskForce.target then
             self.destination = self.destination - 1
+            self.progressing = false
           end
         end
       end
@@ -98,7 +102,7 @@ function autogft_TaskForceGroup:advance()
   if self:exists() then
     self:updateDestination()
 
-    local targetTask = self.taskForce.tasks[self.destination]
+    local destinationTask = self.taskForce.tasks[self.destination]
 
     local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
     local destinationZonePos2 = {
@@ -134,13 +138,19 @@ function autogft_TaskForceGroup:advance()
       end
     end
 
+    -- (Whether to use roads or not, depends on the next task)
+    local nextTask = destinationTask
+    if not self.progressing then
+      nextTask = self.taskForce.tasks[self.destination + 1]
+    end
+    
     local randomPointVars = {
       group = self.dcsGroup,
       point = destinationZonePos2,
       radius = radius,
-      speed = targetTask.speed,
+      speed = nextTask.speed,
       formation = self.taskForce.formation,
-      disableRoads = not targetTask.useRoads
+      disableRoads = not nextTask.useRoads
     }
     mist.groupToRandomPoint(randomPointVars)
   end

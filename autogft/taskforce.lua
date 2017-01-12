@@ -391,7 +391,6 @@ function autogft_TaskForce:setUseRoads(useRoads)
   else
     self.useRoads = useRoads
   end
-  if #self.tasks > 0 then self.tasks[#self.tasks].useRoads = self.useRoads end
   return self
 end
 
