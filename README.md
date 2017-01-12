@@ -21,7 +21,7 @@ When a task force is attacked and taking casualties, it can be set to be automat
 2. Add some trigger zones to your DCS World mission  
 <img src="https://cloud.githubusercontent.com/assets/5260237/21239139/ef528744-c305-11e6-9fa4-d19f45ac4b78.jpg" width="640"/>
 
-3. Make a script (a .lua file) for your mission, the example.lua fila (provided in the release zip) is a good starting point  
+3. Make a script (a .lua file) for your mission, the example.lua file (provided in the release zip) is a good starting point  
 
 4. In your mission, create a mission start trigger  
 
@@ -37,7 +37,8 @@ Use the [`unit-types.txt`](https://raw.githubusercontent.com/birgersp/dcs-unit-t
 [(Outdated) Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
 
 ## Documenation
-- [Example mission script](https://raw.githubusercontent.com/birgersp/dcs-autogft/master/example/example.lua)
+- [Basic example mission script](https://raw.githubusercontent.com/birgersp/dcs-autogft/master/example/example-simple.lua)
+- [Detailed example mission script](https://raw.githubusercontent.com/birgersp/dcs-autogft/master/example/example-detailed.lua)
 - [Code API](https://birgersp.github.io/dcs-autogft/)
 
 ## Planned features
