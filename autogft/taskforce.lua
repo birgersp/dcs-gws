@@ -6,7 +6,7 @@
 -- @type autogft_TaskForce
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
--- @field #list<task#autogft_TaskForceTask> tasks List of tasks
+-- @field #list<task#autogft_Task> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #string formation Formation of moving units (default: "cone")
@@ -131,14 +131,14 @@ end
 -- @param #string zoneName
 -- @return #autogft_TaskForce
 function autogft_TaskForce:addIntermidiateZone(zoneName)
-  local task = autogft_TaskForceTask:new(zoneName, autogft_taskTypes.INTERMIDIATE)
+  local task = autogft_Task:new(zoneName, autogft_taskTypes.INTERMIDIATE)
   return self:addTask(task)
 end
 
 ---
 -- Adds a task to the task force
 -- @param #autogft_TaskForce self
--- @param task#autogft_TaskForceTask task
+-- @param task#autogft_Task task
 -- @return #autogft_TaskForce
 function autogft_TaskForce:addTask(task)
   task.useRoads = self.useRoads
@@ -352,7 +352,7 @@ end
 -- @param #string name Name of target zone
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addControlZone(name)
-  local task = autogft_TaskForceTask:new(name, autogft_taskTypes.CONTROL)
+  local task = autogft_Task:new(name, autogft_taskTypes.CONTROL)
   return self:addTask(task)
 end
 

@@ -2,22 +2,22 @@
 -- @module task
 
 ---
--- @type autogft_TaskForceTask
+-- @type autogft_Task
 -- @field #number type
 -- @field #string zoneName
 -- @field #boolean cleared
 -- @field #boolean useRoads
 -- @field #number speed
-autogft_TaskForceTask = {}
+autogft_Task = {}
 
 ---
--- @param #autogft_TaskForceTask self
+-- @param #autogft_Task self
 -- @param #string zoneName
 -- @param #number type
--- @return #autogft_TaskForceTask
-function autogft_TaskForceTask:new(zoneName, type)
+-- @return #autogft_Task
+function autogft_Task:new(zoneName, type)
   autogft_assertZoneExists(zoneName)
-  self = setmetatable({}, {__index = autogft_TaskForceTask})
+  self = setmetatable({}, {__index = autogft_Task})
   self.zoneName = zoneName
   self.type = type
   self.cleared = false
