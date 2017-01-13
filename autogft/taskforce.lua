@@ -21,14 +21,13 @@ autogft_TaskForce = {}
 
 ---
 -- Creates a new task force instance.
--- A new task force instance will reinforce by respawning from the bases every 10 minutes.
 -- To override, use ${autogft_TaskForce.setReinforceTimer} or ${autogft_TaskForce.setRespawnTimer}.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:new()
 
   self = setmetatable({}, {__index = autogft_TaskForce})
-  self.country = country.id.RUSSIA
+  self.country = nil
   self.baseZones = {}
   self.tasks = {}
   self.speed = 100
@@ -40,15 +39,30 @@ function autogft_TaskForce:new()
   self.target = 1
 
   local function autoInitialize()
-    if #self.groups <= 0 then
-      self:autoAddUnitLayoutFromBases()
-      self:reinforce()
-    end
+    self:autoInitialize()
   end
   autogft_scheduleFunction(autoInitialize, 1)
 
-  self:setRespawnTimer(600)
-  self:setAdvancementTimer(300)
+  return self
+end
+
+---
+-- Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:autoInitialize()
+
+  if #self.groups <= 0 then
+    self:autoAddUnitLayoutFromBases()
+  end
+
+  if not self.reinforcementTimerId then
+    self:setRespawnTimer(600)
+  end
+
+  if not self.advancementTimerId then
+    self:setAdvancementTimer(300)
+  end
 
   return self
 end
@@ -59,6 +73,10 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:autoAddUnitLayout(units)
+
+  if not self.country then
+    self:setCountry(units[1]:getCountry())
+  end
 
   -- Create a table of groups {group = {type = count}}
   local groupUnits = {}
@@ -106,7 +124,6 @@ function autogft_TaskForce:autoAddUnitLayoutFromBases()
   end
 
   if #ownUnitsInBases > 0 then
-    self.country = ownUnitsInBases[1]:getCountry()
     self:autoAddUnitLayout(ownUnitsInBases)
   end
 
@@ -169,11 +186,23 @@ function autogft_TaskForce:reinforce(useSpawning)
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
   local availableUnits
   if not useSpawning then
-    availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
-    if #availableUnits > 0 then
-      self:setCountry(availableUnits[1]:getCountry())
+
+    if not self.country then
+
+      availableUnits = autogft_getUnitsInZones(coalition.side.BLUE, self.baseZones)
+      if #availableUnits <= 0 then
+        availableUnits = autogft_getUnitsInZones(coalition.side.BLUE, self.baseZones)
+      end
+
+      if #availableUnits > 0 then
+        self:setCountry(availableUnits[1]:getCountry())
+      end
+
+    else
+      availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
     end
   end
+
   return self:reinforceFromUnits(availableUnits)
 end
 
@@ -276,7 +305,7 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
     self:reinforce(useSpawning)
     self.reinforcementTimerId = autogft_scheduleFunction(reinforce, timeInterval)
   end
-  self.reinforcementTimerId = autogft_scheduleFunction(reinforce, 2)
+  autogft_scheduleFunction(reinforce, 1)
 
   if maxTime ~= nil and maxTime > 0 then
     local function killTimer()
@@ -284,17 +313,6 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
     end
     self.stopReinforcementTimerId = autogft_scheduleFunction(killTimer, maxTime)
   end
-  return self
-end
-
----
--- Enables a advancement timer (at 10 min intervals) and a respawning timer (at 30 min intervals).
--- See @{#autogft_TaskForce.setAdvancementTimer} and @{#autogft_TaskForce.enableRespawnTimer}
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:enableDefaultTimers()
-  self:setAdvancementTimer(600)
-  self:enableRespawnTimer(1800)
   return self
 end
 
@@ -531,24 +549,37 @@ end
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:scanUnits(groupNamePrefix)
+
+  local coalitionGroups = {
+    coalition.getGroups(coalition.side.BLUE),
+    coalition.getGroups(coalition.side.RED)
+  }
+
   local availableUnits = {}
-  local coalitionID = coalition.getCountryCoalition(self.country)
-  local groups = coalition.getGroups(coalitionID)
-  for groupIndex = 1, #groups do
-    local group = groups[groupIndex]
-    if group:getName():find(groupNamePrefix) == 1 then
-      local units = group:getUnits()
-      for unitIndex = 1, #units do
-        availableUnits[#availableUnits + 1] = units[unitIndex]
+
+  local coalition = 1
+  while coalition <= #coalitionGroups and #availableUnits == 0 do
+    for _, group in pairs(coalitionGroups[coalition]) do
+      if group:getName():find(groupNamePrefix) == 1 then
+        local units = group:getUnits()
+        for unitIndex = 1, #units do
+          availableUnits[#availableUnits + 1] = units[unitIndex]
+        end
       end
     end
+    coalition = coalition + 1
   end
+
   if #availableUnits > 0 then
+    if not self.country then
+      self:setCountry(availableUnits[1]:getCountry())
+    end
     if #self.groups <= 0 then
       self:autoAddUnitLayout(availableUnits)
     end
     self:reinforceFromUnits(availableUnits, groupNamePrefix)
   end
+
   return self
 end
 
