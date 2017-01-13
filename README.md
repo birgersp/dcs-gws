@@ -1,5 +1,5 @@
 # Autonomous Ground Force Tasking
-Utility script for DCS World mission making
+Utility script for DCS World mission making ([download](https://github.com/birgersp/dcs-autogft/releases/latest/)).
 
 ### Project goal
 This project aims to enable DCS World mission makers to easily set up dynamic battle scenarios by using zones. AI units of a task force will automatically move to capture target zones, advance through captured zones and be reinforced when taking casualties.
@@ -47,3 +47,4 @@ See [issue list](https://github.com/birgersp/dcs-autogft/issues)
 ## Credits
 - [MIST project](https://github.com/mrSkortch/MissionScriptingTools)
 - [DCS-API](https://github.com/FlightControl-Master/DCS-API) initially written by [Sven](https://github.com/FlightControl-Master)
+- [thebgpikester](https://github.com/thebgpikester) for extensive testing and support
