@@ -170,6 +170,9 @@ function autogft_TaskForce:reinforce(useSpawning)
   local availableUnits
   if not useSpawning then
     availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones, true)
+    if #availableUnits > 0 then
+      self:setCountry(availableUnits[1]:getCountry())
+    end
   end
   return self:reinforceFromUnits(availableUnits)
 end
