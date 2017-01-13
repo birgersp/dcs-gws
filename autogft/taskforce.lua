@@ -314,7 +314,7 @@ end
 ---
 -- Starts a timer which reinforces the task force.
 -- @param #autogft_TaskForce self
--- @param #number timeInterval Seconds between each reinforcement
+-- @param #number timeInterval Time [seconds] between each reinforcement
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default: false)
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setReinforceTimer(timeInterval, useSpawning)
@@ -352,7 +352,7 @@ end
 ---
 -- Starts a timer which reinforces the task force by spawning new units.
 -- @param #autogft_TaskForce self
--- @param #number timeInterval Seconds between each reinforcement
+-- @param #number timeInterval Time [seconds] between each reinforcement
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setRespawnTimer(timeInterval)
   return self:setReinforceTimer(timeInterval, true)
