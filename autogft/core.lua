@@ -88,25 +88,22 @@ end
 -- @function autogft_getUnitsInZones
 -- @param #number coalitionId
 -- @param #list<#string> zoneNames
--- @param #boolean idleOnly (Optional)
 -- @return #list<DCSUnit#Unit>
-function autogft_getUnitsInZones(coalitionId, zoneNames, idleOnly)
+function autogft_getUnitsInZones(coalitionId, zoneNames)
   local result = {}
   local groups = coalition.getGroups(coalitionId)
   for zoneNameIndex = 1, #zoneNames do
     local zone = trigger.misc.getZone(zoneNames[zoneNameIndex])
     local radiusSquared = zone.radius * zone.radius
     for _, group in pairs(groups) do
-      if not idleOnly or not group:getController():hasTask() then
-        local units = group:getUnits()
-        for unitIndex = 1, #units do
-          local unit = units[unitIndex]
-          local pos = unit:getPosition().p
-          local dx = zone.point.x - pos.x
-          local dy = zone.point.z - pos.z
-          if (dx*dx + dy*dy) <= radiusSquared then
-            result[#result + 1] = units[unitIndex]
-          end
+      local units = group:getUnits()
+      for unitIndex = 1, #units do
+        local unit = units[unitIndex]
+        local pos = unit:getPosition().p
+        local dx = zone.point.x - pos.x
+        local dy = zone.point.z - pos.z
+        if (dx*dx + dy*dy) <= radiusSquared then
+          result[#result + 1] = units[unitIndex]
         end
       end
     end
@@ -243,7 +240,7 @@ end
 
 function autogft_debugFunction()
   if autogft_debugMode then
-    local functionName = debug.getinfo(2, "n").name 
+    local functionName = debug.getinfo(2, "n").name
     autogft_debug(functionName, "function")
   end
 end
