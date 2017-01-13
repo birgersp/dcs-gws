@@ -313,13 +313,11 @@ end
 
 ---
 -- Starts a timer which reinforces the task force.
--- Spawning is optional.
 -- @param #autogft_TaskForce self
 -- @param #number timeInterval Seconds between each reinforcement
--- @param #number maxTime (Optional) Maximum time the timer will run for
--- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default)
+-- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default: false)
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
+function autogft_TaskForce:setReinforceTimer(timeInterval, useSpawning)
   self:stopReinforcing()
 
   local function reinforce()
@@ -328,12 +326,6 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
   end
   autogft_scheduleFunction(reinforce, 1)
 
-  if maxTime ~= nil and maxTime > 0 then
-    local function killTimer()
-      self:stopReinforcing()
-    end
-    self.stopReinforcementTimerId = autogft_scheduleFunction(killTimer, maxTime)
-  end
   return self
 end
 
@@ -361,10 +353,9 @@ end
 -- Starts a timer which reinforces the task force by spawning new units.
 -- @param #autogft_TaskForce self
 -- @param #number timeInterval Seconds between each reinforcement
--- @param #number maxTime (Optional) Maximum time the timer will run for
 -- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:setRespawnTimer(timeInterval, maxTime)
-  return self:setReinforceTimer(timeInterval, maxTime, true)
+function autogft_TaskForce:setRespawnTimer(timeInterval)
+  return self:setReinforceTimer(timeInterval, true)
 end
 
 ---
