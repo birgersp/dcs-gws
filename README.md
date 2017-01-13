@@ -47,3 +47,4 @@ See [issue list](https://github.com/birgersp/dcs-autogft/issues)
 ## Credits
 - [MIST project](https://github.com/mrSkortch/MissionScriptingTools)
 - [DCS-API](https://github.com/FlightControl-Master/DCS-API) initially written by [Sven](https://github.com/FlightControl-Master)
+- [thebgpikester](https://github.com/thebgpikester) for extensive testing and support
