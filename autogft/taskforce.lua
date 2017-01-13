@@ -47,6 +47,25 @@ function autogft_TaskForce:new()
 end
 
 ---
+-- Sets the maximum time reinforcements will keep coming.
+-- @param #autogft_TaskForce self
+-- @param #number time Time [seconds] until reinforcements will stop coming
+-- @return #autogft_TaskForce
+function autogft_TaskForce:setReinforceTimerMax(time)
+
+  if self.stopReinforcementTimerId then
+    timer.removeFunction(self.stopReinforcementTimerId)
+  end
+
+  local function killTimer()
+    self:stopReinforcing()
+  end
+  self.stopReinforcementTimerId = autogft_scheduleFunction(killTimer, time)
+  
+  return self
+end
+
+---
 -- Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).
 -- Default reinforcement timer intervals is 600 seconds. Default advancement timer intervals is 300 seconds.
 -- @param #autogft_TaskForce self
