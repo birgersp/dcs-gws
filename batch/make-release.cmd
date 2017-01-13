@@ -2,11 +2,20 @@
 
 set /p version=<version.txt
 
+set examples_dir=examples
+set examples= ^
+basic.lua ^
+miscellaneous.lua ^
+reinforcing.lua ^
+scanning.lua ^
+test.lua ^
+using-roads.lua
 set example_mission="C:\Users\birge\Saved Games\DCS\Missions\autogft-example.miz"
 set build_dir=build
+set examples_destination=%build_dir%\examples
 set archive_dir=build-zip
 set archive_file=%archive_dir%\autogft-%version%.zip
-set include=example\example-simple.lua example\example-detailed.lua unit-types\unit-types.txt
+set include=unit-types\unit-types.txt
 
 call make.cmd
 call make-docs.cmd
@@ -19,6 +28,12 @@ for %%a in (%include%) do (
 	copy %%a %build_dir%
 )
 
+if not exist %examples_destination% md %examples_destination%
+for %%a in (%examples%) do (
+	echo Including %examples_dir%\%%a
+	copy %examples_dir%\%%a %examples_destination%
+)
+
 copy README.md %build_dir%\README.txt
 copy %example_mission% %build_dir%\example-%version%.miz
 
@@ -29,5 +44,5 @@ if exist %archive_dir% (
 	if exist %archive_file% del %archive_file%
 ) else md %archive_dir%
 cd %build_dir%
-7z a ..\%archive_file% *.* docs\
+7z a ..\%archive_file% *.* docs\ examples\
 cd %current_dir%

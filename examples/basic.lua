@@ -1,7 +1,8 @@
 
--- Autonomous Ground Force Tasking example script
+---
+-- Autonomous Ground Force Tasking basic example script
 -- https://github.com/birgersp/dcs-autogft
-
+--
 -- Lines beginning with "--" are comments and does not affect the code
 -- Put the standalone script and this script in "do script file" actions in a mission start trigger
 -- Remember to re-load this script to your mission after you have edited it, it is not necessary to re-load the standalone
@@ -9,7 +10,10 @@
 
 
 
+--- 
 -- (BLUE TASK FORCE)
+-- Adding base zone(s)
+-- Adding control zone(s)
 
 autogft_TaskForce:new()
   :addBaseZone("BLUE_BASE1")
@@ -18,13 +22,13 @@ autogft_TaskForce:new()
   :addControlZone("CONTROL5")
 
 
-
+--- 
 -- (RED TASK FORCE 2)
 -- (This task force will ignore "Combat1")
 
---autogft_TaskForce:new()
---  :addBaseZone("RED_BASE")
---  :addControlZone("CONTROL5")
---  :addControlZone("CONTROL2")
---  :addControlZone("CONTROL1")
+autogft_TaskForce:new()
+  :addBaseZone("RED_BASE")
+  :addControlZone("CONTROL5")
+  :addControlZone("CONTROL2")
+  :addControlZone("CONTROL1")
   
