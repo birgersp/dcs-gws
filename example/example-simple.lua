@@ -10,34 +10,21 @@
 
 
 -- (BLUE TASK FORCE)
--- These lines of code:
--- creates a new task force,
--- adds zones "SPAWN1" and "SPAWN2" as base zones (for reinforcing the task force),
--- adds zones "Combat1", "Combat" and "Combat3" as control zone tasks. "Combat1" will be the first target
 
 autogft_TaskForce:new()
-  :addBaseZone("BLUE_BASE")
-  :addControlZone("Combat1")
-  :addControlZone("Combat2")
-  :addControlZone("Combat3")
-
-
-
--- (RED TASK FORCE 1)
-
-autogft_TaskForce:new()
-  :addBaseZone("RED_BASE1")
-  :addControlZone("Combat3")
-  :addControlZone("Combat2")
-  :addControlZone("Combat1")
+  :addBaseZone("BLUE_BASE1")
+  :addControlZone("CONTROL1")
+  :addControlZone("CONTROL2")
+  :addControlZone("CONTROL5")
 
 
 
 -- (RED TASK FORCE 2)
 -- (This task force will ignore "Combat1")
 
-autogft_TaskForce:new()
-  :addBaseZone("RED_BASE2")
-  :addControlZone("Combat3")
-  :addControlZone("Combat2")
+--autogft_TaskForce:new()
+--  :addBaseZone("RED_BASE")
+--  :addControlZone("CONTROL5")
+--  :addControlZone("CONTROL2")
+--  :addControlZone("CONTROL1")
   
