@@ -276,7 +276,7 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)
     self:reinforce(useSpawning)
     self.reinforcementTimerId = autogft_scheduleFunction(reinforce, timeInterval)
   end
-  reinforce()
+  self.reinforcementTimerId = autogft_scheduleFunction(reinforce, 2)
 
   if maxTime ~= nil and maxTime > 0 then
     local function killTimer()
