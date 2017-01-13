@@ -240,3 +240,10 @@ function autogft_debug(variable, text)
     end
   end
 end
+
+function autogft_debugFunction()
+  if autogft_debugMode then
+    local functionName = debug.getinfo(2, "n").name 
+    autogft_debug(functionName, "function")
+  end
+end
