@@ -48,12 +48,14 @@ end
 
 ---
 -- Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).
+-- Default reinforcement timer intervals is 600 seconds. Default advancement timer intervals is 300 seconds.
 -- @param #autogft_TaskForce self
 -- @return #autogft_TaskForce
 function autogft_TaskForce:autoInitialize()
 
   if #self.groups <= 0 then
     self:autoAddUnitLayoutFromBases()
+    self:reinforce()
   end
 
   if not self.reinforcementTimerId then
