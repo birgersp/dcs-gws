@@ -2,20 +2,20 @@
 -- @module group
 
 ---
--- @type autogft_TaskForceGroup
+-- @type autogft_Group
 -- @field #list<unitspec#autogft_UnitSpec> unitSpecs
 -- @field taskforce#autogft_TaskForce taskForce
 -- @field DCSGroup#Group dcsGroup
 -- @field #number destination
 -- @field #boolean progressing
-autogft_TaskForceGroup = {}
+autogft_Group = {}
 
 ---
--- @param #autogft_TaskForceGroup self
+-- @param #autogft_Group self
 -- @param taskforce#autogft_TaskForce taskForce
--- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:new(taskForce)
-  self = setmetatable({}, {__index = autogft_TaskForceGroup})
+-- @return #autogft_Group
+function autogft_Group:new(taskForce)
+  self = setmetatable({}, {__index = autogft_Group})
   self.unitSpecs = {}
   self.taskForce = taskForce
   self.progressing = true
@@ -24,9 +24,9 @@ function autogft_TaskForceGroup:new(taskForce)
 end
 
 ---
--- @param #autogft_TaskForceGroup self
--- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:updateDestination()
+-- @param #autogft_Group self
+-- @return #autogft_Group
+function autogft_Group:updateDestination()
 
   if self.dcsGroup then
     local units = self.dcsGroup:getUnits()
@@ -58,9 +58,9 @@ function autogft_TaskForceGroup:updateDestination()
 end
 
 ---
--- @param #autogft_TaskForceGroup self
--- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:exists()
+-- @param #autogft_Group self
+-- @return #autogft_Group
+function autogft_Group:exists()
   if self.dcsGroup then
     local units = self.dcsGroup:getUnits()
     if #units > 0 then
@@ -74,10 +74,10 @@ function autogft_TaskForceGroup:exists()
 end
 
 ---
--- @param #autogft_TaskForceGroup self
+-- @param #autogft_Group self
 -- @param DCSUnit#Unit unit
 -- @return #boolean
-function autogft_TaskForceGroup:containsUnit(unit)
+function autogft_Group:containsUnit(unit)
   if self.dcsGroup then
     local units = self.dcsGroup:getUnits()
     for unitIndex = 1, #units do
@@ -88,17 +88,17 @@ function autogft_TaskForceGroup:containsUnit(unit)
 end
 
 ---
--- @param #autogft_TaskForceGroup self
+-- @param #autogft_Group self
 -- @param unitspec#autogft_UnitSpec unitSpec
-function autogft_TaskForceGroup:addUnitSpec(unitSpec)
+function autogft_Group:addUnitSpec(unitSpec)
   self.unitSpecs[#self.unitSpecs + 1] = unitSpec
   return self
 end
 
 ---
--- @param #autogft_TaskForceGroup self
--- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:advance()
+-- @param #autogft_Group self
+-- @return #autogft_Group
+function autogft_Group:advance()
   if self:exists() then
     self:updateDestination()
 
@@ -159,10 +159,10 @@ function autogft_TaskForceGroup:advance()
 end
 
 ---
--- @param #autogft_TaskForceGroup self
+-- @param #autogft_Group self
 -- @param DCSGroup#Group newGroup
--- @return #autogft_TaskForceGroup
-function autogft_TaskForceGroup:setDCSGroup(newGroup)
+-- @return #autogft_Group
+function autogft_Group:setDCSGroup(newGroup)
   self.dcsGroup = newGroup
   self.destination = 1
   return self

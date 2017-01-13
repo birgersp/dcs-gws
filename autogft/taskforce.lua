@@ -12,7 +12,7 @@
 -- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
--- @field #list<group#autogft_TaskForceGroup> groups Groups of the task force
+-- @field #list<group#autogft_Group> groups Groups of the task force
 -- @field #number target Current target zone index
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
@@ -155,7 +155,7 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:addGroup()
   local unitSpec = autogft_UnitSpec:new(count, type)
-  self.groups[#self.groups + 1] = autogft_TaskForceGroup:new(self)
+  self.groups[#self.groups + 1] = autogft_Group:new(self)
   return self
 end
 
