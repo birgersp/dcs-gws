@@ -47,6 +47,24 @@ function autogft_TaskForce:new()
 end
 
 ---
+-- Specifies the task force to stop using roads when advancing through the next tasks that are added.
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:stopUsingRoads()
+  self.useRoads = false
+  return self
+end
+
+---
+-- Specifies the task force to use roads when advancing through the next tasks that are added.
+-- @param #autogft_TaskForce self
+-- @return #autogft_TaskForce
+function autogft_TaskForce:startUsingRoads()
+  self.useRoads = true
+  return self
+end
+
+---
 -- Sets the maximum time reinforcements will keep coming.
 -- @param #autogft_TaskForce self
 -- @param #number time Time [seconds] until reinforcements will stop coming
@@ -410,20 +428,6 @@ end
 -- @return #autogft_TaskForce This instance (self)
 function autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)
   self.maxDistanceKM = maxDistanceKM
-  return self
-end
-
----
--- Sets wether the task force should use roads or not (see @{#autogft_TaskForce.useRoads}).
--- @param #autogft_TaskForce self
--- @param #boolean useRoads (Optional) Wether to use roads or not (default: true)
--- @return #autogft_TaskForce This instance (self)
-function autogft_TaskForce:setUseRoads(useRoads)
-  if useRoads == nil then
-    self.useRoads = true
-  else
-    self.useRoads = useRoads
-  end
   return self
 end
 
