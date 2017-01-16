@@ -216,3 +216,39 @@ function autogft_getFriendlyVehiclesWithin(unit, radius)
   return result
 
 end
+
+---
+-- @param #string unitName
+-- @return DCSUnit#Unit
+function autogft_getClosestEnemyVehicle(unitName)
+
+  local unit = Unit.getByName(unitName)
+  local unitPosition = unit:getPosition().p
+  local enemyCoalitionString = "[red]"
+  if unit:getCoalition() == 1 then
+    enemyCoalitionString = "[blue]"
+  end
+  local unitTableStr = enemyCoalitionString .. '[vehicle]'
+  local enemyVehicles = mist.makeUnitTable({ unitTableStr })
+  if #enemyVehicles > 0 then
+    local closestEnemy
+    local closestEnemyDistance
+    local newClosestEnemy = {}
+    local newClosestEnemyDistance = 0
+    for i = 1, #enemyVehicles do
+      newClosestEnemy = Unit.getByName(enemyVehicles[i])
+      if newClosestEnemy ~= nil then
+        if closestEnemy == nil then
+          closestEnemy = newClosestEnemy
+          closestEnemyDistance = autogft_getDistanceBetween(unitPosition, closestEnemy:getPosition().p)
+        else
+          newClosestEnemyDistance = autogft_getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
+          if (newClosestEnemyDistance < closestEnemyDistance) then
+            closestEnemy = newClosestEnemy
+          end
+        end
+      end
+    end
+    return closestEnemy
+  end
+end
