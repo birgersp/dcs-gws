@@ -25,31 +25,38 @@ end
 
 ---
 -- @param #autogft_Group self
+-- @return DCSUnit#Unit
+function autogft_Group:getGroupLead()
+  local groupLead
+  if self.dcsGroup then
+    local unitIndex = 1
+    local units = self.dcsGroup:getUnits()
+    while unitIndex <= #units and not groupLead do
+      if units[unitIndex]:isExist() then groupLead = units[unitIndex] end
+    end
+  end
+  return groupLead
+end
+
+---
+-- @param #autogft_Group self
 -- @return #autogft_Group
 function autogft_Group:updateDestination()
 
   if self.dcsGroup then
-    local units = self.dcsGroup:getUnits()
-    if #units > 0 then
-      -- Get group lead
-      local groupLead
-      local unitIndex = 1
-      while unitIndex <= #units and not groupLead do
-        if units[unitIndex]:isExist() then groupLead = units[unitIndex] end
-      end
 
-      -- Check location of group lead
-      if groupLead then
-        local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
-        if autogft_unitIsWithinZone(groupLead, destinationZone) then
-          -- If destination reached, update target
-          if self.destination < self.taskForce.target then
-            self.destination = self.destination + 1
-            self.progressing = true
-          elseif self.destination > self.taskForce.target then
-            self.destination = self.destination - 1
-            self.progressing = false
-          end
+    -- Check location of group lead
+    local groupLead = self:getGroupLead()
+    if groupLead then
+      local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
+      if autogft_unitIsWithinZone(groupLead, destinationZone) then
+        -- If destination reached, update target
+        if self.destination < self.taskForce.target then
+          self.destination = self.destination + 1
+          self.progressing = true
+        elseif self.destination > self.taskForce.target then
+          self.destination = self.destination - 1
+          self.progressing = false
         end
       end
     end
@@ -143,7 +150,7 @@ function autogft_Group:advance()
     if not self.progressing then
       nextTask = self.taskForce.tasks[self.destination + 1]
     end
-    
+
     local randomPointVars = {
       group = self.dcsGroup,
       point = destinationZonePos2,
