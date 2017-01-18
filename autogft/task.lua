@@ -1,5 +1,5 @@
 ---
--- @module task
+-- @module Task
 
 ---
 -- @type autogft_Task

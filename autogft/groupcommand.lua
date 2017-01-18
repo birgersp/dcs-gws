@@ -1,5 +1,5 @@
 ---
--- @module groupcommand
+-- @module GroupCommand
 
 ---
 -- @type autogft_GroupCommand

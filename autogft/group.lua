@@ -1,5 +1,5 @@
 ---
--- @module group
+-- @module Group
 
 ---
 -- @type autogft_Group

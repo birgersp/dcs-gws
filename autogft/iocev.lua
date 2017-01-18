@@ -1,5 +1,5 @@
 ---
--- @module iocev
+-- @module IOCEV
 
 autogft_CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
 autogft_IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"

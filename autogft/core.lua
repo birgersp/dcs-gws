@@ -1,5 +1,5 @@
 ---
--- @module core
+-- @module Core
 
 -- Misc
 

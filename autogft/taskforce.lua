@@ -1,6 +1,6 @@
 ---
 -- AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.
--- @module taskforce
+-- @module TaskForce
 
 ---
 -- @type autogft_TaskForce
