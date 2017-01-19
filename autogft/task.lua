@@ -17,7 +17,7 @@ autogft_Task = autogft_Class:create()
 -- @param #number type
 -- @return #Task
 function autogft_Task:new(zoneName, type)
-  autogft_assertZoneExists(zoneName)
+  autogft.assertZoneExists(zoneName)
   self = self:createInstance()
   self.zoneName = zoneName
   self.type = type

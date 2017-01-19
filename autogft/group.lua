@@ -50,7 +50,7 @@ function autogft_Group:updateDestination()
     local groupLead = self:getGroupLead()
     if groupLead then
       local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
-      if autogft_unitIsWithinZone(groupLead, destinationZone) then
+      if autogft.unitIsWithinZone(groupLead, destinationZone) then
         -- If destination reached, update target
         if self.destination < self.taskForce.target then
           self.destination = self.destination + 1

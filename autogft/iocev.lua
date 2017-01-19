@@ -42,7 +42,7 @@ function autogft_informOfClosestEnemyVehicles(group)
 
     local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
     local cardinalDir = autogft_radToCardinalDir(dirRad)
-    local distanceM = autogft_getDistanceBetween(midPoint, groupUnitPos)
+    local distanceM = autogft.getDistanceBetween(midPoint, groupUnitPos)
     local distanceKM = distanceM / 1000
     local distanceNM = distanceKM / 1.852
 
@@ -130,7 +130,7 @@ function autogft_enableIOCEV()
     cleanEnabledGroupCommands()
     enableForGroups(coalition.getGroups(coalition.side.RED))
     enableForGroups(coalition.getGroups(coalition.side.BLUE))
-    autogft_scheduleFunction(reEnablingLoop, 30)
+    autogft.scheduleFunction(reEnablingLoop, 30)
   end
 
   reEnablingLoop()
@@ -188,7 +188,7 @@ function autogft_getFriendlyVehiclesWithin(unit, radius)
       local nextUnit = Unit.getByName(units[i])
       if nextUnit then
         if nextUnit:getID() == targetUnit:getID() == false then
-          if autogft_getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
+          if autogft.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
             if contains(addedVehiclesNames, nextUnit:getName()) == false then
               addUnit(nextUnit)
               vehiclesWithinRecurse(nextUnit)
@@ -239,9 +239,9 @@ function autogft_getClosestEnemyVehicle(unitName)
       if newClosestEnemy ~= nil then
         if closestEnemy == nil then
           closestEnemy = newClosestEnemy
-          closestEnemyDistance = autogft_getDistanceBetween(unitPosition, closestEnemy:getPosition().p)
+          closestEnemyDistance = autogft.getDistanceBetween(unitPosition, closestEnemy:getPosition().p)
         else
-          newClosestEnemyDistance = autogft_getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
+          newClosestEnemyDistance = autogft.getDistanceBetween(unitPosition, newClosestEnemy:getPosition().p)
           if (newClosestEnemyDistance < closestEnemyDistance) then
             closestEnemy = newClosestEnemy
           end

@@ -1,9 +1,13 @@
 ---
 -- @module Core
 
+---
+-- @type autogft
+autogft = {}
+
 -- Misc
 
-autogft_debugMode = false
+autogft.debugMode = false
 
 -- Utility function definitions
 
@@ -11,7 +15,7 @@ autogft_debugMode = false
 -- @param DCSUnit#Unit unit
 -- @param DCSZone#Zone zone
 -- @return #boolean
-function autogft_unitIsWithinZone(unit, zone)
+function autogft.unitIsWithinZone(unit, zone)
   local pos = unit:getPosition().p
   local dx = zone.point.x - pos.x
   local dy = zone.point.z - pos.z
@@ -26,7 +30,7 @@ end
 -- @param #list<DCSUnit#Unit> units
 -- @param #string type
 -- @return #number
-function autogft_countUnitsOfType(units, type)
+function autogft.countUnitsOfType(units, type)
   local count = 0
   local unit
   for i = 1, #units do
@@ -41,7 +45,7 @@ end
 -- @param #vec3
 -- @param #vec3
 -- @return #number
-function autogft_getDistanceBetween(a, b)
+function autogft.getDistanceBetween(a, b)
   local dx = a.x - b.x
   local dy = a.y - b.y
   local dz = a.z - b.z
@@ -53,7 +57,7 @@ end
 -- @param #number coalitionId
 -- @param #list<#string> zoneNames
 -- @return #list<DCSUnit#Unit>
-function autogft_getUnitsInZones(coalitionId, zoneNames)
+function autogft.getUnitsInZones(coalitionId, zoneNames)
   local result = {}
   local groups = coalition.getGroups(coalitionId)
   for zoneNameIndex = 1, #zoneNames do
@@ -79,7 +83,7 @@ end
 -- @param #function func
 -- @param #number time Seconds
 -- @return #number Function id
-function autogft_scheduleFunction(func, time)
+function autogft.scheduleFunction(func, time)
   local function triggerFunction()
     local success, message = pcall(func)
     if not success then
@@ -92,13 +96,13 @@ end
 ---
 -- Deep copy a table
 -- Code from https://gist.github.com/MihailJP/3931841
-function autogft_deepCopy(t)
+function autogft.deepCopy(t)
   if type(t) ~= "table" then return t end
   local meta = getmetatable(t)
   local target = {}
   for k, v in pairs(t) do
     if type(v) == "table" then
-      target[k] = autogft_deepCopy(v)
+      target[k] = autogft.deepCopy(v)
     else
       target[k] = v
     end
@@ -109,7 +113,7 @@ end
 
 ---
 -- Returns a string representation of an object
-function autogft_toString(obj)
+function autogft.toString(obj)
 
   local indent = "    "
   local function toStringRecursively(obj, level)
@@ -179,7 +183,7 @@ end
 ---
 -- @param #list list
 -- @param # item
-function autogft_contains(list, item)
+function autogft.contains(list, item)
   for i = 1, #list do
     if list[i] == item then return true end
   end
@@ -188,23 +192,23 @@ end
 
 ---
 -- @param #string zoneName
-function autogft_assertZoneExists(zoneName)
+function autogft.assertZoneExists(zoneName)
   assert(trigger.misc.getZone(zoneName) ~= nil, "Zone \""..zoneName.."\" does not exist in this mission.")
 end
 
-function autogft_debug(variable, text)
-  if autogft_debugMode then
+function autogft.debug(variable, text)
+  if autogft.debugMode then
     if text then
-      env.info(text .. ": " .. autogft_toString(variable))
+      env.info(text .. ": " .. autogft.toString(variable))
     else
-      env.info(autogft_toString(variable))
+      env.info(autogft.toString(variable))
     end
   end
 end
 
-function autogft_debugFunction()
-  if autogft_debugMode then
+function autogft.debugFunction()
+  if autogft.debugMode then
     local functionName = debug.getinfo(2, "n").name
-    autogft_debug(functionName, "function")
+    autogft.debug(functionName, "function")
   end
 end

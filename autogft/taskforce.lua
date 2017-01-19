@@ -42,7 +42,7 @@ function autogft_TaskForce:new()
   local function autoInitialize()
     self:autoInitialize()
   end
-  autogft_scheduleFunction(autoInitialize, 1)
+  autogft.scheduleFunction(autoInitialize, 1)
 
   return self
 end
@@ -79,7 +79,7 @@ function autogft_TaskForce:setReinforceTimerMax(time)
   local function killTimer()
     self:stopReinforcing()
   end
-  self.stopReinforcementTimerId = autogft_scheduleFunction(killTimer, time)
+  self.stopReinforcementTimerId = autogft.scheduleFunction(killTimer, time)
   
   return self
 end
@@ -158,9 +158,9 @@ end
 function autogft_TaskForce:autoAddUnitLayoutFromBases()
 
   -- Determine coalition based on units in base zones
-  local ownUnitsInBases = autogft_getUnitsInZones(coalition.side.BLUE, self.baseZones)
+  local ownUnitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
   if #ownUnitsInBases <= 0 then
-    ownUnitsInBases = autogft_getUnitsInZones(coalition.side.RED, self.baseZones)
+    ownUnitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.baseZones)
   end
 
   if #ownUnitsInBases > 0 then
@@ -229,9 +229,9 @@ function autogft_TaskForce:reinforce(useSpawning)
 
     if not self.country then
 
-      availableUnits = autogft_getUnitsInZones(coalition.side.BLUE, self.baseZones)
+      availableUnits = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
       if #availableUnits <= 0 then
-        availableUnits = autogft_getUnitsInZones(coalition.side.BLUE, self.baseZones)
+        availableUnits = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
       end
 
       if #availableUnits > 0 then
@@ -239,7 +239,7 @@ function autogft_TaskForce:reinforce(useSpawning)
       end
 
     else
-      availableUnits = autogft_getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
+      availableUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
     end
   end
 
@@ -268,20 +268,20 @@ function autogft_TaskForce:updateTarget()
     local task = self.tasks[taskIndex]
 
     if task.type == autogft_Task.types.CONTROL then
-      local enemyUnits = autogft_getUnitsInZones(enemyCoalition, {task.zoneName})
+      local enemyUnits = autogft.getUnitsInZones(enemyCoalition, {task.zoneName})
       if #enemyUnits > 0 then
         task.cleared = false
       else
-        local ownUnits = autogft_getUnitsInZones(ownCoalition, {task.zoneName})
+        local ownUnits = autogft.getUnitsInZones(ownCoalition, {task.zoneName})
         if #ownUnits > 0 then
           task.cleared = true
         end
       end
     elseif task.type == autogft_Task.types.INTERMIDIATE then
-      local enemyUnits = autogft_getUnitsInZones(enemyCoalition, {task.zoneName})
+      local enemyUnits = autogft.getUnitsInZones(enemyCoalition, {task.zoneName})
       if not task.cleared then
         if #enemyUnits <= 0 then
-          local ownUnits = autogft_getUnitsInZones(ownCoalition, {task.zoneName})
+          local ownUnits = autogft.getUnitsInZones(ownCoalition, {task.zoneName})
           if #ownUnits > 0 then
             task.cleared = true
           end
@@ -324,9 +324,9 @@ function autogft_TaskForce:setAdvancementTimer(timeInterval)
   local function updateAndAdvance()
     self:updateTarget()
     self:advance()
-    self.advancementTimerId = autogft_scheduleFunction(updateAndAdvance, timeInterval)
+    self.advancementTimerId = autogft.scheduleFunction(updateAndAdvance, timeInterval)
   end
-  self.advancementTimerId = autogft_scheduleFunction(updateAndAdvance, timeInterval)
+  self.advancementTimerId = autogft.scheduleFunction(updateAndAdvance, timeInterval)
   return self
 end
 
@@ -341,9 +341,9 @@ function autogft_TaskForce:setReinforceTimer(timeInterval, useSpawning)
 
   local function reinforce()
     self:reinforce(useSpawning)
-    self.reinforcementTimerId = autogft_scheduleFunction(reinforce, timeInterval)
+    self.reinforcementTimerId = autogft.scheduleFunction(reinforce, timeInterval)
   end
-  autogft_scheduleFunction(reinforce, 1)
+  autogft.scheduleFunction(reinforce, 1)
 
   return self
 end
@@ -393,7 +393,7 @@ end
 -- @param #string baseZone Name of base zone
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:addBaseZone(baseZone)
-  autogft_assertZoneExists(baseZone)
+  autogft.assertZoneExists(baseZone)
   self.baseZones[#self.baseZones + 1] = baseZone
   return self
 end
