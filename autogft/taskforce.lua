@@ -187,7 +187,7 @@ end
 -- @param #string zoneName
 -- @return #TaskForce
 function autogft_TaskForce:addIntermidiateZone(zoneName)
-  local task = autogft_Task:new(zoneName, autogft_taskTypes.INTERMIDIATE)
+  local task = autogft_Task:new(zoneName, autogft_Task.types.INTERMIDIATE)
   return self:addTask(task)
 end
 
@@ -266,7 +266,7 @@ function autogft_TaskForce:updateTarget()
   while not newTarget and taskIndex <= #self.tasks do
     local task = self.tasks[taskIndex]
 
-    if task.type == autogft_taskTypes.CONTROL then
+    if task.type == autogft_Task.types.CONTROL then
       local enemyUnits = autogft_getUnitsInZones(enemyCoalition, {task.zoneName})
       if #enemyUnits > 0 then
         task.cleared = false
@@ -276,7 +276,7 @@ function autogft_TaskForce:updateTarget()
           task.cleared = true
         end
       end
-    elseif task.type == autogft_taskTypes.INTERMIDIATE then
+    elseif task.type == autogft_Task.types.INTERMIDIATE then
       local enemyUnits = autogft_getUnitsInZones(enemyCoalition, {task.zoneName})
       if not task.cleared then
         if #enemyUnits <= 0 then
@@ -403,7 +403,7 @@ end
 -- @param #string name Name of target zone
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:addControlZone(name)
-  local task = autogft_Task:new(name, autogft_taskTypes.CONTROL)
+  local task = autogft_Task:new(name, autogft_Task.types.CONTROL)
   return self:addTask(task)
 end
 

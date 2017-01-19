@@ -28,10 +28,10 @@ end
 
 ---
 -- Defines various task types for task forces to complete.
--- @type taskTypes
+-- @type Task.types
 -- @field #number CONTROL Clear a zone of enemy units, and retreat to it if enemies re-appear.
 -- @field #number INTERMIDIATE Clear a zone of enemy units once, and move through it when advancing towards the next task.
-autogft_taskTypes = {
+autogft_Task.types = {
   CONTROL = 1,
   INTERMIDIATE = 2
 }
