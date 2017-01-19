@@ -28,7 +28,7 @@ end
 
 ---
 -- Instantiates this class.
--- Do not override this function.
+-- Do not override this function (see @{#Class.new}).
 -- @param #Class self
 -- @param #table superObject (Optional) Parent object which the new instance will inherit attributes from
 -- @return #table
@@ -40,6 +40,15 @@ function autogft_Class:createInstance(superObject)
     end
   end
   return instance
+end
+
+---
+-- Instanties this class.
+-- Override this function to create a custom constructor.
+-- @param #Class self
+-- @return #table
+function autogft_Class:new()
+  return self:createInstance(nil)
 end
 
 ---
