@@ -33,3 +33,24 @@ end
 function autogft_Class:new()
   return setmetatable({}, {__index = self})
 end
+
+---
+-- Returns wether this object is a type or subtype of a class.
+-- @param #Class self
+-- @return #boolean
+function autogft_Class:instanceOf(class)
+
+  local result = false
+  local superClass
+  local metatable = getmetatable(self)
+
+  while metatable and not result do
+    superClass = metatable.__index
+    if superClass == class then
+      result = true
+    end
+    metatable = getmetatable(superClass)
+  end
+
+  return result
+end
