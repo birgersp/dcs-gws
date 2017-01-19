@@ -1,8 +1,9 @@
 @echo off
 
 set sources= ^
-autogft\controlzone.lua ^
 autogft\core.lua ^
+autogft\class.lua ^
+autogft\controlzone.lua ^
 autogft\group.lua ^
 autogft\groupcommand.lua ^
 autogft\task.lua ^
