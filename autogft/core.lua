@@ -77,7 +77,7 @@ end
 
 ---
 -- @param #function func
--- @param #number time
+-- @param #number time Seconds
 -- @return #number Function id
 function autogft_scheduleFunction(func, time)
   local function triggerFunction()
