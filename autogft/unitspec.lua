@@ -2,17 +2,17 @@
 -- @module UnitSpecification
 
 ---
--- @type autogft_UnitSpec
+-- @type UnitSpec
 -- @field #number count
 -- @field #string type
 autogft_UnitSpec = {}
 autogft_UnitSpec.__index = autogft_UnitSpec
 
 ---
--- @param #autogft_UnitSpec self
+-- @param #UnitSpec self
 -- @param #number count
 -- @param #string type
--- @return #autogft_UnitSpec
+-- @return #UnitSpec
 function autogft_UnitSpec:new(count, type)
   self = setmetatable({}, {__index = autogft_UnitSpec})
   self.count = count

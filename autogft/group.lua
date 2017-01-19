@@ -2,18 +2,18 @@
 -- @module Group
 
 ---
--- @type autogft_Group
--- @field #list<unitspec#autogft_UnitSpec> unitSpecs
--- @field taskforce#autogft_TaskForce taskForce
+-- @type Group
+-- @field #list<unitspec#UnitSpec> unitSpecs
+-- @field taskforce#TaskForce taskForce
 -- @field DCSGroup#Group dcsGroup
 -- @field #number destination
 -- @field #boolean progressing
 autogft_Group = {}
 
 ---
--- @param #autogft_Group self
--- @param taskforce#autogft_TaskForce taskForce
--- @return #autogft_Group
+-- @param #Group self
+-- @param taskforce#TaskForce taskForce
+-- @return #Group
 function autogft_Group:new(taskForce)
   self = setmetatable({}, {__index = autogft_Group})
   self.unitSpecs = {}
@@ -24,7 +24,7 @@ function autogft_Group:new(taskForce)
 end
 
 ---
--- @param #autogft_Group self
+-- @param #Group self
 -- @return DCSUnit#Unit
 function autogft_Group:getGroupLead()
   local groupLead
@@ -39,8 +39,8 @@ function autogft_Group:getGroupLead()
 end
 
 ---
--- @param #autogft_Group self
--- @return #autogft_Group
+-- @param #Group self
+-- @return #Group
 function autogft_Group:updateDestination()
 
   if self.dcsGroup then
@@ -65,8 +65,8 @@ function autogft_Group:updateDestination()
 end
 
 ---
--- @param #autogft_Group self
--- @return #autogft_Group
+-- @param #Group self
+-- @return #Group
 function autogft_Group:exists()
   if self.dcsGroup then
     local units = self.dcsGroup:getUnits()
@@ -81,7 +81,7 @@ function autogft_Group:exists()
 end
 
 ---
--- @param #autogft_Group self
+-- @param #Group self
 -- @param DCSUnit#Unit unit
 -- @return #boolean
 function autogft_Group:containsUnit(unit)
@@ -95,16 +95,16 @@ function autogft_Group:containsUnit(unit)
 end
 
 ---
--- @param #autogft_Group self
--- @param unitspec#autogft_UnitSpec unitSpec
+-- @param #Group self
+-- @param unitspec#UnitSpec unitSpec
 function autogft_Group:addUnitSpec(unitSpec)
   self.unitSpecs[#self.unitSpecs + 1] = unitSpec
   return self
 end
 
 ---
--- @param #autogft_Group self
--- @return #autogft_Group
+-- @param #Group self
+-- @return #Group
 function autogft_Group:advance()
   if self:exists() then
     self:updateDestination()
@@ -166,9 +166,9 @@ function autogft_Group:advance()
 end
 
 ---
--- @param #autogft_Group self
+-- @param #Group self
 -- @param DCSGroup#Group newGroup
--- @return #autogft_Group
+-- @return #Group
 function autogft_Group:setDCSGroup(newGroup)
   self.dcsGroup = newGroup
   self.destination = 1

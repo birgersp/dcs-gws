@@ -2,7 +2,7 @@
 -- @module Task
 
 ---
--- @type autogft_Task
+-- @type Task
 -- @field #number type
 -- @field #string zoneName
 -- @field #boolean cleared
@@ -11,10 +11,10 @@
 autogft_Task = {}
 
 ---
--- @param #autogft_Task self
+-- @param #Task self
 -- @param #string zoneName
 -- @param #number type
--- @return #autogft_Task
+-- @return #Task
 function autogft_Task:new(zoneName, type)
   autogft_assertZoneExists(zoneName)
   self = setmetatable({}, {__index = autogft_Task})
@@ -28,7 +28,7 @@ end
 
 ---
 -- Defines various task types for task forces to complete.
--- @type autogft_taskTypes
+-- @type taskTypes
 -- @field #number CONTROL Clear a zone of enemy units, and retreat to it if enemies re-appear.
 -- @field #number INTERMIDIATE Clear a zone of enemy units once, and move through it when advancing towards the next task.
 autogft_taskTypes = {

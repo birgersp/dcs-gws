@@ -2,15 +2,15 @@
 -- @module ControlZone
 
 ---
--- @type autogft_ControlZone
+-- @type ControlZone
 -- @field #string name
 -- @field #number status
 autogft_ControlZone = {}
 
 ---
--- @param #autogft_ControlZone self
+-- @param #ControlZone self
 -- @param #string name
--- @return #autogft_ControlZone
+-- @return #ControlZone
 function autogft_ControlZone:new(name)
   self = setmetatable({}, {__index = autogft_ControlZone})
   self.name = name

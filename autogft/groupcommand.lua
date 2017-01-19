@@ -2,7 +2,7 @@
 -- @module GroupCommand
 
 ---
--- @type autogft_GroupCommand
+-- @type GroupCommand
 -- @field #string commandName
 -- @field #string groupName
 -- @field #number groupId
@@ -12,11 +12,11 @@
 autogft_GroupCommand = {}
 
 ---
--- @param #autogft_GroupCommand self
+-- @param #GroupCommand self
 -- @param #string commandName
 -- @param #string groupName
 -- @param #function func
--- @return #autogft_GroupCommand
+-- @return #GroupCommand
 function autogft_GroupCommand:new(commandName, groupName, func)
   self = setmetatable({}, {__index = autogft_GroupCommand})
   self.commandName = commandName
@@ -27,7 +27,7 @@ function autogft_GroupCommand:new(commandName, groupName, func)
 end
 
 ---
--- @param #autogft_GroupCommand self
+-- @param #GroupCommand self
 function autogft_GroupCommand:enable()
   self.enabled = true
 
@@ -49,7 +49,7 @@ function autogft_GroupCommand:enable()
 end
 
 ---
--- @param #autogft_GroupCommand self
+-- @param #GroupCommand self
 function autogft_GroupCommand:disable()
   -- Remove group command from mission
   trigger.action.removeOtherCommandForGroup(self.groupId, self.commandName)

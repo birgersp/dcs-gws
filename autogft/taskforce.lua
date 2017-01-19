@@ -3,16 +3,16 @@
 -- @module TaskForce
 
 ---
--- @type autogft_TaskForce
+-- @type TaskForce
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
--- @field #list<task#autogft_Task> tasks List of tasks
+-- @field #list<task#Task> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
--- @field #list<group#autogft_Group> groups Groups of the task force
+-- @field #list<group#Group> groups Groups of the task force
 -- @field #number target Current target zone index
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
@@ -21,9 +21,9 @@ autogft_TaskForce = {}
 
 ---
 -- Creates a new task force instance.
--- To override, use ${autogft_TaskForce.setReinforceTimer} or ${autogft_TaskForce.setRespawnTimer}.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
+-- To override, use ${TaskForce.setReinforceTimer} or ${TaskForce.setRespawnTimer}.
+-- @param #TaskForce self
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:new()
 
   self = setmetatable({}, {__index = autogft_TaskForce})
@@ -48,8 +48,8 @@ end
 
 ---
 -- Specifies the task force to stop using roads when advancing through the next tasks that are added.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:stopUsingRoads()
   self.useRoads = false
   return self
@@ -57,8 +57,8 @@ end
 
 ---
 -- Specifies the task force to use roads when advancing through the next tasks that are added.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:startUsingRoads()
   self.useRoads = true
   return self
@@ -66,9 +66,9 @@ end
 
 ---
 -- Sets the maximum time reinforcements will keep coming.
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param #number time Time [seconds] until reinforcements will stop coming
--- @return #autogft_TaskForce
+-- @return #TaskForce
 function autogft_TaskForce:setReinforceTimerMax(time)
 
   if self.stopReinforcementTimerId then
@@ -86,8 +86,8 @@ end
 ---
 -- Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).
 -- Default reinforcement timer intervals is 600 seconds. Default advancement timer intervals is 300 seconds.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:autoInitialize()
 
   if #self.groups <= 0 then
@@ -109,8 +109,8 @@ end
 ---
 -- Automatically adds groups and units.
 -- Determines which groups and units that should be added to the task force by looking at a list of units and copying the layout.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:autoAddUnitLayout(units)
 
   if not self.country then
@@ -151,9 +151,9 @@ function autogft_TaskForce:autoAddUnitLayout(units)
 end
 
 ---
--- Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${autogft_TaskForce.autoAddUnitLayout})
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${TaskForce.autoAddUnitLayout})
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:autoAddUnitLayoutFromBases()
 
   -- Determine coalition based on units in base zones
@@ -171,8 +171,8 @@ end
 
 ---
 -- Stops the advancement timer
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:stopAdvancementTimer()
   if self.advancementTimerId then
     timer.removeFunction(self.advancementTimerId)
@@ -182,10 +182,10 @@ function autogft_TaskForce:stopAdvancementTimer()
 end
 
 ---
--- Adds an intermidiate zone task (see @{task#autogft_taskTypes.INTERMIDIATE}).
--- @param #autogft_TaskForce self
+-- Adds an intermidiate zone task (see @{task#taskTypes.INTERMIDIATE}).
+-- @param #TaskForce self
 -- @param #string zoneName
--- @return #autogft_TaskForce
+-- @return #TaskForce
 function autogft_TaskForce:addIntermidiateZone(zoneName)
   local task = autogft_Task:new(zoneName, autogft_taskTypes.INTERMIDIATE)
   return self:addTask(task)
@@ -193,9 +193,9 @@ end
 
 ---
 -- Adds a task to the task force
--- @param #autogft_TaskForce self
--- @param task#autogft_Task task
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @param task#Task task
+-- @return #TaskForce
 function autogft_TaskForce:addTask(task)
   task.useRoads = self.useRoads
   task.speed = self.speed
@@ -205,10 +205,10 @@ end
 
 ---
 -- Adds another group specification to the task force.
--- After a group is added, use @{#autogft_TaskForce.addUnits} to add units.
+-- After a group is added, use @{#TaskForce.addUnits} to add units.
 -- See "unit-types" for a complete list of available unit types.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
+-- @param #TaskForce self
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:addGroup()
   local unitSpec = autogft_UnitSpec:new(count, type)
   self.groups[#self.groups + 1] = autogft_Group:new(self)
@@ -216,10 +216,10 @@ function autogft_TaskForce:addGroup()
 end
 
 ---
--- Triggers task force reinforcing (invokes @{#autogft_TaskForce.reinforceFromUnits}) by either looking up units in base zones or spawning new units.
--- @param #autogft_TaskForce self
+-- Triggers task force reinforcing (invokes @{#TaskForce.reinforceFromUnits}) by either looking up units in base zones or spawning new units.
+-- @param #TaskForce self
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default is false, using units located in base)
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:reinforce(useSpawning)
   assert(#self.groups > 0, "Task force as no group/unit specifications.")
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
@@ -246,9 +246,9 @@ function autogft_TaskForce:reinforce(useSpawning)
 end
 
 ---
--- Checks the status of tasks, and sets the current target task (@{#autogft_TaskForce.target}) of this task force.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This object (self)
+-- Checks the status of tasks, and sets the current target task (@{#TaskForce.target}) of this task force.
+-- @param #TaskForce self
+-- @return #TaskForce This object (self)
 function autogft_TaskForce:updateTarget()
 
   local done = false
@@ -302,8 +302,8 @@ end
 
 ---
 -- Sets all units to move towards the current target.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
+-- @param #TaskForce self
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:advance()
   assert(#self.tasks > 0, "Task force has no tasks. Use \"addControlTask\" to add a control zone task.")
   for i = 1, #self.groups do
@@ -314,10 +314,10 @@ end
 
 ---
 -- Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.
--- Invokes @{#autogft_TaskForce.moveToTarget}.
--- @param #autogft_TaskForce self
+-- Invokes @{#TaskForce.moveToTarget}.
+-- @param #TaskForce self
 -- @param #number timeInterval Seconds between each target update
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:setAdvancementTimer(timeInterval)
   self:stopAdvancementTimer()
   local function updateAndAdvance()
@@ -331,10 +331,10 @@ end
 
 ---
 -- Starts a timer which reinforces the task force.
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param #number timeInterval Time [seconds] between each reinforcement
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default: false)
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:setReinforceTimer(timeInterval, useSpawning)
   self:stopReinforcing()
 
@@ -349,7 +349,7 @@ end
 
 ---
 -- Checks if a particular unit is present in this task force.
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param DCSUnit#Unit unit Unit in question
 -- @return #boolean True if this task force contains the unit, false otherwise.
 function autogft_TaskForce:containsUnit(unit)
@@ -361,26 +361,26 @@ end
 
 ---
 -- Reinforce the task force by spawning new units.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce This instance (self)
+-- @param #TaskForce self
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:respawn()
   return self:reinforce(true)
 end
 
 ---
 -- Starts a timer which reinforces the task force by spawning new units.
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param #number timeInterval Time [seconds] between each reinforcement
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:setRespawnTimer(timeInterval)
   return self:setReinforceTimer(timeInterval, true)
 end
 
 ---
 -- Sets the country ID of this task force.
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param #number country Country ID
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:setCountry(country)
   self.country = country
   return self
@@ -388,9 +388,9 @@ end
 
 ---
 -- Adds a base zone to the task force, used for reinforcing (spawning or staging area).
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param #string baseZone Name of base zone
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:addBaseZone(baseZone)
   autogft_assertZoneExists(baseZone)
   self.baseZones[#self.baseZones + 1] = baseZone
@@ -398,10 +398,10 @@ function autogft_TaskForce:addBaseZone(baseZone)
 end
 
 ---
--- Adds a control zone task (see @{task#autogft_taskTypes.CONTROL}).
--- @param #autogft_TaskForce self
+-- Adds a control zone task (see @{task#taskTypes.CONTROL}).
+-- @param #TaskForce self
 -- @param #string name Name of target zone
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:addControlZone(name)
   local task = autogft_Task:new(name, autogft_taskTypes.CONTROL)
   return self:addTask(task)
@@ -409,9 +409,9 @@ end
 
 ---
 -- Sets the skill of the task force reinforcement units.
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param #string skill New skill
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:setSkill(skill)
   self.skill = skill
   return self
@@ -419,23 +419,23 @@ end
 
 
 ---
--- Sets the maximum distance of unit routes (see @{#autogft_TaskForce.maxDistanceKM}).
+-- Sets the maximum distance of unit routes (see @{#TaskForce.maxDistanceKM}).
 -- If set, this number constrains how far groups of the task force will move between each move command (advancement).
 -- When units are moving towards a target, units will stop at this distance and wait for the next movement command.
 -- This prevents lag when computing routes over long distances.
--- @param #autogft_TaskForce self
+-- @param #TaskForce self
 -- @param #number maxDistanceKM Maximum distance (kilometres)
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)
   self.maxDistanceKM = maxDistanceKM
   return self
 end
 
 ---
--- Sets the desired speed of the task force units when advancing (see @{#autogft_TaskForce.speed}).
--- @param #autogft_TaskForce self
+-- Sets the desired speed of the task force units when advancing (see @{#TaskForce.speed}).
+-- @param #TaskForce self
 -- @param #boolean speed New speed (in knots)
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:setSpeed(speed)
   self.speed = speed
   if #self.tasks > 0 then self.tasks[#self.tasks].speed = self.speed end
@@ -444,11 +444,11 @@ end
 
 ---
 -- Attempts to reinforce the task force according to its unit specifications using a list of available units.
--- Reinforced units will immidiately start moving towards current target zone (see @{#autogft_TaskForce.target}).
--- @param #autogft_TaskForce self
+-- Reinforced units will immidiately start moving towards current target zone (see @{#TaskForce.target}).
+-- @param #TaskForce self
 -- @param #list<DCSUnit#Unit> availableUnits (Optional) Available units (if this list is not specified, units will be spawned)
 -- @param #string groupNamePrefix (Optional) Name prefix to use when creating groups
--- @return #autogft_TaskForce This instance (self)
+-- @return #TaskForce This instance (self)
 function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
 
   local finished = false
@@ -562,8 +562,8 @@ end
 -- Scans the map once for any pre-existing units to control in this task force.
 -- Groups with name starting with the scan prefix will be considered.
 -- A task force will only take control of units according to the task force unit specification.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:scanUnits(groupNamePrefix)
 
   local coalitionGroups = {
@@ -601,8 +601,8 @@ end
 
 ---
 -- Stops the reinforcing/respawning timers.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:stopReinforcing()
 
   if self.reinforcementTimerId then
@@ -619,9 +619,9 @@ function autogft_TaskForce:stopReinforcing()
 end
 
 ---
--- Adds unit specifications to the most recently added group (see @{#autogft_TaskForce.addGroup}) of the task force.
--- @param #autogft_TaskForce self
--- @return #autogft_TaskForce
+-- Adds unit specifications to the most recently added group (see @{#TaskForce.addGroup}) of the task force.
+-- @param #TaskForce self
+-- @return #TaskForce
 function autogft_TaskForce:addUnits(count, type)
   if #self.groups <= 0 then self:addGroup() end
   self.groups[#self.groups]:addUnitSpec(autogft_UnitSpec:new(count, type))

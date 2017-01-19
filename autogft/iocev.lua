@@ -72,7 +72,7 @@ function autogft_informOfClosestEnemyVehicles(group)
 end
 
 ---
--- @function autogft_enableIOCEV
+-- @function enableIOCEV
 function autogft_enableIOCEV()
 
   local enabledGroupCommands = {}
@@ -141,10 +141,10 @@ end
 
 ---
 -- This function might be computationally expensive
--- @function autogft_getFriendlyVehiclesWithin
+-- @function getFriendlyVehiclesWithin
 -- @param DCSUnit#Unit unit
 -- @param #number radius
--- @return unitcluster#autogft_UnitCluster
+-- @return unitcluster#UnitCluster
 function autogft_getFriendlyVehiclesWithin(unit, radius)
   local coalitionString
   if unit:getCoalition() == coalition.side.BLUE then

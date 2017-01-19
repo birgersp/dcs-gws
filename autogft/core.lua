@@ -49,7 +49,7 @@ function autogft_getDistanceBetween(a, b)
 end
 
 ---
--- @function autogft_getUnitsInZones
+-- @function getUnitsInZones
 -- @param #number coalitionId
 -- @param #list<#string> zoneNames
 -- @return #list<DCSUnit#Unit>
