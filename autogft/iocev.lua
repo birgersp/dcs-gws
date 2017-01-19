@@ -71,8 +71,6 @@ function autogft_informOfClosestEnemyVehicles(group)
 
 end
 
----
--- @function enableIOCEV
 function autogft_enableIOCEV()
 
   local enabledGroupCommands = {}
@@ -140,7 +138,8 @@ function autogft_enableIOCEV()
 end
 
 ---
--- This function might be computationally expensive
+-- Locates friendly units within some range of each other.
+-- This function might be computationally expensive.
 -- @function getFriendlyVehiclesWithin
 -- @param DCSUnit#Unit unit
 -- @param #number radius
