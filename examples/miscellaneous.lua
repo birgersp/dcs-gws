@@ -7,7 +7,8 @@
 -- low speed (5knots),
 -- scanning units,
 -- manually setting the advance timer to 600 second intervals,
--- manually setting the respawning timer to 300 second intervals, for a total of 1200 sec (20 min)
+-- manually setting the respawning timer to 300 second intervals,
+-- reinforcing (in this case, by respawning) will only happen for a total of 1200 sec (20 min)
 
 autogft_TaskForce:new()
   :setCountry(country.id.NORWAY)
@@ -18,5 +19,6 @@ autogft_TaskForce:new()
   :setMaxRouteDistance(3)
   :setSpeed(5)
   :setAdvancementTimer(300)
-  :setRespawnTimer(300, 1200)
+  :setRespawnTimer(300)
+  :setReinforceTimerMax(1200)
   
