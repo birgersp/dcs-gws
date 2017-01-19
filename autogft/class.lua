@@ -21,17 +21,25 @@ end
 -- @param #Class self
 -- @return #Class
 function autogft_Class:extend()
-  local class = autogft_Class:new()
+  local class = autogft_Class:create()
   setmetatable(class, {__index = self})
   return class
 end
 
 ---
 -- Instantiates this class.
+-- Do not override this function.
 -- @param #Class self
+-- @param #table superObject (Optional) Parent object which the new instance will inherit attributes from
 -- @return #table
-function autogft_Class:new()
-  return setmetatable({}, {__index = self})
+function autogft_Class:createInstance(superObject)
+  local instance = setmetatable({}, {__index = self})
+  if superObject then
+    for key, value in pairs(superObject) do
+      instance[key] = value
+    end
+  end
+  return instance
 end
 
 ---
