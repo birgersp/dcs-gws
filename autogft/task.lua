@@ -3,12 +3,13 @@
 
 ---
 -- @type Task
+-- @extends class#Class
 -- @field #number type
 -- @field #string zoneName
 -- @field #boolean cleared
 -- @field #boolean useRoads
 -- @field #number speed
-autogft_Task = {}
+autogft_Task = autogft_Class:create()
 
 ---
 -- @param #Task self
@@ -17,7 +18,7 @@ autogft_Task = {}
 -- @return #Task
 function autogft_Task:new(zoneName, type)
   autogft_assertZoneExists(zoneName)
-  self = setmetatable({}, {__index = autogft_Task})
+  self = self:createInstance()
   self.zoneName = zoneName
   self.type = type
   self.cleared = false

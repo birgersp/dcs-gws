@@ -3,19 +3,20 @@
 
 ---
 -- @type Group
+-- @extends class#Class
 -- @field #list<unitspec#UnitSpec> unitSpecs
 -- @field taskforce#TaskForce taskForce
 -- @field DCSGroup#Group dcsGroup
 -- @field #number destination
 -- @field #boolean progressing
-autogft_Group = {}
+autogft_Group = autogft_Class:create()
 
 ---
 -- @param #Group self
 -- @param taskforce#TaskForce taskForce
 -- @return #Group
 function autogft_Group:new(taskForce)
-  self = setmetatable({}, {__index = autogft_Group})
+  self = self:createInstance()
   self.unitSpecs = {}
   self.taskForce = taskForce
   self.progressing = true

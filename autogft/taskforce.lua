@@ -4,6 +4,7 @@
 
 ---
 -- @type TaskForce
+-- @extends class#Class
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
 -- @field #list<task#Task> tasks List of tasks
@@ -17,7 +18,7 @@
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
 -- @field #number advancementTimerId Advancement timer identifier
-autogft_TaskForce = {}
+autogft_TaskForce = autogft_Class:create()
 
 ---
 -- Creates a new task force instance.
@@ -26,7 +27,7 @@ autogft_TaskForce = {}
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:new()
 
-  self = setmetatable({}, {__index = autogft_TaskForce})
+  self = self:createInstance()
   self.country = nil
   self.baseZones = {}
   self.tasks = {}

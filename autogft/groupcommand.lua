@@ -3,13 +3,14 @@
 
 ---
 -- @type GroupCommand
+-- @extends class#Class
 -- @field #string commandName
 -- @field #string groupName
 -- @field #number groupId
 -- @field #function func
 -- @field #number timerId
 -- @field #boolean enabled
-autogft_GroupCommand = {}
+autogft_GroupCommand = autogft_Class:create()
 
 ---
 -- @param #GroupCommand self
@@ -18,7 +19,7 @@ autogft_GroupCommand = {}
 -- @param #function func
 -- @return #GroupCommand
 function autogft_GroupCommand:new(commandName, groupName, func)
-  self = setmetatable({}, {__index = autogft_GroupCommand})
+  self = self:createInstance()
   self.commandName = commandName
   self.groupName = groupName
   self.groupId = Group.getByName(groupName):getID()

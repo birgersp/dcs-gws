@@ -3,15 +3,16 @@
 
 ---
 -- @type UnitCluster
+-- @extends class#Class
 -- @field #list<#string> unitNames
 -- @field DCSTypes#Vec2 midPoint
-autogft_UnitCluster = {}
+autogft_UnitCluster = autogft_Class:create()
 
 ---
 -- @param #UnitCluster self
 -- @return #UnitCluster
 function autogft_UnitCluster:new()
-  local self = setmetatable({}, {__index = autogft_UnitCluster})
+  self = self:createInstance()
   self.unitNames = {}
   self.midPoint = {}
   return self
