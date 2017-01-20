@@ -6,13 +6,15 @@
 
 
 package.path = package.path .. ";../autogft/?.lua"
+require("core")
 require("class")
+autogft.debugMode = true
 
 
 
 ---
 -- @type Mammal
--- @extends Class#Class
+-- @extends class#Class
 -- @field #string name
 Mammal = autogft_Class:create()
 
@@ -21,7 +23,7 @@ Mammal = autogft_Class:create()
 -- @param #string name
 -- @return #Mammal
 function Mammal:new(name)
-  self = Mammal:createInstance()
+  self = self:createInstance()
   self.name = name
   return self
 end
@@ -52,7 +54,7 @@ Dog = Mammal:extend()
 -- @field #Person owner
 function Dog:new(name, owner)
   local animal = Mammal:new(name)
-  self = Dog:createInstance(animal)
+  self = self:createInstance(animal)
   self.owner = owner
   return self
 end
@@ -66,11 +68,50 @@ end
 
 
 
+---
+-- @type Vehicle
+-- @extends class#Class
+-- @field #number someAttribute
+Vehicle = autogft_Class:create()
+
+---
+-- @param #Vehicle self
+-- @return #Vehicle
+function Vehicle:new()
+  self = self:createInstance()
+  self.someAttribute = 123
+  return self
+end
+
+
+
+---
+-- @type Car
+-- @extends #Vehicle
+Car = Vehicle:extend()
+
+---
+-- @param #Car self
+-- @return #Car
+function Car:new()
+  self = self:createInstance()
+  return self
+end
+
+
+
 local function test()
+  local whale = Mammal:new("Tugger")
+
   local person = Person:new("Charlie Brown")
   person:print()
 
   local dog = Dog:new("Snoopy", person)
   dog:print()
+
+  local car = Car:new()
+  local vehicle = Vehicle:new()
+  print("Car", car.someAttribute)
+  print("Vehicle", vehicle.someAttribute)
 end
 test()
