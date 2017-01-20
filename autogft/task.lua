@@ -4,8 +4,6 @@
 ---
 -- @type Task
 -- @extends class#Class
--- @field #number type
--- @field #string zoneName
 -- @field #boolean cleared
 -- @field #boolean useRoads
 -- @field #number speed
@@ -13,14 +11,9 @@ autogft_Task = autogft_Class:create()
 
 ---
 -- @param #Task self
--- @param #string zoneName
--- @param #number type
 -- @return #Task
-function autogft_Task:new(zoneName, type)
-  autogft.assertZoneExists(zoneName)
+function autogft_Task:new()
   self = self:createInstance()
-  self.zoneName = zoneName
-  self.type = type
   self.cleared = false
   self.useRoads = false
   self.speed = 100
@@ -28,11 +21,17 @@ function autogft_Task:new(zoneName, type)
 end
 
 ---
--- Defines various task types for task forces to complete.
--- @type Task.types
--- @field #number CONTROL Clear a zone of enemy units, and retreat to it if enemies re-appear.
--- @field #number INTERMIDIATE Clear a zone of enemy units once, and move through it when advancing towards the next task.
-autogft_Task.types = {
-  CONTROL = 1,
-  INTERMIDIATE = 2
-}
+-- @type ZoneTask
+-- @extends #Task
+-- @field DCSZone#Zone zone
+autogft_ZoneTask = autogft_Task:extend()
+
+---
+-- @param #ZoneTask self
+-- @return #ZoneTask
+function autogft_ZoneTask:new(zoneName)
+  self = self:createInstance()
+  autogft.assertZoneExists(zoneName)
+  self.zone = trigger.misc.getZone(zoneName)
+  return self
+end
