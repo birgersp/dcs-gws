@@ -196,7 +196,7 @@ function autogft.assertZoneExists(zoneName)
   assert(trigger.misc.getZone(zoneName) ~= nil, "Zone \""..zoneName.."\" does not exist in this mission.")
 end
 
-function autogft.debug(variable, text)
+function autogft.log(variable)
   if autogft.debugMode then
     if not env then
       env = {
@@ -205,17 +205,30 @@ function autogft.debug(variable, text)
         end
       }
     end
-    if text then
-      env.info(text .. ": " .. autogft.toString(variable))
-    else
-      env.info(autogft.toString(variable))
+
+    -- Try to determine variable name
+    local variableName
+    local i = 1
+    local var2Name, var2Val = debug.getlocal(2,1)
+    while var2Name ~= nil and not variableName do
+      if var2Val == variable then
+        variableName = var2Name
+      end
+      i = i + 1
+      var2Name, var2Val = debug.getlocal(2,i)
     end
+
+    if not variableName then
+      variableName = "(undefined)"
+    end
+
+    env.info(variableName .. ": " .. autogft.toString(variable))
   end
 end
 
 function autogft.debugFunction()
   if autogft.debugMode then
     local functionName = debug.getinfo(2, "n").name
-    autogft.debug(functionName, "function")
+    autogft.log(functionName, "function")
   end
 end
