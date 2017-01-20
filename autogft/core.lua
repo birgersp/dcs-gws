@@ -198,6 +198,13 @@ end
 
 function autogft.debug(variable, text)
   if autogft.debugMode then
+    if not env then
+      env = {
+        info = function(msg)
+          print(msg)
+        end
+      }
+    end
     if text then
       env.info(text .. ": " .. autogft.toString(variable))
     else
