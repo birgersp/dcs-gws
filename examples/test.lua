@@ -2,7 +2,7 @@
 if not initialized then
 
   assert(loadfile([[C:\Users\birge\Workspace\dcs-autogft\build\autogft-1_6-standalone.lua]]))()
-  autogft_debugMode = true
+  autogft.debugMode = true
 
   assert(loadfile([[C:\Users\birge\Workspace\dcs-autogft\examples\basic.lua]]))()
   assert(loadfile([[C:\Users\birge\Workspace\dcs-autogft\examples\miscellaneous.lua]]))()
