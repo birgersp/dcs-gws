@@ -34,11 +34,21 @@ end
 -- @return #table
 function autogft_Class:createInstance(superObject)
   local instance = setmetatable({}, {__index = self})
+
+  -- Automatically invoke super-constructor if no superobject is provided
+  if not superObject then
+    local metatable = getmetatable(self)
+    if metatable and metatable ~= autogft_Class then
+      superObject = metatable.__index:new()
+    end
+  end
+
   if superObject then
     for key, value in pairs(superObject) do
       instance[key] = value
     end
   end
+
   return instance
 end
 
