@@ -81,3 +81,12 @@ function autogft_Class:instanceOf(class)
 
   return result
 end
+
+---
+-- Throws an error with the message that an abstract function was invoked.
+-- The name of the function invoking this function will be included in the message.
+-- @param #Class self
+function autogft_Class:throwAbstractFunctionError()
+  local functionName = debug.getinfo(2, "n").name
+  error("Abstract function \"" .. functionName .. "\" invoked.")
+end
