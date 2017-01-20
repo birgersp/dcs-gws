@@ -1,33 +1,35 @@
 ---
 -- @module IOCEV
 
-autogft_CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
-autogft_IOCEV_COMMAND_TEXT = "Request location of enemy vehicles"
+autogft_iocev = {}
+
+autogft_iocev.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
+autogft_iocev.COMMAND_TEXT = "Request location of enemy vehicles"
 autogft_MAX_CLUSTER_DISTANCE = 1000
 
 ---
 -- @param #number rad Direction in radians
 -- @return #string A string representing a cardinal direction
-function autogft_radToCardinalDir(rad)
+function autogft_iocev:radToCardinalDir(rad)
 
   local dirNormalized = rad / math.pi / 2
   local i = 1
-  if dirNormalized < (#autogft_CARDINAL_DIRECTIONS-1) / #autogft_CARDINAL_DIRECTIONS then
-    while dirNormalized > i/#autogft_CARDINAL_DIRECTIONS/2 do
+  if dirNormalized < (#autogft_iocev.CARDINAL_DIRECTIONS-1) / #autogft_iocev.CARDINAL_DIRECTIONS then
+    while dirNormalized > i/#autogft_iocev.CARDINAL_DIRECTIONS/2 do
       i = i + 2
     end
   end
   local index = math.floor(i/2) + 1
-  return autogft_CARDINAL_DIRECTIONS[index]
+  return autogft_iocev.CARDINAL_DIRECTIONS[index]
 end
 
 ---
 -- Prints out a message to a group, describing nearest enemy vehicles
 -- @param DCSGroup#Group group
-function autogft_informOfClosestEnemyVehicles(group)
+function autogft_iocev:informOfClosestEnemyVehicles(group)
 
   local firstGroupUnit = group:getUnit(1)
-  local closestEnemy = autogft_getClosestEnemyVehicle(firstGroupUnit:getName())
+  local closestEnemy = autogft_iocev:getClosestEnemyVehicle(firstGroupUnit:getName())
   if closestEnemy == nil then
     trigger.action.outTextForGroup(group:getID(), "No enemy vehicles", 30)
   else
@@ -41,7 +43,7 @@ function autogft_informOfClosestEnemyVehicles(group)
     local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
 
     local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
-    local cardinalDir = autogft_radToCardinalDir(dirRad)
+    local cardinalDir = autogft_iocev:radToCardinalDir(dirRad)
     local distanceM = autogft.getDistanceBetween(midPoint, groupUnitPos)
     local distanceKM = distanceM / 1000
     local distanceNM = distanceKM / 1.852
@@ -71,7 +73,7 @@ function autogft_informOfClosestEnemyVehicles(group)
 
 end
 
-function autogft_enableIOCEV()
+function autogft_iocev:enable()
 
   local enabledGroupCommands = {}
 
@@ -116,9 +118,9 @@ function autogft_enableIOCEV()
       if groupHasPlayer(group) then
         if not groupHasCommandEnabled(group:getID()) then
           local function triggerCommand()
-            autogft_informOfClosestEnemyVehicles(group)
+            autogft_iocev:informOfClosestEnemyVehicles(group)
           end
-          local groupCommand = autogft_GroupCommand:new(autogft_IOCEV_COMMAND_TEXT, group:getName(), triggerCommand)
+          local groupCommand = autogft_GroupCommand:new(autogft_iocev.COMMAND_TEXT, group:getName(), triggerCommand)
           groupCommand:enable()
           enabledGroupCommands[#enabledGroupCommands + 1] = groupCommand
         end
@@ -219,7 +221,7 @@ end
 ---
 -- @param #string unitName
 -- @return DCSUnit#Unit
-function autogft_getClosestEnemyVehicle(unitName)
+function autogft_iocev:getClosestEnemyVehicle(unitName)
 
   local unit = Unit.getByName(unitName)
   local unitPosition = unit:getPosition().p
