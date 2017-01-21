@@ -160,6 +160,7 @@ function autogft_Group:advance()
       formation = self.taskForce.formation,
       disableRoads = not nextTask.useRoads
     }
+
     mist.groupToRandomPoint(randomPointVars)
   end
 
@@ -174,4 +175,21 @@ function autogft_Group:setDCSGroup(newGroup)
   self.dcsGroup = newGroup
   self.destination = 1
   return self
+end
+
+---
+-- @param #Group self
+-- @param #list<waypoint#Waypoint> waypoints
+function autogft_Group:setRoute(waypoints)
+  if self:exists() then
+    local dcsTask = {
+      id = "Mission",
+      params = {
+        route = {
+          points = waypoints
+        }
+      }
+    }
+    self.dcsGroup:getController():setTask(dcsTask)
+  end
 end
