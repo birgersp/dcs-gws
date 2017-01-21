@@ -44,21 +44,18 @@ end
 -- @return #Group
 function autogft_Group:updateDestination()
 
-  if self.dcsGroup then
-
-    -- Check location of group lead
-    local groupLead = self:getGroupLead()
-    if groupLead then
-      local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
-      if autogft.unitIsWithinZone(groupLead, destinationZone) then
-        -- If destination reached, update target
-        if self.destination < self.taskForce.target then
-          self.destination = self.destination + 1
-          self.progressing = true
-        elseif self.destination > self.taskForce.target then
-          self.destination = self.destination - 1
-          self.progressing = false
-        end
+  -- Check location of group lead
+  local groupLead = self:getGroupLead()
+  if groupLead then
+    local destinationZone = trigger.misc.getZone(self.taskForce.tasks[self.destination].zoneName)
+    if autogft.unitIsWithinZone(groupLead, destinationZone) then
+      -- If destination reached, update target
+      if self.destination < self.taskForce.target then
+        self.destination = self.destination + 1
+        self.progressing = true
+      elseif self.destination > self.taskForce.target then
+        self.destination = self.destination - 1
+        self.progressing = false
       end
     end
   end
@@ -69,13 +66,8 @@ end
 -- @param #Group self
 -- @return #Group
 function autogft_Group:exists()
-  if self.dcsGroup then
-    local units = self.dcsGroup:getUnits()
-    if #units > 0 then
-      for unitIndex = 1, #units do
-        if units[unitIndex]:isExist() then return true end
-      end
-    end
+  if self:getGroupLead() then
+    return true
   end
   self.dcsGroup = nil
   return false
@@ -107,7 +99,9 @@ end
 -- @param #Group self
 -- @return #Group
 function autogft_Group:advance()
-  if self:exists() then
+
+  local groupLeader = self:getGroupLead()
+  if groupLeader then
     self:updateDestination()
 
     local destinationTask = self.taskForce.tasks[self.destination]
@@ -122,16 +116,6 @@ function autogft_Group:advance()
     -- If the task force has a "max distance" specified
     if self.taskForce.maxDistanceKM > 0 then
       local units = self.dcsGroup:getUnits()
-      local unitIndex = 1
-      local groupLeader
-      while not groupLeader and unitIndex <= #units do
-        if units[unitIndex]:isExist() then
-          groupLeader = units[unitIndex]
-        else
-          unitIndex = unitIndex + 1
-        end
-      end
-      if not groupLeader then return self end
       local groupPos = groupLeader:getPosition().p
       local groupToZone = {
         x = destinationZone.point.x - groupPos.x,
