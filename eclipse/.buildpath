@@ -4,5 +4,4 @@
 	<buildpathentry kind="src" path="mist"/>
 	<buildpathentry kind="src" path="dcs-api"/>
 	<buildpathentry kind="src" path="unit-types"/>
-	<buildpathentry kind="src" path="examples"/>
 </buildpath>
