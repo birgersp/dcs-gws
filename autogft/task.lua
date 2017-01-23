@@ -115,3 +115,16 @@ function autogft_CaptureTask:isAccomplished()
   end
   return autogft_Task.isAccomplished(self)
 end
+
+---
+-- @type ControlTask
+-- @extends #CaptureTask
+autogft_ControlTask = autogft_CaptureTask:extend()
+
+---
+-- @param #ControlTask self
+-- @return #boolean
+function autogft_ControlTask:isAccomplished()
+  self.accomplished = self:hasFriendlyPresent() and not self:hasEnemyPresent()
+  return autogft_Task.isAccomplished(self)
+end
