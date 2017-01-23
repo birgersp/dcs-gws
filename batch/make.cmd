@@ -10,6 +10,7 @@ autogft\task.lua ^
 autogft\taskforce.lua ^
 autogft\unitcluster.lua ^
 autogft\unitspec.lua ^
+autogft\vector3.lua ^
 autogft\waypoint.lua ^
 unit-types\unit-types.lua
 
