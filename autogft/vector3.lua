@@ -42,11 +42,10 @@ end
 -- @param #Vector3 self
 -- @param #number factor
 -- @return #Vector3
-function autogft_Vector3:scaled(factor)
-  local x = self.x * factor
-  local y = self.y * factor
-  local z = self.z * factor
-  return autogft_Vector3:new(x, y, z)
+function autogft_Vector3:scale(factor)
+  self.x = self.x * factor
+  self.y = self.y * factor
+  self.z = self.z * factor
 end
 
 ---
