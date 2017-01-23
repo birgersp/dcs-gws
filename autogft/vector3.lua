@@ -4,9 +4,7 @@
 ---
 -- @type Vector3
 -- @extends class#Class
--- @field #number x
--- @field #number y
--- @field #number z
+-- @extends DCSVec3#Vec3
 autogft_Vector3 = autogft_Class:create()
 
 ---
@@ -30,18 +28,15 @@ end
 ---
 -- @param #Vector3 self
 -- @param #Vector3 vector
--- @return #Vector3
 function autogft_Vector3:add(vector)
   self.x = self.x + vector.x
   self.y = self.y + vector.y
   self.z = self.z + vector.z
-  return self
 end
 
 ---
 -- @param #Vector3 self
 -- @param #number factor
--- @return #Vector3
 function autogft_Vector3:scale(factor)
   self.x = self.x * factor
   self.y = self.y * factor
@@ -50,10 +45,8 @@ end
 
 ---
 -- @param #Vector3 self
--- @return #Vector3
 function autogft_Vector3:normalize()
   self:scale(1 / self:getMagnitude())
-  return self
 end
 
 ---
@@ -100,7 +93,7 @@ function autogft_Vector3:getAngleTo(vector, plane)
 end
 
 ---
--- @type Vector.Axis
+-- @type Vector3.Axis
 -- @field #Vector3 X
 -- @field #Vector3 Y
 -- @field #Vector3 Z
