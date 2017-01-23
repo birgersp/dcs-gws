@@ -1,10 +1,4 @@
 
----
--- Showing how to use class emulation
--- (Do not distribute in autogft release)
-
-
-
 package.path = package.path .. ";../autogft/?.lua"
 require("core")
 require("class")
