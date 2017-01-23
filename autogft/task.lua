@@ -46,16 +46,16 @@ end
 ---
 -- @type CaptureTask
 -- @extends #ZoneTask
--- @field #number targetCoalition
+-- @field taskforce#TaskForce taskForce
 autogft_CaptureTask = autogft_ZoneTask:extend()
 
 ---
 -- @param #CaptureTask self
 -- @param #number targetCoalition
 -- @return #CaptureTask
-function autogft_CaptureTask:new(zoneName, targetCoalition)
+function autogft_CaptureTask:new(zoneName, taskForce)
   self = self:createInstance(autogft_ZoneTask:new(zoneName))
-  self.targetCoalition = targetCoalition
+  self.taskForce = taskForce
   return self
 end
 
@@ -88,15 +88,17 @@ end
 -- @param #CaptureTask self
 -- @return #boolean
 function autogft_CaptureTask:hasFriendlyPresent()
-  return self:hasUnitPresent(self.targetCoalition)
+  local taskForceCoalition = coalition.getCountryCoalition(self.taskForce.country)
+  return self:hasUnitPresent(taskForceCoalition)
 end
 
 ---
 -- @param #CaptureTask self
 -- @return #boolean
 function autogft_CaptureTask:hasEnemyPresent()
+  local taskForceCoalition = coalition.getCountryCoalition(self.taskForce.country)
   local enemyCoalition
-  if self.targetCoalition == coalition.side.BLUE then
+  if taskForceCoalition == coalition.side.BLUE then
     enemyCoalition = coalition.side.RED
   else
     enemyCoalition = coalition.side.BLUE
