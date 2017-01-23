@@ -51,7 +51,8 @@ autogft_CaptureTask = autogft_ZoneTask:extend()
 
 ---
 -- @param #CaptureTask self
--- @param #number targetCoalition
+-- @param #string zoneName
+-- @param taskforce#TaskForce taskForce
 -- @return #CaptureTask
 function autogft_CaptureTask:new(zoneName, taskForce)
   self = self:createInstance(autogft_ZoneTask:new(zoneName))
