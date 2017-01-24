@@ -228,7 +228,43 @@ end
 
 function autogft.debugFunction()
   if autogft.debugMode then
-    local functionName = debug.getinfo(2, "n").name
-    autogft.log(functionName, "function")
+    local trace = "(END)"
+    local i = 2
+    local functionName = debug.getinfo(i, "n").name
+    while functionName do
+      trace = functionName .. " -> " .. trace
+      i = i + 1
+      functionName = debug.getinfo(i, "n").name
+    end
+    autogft.log("Function trace: " .. trace)
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
