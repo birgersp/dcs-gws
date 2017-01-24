@@ -115,6 +115,8 @@ end
 -- Returns a string representation of an object
 function autogft.toString(obj)
 
+  local stringifiedTableIDs = {}
+
   local indent = "    "
   local function toStringRecursively(obj, level)
 
@@ -124,42 +126,48 @@ function autogft.toString(obj)
 
     local str = ""
     if (type(obj) == "table") then
-      if (level ~= 0) then
-        str = str .. "{"
-      end
-      local isFirst = true
-      for key, value in pairs(obj) do
-        if (isFirst == false) then
-          str = str .. ","
+      local tableID = tostring(obj):sub(8)
+
+      str = str .. "(" .. tableID .. ")"
+      if not stringifiedTableIDs[tableID] then
+        stringifiedTableIDs[tableID] = true
+        if (level ~= 0) then
+          str = str .. "{"
         end
-        str = str .. "\n"
-        for i = 1, level do
-          str = str .. indent
+        local isFirst = true
+        for key, value in pairs(obj) do
+          if (isFirst == false) then
+            str = str .. ","
+          end
+          str = str .. "\n"
+          for i = 1, level do
+            str = str .. indent
+          end
+
+          if (type(key) == "number") then
+            str = str .. "[\"" .. key .. "\"]"
+          elseif (type(key) == "table") then
+            str = str .. tostring(key)
+          else
+            str = str .. "\"" .. key .. "\""
+          end
+          str = str .. " = "
+
+          if (type(value) == "function") then
+            str = str .. "(function)"
+          else
+            str = str .. toStringRecursively(value, level + 1)
+          end
+          isFirst = false
         end
 
-        if (type(key) == "number") then
-          str = str .. "[\"" .. key .. "\"]"
-        elseif (type(key) == "table") then
-          str = str .. tostring(key)
-        else
-          str = str .. "\"" .. key .. "\""
+        if (level ~= 0) then
+          str = str .. "\n"
+          for i = 1, level - 1 do
+            str = str .. indent
+          end
+          str = str .. "}"
         end
-        str = str .. " = "
-
-        if (type(value) == "function") then
-          str = str .. "(function)"
-        else
-          str = str .. toStringRecursively(value, level + 1)
-        end
-        isFirst = false
-      end
-
-      if (level ~= 0) then
-        str = str .. "\n"
-        for i = 1, level - 1 do
-          str = str .. indent
-        end
-        str = str .. "}"
       end
     else
       str = obj
