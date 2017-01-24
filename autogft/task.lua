@@ -46,15 +46,15 @@ end
 ---
 -- @type CaptureTask
 -- @extends #ZoneTask
--- @field taskforce#TaskForce taskForce
+-- @field #number coalition
 autogft_CaptureTask = autogft_ZoneTask:extend()
 
 ---
 -- @param #CaptureTask self
 -- @param #string zoneName
--- @param taskforce#TaskForce taskForce
+-- @param #number coalition
 -- @return #CaptureTask
-function autogft_CaptureTask:new(zoneName, taskForce)
+function autogft_CaptureTask:new(zoneName, coalition)
   self = self:createInstance(autogft_ZoneTask:new(zoneName))
   self.taskForce = taskForce
   return self
@@ -62,17 +62,10 @@ end
 
 ---
 -- @param #CaptureTask self
--- @return #number
-function autogft_CaptureTask:getTaskForceCoalition()
-  return coalition.getCountryCoalition(self.taskForce.country)
-end
-
----
--- @param #CaptureTask self
 -- @param #number coalitionID
 -- @return #boolean
 function autogft_CaptureTask:hasUnitPresent(coalitionID)
-  local radiusSquared = self.zone.radius * self.zone.radius
+  local radiusSquared = self.zone.radius^2
   local result = false
   local groups = coalition.getGroups(coalitionID)
   local groupIndex = 1
@@ -87,7 +80,9 @@ function autogft_CaptureTask:hasUnitPresent(coalitionID)
       if (dx*dx + dy*dy) <= radiusSquared then
         result = true
       end
+      unitIndex = unitIndex + 1
     end
+    groupIndex = groupIndex + 1
   end
   return result
 end
@@ -96,16 +91,15 @@ end
 -- @param #CaptureTask self
 -- @return #boolean
 function autogft_CaptureTask:hasFriendlyPresent()
-  return self:hasUnitPresent(self:getTaskForceCoalition())
+  return self:hasUnitPresent(self.coalition)
 end
 
 ---
 -- @param #CaptureTask self
 -- @return #boolean
 function autogft_CaptureTask:hasEnemyPresent()
-  local taskForceCoalition = self:getTaskForceCoalition()
   local enemyCoalition
-  if taskForceCoalition == coalition.side.BLUE then
+  if self.coalition == coalition.side.BLUE then
     enemyCoalition = coalition.side.RED
   else
     enemyCoalition = coalition.side.BLUE
@@ -119,7 +113,7 @@ end
 function autogft_CaptureTask:isAccomplished()
   if not autogft_Task.isAccomplished(self) then
     if self:hasFriendlyPresent() and not self:hasEnemyPresent() then
-      self.accomplished = true
+        self.accomplished = true
     end
   end
   return autogft_Task.isAccomplished(self)
