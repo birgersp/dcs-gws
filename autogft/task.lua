@@ -62,6 +62,13 @@ end
 
 ---
 -- @param #CaptureTask self
+-- @return #number
+function autogft_CaptureTask:getTaskForceCoalition()
+  return coalition.getCountryCoalition(self.taskForce.country)
+end
+
+---
+-- @param #CaptureTask self
 -- @param #number coalitionID
 -- @return #boolean
 function autogft_CaptureTask:hasUnitPresent(coalitionID)
@@ -89,15 +96,14 @@ end
 -- @param #CaptureTask self
 -- @return #boolean
 function autogft_CaptureTask:hasFriendlyPresent()
-  local taskForceCoalition = coalition.getCountryCoalition(self.taskForce.country)
-  return self:hasUnitPresent(taskForceCoalition)
+  return self:hasUnitPresent(self:getTaskForceCoalition())
 end
 
 ---
 -- @param #CaptureTask self
 -- @return #boolean
 function autogft_CaptureTask:hasEnemyPresent()
-  local taskForceCoalition = coalition.getCountryCoalition(self.taskForce.country)
+  local taskForceCoalition = self:getTaskForceCoalition()
   local enemyCoalition
   if taskForceCoalition == coalition.side.BLUE then
     enemyCoalition = coalition.side.RED
