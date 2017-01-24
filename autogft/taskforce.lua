@@ -7,7 +7,7 @@
 -- @extends class#Class
 -- @field #number country Country ID
 -- @field #list<#string> baseZones List of base zones
--- @field #list<task#Task> tasks List of tasks
+-- @field #list<task#CaptureTask> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #string formation Formation of moving units (default: "cone")
@@ -80,7 +80,7 @@ function autogft_TaskForce:setReinforceTimerMax(time)
     self:stopReinforcing()
   end
   self.stopReinforcementTimerId = autogft.scheduleFunction(killTimer, time)
-  
+
   return self
 end
 
@@ -188,8 +188,7 @@ end
 -- @param #string zoneName
 -- @return #TaskForce
 function autogft_TaskForce:addIntermidiateZone(zoneName)
-  local task = autogft_Task:new(zoneName, autogft_Task.types.INTERMIDIATE)
-  return self:addTask(task)
+  return self:addTask(autogft_CaptureTask:new(zoneName, self))
 end
 
 ---
@@ -251,53 +250,18 @@ end
 -- @param #TaskForce self
 -- @return #TaskForce This object (self)
 function autogft_TaskForce:updateTarget()
-
-  local done = false
   local newTarget
-
-  local ownCoalition = coalition.getCountryCoalition(self.country)
-  local enemyCoalition
-  if ownCoalition == coalition.side.RED then
-    enemyCoalition = coalition.side.BLUE
-  else
-    enemyCoalition = coalition.side.RED
-  end
-
   local taskIndex = 1
   while not newTarget and taskIndex <= #self.tasks do
-    local task = self.tasks[taskIndex]
-
-    if task.type == autogft_Task.types.CONTROL then
-      local enemyUnits = autogft.getUnitsInZones(enemyCoalition, {task.zoneName})
-      if #enemyUnits > 0 then
-        task.cleared = false
-      else
-        local ownUnits = autogft.getUnitsInZones(ownCoalition, {task.zoneName})
-        if #ownUnits > 0 then
-          task.cleared = true
-        end
-      end
-    elseif task.type == autogft_Task.types.INTERMIDIATE then
-      local enemyUnits = autogft.getUnitsInZones(enemyCoalition, {task.zoneName})
-      if not task.cleared then
-        if #enemyUnits <= 0 then
-          local ownUnits = autogft.getUnitsInZones(ownCoalition, {task.zoneName})
-          if #ownUnits > 0 then
-            task.cleared = true
-          end
-        end
-      end
-    else
-      task.cleared = true
-    end
-    if not task.cleared then
+    if not self.tasks[taskIndex]:isAccomplished() then
       newTarget = taskIndex
-    else
-      taskIndex = taskIndex + 1
     end
+    taskIndex = taskIndex + 1
   end
-
-  if newTarget then self.target = newTarget end
+  if not newTarget then
+    newTarget = #self.tasks
+  end
+  self.target = newTarget
   return self
 end
 
@@ -384,6 +348,14 @@ end
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:setCountry(country)
   self.country = country
+  -- Update capturing tasks coalition
+  local coalition = coalition.getCountryCoalition(country)
+  for i = 1, #self.tasks do
+    local task = self.tasks[i]
+    if task:instanceOf(autogft_CaptureTask) then
+      task.coalition = coalition
+    end
+  end
   return self
 end
 
@@ -401,11 +373,10 @@ end
 ---
 -- Adds a control zone task (see @{task#taskTypes.CONTROL}).
 -- @param #TaskForce self
--- @param #string name Name of target zone
+-- @param #string zoneName Name of target zone
 -- @return #TaskForce This instance (self)
-function autogft_TaskForce:addControlZone(name)
-  local task = autogft_Task:new(name, autogft_Task.types.CONTROL)
-  return self:addTask(task)
+function autogft_TaskForce:addControlZone(zoneName)
+  return self:addTask(autogft_ControlTask:new(zoneName, self))
 end
 
 ---
@@ -417,7 +388,6 @@ function autogft_TaskForce:setSkill(skill)
   self.skill = skill
   return self
 end
-
 
 ---
 -- Sets the maximum distance of unit routes (see @{#TaskForce.maxDistanceKM}).
@@ -556,6 +526,7 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
     end
     groupIndex = groupIndex + 1
   end
+
   return self
 end
 
