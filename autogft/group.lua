@@ -28,7 +28,6 @@ end
 ---
 -- @param #Group self
 function autogft_Group:updateGroupLead()
-  autogft.debugFunction()
   self.groupLead = nil
   if self.dcsGroup then
     local unitIndex = 1
