@@ -74,7 +74,7 @@ end
 function autogft_CaptureTask:hasUnitPresent(coalitionID)
   local radiusSquared = self.zone.radius * self.zone.radius
   local result = false
-  local groups = coalition.getGroups(coalitionId)
+  local groups = coalition.getGroups(coalitionID)
   local groupIndex = 1
   while not result and groupIndex <= #groups do
     local units = groups[groupIndex]:getUnits()
