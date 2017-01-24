@@ -56,7 +56,7 @@ autogft_CaptureTask = autogft_ZoneTask:extend()
 -- @return #CaptureTask
 function autogft_CaptureTask:new(zoneName, coalition)
   self = self:createInstance(autogft_ZoneTask:new(zoneName))
-  self.taskForce = taskForce
+  self.coalition = coalition
   return self
 end
 

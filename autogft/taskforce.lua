@@ -6,6 +6,7 @@
 -- @type TaskForce
 -- @extends class#Class
 -- @field #number country Country ID
+-- @field #number coalition Coalition ID
 -- @field #list<#string> baseZones List of base zones
 -- @field #list<task#CaptureTask> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
@@ -188,7 +189,7 @@ end
 -- @param #string zoneName
 -- @return #TaskForce
 function autogft_TaskForce:addIntermidiateZone(zoneName)
-  return self:addTask(autogft_CaptureTask:new(zoneName, self))
+  return self:addTask(autogft_CaptureTask:new(zoneName, self.coalition))
 end
 
 ---
@@ -238,7 +239,7 @@ function autogft_TaskForce:reinforce(useSpawning)
       end
 
     else
-      availableUnits = autogft.getUnitsInZones(coalition.getCountryCoalition(self.country), self.baseZones)
+      availableUnits = autogft.getUnitsInZones(self.coalition, self.baseZones)
     end
   end
 
@@ -348,12 +349,12 @@ end
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:setCountry(country)
   self.country = country
+  self.coalition = coalition.getCountryCoalition(country)
   -- Update capturing tasks coalition
-  local coalition = coalition.getCountryCoalition(country)
   for i = 1, #self.tasks do
     local task = self.tasks[i]
     if task:instanceOf(autogft_CaptureTask) then
-      task.coalition = coalition
+      task.coalition = self.coalition
     end
   end
   return self
@@ -376,7 +377,7 @@ end
 -- @param #string zoneName Name of target zone
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:addControlZone(zoneName)
-  return self:addTask(autogft_ControlTask:new(zoneName, self))
+  return self:addTask(autogft_ControlTask:new(zoneName, self.coalition))
 end
 
 ---
