@@ -234,7 +234,7 @@ function autogft.log(variable)
   end
 end
 
-function autogft.debugFunction()
+function autogft.logFunction()
   if autogft.debugMode then
     local trace = "(END)"
     local i = 2
@@ -247,32 +247,3 @@ function autogft.debugFunction()
     autogft.log("Function trace: " .. trace)
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
