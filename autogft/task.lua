@@ -113,7 +113,7 @@ end
 function autogft_CaptureTask:isAccomplished()
   if not autogft_Task.isAccomplished(self) then
     if self:hasFriendlyPresent() and not self:hasEnemyPresent() then
-        self.accomplished = true
+      self.accomplished = true
     end
   end
   return autogft_Task.isAccomplished(self)
@@ -128,6 +128,10 @@ autogft_ControlTask = autogft_CaptureTask:extend()
 -- @param #ControlTask self
 -- @return #boolean
 function autogft_ControlTask:isAccomplished()
-  self.accomplished = self:hasFriendlyPresent() and not self:hasEnemyPresent()
+  if self:hasEnemyPresent() then
+    self.accomplished = false
+  elseif not self.accomplished then
+    self.accomplished = self:hasFriendlyPresent()
+  end
   return autogft_Task.isAccomplished(self)
 end
