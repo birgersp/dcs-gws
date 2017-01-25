@@ -2,10 +2,9 @@
 --- 
 -- "Scanning units" example
 -- This will assume control of units, even if they are not located in the base, by scanning for group names starting with "TaskForce".
--- The task force will respawn in the base, as usual.
+-- Note this task force doesn't have a base zone, so it will not be reinforced.
 
 autogft_TaskForce:new()
-  :addBaseZone("BLUE_BASE1")
   :addControlZone("CONTROL1")
   :addControlZone("CONTROL2")
   :addControlZone("CONTROL5")

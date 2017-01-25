@@ -97,8 +97,10 @@ function autogft_TaskForce:autoInitialize()
     self:reinforce()
   end
 
-  if not self.reinforcementTimerId then
-    self:setRespawnTimer(600)
+  if #self.baseZones > 0 then
+    if not self.reinforcementTimerId then
+      self:setRespawnTimer(600)
+    end
   end
 
   if not self.advancementTimerId then
