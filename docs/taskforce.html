@@ -17,18 +17,22 @@
 				<a href="index.html">index</a>
 			</li></ul>
 		<ul>
-					<li><a href="controlzone.html">controlzone</a></li>
-					<li><a href="core.html">core</a></li>
-					<li><a href="groupcommand.html">groupcommand</a></li>
-					<li>taskforce</li>
-					<li><a href="taskforcegroup.html">taskforcegroup</a></li>
-					<li><a href="taskforcetask.html">taskforcetask</a></li>
-					<li><a href="unitcluster.html">unitcluster</a></li>
-					<li><a href="unitspec.html">unitspec</a></li>
+					<li><a href="Class.html">Class</a></li>
+					<li><a href="ControlZone.html">ControlZone</a></li>
+					<li><a href="Core.html">Core</a></li>
+					<li><a href="Group.html">Group</a></li>
+					<li><a href="GroupCommand.html">GroupCommand</a></li>
+					<li><a href="IOCEV.html">IOCEV</a></li>
+					<li><a href="Task.html">Task</a></li>
+					<li>TaskForce</li>
+					<li><a href="UnitCluster.html">UnitCluster</a></li>
+					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
+					<li><a href="Vector3.html">Vector3</a></li>
+					<li><a href="Waypoint.html">Waypoint</a></li>
 		</ul>
 	</div>
 	<div id="content">
-   <h1>Module <code>taskforce</code></h1>
+   <h1>Module <code>TaskForce</code></h1>
    
 <p>AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.</p>
 
@@ -41,250 +45,268 @@
 </td>
 		</tr>
 	</table>
-			<h2><a id="#(autogft_TaskForce)">Type <code>autogft_TaskForce</code></a></h2>
-				<table class="function_list">
+	<h2><a id="#(TaskForce)" >Type <code>TaskForce</code></a></h2>
+		<table class="function_list">
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).<">autogft_TaskForce.<</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).<">TaskForce.<</a></td>
 		<td class="summary">
-<p>askforcegroup#autogft_TaskForceGroup> groups Groups of the task force</p>
+<p>roup#Group> groups Groups of the task force</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addBaseZone">autogft_TaskForce:addBaseZone(baseZone)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addBaseZone">TaskForce:addBaseZone(baseZone)</a></td>
 		<td class="summary">
 <p>Adds a base zone to the task force, used for reinforcing (spawning or staging area).</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addControlZone">autogft_TaskForce:addControlZone(name)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addControlZone">TaskForce:addControlZone(zoneName)</a></td>
 		<td class="summary">
-<p>Adds a control zone task (see <a href="taskforcetask.html##(autogft_taskTypes).CONTROL">taskforcetask#autogft_taskTypes.CONTROL</a>).</p>
+<p>Adds a control zone task (see <a href="task.html##(taskTypes).CONTROL">task#taskTypes.CONTROL</a>).</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addGroup">autogft_TaskForce:addGroup()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addGroup">TaskForce:addGroup()</a></td>
 		<td class="summary">
 <p>Adds another group specification to the task force.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addIntermidiateZone">autogft_TaskForce:addIntermidiateZone(zoneName)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addIntermidiateZone">TaskForce:addIntermidiateZone(zoneName)</a></td>
 		<td class="summary">
-<p>Adds an intermidiate zone task (see <a href="taskforcetask.html##(autogft_taskTypes).INTERMIDIATE">taskforcetask#autogft_taskTypes.INTERMIDIATE</a>).</p>
+<p>Adds an intermidiate zone task (see <a href="task.html##(taskTypes).INTERMIDIATE">task#taskTypes.INTERMIDIATE</a>).</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addTask">autogft_TaskForce:addTask(task)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addTask">TaskForce:addTask(task)</a></td>
 		<td class="summary">
 <p>Adds a task to the task force</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).addUnits">autogft_TaskForce:addUnits(count, type)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addUnits">TaskForce:addUnits(count, type)</a></td>
 		<td class="summary">
-<p>Adds unit specifications to the most recently added group (see <a href="##(autogft_TaskForce).addGroup">autogft_TaskForce.addGroup</a>) of the task force.</p>
+<p>Adds unit specifications to the most recently added group (see <a href="##(TaskForce).addGroup">TaskForce.addGroup</a>) of the task force.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).advance">autogft_TaskForce:advance()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).advance">TaskForce:advance()</a></td>
 		<td class="summary">
 <p>Sets all units to move towards the current target.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).advancementTimerId">autogft_TaskForce.advancementTimerId</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).advancementTimerId">TaskForce.advancementTimerId</a></td>
 		<td class="summary">
 <p>Advancement timer identifier</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).autoAddUnitLayout">autogft_TaskForce:autoAddUnitLayout(units)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).autoAddUnitLayout">TaskForce:autoAddUnitLayout(units)</a></td>
 		<td class="summary">
 <p>Automatically adds groups and units.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).autoAddUnitLayoutFromBases">autogft_TaskForce:autoAddUnitLayoutFromBases()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).autoAddUnitLayoutFromBases">TaskForce:autoAddUnitLayoutFromBases()</a></td>
 		<td class="summary">
-<p>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${autogft_TaskForce.autoAddUnitLayout})</p>
+<p>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${TaskForce.autoAddUnitLayout})</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).baseZones">autogft_TaskForce.baseZones</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).autoInitialize">TaskForce:autoInitialize()</a></td>
+		<td class="summary">
+<p>Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).baseZones">TaskForce.baseZones</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).containsUnit">autogft_TaskForce:containsUnit(unit)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).coalition">TaskForce.coalition</a></td>
+		<td class="summary">
+<p>Coalition ID</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).containsUnit">TaskForce:containsUnit(unit)</a></td>
 		<td class="summary">
 <p>Checks if a particular unit is present in this task force.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).country">autogft_TaskForce.country</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).country">TaskForce.country</a></td>
 		<td class="summary">
 <p>Country ID</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).enableDefaultTimers">autogft_TaskForce:enableDefaultTimers()</a></td>
-		<td class="summary">
-<p>Enables a advancement timer (at 10 min intervals) and a respawning timer (at 30 min intervals).</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).formation">autogft_TaskForce.formation</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).formation">TaskForce.formation</a></td>
 		<td class="summary">
 <p>Formation of moving units (default: "cone")</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).groups">autogft_TaskForce.groups</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).groups">TaskForce.groups</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).maxDistanceKM">autogft_TaskForce.maxDistanceKM</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).maxDistanceKM">TaskForce.maxDistanceKM</a></td>
 		<td class="summary">
 <p>Maximum distance of task force routes between each advancement, in kilometres (default: 10)</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).new">autogft_TaskForce:new()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).new">TaskForce:new()</a></td>
 		<td class="summary">
 <p>Creates a new task force instance.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).reinforce">autogft_TaskForce:reinforce(useSpawning)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforce">TaskForce:reinforce(useSpawning)</a></td>
 		<td class="summary">
-<p>Triggers task force reinforcing (invokes <a href="##(autogft_TaskForce).reinforceFromUnits">autogft_TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
+<p>Triggers task force reinforcing (invokes <a href="##(TaskForce).reinforceFromUnits">TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).reinforceFromUnits">autogft_TaskForce:reinforceFromUnits(<, groupNamePrefix, availableUnits)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforceFromUnits">TaskForce:reinforceFromUnits(<, groupNamePrefix, availableUnits)</a></td>
 		<td class="summary">
 <p>Attempts to reinforce the task force according to its unit specifications using a list of available units.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).reinforcementTimerId">autogft_TaskForce.reinforcementTimerId</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforcementTimerId">TaskForce.reinforcementTimerId</a></td>
 		<td class="summary">
 <p>Reinforcement timer identifier</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).respawn">autogft_TaskForce:respawn()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).respawn">TaskForce:respawn()</a></td>
 		<td class="summary">
 <p>Reinforce the task force by spawning new units.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).scanUnits">autogft_TaskForce:scanUnits(groupNamePrefix)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).scanUnits">TaskForce:scanUnits(groupNamePrefix)</a></td>
 		<td class="summary">
 <p>Scans the map once for any pre-existing units to control in this task force.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setAdvancementTimer">autogft_TaskForce:setAdvancementTimer(timeInterval)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setAdvancementTimer">TaskForce:setAdvancementTimer(timeInterval)</a></td>
 		<td class="summary">
 <p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setCountry">autogft_TaskForce:setCountry(country)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setCountry">TaskForce:setCountry(country)</a></td>
 		<td class="summary">
 <p>Sets the country ID of this task force.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setMaxRouteDistance">autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setMaxRouteDistance">TaskForce:setMaxRouteDistance(maxDistanceKM)</a></td>
 		<td class="summary">
-<p>Sets the maximum distance of unit routes (see <a href="##(autogft_TaskForce).maxDistanceKM">autogft_TaskForce.maxDistanceKM</a>).</p>
+<p>Sets the maximum distance of unit routes (see <a href="##(TaskForce).maxDistanceKM">TaskForce.maxDistanceKM</a>).</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setReinforceTimer">autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setReinforceTimer">TaskForce:setReinforceTimer(timeInterval, useSpawning)</a></td>
 		<td class="summary">
 <p>Starts a timer which reinforces the task force.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setRespawnTimer">autogft_TaskForce:setRespawnTimer(timeInterval, maxTime)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setReinforceTimerMax">TaskForce:setReinforceTimerMax(time)</a></td>
+		<td class="summary">
+<p>Sets the maximum time reinforcements will keep coming.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setRespawnTimer">TaskForce:setRespawnTimer(timeInterval)</a></td>
 		<td class="summary">
 <p>Starts a timer which reinforces the task force by spawning new units.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setSkill">autogft_TaskForce:setSkill(skill)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setSkill">TaskForce:setSkill(skill)</a></td>
 		<td class="summary">
 <p>Sets the skill of the task force reinforcement units.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setSpeed">autogft_TaskForce:setSpeed(speed)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setSpeed">TaskForce:setSpeed(speed)</a></td>
 		<td class="summary">
-<p>Sets the desired speed of the task force units when advancing (see <a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a>).</p>
+<p>Sets the desired speed of the task force units when advancing (see <a href="##(TaskForce).speed">TaskForce.speed</a>).</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).setUseRoads">autogft_TaskForce:setUseRoads(useRoads)</a></td>
-		<td class="summary">
-<p>Sets wether the task force should use roads or not (see <a href="##(autogft_TaskForce).useRoads">autogft_TaskForce.useRoads</a>).</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).skill">autogft_TaskForce.skill</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).skill">TaskForce.skill</a></td>
 		<td class="summary">
 <p>Skill of units (default: "High")</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).speed">TaskForce.speed</a></td>
 		<td class="summary">
 <p>Desired speed of moving units, in knots (default: max speed)</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).stopAdvancementTimer">autogft_TaskForce:stopAdvancementTimer()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).startUsingRoads">TaskForce:startUsingRoads()</a></td>
+		<td class="summary">
+<p>Specifies the task force to use roads when advancing through the next tasks that are added.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopAdvancementTimer">TaskForce:stopAdvancementTimer()</a></td>
 		<td class="summary">
 <p>Stops the advancement timer</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).stopReinforcementTimerId">autogft_TaskForce.stopReinforcementTimerId</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopReinforcementTimerId">TaskForce.stopReinforcementTimerId</a></td>
 		<td class="summary">
 <p>Reinforcement stopping timer identifier</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).stopReinforcing">autogft_TaskForce:stopReinforcing()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopReinforcing">TaskForce:stopReinforcing()</a></td>
 		<td class="summary">
 <p>Stops the reinforcing/respawning timers.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).target">autogft_TaskForce.target</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopUsingRoads">TaskForce:stopUsingRoads()</a></td>
+		<td class="summary">
+<p>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).target">TaskForce.target</a></td>
 		<td class="summary">
 <p>Current target zone index</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).tasks">autogft_TaskForce.tasks</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).tasks">TaskForce.tasks</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).updateTarget">autogft_TaskForce:updateTarget()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).updateTarget">TaskForce:updateTarget()</a></td>
 		<td class="summary">
-<p>Checks the status of tasks, and sets the current target task (<a href="##(autogft_TaskForce).target">autogft_TaskForce.target</a>) of this task force.</p>
+<p>Checks the status of tasks, and sets the current target task (<a href="##(TaskForce).target">TaskForce.target</a>) of this task force.</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft_TaskForce).useRoads">autogft_TaskForce.useRoads</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).useRoads">TaskForce.useRoads</a></td>
 		<td class="summary">
 <p>Wether the task force should use roads or not (default: false)</p>
 </td>
@@ -295,7 +317,7 @@
 		<dl class="function">
 <dt>
 
-		<em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a></em>
+		<em><a href="##(TaskForce)">#TaskForce</a></em>
 <a id="autogft_TaskForce" >
 <strong>autogft_TaskForce</strong>
 </a>
@@ -306,29 +328,27 @@
 
 </dd>
 </dl>
-	<h2><a id="#(taskforce)" >Type <code>taskforce</code></a></h2>
-	
-			<h2><a id="#(autogft_TaskForce)" >Type <code>autogft_TaskForce</code></a></h2>
-				<h3>Field(s)</h3>
+	<h2><a id="#(TaskForce)" >Type <code>TaskForce</code></a></h2>
+		<h3>Field(s)</h3>
 		<dl class="function">
 <dt>
 
 		<em><a href="##(list)">#list</a></em>
-<a id="#(autogft_TaskForce).<" >
-<strong>autogft_TaskForce.<</strong>
+<a id="#(TaskForce).<" >
+<strong>TaskForce.<</strong>
 </a>
 </dt>
 <dd>
 	
-<p>askforcegroup#autogft_TaskForceGroup> groups Groups of the task force</p>
+<p>roup#Group> groups Groups of the task force</p>
 
 </dd>
 </dl>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addBaseZone" >
-<strong>autogft_TaskForce:addBaseZone(baseZone)</strong>
+<a id="#(TaskForce).addBaseZone" >
+<strong>TaskForce:addBaseZone(baseZone)</strong>
 </a>
 </dt>
 <dd>
@@ -346,7 +366,7 @@ Name of base zone</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -354,26 +374,26 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addControlZone" >
-<strong>autogft_TaskForce:addControlZone(name)</strong>
+<a id="#(TaskForce).addControlZone" >
+<strong>TaskForce:addControlZone(zoneName)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Adds a control zone task (see <a href="taskforcetask.html##(autogft_taskTypes).CONTROL">taskforcetask#autogft_taskTypes.CONTROL</a>).</p>
+<p>Adds a control zone task (see <a href="task.html##(taskTypes).CONTROL">task#taskTypes.CONTROL</a>).</p>
 
 		<h3>Parameter</h3>
 		<ul>
 				<li>
 				
-<p><code><em>#string name </em></code>: 
+<p><code><em>#string zoneName </em></code>: 
 Name of target zone</p>
 
 				</li>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -381,8 +401,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addGroup" >
-<strong>autogft_TaskForce:addGroup()</strong>
+<a id="#(TaskForce).addGroup" >
+<strong>TaskForce:addGroup()</strong>
 </a>
 </dt>
 <dd>
@@ -390,12 +410,12 @@ This instance (self)</p>
 <p>Adds another group specification to the task force.</p>
 
 	
-<p>After a group is added, use <a href="##(autogft_TaskForce).addUnits">autogft_TaskForce.addUnits</a> to add units.
+<p>After a group is added, use <a href="##(TaskForce).addUnits">TaskForce.addUnits</a> to add units.
 See "unit-types" for a complete list of available unit types.</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -403,13 +423,13 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addIntermidiateZone" >
-<strong>autogft_TaskForce:addIntermidiateZone(zoneName)</strong>
+<a id="#(TaskForce).addIntermidiateZone" >
+<strong>TaskForce:addIntermidiateZone(zoneName)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Adds an intermidiate zone task (see <a href="taskforcetask.html##(autogft_taskTypes).INTERMIDIATE">taskforcetask#autogft_taskTypes.INTERMIDIATE</a>).</p>
+<p>Adds an intermidiate zone task (see <a href="task.html##(taskTypes).INTERMIDIATE">task#taskTypes.INTERMIDIATE</a>).</p>
 
 		<h3>Parameter</h3>
 		<ul>
@@ -421,7 +441,7 @@ This instance (self)</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -429,8 +449,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addTask" >
-<strong>autogft_TaskForce:addTask(task)</strong>
+<a id="#(TaskForce).addTask" >
+<strong>TaskForce:addTask(task)</strong>
 </a>
 </dt>
 <dd>
@@ -441,13 +461,13 @@ This instance (self)</p>
 		<ul>
 				<li>
 				
-<p><code><em><a href="taskforcetask.html##(autogft_TaskForceTask)">taskforcetask#autogft_TaskForceTask</a> task </em></code>: </p>
+<p><code><em><a href="task.html##(Task)">task#Task</a> task </em></code>: </p>
 
 				</li>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -455,13 +475,13 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).addUnits" >
-<strong>autogft_TaskForce:addUnits(count, type)</strong>
+<a id="#(TaskForce).addUnits" >
+<strong>TaskForce:addUnits(count, type)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Adds unit specifications to the most recently added group (see <a href="##(autogft_TaskForce).addGroup">autogft_TaskForce.addGroup</a>) of the task force.</p>
+<p>Adds unit specifications to the most recently added group (see <a href="##(TaskForce).addGroup">TaskForce.addGroup</a>) of the task force.</p>
 
 		<h3>Parameters</h3>
 		<ul>
@@ -478,7 +498,7 @@ This instance (self)</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -486,8 +506,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).advance" >
-<strong>autogft_TaskForce:advance()</strong>
+<a id="#(TaskForce).advance" >
+<strong>TaskForce:advance()</strong>
 </a>
 </dt>
 <dd>
@@ -496,7 +516,7 @@ This instance (self)</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -505,8 +525,8 @@ This instance (self)</p>
 <dt>
 
 		<em>#number</em>
-<a id="#(autogft_TaskForce).advancementTimerId" >
-<strong>autogft_TaskForce.advancementTimerId</strong>
+<a id="#(TaskForce).advancementTimerId" >
+<strong>TaskForce.advancementTimerId</strong>
 </a>
 </dt>
 <dd>
@@ -518,8 +538,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).autoAddUnitLayout" >
-<strong>autogft_TaskForce:autoAddUnitLayout(units)</strong>
+<a id="#(TaskForce).autoAddUnitLayout" >
+<strong>TaskForce:autoAddUnitLayout(units)</strong>
 </a>
 </dt>
 <dd>
@@ -539,7 +559,7 @@ This instance (self)</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -547,17 +567,38 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).autoAddUnitLayoutFromBases" >
-<strong>autogft_TaskForce:autoAddUnitLayoutFromBases()</strong>
+<a id="#(TaskForce).autoAddUnitLayoutFromBases" >
+<strong>TaskForce:autoAddUnitLayoutFromBases()</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${autogft_TaskForce.autoAddUnitLayout})</p>
+<p>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${TaskForce.autoAddUnitLayout})</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).autoInitialize" >
+<strong>TaskForce:autoInitialize()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).</p>
+
+	
+<p>Default reinforcement timer intervals is 600 seconds. Default advancement timer intervals is 300 seconds.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -566,8 +607,8 @@ This instance (self)</p>
 <dt>
 
 		<em></em>
-<a id="#(autogft_TaskForce).baseZones" >
-<strong>autogft_TaskForce.baseZones</strong>
+<a id="#(TaskForce).baseZones" >
+<strong>TaskForce.baseZones</strong>
 </a>
 </dt>
 <dd>
@@ -579,8 +620,22 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).containsUnit" >
-<strong>autogft_TaskForce:containsUnit(unit)</strong>
+		<em>#number</em>
+<a id="#(TaskForce).coalition" >
+<strong>TaskForce.coalition</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Coalition ID</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).containsUnit" >
+<strong>TaskForce:containsUnit(unit)</strong>
 </a>
 </dt>
 <dd>
@@ -607,8 +662,8 @@ True if this task force contains the unit, false otherwise.</p>
 <dt>
 
 		<em>#number</em>
-<a id="#(autogft_TaskForce).country" >
-<strong>autogft_TaskForce.country</strong>
+<a id="#(TaskForce).country" >
+<strong>TaskForce.country</strong>
 </a>
 </dt>
 <dd>
@@ -620,30 +675,9 @@ True if this task force contains the unit, false otherwise.</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).enableDefaultTimers" >
-<strong>autogft_TaskForce:enableDefaultTimers()</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Enables a advancement timer (at 10 min intervals) and a respawning timer (at 30 min intervals).</p>
-
-	
-<p>See <a href="##(autogft_TaskForce).setAdvancementTimer">autogft_TaskForce.setAdvancementTimer</a> and <a href="##(autogft_TaskForce).enableRespawnTimer">autogft_TaskForce.enableRespawnTimer</a></p>
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
-This instance (self)</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
 		<em>#string</em>
-<a id="#(autogft_TaskForce).formation" >
-<strong>autogft_TaskForce.formation</strong>
+<a id="#(TaskForce).formation" >
+<strong>TaskForce.formation</strong>
 </a>
 </dt>
 <dd>
@@ -656,8 +690,8 @@ This instance (self)</p>
 <dt>
 
 		<em></em>
-<a id="#(autogft_TaskForce).groups" >
-<strong>autogft_TaskForce.groups</strong>
+<a id="#(TaskForce).groups" >
+<strong>TaskForce.groups</strong>
 </a>
 </dt>
 <dd>
@@ -670,8 +704,8 @@ This instance (self)</p>
 <dt>
 
 		<em>#number</em>
-<a id="#(autogft_TaskForce).maxDistanceKM" >
-<strong>autogft_TaskForce.maxDistanceKM</strong>
+<a id="#(TaskForce).maxDistanceKM" >
+<strong>TaskForce.maxDistanceKM</strong>
 </a>
 </dt>
 <dd>
@@ -683,8 +717,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).new" >
-<strong>autogft_TaskForce:new()</strong>
+<a id="#(TaskForce).new" >
+<strong>TaskForce:new()</strong>
 </a>
 </dt>
 <dd>
@@ -692,12 +726,11 @@ This instance (self)</p>
 <p>Creates a new task force instance.</p>
 
 	
-<p>A new task force instance will reinforce by respawning from the bases every 10 minutes.
-To override, use ${autogft<em>TaskForce.setReinforceTimer} or ${autogft</em>TaskForce.setRespawnTimer}.</p>
+<p>To override, use ${TaskForce.setReinforceTimer} or ${TaskForce.setRespawnTimer}.</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -705,13 +738,13 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).reinforce" >
-<strong>autogft_TaskForce:reinforce(useSpawning)</strong>
+<a id="#(TaskForce).reinforce" >
+<strong>TaskForce:reinforce(useSpawning)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Triggers task force reinforcing (invokes <a href="##(autogft_TaskForce).reinforceFromUnits">autogft_TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
+<p>Triggers task force reinforcing (invokes <a href="##(TaskForce).reinforceFromUnits">TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
 
 		<h3>Parameter</h3>
 		<ul>
@@ -724,7 +757,7 @@ This instance (self)</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -732,8 +765,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).reinforceFromUnits" >
-<strong>autogft_TaskForce:reinforceFromUnits(<, groupNamePrefix, availableUnits)</strong>
+<a id="#(TaskForce).reinforceFromUnits" >
+<strong>TaskForce:reinforceFromUnits(<, groupNamePrefix, availableUnits)</strong>
 </a>
 </dt>
 <dd>
@@ -741,7 +774,7 @@ This instance (self)</p>
 <p>Attempts to reinforce the task force according to its unit specifications using a list of available units.</p>
 
 	
-<p>Reinforced units will immidiately start moving towards current target zone (see <a href="##(autogft_TaskForce).target">autogft_TaskForce.target</a>).</p>
+<p>Reinforced units will immidiately start moving towards current target zone (see <a href="##(TaskForce).target">TaskForce.target</a>).</p>
 
 		<h3>Parameters</h3>
 		<ul>
@@ -765,7 +798,7 @@ CSUnit#Unit> availableUnits (Optional) Available units (if this list is not spec
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -774,8 +807,8 @@ This instance (self)</p>
 <dt>
 
 		<em>#number</em>
-<a id="#(autogft_TaskForce).reinforcementTimerId" >
-<strong>autogft_TaskForce.reinforcementTimerId</strong>
+<a id="#(TaskForce).reinforcementTimerId" >
+<strong>TaskForce.reinforcementTimerId</strong>
 </a>
 </dt>
 <dd>
@@ -787,8 +820,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).respawn" >
-<strong>autogft_TaskForce:respawn()</strong>
+<a id="#(TaskForce).respawn" >
+<strong>TaskForce:respawn()</strong>
 </a>
 </dt>
 <dd>
@@ -797,7 +830,7 @@ This instance (self)</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -805,8 +838,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).scanUnits" >
-<strong>autogft_TaskForce:scanUnits(groupNamePrefix)</strong>
+<a id="#(TaskForce).scanUnits" >
+<strong>TaskForce:scanUnits(groupNamePrefix)</strong>
 </a>
 </dt>
 <dd>
@@ -827,7 +860,7 @@ A task force will only take control of units according to the task force unit sp
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -835,8 +868,8 @@ A task force will only take control of units according to the task force unit sp
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setAdvancementTimer" >
-<strong>autogft_TaskForce:setAdvancementTimer(timeInterval)</strong>
+<a id="#(TaskForce).setAdvancementTimer" >
+<strong>TaskForce:setAdvancementTimer(timeInterval)</strong>
 </a>
 </dt>
 <dd>
@@ -844,7 +877,7 @@ A task force will only take control of units according to the task force unit sp
 <p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
 
 	
-<p>Invokes <a href="##(autogft_TaskForce).moveToTarget">autogft_TaskForce.moveToTarget</a>.</p>
+<p>Invokes <a href="##(TaskForce).moveToTarget">TaskForce.moveToTarget</a>.</p>
 
 		<h3>Parameter</h3>
 		<ul>
@@ -857,7 +890,7 @@ Seconds between each target update</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -865,8 +898,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setCountry" >
-<strong>autogft_TaskForce:setCountry(country)</strong>
+<a id="#(TaskForce).setCountry" >
+<strong>TaskForce:setCountry(country)</strong>
 </a>
 </dt>
 <dd>
@@ -884,7 +917,7 @@ Country ID</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -892,13 +925,13 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setMaxRouteDistance" >
-<strong>autogft_TaskForce:setMaxRouteDistance(maxDistanceKM)</strong>
+<a id="#(TaskForce).setMaxRouteDistance" >
+<strong>TaskForce:setMaxRouteDistance(maxDistanceKM)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Sets the maximum distance of unit routes (see <a href="##(autogft_TaskForce).maxDistanceKM">autogft_TaskForce.maxDistanceKM</a>).</p>
+<p>Sets the maximum distance of unit routes (see <a href="##(TaskForce).maxDistanceKM">TaskForce.maxDistanceKM</a>).</p>
 
 	
 <p>If set, this number constrains how far groups of the task force will move between each move command (advancement).
@@ -916,7 +949,7 @@ Maximum distance (kilometres)</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -924,41 +957,32 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setReinforceTimer" >
-<strong>autogft_TaskForce:setReinforceTimer(timeInterval, maxTime, useSpawning)</strong>
+<a id="#(TaskForce).setReinforceTimer" >
+<strong>TaskForce:setReinforceTimer(timeInterval, useSpawning)</strong>
 </a>
 </dt>
 <dd>
 	
 <p>Starts a timer which reinforces the task force.</p>
 
-	
-<p>Spawning is optional.</p>
-
 		<h3>Parameters</h3>
 		<ul>
 				<li>
 				
 <p><code><em>#number timeInterval </em></code>: 
-Seconds between each reinforcement</p>
-
-				</li>
-				<li>
-				
-<p><code><em>#number maxTime </em></code>: 
-(Optional) Maximum time the timer will run for</p>
+Time [seconds] between each reinforcement</p>
 
 				</li>
 				<li>
 				
 <p><code><em>#boolean useSpawning </em></code>: 
-(Optional) Specifies wether to spawn new units or use pre-existing units (default)</p>
+(Optional) Specifies wether to spawn new units or use pre-existing units (default: false)</p>
 
 				</li>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -966,32 +990,53 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setRespawnTimer" >
-<strong>autogft_TaskForce:setRespawnTimer(timeInterval, maxTime)</strong>
+<a id="#(TaskForce).setReinforceTimerMax" >
+<strong>TaskForce:setReinforceTimerMax(time)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the maximum time reinforcements will keep coming.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number time </em></code>: 
+Time [seconds] until reinforcements will stop coming</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setRespawnTimer" >
+<strong>TaskForce:setRespawnTimer(timeInterval)</strong>
 </a>
 </dt>
 <dd>
 	
 <p>Starts a timer which reinforces the task force by spawning new units.</p>
 
-		<h3>Parameters</h3>
+		<h3>Parameter</h3>
 		<ul>
 				<li>
 				
 <p><code><em>#number timeInterval </em></code>: 
-Seconds between each reinforcement</p>
-
-				</li>
-				<li>
-				
-<p><code><em>#number maxTime </em></code>: 
-(Optional) Maximum time the timer will run for</p>
+Time [seconds] between each reinforcement</p>
 
 				</li>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -999,8 +1044,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setSkill" >
-<strong>autogft_TaskForce:setSkill(skill)</strong>
+<a id="#(TaskForce).setSkill" >
+<strong>TaskForce:setSkill(skill)</strong>
 </a>
 </dt>
 <dd>
@@ -1018,7 +1063,7 @@ New skill</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -1026,13 +1071,13 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).setSpeed" >
-<strong>autogft_TaskForce:setSpeed(speed)</strong>
+<a id="#(TaskForce).setSpeed" >
+<strong>TaskForce:setSpeed(speed)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Sets the desired speed of the task force units when advancing (see <a href="##(autogft_TaskForce).speed">autogft_TaskForce.speed</a>).</p>
+<p>Sets the desired speed of the task force units when advancing (see <a href="##(TaskForce).speed">TaskForce.speed</a>).</p>
 
 		<h3>Parameter</h3>
 		<ul>
@@ -1045,34 +1090,7 @@ New speed (in knots)</p>
 		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
-This instance (self)</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(autogft_TaskForce).setUseRoads" >
-<strong>autogft_TaskForce:setUseRoads(useRoads)</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Sets wether the task force should use roads or not (see <a href="##(autogft_TaskForce).useRoads">autogft_TaskForce.useRoads</a>).</p>
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#boolean useRoads </em></code>: 
-(Optional) Wether to use roads or not (default: true)</p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This instance (self)</p>
 
 </dd>
@@ -1081,8 +1099,8 @@ This instance (self)</p>
 <dt>
 
 		<em>#string</em>
-<a id="#(autogft_TaskForce).skill" >
-<strong>autogft_TaskForce.skill</strong>
+<a id="#(TaskForce).skill" >
+<strong>TaskForce.skill</strong>
 </a>
 </dt>
 <dd>
@@ -1095,8 +1113,8 @@ This instance (self)</p>
 <dt>
 
 		<em>#number</em>
-<a id="#(autogft_TaskForce).speed" >
-<strong>autogft_TaskForce.speed</strong>
+<a id="#(TaskForce).speed" >
+<strong>TaskForce.speed</strong>
 </a>
 </dt>
 <dd>
@@ -1108,8 +1126,26 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).stopAdvancementTimer" >
-<strong>autogft_TaskForce:stopAdvancementTimer()</strong>
+<a id="#(TaskForce).startUsingRoads" >
+<strong>TaskForce:startUsingRoads()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Specifies the task force to use roads when advancing through the next tasks that are added.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).stopAdvancementTimer" >
+<strong>TaskForce:stopAdvancementTimer()</strong>
 </a>
 </dt>
 <dd>
@@ -1118,7 +1154,7 @@ This instance (self)</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -1127,8 +1163,8 @@ This instance (self)</p>
 <dt>
 
 		<em>#number</em>
-<a id="#(autogft_TaskForce).stopReinforcementTimerId" >
-<strong>autogft_TaskForce.stopReinforcementTimerId</strong>
+<a id="#(TaskForce).stopReinforcementTimerId" >
+<strong>TaskForce.stopReinforcementTimerId</strong>
 </a>
 </dt>
 <dd>
@@ -1140,8 +1176,8 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).stopReinforcing" >
-<strong>autogft_TaskForce:stopReinforcing()</strong>
+<a id="#(TaskForce).stopReinforcing" >
+<strong>TaskForce:stopReinforcing()</strong>
 </a>
 </dt>
 <dd>
@@ -1150,7 +1186,25 @@ This instance (self)</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em></p>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).stopUsingRoads" >
+<strong>TaskForce:stopUsingRoads()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
 
 
 </dd>
@@ -1159,8 +1213,8 @@ This instance (self)</p>
 <dt>
 
 		<em>#number</em>
-<a id="#(autogft_TaskForce).target" >
-<strong>autogft_TaskForce.target</strong>
+<a id="#(TaskForce).target" >
+<strong>TaskForce.target</strong>
 </a>
 </dt>
 <dd>
@@ -1173,8 +1227,8 @@ This instance (self)</p>
 <dt>
 
 		<em></em>
-<a id="#(autogft_TaskForce).tasks" >
-<strong>autogft_TaskForce.tasks</strong>
+<a id="#(TaskForce).tasks" >
+<strong>TaskForce.tasks</strong>
 </a>
 </dt>
 <dd>
@@ -1186,17 +1240,17 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
-<a id="#(autogft_TaskForce).updateTarget" >
-<strong>autogft_TaskForce:updateTarget()</strong>
+<a id="#(TaskForce).updateTarget" >
+<strong>TaskForce:updateTarget()</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Checks the status of tasks, and sets the current target task (<a href="##(autogft_TaskForce).target">autogft_TaskForce.target</a>) of this task force.</p>
+<p>Checks the status of tasks, and sets the current target task (<a href="##(TaskForce).target">TaskForce.target</a>) of this task force.</p>
 
 		<h3>Return value</h3>
 				
-<p><em><a href="##(autogft_TaskForce)">#autogft_TaskForce</a>:</em>
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
 This object (self)</p>
 
 </dd>
@@ -1205,8 +1259,8 @@ This object (self)</p>
 <dt>
 
 		<em>#boolean</em>
-<a id="#(autogft_TaskForce).useRoads" >
-<strong>autogft_TaskForce.useRoads</strong>
+<a id="#(TaskForce).useRoads" >
+<strong>TaskForce.useRoads</strong>
 </a>
 </dt>
 <dd>
