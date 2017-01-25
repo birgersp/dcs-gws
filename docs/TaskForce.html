@@ -1,0 +1,1279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<link rel="stylesheet" href="stylesheet.css" type="text/css"/>
+	</head>
+<body>
+<div id="container">
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div>
+<div id="main">
+	<div id="navigation">
+		<h2>Modules</h2>
+			<ul><li>
+				<a href="index.html">index</a>
+			</li></ul>
+		<ul>
+					<li><a href="Class.html">Class</a></li>
+					<li><a href="ControlZone.html">ControlZone</a></li>
+					<li><a href="Core.html">Core</a></li>
+					<li><a href="Group.html">Group</a></li>
+					<li><a href="GroupCommand.html">GroupCommand</a></li>
+					<li><a href="IOCEV.html">IOCEV</a></li>
+					<li><a href="Task.html">Task</a></li>
+					<li>TaskForce</li>
+					<li><a href="UnitCluster.html">UnitCluster</a></li>
+					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
+					<li><a href="Vector3.html">Vector3</a></li>
+					<li><a href="Waypoint.html">Waypoint</a></li>
+		</ul>
+	</div>
+	<div id="content">
+   <h1>Module <code>TaskForce</code></h1>
+   
+<p>AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.</p>
+
+	<h2>Global(s)</h2>
+	<table class="function_list">
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="#autogft_TaskForce">autogft_TaskForce</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+	</table>
+	<h2><a id="#(TaskForce)" >Type <code>TaskForce</code></a></h2>
+		<table class="function_list">
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).<">TaskForce.<</a></td>
+		<td class="summary">
+<p>roup#Group> groups Groups of the task force</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addBaseZone">TaskForce:addBaseZone(baseZone)</a></td>
+		<td class="summary">
+<p>Adds a base zone to the task force, used for reinforcing (spawning or staging area).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addControlZone">TaskForce:addControlZone(zoneName)</a></td>
+		<td class="summary">
+<p>Adds a control zone task (see <a href="task.html##(taskTypes).CONTROL">task#taskTypes.CONTROL</a>).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addGroup">TaskForce:addGroup()</a></td>
+		<td class="summary">
+<p>Adds another group specification to the task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addIntermidiateZone">TaskForce:addIntermidiateZone(zoneName)</a></td>
+		<td class="summary">
+<p>Adds an intermidiate zone task (see <a href="task.html##(taskTypes).INTERMIDIATE">task#taskTypes.INTERMIDIATE</a>).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addTask">TaskForce:addTask(task)</a></td>
+		<td class="summary">
+<p>Adds a task to the task force</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).addUnits">TaskForce:addUnits(count, type)</a></td>
+		<td class="summary">
+<p>Adds unit specifications to the most recently added group (see <a href="##(TaskForce).addGroup">TaskForce.addGroup</a>) of the task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).advance">TaskForce:advance()</a></td>
+		<td class="summary">
+<p>Sets all units to move towards the current target.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).advancementTimerId">TaskForce.advancementTimerId</a></td>
+		<td class="summary">
+<p>Advancement timer identifier</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).autoAddUnitLayout">TaskForce:autoAddUnitLayout(units)</a></td>
+		<td class="summary">
+<p>Automatically adds groups and units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).autoAddUnitLayoutFromBases">TaskForce:autoAddUnitLayoutFromBases()</a></td>
+		<td class="summary">
+<p>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${TaskForce.autoAddUnitLayout})</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).autoInitialize">TaskForce:autoInitialize()</a></td>
+		<td class="summary">
+<p>Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).baseZones">TaskForce.baseZones</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).coalition">TaskForce.coalition</a></td>
+		<td class="summary">
+<p>Coalition ID</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).containsUnit">TaskForce:containsUnit(unit)</a></td>
+		<td class="summary">
+<p>Checks if a particular unit is present in this task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).country">TaskForce.country</a></td>
+		<td class="summary">
+<p>Country ID</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).formation">TaskForce.formation</a></td>
+		<td class="summary">
+<p>Formation of moving units (default: "cone")</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).groups">TaskForce.groups</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).maxDistanceKM">TaskForce.maxDistanceKM</a></td>
+		<td class="summary">
+<p>Maximum distance of task force routes between each advancement, in kilometres (default: 10)</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).new">TaskForce:new()</a></td>
+		<td class="summary">
+<p>Creates a new task force instance.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforce">TaskForce:reinforce(useSpawning)</a></td>
+		<td class="summary">
+<p>Triggers task force reinforcing (invokes <a href="##(TaskForce).reinforceFromUnits">TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforceFromUnits">TaskForce:reinforceFromUnits(<, groupNamePrefix, availableUnits)</a></td>
+		<td class="summary">
+<p>Attempts to reinforce the task force according to its unit specifications using a list of available units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforcementTimerId">TaskForce.reinforcementTimerId</a></td>
+		<td class="summary">
+<p>Reinforcement timer identifier</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).respawn">TaskForce:respawn()</a></td>
+		<td class="summary">
+<p>Reinforce the task force by spawning new units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).scanUnits">TaskForce:scanUnits(groupNamePrefix)</a></td>
+		<td class="summary">
+<p>Scans the map once for any pre-existing units to control in this task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setAdvancementTimer">TaskForce:setAdvancementTimer(timeInterval)</a></td>
+		<td class="summary">
+<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setCountry">TaskForce:setCountry(country)</a></td>
+		<td class="summary">
+<p>Sets the country ID of this task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setMaxRouteDistance">TaskForce:setMaxRouteDistance(maxDistanceKM)</a></td>
+		<td class="summary">
+<p>Sets the maximum distance of unit routes (see <a href="##(TaskForce).maxDistanceKM">TaskForce.maxDistanceKM</a>).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setReinforceTimer">TaskForce:setReinforceTimer(timeInterval, useSpawning)</a></td>
+		<td class="summary">
+<p>Starts a timer which reinforces the task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setReinforceTimerMax">TaskForce:setReinforceTimerMax(time)</a></td>
+		<td class="summary">
+<p>Sets the maximum time reinforcements will keep coming.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setRespawnTimer">TaskForce:setRespawnTimer(timeInterval)</a></td>
+		<td class="summary">
+<p>Starts a timer which reinforces the task force by spawning new units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setSkill">TaskForce:setSkill(skill)</a></td>
+		<td class="summary">
+<p>Sets the skill of the task force reinforcement units.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).setSpeed">TaskForce:setSpeed(speed)</a></td>
+		<td class="summary">
+<p>Sets the desired speed of the task force units when advancing (see <a href="##(TaskForce).speed">TaskForce.speed</a>).</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).skill">TaskForce.skill</a></td>
+		<td class="summary">
+<p>Skill of units (default: "High")</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).speed">TaskForce.speed</a></td>
+		<td class="summary">
+<p>Desired speed of moving units, in knots (default: max speed)</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).startUsingRoads">TaskForce:startUsingRoads()</a></td>
+		<td class="summary">
+<p>Specifies the task force to use roads when advancing through the next tasks that are added.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopAdvancementTimer">TaskForce:stopAdvancementTimer()</a></td>
+		<td class="summary">
+<p>Stops the advancement timer</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopReinforcementTimerId">TaskForce.stopReinforcementTimerId</a></td>
+		<td class="summary">
+<p>Reinforcement stopping timer identifier</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopReinforcing">TaskForce:stopReinforcing()</a></td>
+		<td class="summary">
+<p>Stops the reinforcing/respawning timers.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).stopUsingRoads">TaskForce:stopUsingRoads()</a></td>
+		<td class="summary">
+<p>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).target">TaskForce.target</a></td>
+		<td class="summary">
+<p>Current target zone index</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).tasks">TaskForce.tasks</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).updateTarget">TaskForce:updateTarget()</a></td>
+		<td class="summary">
+<p>Checks the status of tasks, and sets the current target task (<a href="##(TaskForce).target">TaskForce.target</a>) of this task force.</p>
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(TaskForce).useRoads">TaskForce.useRoads</a></td>
+		<td class="summary">
+<p>Wether the task force should use roads or not (default: false)</p>
+</td>
+		</tr>
+	</table>
+
+	<h2>Global(s)</h2>
+		<dl class="function">
+<dt>
+
+		<em><a href="##(TaskForce)">#TaskForce</a></em>
+<a id="autogft_TaskForce" >
+<strong>autogft_TaskForce</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+	<h2><a id="#(TaskForce)" >Type <code>TaskForce</code></a></h2>
+		<h3>Field(s)</h3>
+		<dl class="function">
+<dt>
+
+		<em><a href="##(list)">#list</a></em>
+<a id="#(TaskForce).<" >
+<strong>TaskForce.<</strong>
+</a>
+</dt>
+<dd>
+	
+<p>roup#Group> groups Groups of the task force</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).addBaseZone" >
+<strong>TaskForce:addBaseZone(baseZone)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds a base zone to the task force, used for reinforcing (spawning or staging area).</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#string baseZone </em></code>: 
+Name of base zone</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).addControlZone" >
+<strong>TaskForce:addControlZone(zoneName)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds a control zone task (see <a href="task.html##(taskTypes).CONTROL">task#taskTypes.CONTROL</a>).</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#string zoneName </em></code>: 
+Name of target zone</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).addGroup" >
+<strong>TaskForce:addGroup()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds another group specification to the task force.</p>
+
+	
+<p>After a group is added, use <a href="##(TaskForce).addUnits">TaskForce.addUnits</a> to add units.
+See "unit-types" for a complete list of available unit types.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).addIntermidiateZone" >
+<strong>TaskForce:addIntermidiateZone(zoneName)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds an intermidiate zone task (see <a href="task.html##(taskTypes).INTERMIDIATE">task#taskTypes.INTERMIDIATE</a>).</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#string zoneName </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).addTask" >
+<strong>TaskForce:addTask(task)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds a task to the task force</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em><a href="task.html##(Task)">task#Task</a> task </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).addUnits" >
+<strong>TaskForce:addUnits(count, type)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds unit specifications to the most recently added group (see <a href="##(TaskForce).addGroup">TaskForce.addGroup</a>) of the task force.</p>
+
+		<h3>Parameters</h3>
+		<ul>
+				<li>
+				
+<p><code><em> count </em></code>: </p>
+
+				</li>
+				<li>
+				
+<p><code><em> type </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).advance" >
+<strong>TaskForce:advance()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets all units to move towards the current target.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).advancementTimerId" >
+<strong>TaskForce.advancementTimerId</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Advancement timer identifier</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).autoAddUnitLayout" >
+<strong>TaskForce:autoAddUnitLayout(units)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Automatically adds groups and units.</p>
+
+	
+<p>Determines which groups and units that should be added to the task force by looking at a list of units and copying the layout.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em> units </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).autoAddUnitLayoutFromBases" >
+<strong>TaskForce:autoAddUnitLayoutFromBases()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${TaskForce.autoAddUnitLayout})</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).autoInitialize" >
+<strong>TaskForce:autoInitialize()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).</p>
+
+	
+<p>Default reinforcement timer intervals is 600 seconds. Default advancement timer intervals is 300 seconds.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em></em>
+<a id="#(TaskForce).baseZones" >
+<strong>TaskForce.baseZones</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).coalition" >
+<strong>TaskForce.coalition</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Coalition ID</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).containsUnit" >
+<strong>TaskForce:containsUnit(unit)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Checks if a particular unit is present in this task force.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em><a href="DCSUnit.html##(Unit)">DCSUnit#Unit</a> unit </em></code>: 
+Unit in question</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em>#boolean:</em>
+True if this task force contains the unit, false otherwise.</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).country" >
+<strong>TaskForce.country</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Country ID</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#string</em>
+<a id="#(TaskForce).formation" >
+<strong>TaskForce.formation</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Formation of moving units (default: "cone")</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em></em>
+<a id="#(TaskForce).groups" >
+<strong>TaskForce.groups</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).maxDistanceKM" >
+<strong>TaskForce.maxDistanceKM</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Maximum distance of task force routes between each advancement, in kilometres (default: 10)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).new" >
+<strong>TaskForce:new()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Creates a new task force instance.</p>
+
+	
+<p>To override, use ${TaskForce.setReinforceTimer} or ${TaskForce.setRespawnTimer}.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).reinforce" >
+<strong>TaskForce:reinforce(useSpawning)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Triggers task force reinforcing (invokes <a href="##(TaskForce).reinforceFromUnits">TaskForce.reinforceFromUnits</a>) by either looking up units in base zones or spawning new units.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#boolean useSpawning </em></code>: 
+(Optional) Specifies wether to spawn new units or use pre-existing units (default is false, using units located in base)</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).reinforceFromUnits" >
+<strong>TaskForce:reinforceFromUnits(<, groupNamePrefix, availableUnits)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Attempts to reinforce the task force according to its unit specifications using a list of available units.</p>
+
+	
+<p>Reinforced units will immidiately start moving towards current target zone (see <a href="##(TaskForce).target">TaskForce.target</a>).</p>
+
+		<h3>Parameters</h3>
+		<ul>
+				<li>
+				
+<p><code><em><a href="##(list)">#list</a> &lt; </em></code>: 
+CSUnit#Unit> availableUnits (Optional) Available units (if this list is not specified, units will be spawned)</p>
+
+				</li>
+				<li>
+				
+<p><code><em>#string groupNamePrefix </em></code>: 
+(Optional) Name prefix to use when creating groups</p>
+
+				</li>
+				<li>
+				
+<p><code><em> availableUnits </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).reinforcementTimerId" >
+<strong>TaskForce.reinforcementTimerId</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Reinforcement timer identifier</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).respawn" >
+<strong>TaskForce:respawn()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Reinforce the task force by spawning new units.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).scanUnits" >
+<strong>TaskForce:scanUnits(groupNamePrefix)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Scans the map once for any pre-existing units to control in this task force.</p>
+
+	
+<p>Groups with name starting with the scan prefix will be considered.
+A task force will only take control of units according to the task force unit specification.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em> groupNamePrefix </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setAdvancementTimer" >
+<strong>TaskForce:setAdvancementTimer(timeInterval)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.</p>
+
+	
+<p>Invokes <a href="##(TaskForce).moveToTarget">TaskForce.moveToTarget</a>.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number timeInterval </em></code>: 
+Seconds between each target update</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setCountry" >
+<strong>TaskForce:setCountry(country)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the country ID of this task force.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number country </em></code>: 
+Country ID</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setMaxRouteDistance" >
+<strong>TaskForce:setMaxRouteDistance(maxDistanceKM)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the maximum distance of unit routes (see <a href="##(TaskForce).maxDistanceKM">TaskForce.maxDistanceKM</a>).</p>
+
+	
+<p>If set, this number constrains how far groups of the task force will move between each move command (advancement).
+When units are moving towards a target, units will stop at this distance and wait for the next movement command.
+This prevents lag when computing routes over long distances.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number maxDistanceKM </em></code>: 
+Maximum distance (kilometres)</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setReinforceTimer" >
+<strong>TaskForce:setReinforceTimer(timeInterval, useSpawning)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Starts a timer which reinforces the task force.</p>
+
+		<h3>Parameters</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number timeInterval </em></code>: 
+Time [seconds] between each reinforcement</p>
+
+				</li>
+				<li>
+				
+<p><code><em>#boolean useSpawning </em></code>: 
+(Optional) Specifies wether to spawn new units or use pre-existing units (default: false)</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setReinforceTimerMax" >
+<strong>TaskForce:setReinforceTimerMax(time)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the maximum time reinforcements will keep coming.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number time </em></code>: 
+Time [seconds] until reinforcements will stop coming</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setRespawnTimer" >
+<strong>TaskForce:setRespawnTimer(timeInterval)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Starts a timer which reinforces the task force by spawning new units.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number timeInterval </em></code>: 
+Time [seconds] between each reinforcement</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setSkill" >
+<strong>TaskForce:setSkill(skill)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the skill of the task force reinforcement units.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#string skill </em></code>: 
+New skill</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).setSpeed" >
+<strong>TaskForce:setSpeed(speed)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Sets the desired speed of the task force units when advancing (see <a href="##(TaskForce).speed">TaskForce.speed</a>).</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#boolean speed </em></code>: 
+New speed (in knots)</p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#string</em>
+<a id="#(TaskForce).skill" >
+<strong>TaskForce.skill</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Skill of units (default: "High")</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).speed" >
+<strong>TaskForce.speed</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Desired speed of moving units, in knots (default: max speed)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).startUsingRoads" >
+<strong>TaskForce:startUsingRoads()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Specifies the task force to use roads when advancing through the next tasks that are added.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).stopAdvancementTimer" >
+<strong>TaskForce:stopAdvancementTimer()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Stops the advancement timer</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).stopReinforcementTimerId" >
+<strong>TaskForce.stopReinforcementTimerId</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Reinforcement stopping timer identifier</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).stopReinforcing" >
+<strong>TaskForce:stopReinforcing()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Stops the reinforcing/respawning timers.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).stopUsingRoads" >
+<strong>TaskForce:stopUsingRoads()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskForce).target" >
+<strong>TaskForce.target</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Current target zone index</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em></em>
+<a id="#(TaskForce).tasks" >
+<strong>TaskForce.tasks</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskForce).updateTarget" >
+<strong>TaskForce:updateTarget()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Checks the status of tasks, and sets the current target task (<a href="##(TaskForce).target">TaskForce.target</a>) of this task force.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskForce)">#TaskForce</a>:</em>
+This object (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#boolean</em>
+<a id="#(TaskForce).useRoads" >
+<strong>TaskForce.useRoads</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Wether the task force should use roads or not (default: false)</p>
+
+</dd>
+</dl>
+
+			<h2><a id="#(list)" >Type <code>list</code></a></h2>
+			
+</div>
+
+</div>
+</body>
+</html>
