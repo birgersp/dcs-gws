@@ -81,11 +81,10 @@ end
 -- @param #Group self
 -- @return #Group
 function autogft_Group:advance()
-
   self:updateGroupLead()
   if self.groupLead then
 
-    -- Check location of group lead
+    local currentDestination = self.destination
     local destinationZone = self.taskForce.tasks[self.destination].zone
     if autogft.unitIsWithinZone(self.groupLead, destinationZone) then
       -- If destination reached, update target
@@ -98,75 +97,98 @@ function autogft_Group:advance()
       end
     end
 
-    local destination
-
-    local destinationTask = self.taskForce.tasks[self.destination]
-    local destinationZone = self.taskForce.tasks[self.destination].zone
-    local destinationZonePos = autogft_Vector2:new(destinationZone.point.x, destinationZone.point.z)
-    local groupLeadPosDCS = self.groupLead:getPosition().p
-    local groupPos = autogft_Vector2:new(groupLeadPosDCS.x, groupLeadPosDCS.z)
-    local groupToZone = destinationZonePos:minus(groupPos)
-    local groupToZoneMag = groupToZone:getMagnitude()
-
-    -- If the task force has a "max distance" specified
-    if self.taskForce.maxDistanceKM > 0 then
-      local units = self.dcsGroup:getUnits()
-
-      local maxDistanceM = self.taskForce.maxDistanceKM * 1000
-      if groupToZoneMag - destinationZone.radius > maxDistanceM then
-        local destinationX = groupPos.x + groupToZone.x / groupToZoneMag * maxDistanceM
-        local destinationY = groupPos.y + groupToZone.y / groupToZoneMag * maxDistanceM
-        destination = autogft_Vector2:new(destinationX, destinationY)
-      end
-    end
-
-    -- Determine if destination position is shortened
-    local shortened = false
-    if destination then
-      shortened = true
+    if destinationZone ~= self.destination then
+      self:forceAdvance()
     else
-      -- If not shortened, use random point
-      local radius = destinationZone.radius - autogft_Group.ROUTE_OVERSHOOT
-      if radius < 0 then
-        radius = 0
+      local prevPos = self.groupLead:getPosition().p
+      local prevPosX = prevPos.x
+      local prevPosZ = prevPos.z
+      local function checkPosAdvance()
+        if self.dcsGroup then
+          local currentPos = self.groupLead:getPosition().p
+          if currentPos.x == prevPosX or currentPos.z == prevPosZ then
+            self:forceAdvance()
+          end
+        end
       end
-      local randomAngle = math.random(math.pi * 2)
-      local randomPos = autogft_Vector2:new(math.cos(randomAngle), math.sin(randomAngle)):scale(radius)
-      destination = destinationZonePos:plus(randomPos)
+      autogft.scheduleFunction(checkPosAdvance, 2)
     end
-
-    -- (Whether to use roads or not, depends on the next task)
-    local nextTask = destinationTask
-    if not self.progressing then
-      nextTask = self.taskForce.tasks[self.destination + 1]
-    end
-
-    local waypoints = {}
-    local function addWaypoint(x, y, onRoad)
-      local wp = autogft_Waypoint:new(x, y)
-      wp.speed = nextTask.speed
-      if onRoad then
-        wp.action = autogft_Waypoint.Action.ON_ROAD
-      end
-      waypoints[#waypoints + 1] = wp
-    end
-
-    addWaypoint(groupPos.x, groupPos.y)
-
-    -- Only use roads if group is not already in zone
-    if nextTask.useRoads and groupToZoneMag <= destinationZone.radius^2 then
-      addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
-      addWaypoint(destination.x, destination.y, true)
-    end
-
-    if shortened or not nextTask.useRoads then
-      local v = destination:plus(groupPos:times(-1)):normalize():scale(autogft_Group.ROUTE_OVERSHOOT):add(destination)
-      addWaypoint(v.x, v.y)
-      addWaypoint(destination.x + 1, destination.y + 1)
-    end
-
-    self:setRoute(waypoints)
   end
+end
+
+---
+-- @param #Group self
+-- @return #Group
+function autogft_Group:forceAdvance()
+
+  local destination
+
+  local destinationTask = self.taskForce.tasks[self.destination]
+  local destinationZone = self.taskForce.tasks[self.destination].zone
+  local destinationZonePos = autogft_Vector2:new(destinationZone.point.x, destinationZone.point.z)
+  local groupLeadPosDCS = self.groupLead:getPosition().p
+  local groupPos = autogft_Vector2:new(groupLeadPosDCS.x, groupLeadPosDCS.z)
+  local groupToZone = destinationZonePos:minus(groupPos)
+  local groupToZoneMag = groupToZone:getMagnitude()
+
+  -- If the task force has a "max distance" specified
+  if self.taskForce.maxDistanceKM > 0 then
+    local units = self.dcsGroup:getUnits()
+
+    local maxDistanceM = self.taskForce.maxDistanceKM * 1000
+    if groupToZoneMag - destinationZone.radius > maxDistanceM then
+      local destinationX = groupPos.x + groupToZone.x / groupToZoneMag * maxDistanceM
+      local destinationY = groupPos.y + groupToZone.y / groupToZoneMag * maxDistanceM
+      destination = autogft_Vector2:new(destinationX, destinationY)
+    end
+  end
+
+  -- Determine if destination position is shortened
+  local shortened = false
+  if destination then
+    shortened = true
+  else
+    -- If not shortened, use random point
+    local radius = destinationZone.radius - autogft_Group.ROUTE_OVERSHOOT
+    if radius < 0 then
+      radius = 0
+    end
+    local randomAngle = math.random(math.pi * 2)
+    local randomPos = autogft_Vector2:new(math.cos(randomAngle), math.sin(randomAngle)):scale(radius)
+    destination = destinationZonePos:plus(randomPos)
+  end
+
+  -- (Whether to use roads or not, depends on the next task)
+  local nextTask = destinationTask
+  if not self.progressing then
+    nextTask = self.taskForce.tasks[self.destination + 1]
+  end
+
+  local waypoints = {}
+  local function addWaypoint(x, y, onRoad)
+    local wp = autogft_Waypoint:new(x, y)
+    wp.speed = nextTask.speed
+    if onRoad then
+      wp.action = autogft_Waypoint.Action.ON_ROAD
+    end
+    waypoints[#waypoints + 1] = wp
+  end
+
+  addWaypoint(groupPos.x, groupPos.y)
+
+  -- Only use roads if group is not already in zone
+  if nextTask.useRoads and groupToZoneMag <= destinationZone.radius^2 then
+    addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
+    addWaypoint(destination.x, destination.y, true)
+  end
+
+  if shortened or not nextTask.useRoads then
+    local v = destination:plus(groupPos:times(-1)):normalize():scale(autogft_Group.ROUTE_OVERSHOOT):add(destination)
+    addWaypoint(v.x, v.y)
+    addWaypoint(destination.x + 1, destination.y + 1)
+  end
+
+  self:setRoute(waypoints)
 
   return self
 end
