@@ -3,23 +3,28 @@
 
 ---
 -- @type Waypoint
--- @extends class#Class
--- @field #number x
--- @field #number y
+-- @extends vector2#Vector2
 -- @field #number speed
 -- @field #string action
 -- @field #string type
-autogft_Waypoint = autogft_Class:new()
+autogft_Waypoint = autogft_Vector2:extend()
 
 ---
 -- @param #Waypoint self
+-- @param #number x
+-- @param #number y
+-- @param #Waypoint.Action action (Optional)
 -- @return #Waypoint
-function autogft_Waypoint:new(x, y)
-  self = self:createInstance()
-  self.x = x
-  self.y = y
+function autogft_Waypoint:new(x, y, action)
+  local roundedX = math.floor(x + 0.5)
+  local roundedY = math.floor(y + 0.5)
+  self = self:createInstance(autogft_Vector2:new(roundedX, roundedY))
   self.speed = 100
-  self.action = autogft_Waypoint.Action.CONE
+  if action then
+    self.action = action
+  else
+    self.action = autogft_Waypoint.Action.CONE
+  end
   self.type = autogft_Waypoint.Type.TURNING_POINT
   return self
 end
