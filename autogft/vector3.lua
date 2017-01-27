@@ -22,7 +22,7 @@ end
 -- @param #Vector3 self
 -- @return #Vector3
 function autogft_Vector3:getCopy()
-  return self:new(self.x, self.y, self.z)
+  return autogft_Vector3:new(self.x, self.y, self.z)
 end
 
 ---

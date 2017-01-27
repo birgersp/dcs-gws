@@ -69,7 +69,7 @@ end
 ---
 -- @param #Vector2 self
 -- @return #Vector2
-function autogft_Vector2:copy()
+function autogft_Vector2:getCopy()
   return autogft_Vector2:new(self.x, self.y)
 end
 

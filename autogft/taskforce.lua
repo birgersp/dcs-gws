@@ -482,7 +482,7 @@ function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
               and unit:getTypeName() == unitSpec.type then
               local x = unit:getPosition().p.x
               local y = unit:getPosition().p.z
-              local heading = mist.getHeading(unit)
+              local heading = autogft.getUnitHeading(unit)
               addGroupUnit(unitSpec.type, unit:getName(), x, y, heading)
               takenUnits[availableUnitIndex] = true
             end

@@ -12,6 +12,28 @@ autogft.debugMode = false
 -- Utility function definitions
 
 ---
+-- @param vector3#Vector3 position
+-- @return vector3#Vector3 position
+function autogft.getPositionCorrected(position)
+  local latitude, longitude = coord.LOtoLL(position)
+  local nortPosition = coord.LLtoLO(latitude + 1, longitude)
+  return math.atan2(nortPosition.z - position.z, nortPosition.x - position.x)
+end
+
+---
+-- @param DCSUnit#Unit unit
+-- @return #number
+function autogft.getUnitHeading(unit)
+  local unitPosition = unit:getPosition()
+  local unitPos = autogft_Vector3.getCopy(unitPosition.p)
+  local heading = math.atan2(unitPosition.x.z, unitPosition.x.x) + autogft.getPositionCorrected(unitPos)
+  if heading < 0 then
+    heading = heading + 2 * math.pi
+  end
+  return heading
+end
+
+---
 -- @param DCSUnit#Unit unit
 -- @param DCSZone#Zone zone
 -- @return #boolean
