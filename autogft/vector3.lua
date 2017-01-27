@@ -28,25 +28,31 @@ end
 ---
 -- @param #Vector3 self
 -- @param #Vector3 vector
+-- @return #Vector3
 function autogft_Vector3:add(vector)
   self.x = self.x + vector.x
   self.y = self.y + vector.y
   self.z = self.z + vector.z
+  return self
 end
 
 ---
 -- @param #Vector3 self
 -- @param #number factor
+-- @return #Vector3
 function autogft_Vector3:scale(factor)
   self.x = self.x * factor
   self.y = self.y * factor
   self.z = self.z * factor
+  return self
 end
 
 ---
 -- @param #Vector3 self
+-- @return #Vector3
 function autogft_Vector3:normalize()
   self:scale(1 / self:getMagnitude())
+  return self
 end
 
 ---
