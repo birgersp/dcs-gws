@@ -11,7 +11,6 @@
 -- @field #list<task#CaptureTask> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in knots (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
--- @field #string formation Formation of moving units (default: "cone")
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
 -- @field #list<group#Group> groups Groups of the task force
@@ -34,7 +33,6 @@ function autogft_TaskForce:new()
   self.tasks = {}
   self.speed = 100
   self.maxDistanceKM = 10
-  self.formation = "cone"
   self.useRoads = false
   self.skill = "High"
   self.groups = {}
