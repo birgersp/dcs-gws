@@ -81,6 +81,7 @@ end
 -- @param #Group self
 -- @return #Group
 function autogft_Group:advance()
+
   self:updateGroupLead()
   if self.groupLead then
 
@@ -97,7 +98,7 @@ function autogft_Group:advance()
       end
     end
 
-    if destinationZone ~= self.destination then
+    if currentDestination ~= self.destination then
       self:forceAdvance()
     else
       local prevPos = self.groupLead:getPosition().p
@@ -106,7 +107,7 @@ function autogft_Group:advance()
       local function checkPosAdvance()
         if self.dcsGroup then
           local currentPos = self.groupLead:getPosition().p
-          if currentPos.x == prevPosX or currentPos.z == prevPosZ then
+          if currentPos.x == prevPosX and currentPos.z == prevPosZ then
             self:forceAdvance()
           end
         end
