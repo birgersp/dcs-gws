@@ -164,12 +164,13 @@ function autogft_Group:forceAdvance()
   if not self.progressing then
     nextTask = self.taskForce.tasks[self.destination + 1]
   end
+  local useRoads = nextTask.useRoads
 
   local waypoints = {}
-  local function addWaypoint(x, y, onRoad)
+  local function addWaypoint(x, y, useRoad)
     local wp = autogft_Waypoint:new(x, y)
     wp.speed = nextTask.speed
-    if onRoad then
+    if useRoad then
       wp.action = autogft_Waypoint.Action.ON_ROAD
     end
     waypoints[#waypoints + 1] = wp
@@ -177,16 +178,19 @@ function autogft_Group:forceAdvance()
 
   addWaypoint(groupPos.x, groupPos.y)
 
-  -- Only use roads if group is not already in zone
-  if nextTask.useRoads and groupToZoneMag <= destinationZone.radius^2 then
+  -- Only use roads if group is at a certain distance away from zone
+  if useRoads and groupToZoneMag > (destinationZone.radius * 1.5) then
     addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
     addWaypoint(destination.x, destination.y, true)
   end
 
-  if shortened or not nextTask.useRoads then
-    local v = destination:plus(groupPos:times(-1)):normalize():scale(autogft_Group.ROUTE_OVERSHOOT):add(destination)
-    addWaypoint(v.x, v.y)
-    addWaypoint(destination.x + 1, destination.y + 1)
+  if not shortened then
+    local overshoot = destination:plus(groupPos:times(-1)):normalize():scale(autogft_Group.ROUTE_OVERSHOOT):add(destination)
+    addWaypoint(overshoot.x, overshoot.y)
+  end
+
+  if not shortened or not useRoads then
+    addWaypoint(destination.x + 1, destination.y + 1, useRoads)
   end
 
   self:setRoute(waypoints)
