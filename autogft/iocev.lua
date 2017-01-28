@@ -33,16 +33,13 @@ function autogft_iocev:informOfClosestEnemyVehicles(group)
   if closestEnemy == nil then
     trigger.action.outTextForGroup(group:getID(), "No enemy vehicles", 30)
   else
-    local groupUnitPos = {
-      x = firstGroupUnit:getPosition().p.x,
-      y = 0,
-      z = firstGroupUnit:getPosition().p.z
-    }
-
     local enemyCluster = autogft_getFriendlyVehiclesWithin(closestEnemy, autogft_MAX_CLUSTER_DISTANCE)
-    local midPoint = mist.utils.makeVec3(enemyCluster.midPoint)
+    
+    local groupUnitPosDCS = firstGroupUnit:getPosition().p
+    local groupUnitPos = autogft_Vector2:new(groupUnitPosDCS.x, groupUnitPosDCS.z)
+    local groupToMid = autogft_Vector2.minus(enemyCluster.midPoint, groupUnitPos)
 
-    local dirRad = mist.utils.getDir(mist.vec.sub(midPoint, groupUnitPos))
+    local dirRad = autogft_Vector2.Axis.X:getAngleTo(groupToMid) + autogft.getHeadingNorthCorrection(groupUnitPosDCS)
     local cardinalDir = autogft_iocev:radToCardinalDir(dirRad)
     local distanceM = autogft.getDistanceBetween(midPoint, groupUnitPos)
     local distanceKM = distanceM / 1000
