@@ -19,6 +19,35 @@ end
 ---
 -- @param #Vector2 self
 -- @param #Vector2 vector
+-- @return #number
+function autogft_Vector2:getCrossProduct(vector)
+  return self.x * vector.y - self.y * vector.x
+end
+
+---
+-- @param #Vector2 self
+-- @param #Vector2 vector
+-- @return #Vector2
+function autogft_Vector2:getDotProduct(vector)
+  return self.x * vector.x + self.y * vector.y
+end
+
+---
+-- @param #Vector2 self
+-- @param #Vector2 vector
+-- @return #Vector2
+function autogft_Vector2:getAngleTo(vector)
+  local cosine = self:getDotProduct(vector) / (self:getMagnitude() * vector:getMagnitude())
+  local angle = math.acos(cosine)
+  if self:getCrossProduct(vector) < 0 then
+    angle = math.pi * 2 - angle
+  end
+  return angle
+end
+
+---
+-- @param #Vector2 self
+-- @param #Vector2 vector
 -- @return #Vector2
 function autogft_Vector2:add(vector)
   self.x = self.x + vector.x
@@ -80,3 +109,12 @@ end
 function autogft_Vector2:minus(vector)
   return autogft_Vector2:new(self.x, self.y):add(vector:times(-1))
 end
+
+---
+-- @type Vector2.Axis
+-- @field #Vector2 X
+-- @field #Vector2 Y
+autogft_Vector2.Axis = {
+  X = autogft_Vector2:new(1, 0),
+  Y = autogft_Vector2:new(0, 1)
+}
