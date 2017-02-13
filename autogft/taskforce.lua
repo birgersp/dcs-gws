@@ -41,7 +41,7 @@ function autogft_TaskForce:new()
   local function autoInitialize()
     self:autoInitialize()
   end
-  autogft.scheduleFunction(autoInitialize, 1)
+  autogft.scheduleFunction(autoInitialize, 2)
 
   return self
 end
@@ -227,6 +227,7 @@ function autogft_TaskForce:reinforce(useSpawning)
   local availableUnits
   if not useSpawning then
 
+    availableUnits = {}
     if not self.country then
 
       availableUnits = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
