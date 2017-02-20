@@ -105,7 +105,7 @@ function autogft_Group:advance()
       local prevPosX = prevPos.x
       local prevPosZ = prevPos.z
       local function checkPosAdvance()
-        if self.dcsGroup then
+        if self.groupLead then
           local currentPos = self.groupLead:getPosition().p
           if currentPos.x == prevPosX and currentPos.z == prevPosZ then
             self:forceAdvance()
