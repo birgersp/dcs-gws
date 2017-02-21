@@ -7,6 +7,7 @@ autogft = {}
 
 -- Misc
 
+autogft.autoInitReinforcementTimers = true
 autogft.debugMode = false
 
 -- Utility function definitions

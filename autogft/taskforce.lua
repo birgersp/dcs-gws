@@ -101,7 +101,7 @@ function autogft_TaskForce:autoInitialize()
     end
   end
 
-  if not self.advancementTimerId then
+  if autogft.autoInitReinforcementTimers and not self.advancementTimerId then
     self:setAdvancementTimer(300)
   end
 
@@ -304,6 +304,8 @@ end
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:setReinforceTimer(timeInterval, useSpawning)
   self:stopReinforcing()
+
+  assert(#self.baseZones > 0, "Cannot set reinforce/respawning timer for this Task Force, no base zones are declared.")
 
   local function reinforce()
     self:reinforce(useSpawning)
