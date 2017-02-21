@@ -92,16 +92,15 @@ function autogft_TaskForce:autoInitialize()
 
   if #self.groups <= 0 then
     self:autoAddUnitLayoutFromBases()
-    self:reinforce()
   end
 
-  if #self.baseZones > 0 then
+  if autogft.autoInitReinforcementTimers and #self.baseZones > 0 then
     if not self.reinforcementTimerId then
       self:setRespawnTimer(600)
     end
   end
 
-  if autogft.autoInitReinforcementTimers and not self.advancementTimerId then
+  if not self.advancementTimerId then
     self:setAdvancementTimer(300)
   end
 
