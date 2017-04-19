@@ -9,7 +9,7 @@
 -- @field #number coalition Coalition ID
 -- @field #list<#string> baseZones List of base zones
 -- @field #list<task#CaptureTask> tasks List of tasks
--- @field #number speed Desired speed of moving units, in knots (default: max speed)
+-- @field #number speed Desired speed of moving units, in m/s (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
@@ -31,7 +31,7 @@ function autogft_TaskForce:new()
   self.country = nil
   self.baseZones = {}
   self.tasks = {}
-  self.speed = 100
+  self.speed = 9999
   self.maxDistanceKM = 10
   self.useRoads = false
   self.skill = "High"
