@@ -8,16 +8,15 @@
 -- @field #number country Country ID
 -- @field #number coalition Coalition ID
 -- @field #list<#string> baseZones List of base zones
--- @field #list<task#CaptureTask> tasks List of tasks
 -- @field #number speed Desired speed of moving units, in m/s (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
 -- @field #list<group#Group> groups Groups of the task force
--- @field #number target Current target zone index
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
 -- @field #number advancementTimerId Advancement timer identifier
+-- @field tasksequence#TaskSequence taskSequence Task sequence
 autogft_TaskForce = autogft_Class:create()
 
 ---
@@ -30,13 +29,12 @@ function autogft_TaskForce:new()
   self = self:createInstance()
   self.country = nil
   self.baseZones = {}
-  self.tasks = {}
   self.speed = 9999
   self.maxDistanceKM = 10
   self.useRoads = false
   self.skill = "High"
   self.groups = {}
-  self.target = 1
+  self.taskSequence = autogft_TaskSequence:new()
 
   local function autoInitialize()
     self:autoInitialize()
@@ -199,7 +197,7 @@ end
 function autogft_TaskForce:addTask(task)
   task.useRoads = self.useRoads
   task.speed = self.speed
-  self.tasks[#self.tasks + 1] = task
+  self.taskSequence:addTask(task)
   return self
 end
 
@@ -211,7 +209,7 @@ end
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:addGroup()
   local unitSpec = autogft_UnitSpec:new(count, type)
-  self.groups[#self.groups + 1] = autogft_Group:new(self)
+  self.groups[#self.groups + 1] = autogft_Group:new(self.taskSequence)
   return self
 end
 
@@ -249,21 +247,8 @@ end
 ---
 -- Checks the status of tasks, and sets the current target task (@{#TaskForce.target}) of this task force.
 -- @param #TaskForce self
--- @return #TaskForce This object (self)
 function autogft_TaskForce:updateTarget()
-  local newTarget
-  local taskIndex = 1
-  while not newTarget and taskIndex <= #self.tasks do
-    if not self.tasks[taskIndex]:isAccomplished() then
-      newTarget = taskIndex
-    end
-    taskIndex = taskIndex + 1
-  end
-  if not newTarget then
-    newTarget = #self.tasks
-  end
-  self.target = newTarget
-  return self
+  self.taskSequence:updateCurrentTask()
 end
 
 ---
@@ -271,7 +256,7 @@ end
 -- @param #TaskForce self
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:advance()
-  assert(#self.tasks > 0, "Task force has no tasks. Use \"addControlTask\" to add a control zone task.")
+  assert(#self.taskSequence.tasks > 0, "Task force has no tasks. Use \"addControlTask\" to add a control zone task.")
   for i = 1, #self.groups do
     if self.groups[i]:exists() then self.groups[i]:advance() end
   end
@@ -353,8 +338,8 @@ function autogft_TaskForce:setCountry(country)
   self.country = country
   self.coalition = coalition.getCountryCoalition(country)
   -- Update capturing tasks coalition
-  for i = 1, #self.tasks do
-    local task = self.tasks[i]
+  for i = 1, #self.taskSequence.tasks do
+    local task = self.taskSequence.tasks[i]
     if task:instanceOf(autogft_CaptureTask) then
       task.coalition = self.coalition
     end
@@ -412,7 +397,7 @@ end
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:setSpeed(speed)
   self.speed = speed
-  if #self.tasks > 0 then self.tasks[#self.tasks].speed = self.speed end
+  if #self.taskSequence.tasks > 0 then self.taskSequence.tasks[#self.taskSequence.tasks].speed = self.speed end
   return self
 end
 

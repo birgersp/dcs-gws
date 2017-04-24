@@ -5,24 +5,26 @@
 -- @type Group
 -- @extends class#Class
 -- @field #list<unitspec#UnitSpec> unitSpecs
--- @field taskforce#TaskForce taskForce
+-- @field tasksequence#TaskSequence taskSequence
 -- @field DCSGroup#Group dcsGroup
 -- @field DCSUnit#Unit groupLead
 -- @field #number destination
 -- @field #boolean progressing
--- @field #number ROUTE_OVERSHOOT
+-- @field #number routeOvershootM (Default is 500)
+-- @field #number maxDistanceM (Default is 10000)
 autogft_Group = autogft_Class:create()
-autogft_Group.ROUTE_OVERSHOOT = 500
 
 ---
 -- @param #Group self
--- @param taskforce#TaskForce taskForce
+-- @param tasksequence#TaskSequence taskSequence
 -- @return #Group
-function autogft_Group:new(taskForce)
+function autogft_Group:new(taskSequence)
   self = self:createInstance()
   self.unitSpecs = {}
-  self.taskForce = taskForce
+  self.taskSequence = taskSequence
   self.progressing = true
+  self.routeOvershootM = 500
+  self.maxDistanceM = 10000
   self:setDCSGroup(nil)
   return self
 end
@@ -86,13 +88,13 @@ function autogft_Group:advance()
   if self.groupLead then
 
     local currentDestination = self.destination
-    local destinationZone = self.taskForce.tasks[self.destination].zone
+    local destinationZone = self.taskSequence.tasks[self.destination].zone
     if autogft.unitIsWithinZone(self.groupLead, destinationZone) then
       -- If destination reached, update target
-      if self.destination < self.taskForce.target then
+      if self.destination < self.taskSequence.currentTaskIndex then
         self.destination = self.destination + 1
         self.progressing = true
-      elseif self.destination > self.taskForce.target then
+      elseif self.destination > self.taskSequence.currentTaskIndex then
         self.destination = self.destination - 1
         self.progressing = false
       end
@@ -124,8 +126,8 @@ function autogft_Group:forceAdvance()
 
   local destination
 
-  local destinationTask = self.taskForce.tasks[self.destination]
-  local destinationZone = self.taskForce.tasks[self.destination].zone
+  local destinationTask = self.taskSequence.tasks[self.destination]
+  local destinationZone = self.taskSequence.tasks[self.destination].zone
   local destinationZonePos = autogft_Vector2:new(destinationZone.point.x, destinationZone.point.z)
   local groupLeadPosDCS = self.groupLead:getPosition().p
   local groupPos = autogft_Vector2:new(groupLeadPosDCS.x, groupLeadPosDCS.z)
@@ -133,13 +135,12 @@ function autogft_Group:forceAdvance()
   local groupToZoneMag = groupToZone:getMagnitude()
 
   -- If the task force has a "max distance" specified
-  if self.taskForce.maxDistanceKM > 0 then
+  if self.maxDistanceM > 0 then
     local units = self.dcsGroup:getUnits()
 
-    local maxDistanceM = self.taskForce.maxDistanceKM * 1000
-    if groupToZoneMag - destinationZone.radius > maxDistanceM then
-      local destinationX = groupPos.x + groupToZone.x / groupToZoneMag * maxDistanceM
-      local destinationY = groupPos.y + groupToZone.y / groupToZoneMag * maxDistanceM
+    if groupToZoneMag - destinationZone.radius > self.maxDistanceM then
+      local destinationX = groupPos.x + groupToZone.x / groupToZoneMag * self.maxDistanceM
+      local destinationY = groupPos.y + groupToZone.y / groupToZoneMag * self.maxDistanceM
       destination = autogft_Vector2:new(destinationX, destinationY)
     end
   end
@@ -150,7 +151,7 @@ function autogft_Group:forceAdvance()
     shortened = true
   else
     -- If not shortened, use random point
-    local radius = destinationZone.radius - autogft_Group.ROUTE_OVERSHOOT
+    local radius = destinationZone.radius - self.routeOvershootM
     if radius < 0 then
       radius = 0
     end
@@ -162,7 +163,7 @@ function autogft_Group:forceAdvance()
   -- (Whether to use roads or not, depends on the next task)
   local nextTask = destinationTask
   if not self.progressing then
-    nextTask = self.taskForce.tasks[self.destination + 1]
+    nextTask = self.taskSequence.tasks[self.destination + 1]
   end
   local useRoads = nextTask.useRoads
 
@@ -185,7 +186,7 @@ function autogft_Group:forceAdvance()
   end
 
   if not shortened then
-    local overshoot = destination:plus(groupPos:times(-1)):normalize():scale(autogft_Group.ROUTE_OVERSHOOT):add(destination)
+    local overshoot = destination:plus(groupPos:times(-1)):normalize():scale(self.routeOvershootM):add(destination)
     addWaypoint(overshoot.x, overshoot.y)
   end
 
