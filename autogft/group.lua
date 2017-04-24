@@ -87,20 +87,20 @@ function autogft_Group:advance()
   self:updateGroupLead()
   if self.groupLead then
 
-    local currentDestination = self.destination
-    local destinationZone = self.taskSequence.tasks[self.destination].zone
+    local currentDestination = self.destinationIndex
+    local destinationZone = self.taskSequence.tasks[self.destinationIndex].zone
     if autogft.unitIsWithinZone(self.groupLead, destinationZone) then
       -- If destination reached, update target
-      if self.destination < self.taskSequence.currentTaskIndex then
-        self.destination = self.destination + 1
+      if self.destinationIndex < self.taskSequence.currentTaskIndex then
+        self.destinationIndex = self.destinationIndex + 1
         self.progressing = true
-      elseif self.destination > self.taskSequence.currentTaskIndex then
-        self.destination = self.destination - 1
+      elseif self.destinationIndex > self.taskSequence.currentTaskIndex then
+        self.destinationIndex = self.destinationIndex - 1
         self.progressing = false
       end
     end
 
-    if currentDestination ~= self.destination then
+    if currentDestination ~= self.destinationIndex then
       self:forceAdvance()
     else
       local prevPos = self.groupLead:getPosition().p
@@ -126,8 +126,8 @@ function autogft_Group:forceAdvance()
 
   local destination
 
-  local destinationTask = self.taskSequence.tasks[self.destination]
-  local destinationZone = self.taskSequence.tasks[self.destination].zone
+  local destinationTask = self.taskSequence.tasks[self.destinationIndex]
+  local destinationZone = self.taskSequence.tasks[self.destinationIndex].zone
   local destinationZonePos = autogft_Vector2:new(destinationZone.point.x, destinationZone.point.z)
   local groupLeadPosDCS = self.groupLead:getPosition().p
   local groupPos = autogft_Vector2:new(groupLeadPosDCS.x, groupLeadPosDCS.z)
@@ -163,7 +163,7 @@ function autogft_Group:forceAdvance()
   -- (Whether to use roads or not, depends on the next task)
   local nextTask = destinationTask
   if not self.progressing then
-    nextTask = self.taskSequence.tasks[self.destination + 1]
+    nextTask = self.taskSequence.tasks[self.destinationIndex + 1]
   end
   local useRoads = nextTask.useRoads
 
@@ -205,7 +205,7 @@ end
 -- @return #Group
 function autogft_Group:setDCSGroup(newGroup)
   self.dcsGroup = newGroup
-  self.destination = 1
+  self.destinationIndex = 1
   return self
 end
 
