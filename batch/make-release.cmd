@@ -3,13 +3,13 @@
 set /p version=<version.txt
 
 set examples_dir=examples
-set examples= ^
-basic.lua ^
-miscellaneous.lua ^
-reinforcing.lua ^
-scanning.lua ^
-test.lua ^
-using-roads.lua
+set examples=^
+ basic.lua^
+ miscellaneous.lua^
+ reinforcing.lua^
+ scanning.lua^
+ test.lua^
+ using-roads.lua
 set example_mission="%HOMEPATH%\Saved Games\DCS\Missions\autogft-example.miz"
 set build_dir=build
 set examples_destination=%build_dir%\examples
