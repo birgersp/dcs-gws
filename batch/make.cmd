@@ -5,6 +5,8 @@ set sources=^
  autogft\controlzone.lua^
  autogft\group.lua^
  autogft\groupcommand.lua^
+ autogft\map.lua^
+ autogft\reinforcer.lua^
  autogft\task.lua^
  autogft\taskforce.lua^
  autogft\tasksequence.lua^
