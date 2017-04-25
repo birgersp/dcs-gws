@@ -112,6 +112,20 @@ function autogft.scheduleFunction(func, time)
 end
 
 ---
+-- @param #string prefix (Optional)
+-- @return #string
+function autogft.getUniqueGroupName(prefix)
+  local groupName
+  local index = 0
+  while (not groupName) or Group.getByName(groupName) do
+    index = index + 1
+    groupName = "autogft group #" .. index
+    if prefix then groupName = prefix .. "-" .. groupName end
+  end
+  return groupName
+end
+
+---
 -- Deep copy a table
 -- Code from https://gist.github.com/MihailJP/3931841
 function autogft.deepCopy(t)
