@@ -8,7 +8,6 @@ autogft = {}
 -- Misc
 
 autogft.autoInitReinforcementTimers = true
-autogft.debugMode = false
 
 -- Utility function definitions
 
@@ -228,45 +227,41 @@ function autogft.assertZoneExists(zoneName)
 end
 
 function autogft.log(variable)
-  if autogft.debugMode then
-    if not env then
-      env = {
-        info = function(msg)
-          print(msg)
-        end
-      }
-    end
-
-    -- Try to determine variable name
-    local variableName
-    local i = 1
-    local var2Name, var2Val = debug.getlocal(2,1)
-    while var2Name ~= nil and not variableName do
-      if var2Val == variable then
-        variableName = var2Name
+  if not env then
+    env = {
+      info = function(msg)
+        print(msg)
       end
-      i = i + 1
-      var2Name, var2Val = debug.getlocal(2,i)
-    end
-
-    if not variableName then
-      variableName = "(undefined)"
-    end
-
-    env.info(variableName .. ": " .. autogft.toString(variable))
+    }
   end
+
+  -- Try to determine variable name
+  local variableName
+  local i = 1
+  local var2Name, var2Val = debug.getlocal(2,1)
+  while var2Name ~= nil and not variableName do
+    if var2Val == variable then
+      variableName = var2Name
+    end
+    i = i + 1
+    var2Name, var2Val = debug.getlocal(2,i)
+  end
+
+  if not variableName then
+    variableName = "(undefined)"
+  end
+
+  env.info(variableName .. ": " .. autogft.toString(variable))
 end
 
 function autogft.logFunction()
-  if autogft.debugMode then
-    local trace = "(END)"
-    local i = 2
-    local functionName = debug.getinfo(i, "n").name
-    while functionName do
-      trace = functionName .. " -> " .. trace
-      i = i + 1
-      functionName = debug.getinfo(i, "n").name
-    end
-    autogft.log("Function trace: " .. trace)
+  local trace = "(END)"
+  local i = 2
+  local functionName = debug.getinfo(i, "n").name
+  while functionName do
+    trace = functionName .. " -> " .. trace
+    i = i + 1
+    functionName = debug.getinfo(i, "n").name
   end
+  autogft.log("Function trace: " .. trace)
 end
