@@ -9,3 +9,4 @@ autogft_TaskForce:new()
   :addControlZone("CONTROL2")
   :addControlZone("CONTROL5")
   :scanUnits("TaskForce")
+  

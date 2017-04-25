@@ -8,7 +8,7 @@
 -- low speed (5knots),
 -- scanning units,
 -- manually setting the advance timer to 600 second intervals,
--- manually setting the respawning timer to 300 second intervals,
+-- manually setting the reinforcing timer to 300 second intervals,
 -- reinforcing (in this case, by respawning) will only happen for a total of 1200 sec (20 min)
 
 autogft_TaskForce:new()
@@ -22,6 +22,6 @@ autogft_TaskForce:new()
   :setSpeed(5)
   :scanUnits("TFGroup")
   :setAdvancementTimer(300)
-  :setRespawnTimer(300)
+  :setReinforceTimer(300)
   :setReinforceTimerMax(1200)
   

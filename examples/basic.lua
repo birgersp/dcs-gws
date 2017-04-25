@@ -23,8 +23,7 @@ autogft_TaskForce:new()
 
 
 --- 
--- (RED TASK FORCE 2)
--- (This task force will ignore "Combat1")
+-- (RED TASK FORCE)
 
 autogft_TaskForce:new()
   :addBaseZone("RED_BASE")

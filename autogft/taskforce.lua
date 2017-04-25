@@ -5,18 +5,17 @@
 ---
 -- @type TaskForce
 -- @extends class#Class
--- @field #number country Country ID
 -- @field #number coalition Coalition ID
--- @field #list<#string> baseZones List of base zones
 -- @field #number speed Desired speed of moving units, in m/s (default: max speed)
 -- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
 -- @field #boolean useRoads Wether the task force should use roads or not (default: false)
 -- @field #string skill Skill of units (default: "High")
--- @field #list<group#Group> groups Groups of the task force
 -- @field #number reinforcementTimerId Reinforcement timer identifier
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
 -- @field #number advancementTimerId Advancement timer identifier
 -- @field tasksequence#TaskSequence taskSequence Task sequence
+-- @field reinforcer#SpecificUnitReinforcer reinforcer
+-- @field group#Group lastAddedGroup
 autogft_TaskForce = autogft_Class:create()
 
 ---
@@ -27,14 +26,15 @@ autogft_TaskForce = autogft_Class:create()
 function autogft_TaskForce:new()
 
   self = self:createInstance()
-  self.country = nil
-  self.baseZones = {}
+  self.coalition = nil
   self.speed = 9999
   self.maxDistanceKM = 10
   self.useRoads = false
-  self.skill = "High"
-  self.groups = {}
+  self.reinforcementTimerId = nil
+  self.advancementTimerId = nil
   self.taskSequence = autogft_TaskSequence:new()
+  self.reinforcer = autogft_RespawningReinforcer:new()
+  self.lastAddedGroup = nil
 
   local function autoInitialize()
     self:autoInitialize()
@@ -88,13 +88,22 @@ end
 -- @return #TaskForce
 function autogft_TaskForce:autoInitialize()
 
-  if #self.groups <= 0 then
+  if not self.coalition then
+    local unitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.reinforcer.baseZones)
+    if #unitsInBases == 0 then
+      unitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.reinforcer.baseZones)
+    end
+    assert(#unitsInBases > 0, "Could not determine task force coalition")
+    self:setCountry(unitsInBases[1]:getCountry())
+  end
+
+  if self.reinforcer.groupsUnitSpecs.length <= 0 then
     self:autoAddUnitLayoutFromBases()
   end
 
-  if #self.baseZones > 0 then
+  if #self.reinforcer.baseZones > 0 then
     if not self.reinforcementTimerId then
-      self:setRespawnTimer(600)
+      self:setReinforceTimer(600)
     end
   end
 
@@ -156,10 +165,7 @@ end
 function autogft_TaskForce:autoAddUnitLayoutFromBases()
 
   -- Determine coalition based on units in base zones
-  local ownUnitsInBases = autogft.getUnitsInZonesByNames(coalition.side.BLUE, self.baseZones)
-  if #ownUnitsInBases <= 0 then
-    ownUnitsInBases = autogft.getUnitsInZonesByNames(coalition.side.RED, self.baseZones)
-  end
+  local ownUnitsInBases = autogft.getUnitsInZones(self.coalition, self.reinforcer.baseZones)
 
   if #ownUnitsInBases > 0 then
     self:autoAddUnitLayout(ownUnitsInBases)
@@ -208,38 +214,18 @@ end
 -- @param #TaskForce self
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:addGroup()
-  local unitSpec = autogft_UnitSpec:new(count, type)
-  self.groups[#self.groups + 1] = autogft_Group:new(self.taskSequence)
+  local unitSpec = autogft_UnitSpec:new(0, "")
+  self.lastAddedGroup = autogft_Group:new(self.taskSequence)
+  self.reinforcer.groupsUnitSpecs:put(self.lastAddedGroup, {})
   return self
 end
 
 ---
--- Triggers task force reinforcing (invokes @{#TaskForce.reinforceFromUnits}) by either looking up units in base zones or spawning new units.
+-- Triggers task force reinforcing.
 -- @param #TaskForce self
--- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default is false, using units located in base)
 -- @return #TaskForce This instance (self)
-function autogft_TaskForce:reinforce(useSpawning)
-  assert(#self.groups > 0, "Task force as no group/unit specifications.")
-  assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
-  local availableUnits
-  if not useSpawning then
-    -- If task force country is unset, determine country from available units
-    if not self.country then
-      availableUnits = autogft.getUnitsInZonesByNames(coalition.side.RED, self.baseZones)
-      if #availableUnits <= 0 then
-        availableUnits = autogft.getUnitsInZonesByNames(coalition.side.BLUE, self.baseZones)
-      end
-
-      if #availableUnits > 0 then
-        self:setCountry(availableUnits[1]:getCountry())
-      end
-
-    else
-      availableUnits = autogft.getUnitsInZonesByNames(self.coalition, self.baseZones)
-    end
-  end
-
-  return self:reinforceFromUnits(availableUnits)
+function autogft_TaskForce:reinforce()
+  self.reinforcer:reinforce()
 end
 
 ---
@@ -255,8 +241,8 @@ end
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:advance()
   assert(#self.taskSequence.tasks > 0, "Task force has no tasks. Use \"addControlTask\" to add a control zone task.")
-  for i = 1, #self.groups do
-    if self.groups[i]:exists() then self.groups[i]:advance() end
+  for _, group in pairs(self.reinforcer.groupsUnitSpecs.keys) do
+    if group:exists() then group:advance() end
   end
   return self
 end
@@ -284,16 +270,16 @@ end
 -- @param #number timeInterval Time [seconds] between each reinforcement
 -- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default: false)
 -- @return #TaskForce This instance (self)
-function autogft_TaskForce:setReinforceTimer(timeInterval, useSpawning)
+function autogft_TaskForce:setReinforceTimer(timeInterval)
   self:stopReinforcing()
 
-  assert(#self.baseZones > 0, "Cannot set reinforce/respawning timer for this Task Force, no base zones are declared.")
+  assert(#self.reinforcer.baseZones > 0, "Cannot set reinforcing timer for this task force, no base zones are declared.")
 
   local function reinforce()
-    self:reinforce(useSpawning)
+    self:reinforce()
     self.reinforcementTimerId = autogft.scheduleFunction(reinforce, timeInterval)
   end
-  autogft.scheduleFunction(reinforce, 1)
+  autogft.scheduleFunction(reinforce, 5)
 
   return self
 end
@@ -304,27 +290,10 @@ end
 -- @param DCSUnit#Unit unit Unit in question
 -- @return #boolean True if this task force contains the unit, false otherwise.
 function autogft_TaskForce:containsUnit(unit)
-  for groupIndex = 1, #self.groups do
-    if self.groups[groupIndex]:containsUnit(unit) then return true end
+  for _, group in pairs(self.reinforcer.groupsUnitSpecs.keys) do
+    if group:containsUnit(unit) then return true end
   end
   return false
-end
-
----
--- Reinforce the task force by spawning new units.
--- @param #TaskForce self
--- @return #TaskForce This instance (self)
-function autogft_TaskForce:respawn()
-  return self:reinforce(true)
-end
-
----
--- Starts a timer which reinforces the task force by spawning new units.
--- @param #TaskForce self
--- @param #number timeInterval Time [seconds] between each reinforcement
--- @return #TaskForce This instance (self)
-function autogft_TaskForce:setRespawnTimer(timeInterval)
-  return self:setReinforceTimer(timeInterval, true)
 end
 
 ---
@@ -333,7 +302,6 @@ end
 -- @param #number country Country ID
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:setCountry(country)
-  self.country = country
   self.coalition = coalition.getCountryCoalition(country)
   -- Update capturing tasks coalition
   for i = 1, #self.taskSequence.tasks do
@@ -342,6 +310,8 @@ function autogft_TaskForce:setCountry(country)
       task.coalition = self.coalition
     end
   end
+  -- Update reinforcer
+  self.reinforcer:setCountryID(country)
   return self
 end
 
@@ -351,8 +321,7 @@ end
 -- @param #string zoneName Name of base zone
 -- @return #TaskForce This instance (self)
 function autogft_TaskForce:addBaseZone(zoneName)
-  self.baseZones[#self.baseZones + 1] = zoneName
-  assert(self.baseZones[#self.baseZones], "Zone \"" .. zoneName .. "\" does not exist in this mission.")
+  self.reinforcer:addBaseZone(zoneName)
   return self
 end
 
@@ -400,123 +369,6 @@ function autogft_TaskForce:setSpeed(speed)
 end
 
 ---
--- Attempts to reinforce the task force according to its unit specifications using a list of available units.
--- Reinforced units will immidiately start moving towards current target zone (see @{#TaskForce.target}).
--- @param #TaskForce self
--- @param #list<DCSUnit#Unit> availableUnits (Optional) Available units (if this list is not specified, units will be spawned)
--- @param #string groupNamePrefix (Optional) Name prefix to use when creating groups
--- @return #TaskForce This instance (self)
-function autogft_TaskForce:reinforceFromUnits(availableUnits, groupNamePrefix)
-
-  local finished = false
-  local spawnedUnitCount, takenUnits, replacedUnitNameCounter, addedGroupUnitsCount, spawnZone
-
-  if availableUnits then
-    -- Cancel if the list of available units have a length of 0
-    if #availableUnits <= 0 then finished = true else takenUnits = {} end
-  else
-    spawnedUnitCount = 0
-    replacedUnitNameCounter = 0
-  end
-
-  local replacedGroupNameCounter = 0
-
-  -- Iterate through task force groups
-  local groupIndex = 1
-  while groupIndex <= #self.groups and not finished do
-
-    local group = self.groups[groupIndex]
-    if not group:exists() then
-
-      local groupUnits = {}
-      local function addGroupUnit(type, name, x, y, heading)
-        groupUnits[#groupUnits + 1] = {
-          ["type"] = type,
-          ["transportable"] =
-          {
-            ["randomTransportable"] = false,
-          },
-          ["x"] = x,
-          ["y"] = y,
-          ["heading"] = heading,
-          ["name"] = name,
-          ["skill"] = self.skill,
-          ["playerCanDrive"] = true
-        }
-        addedGroupUnitsCount = addedGroupUnitsCount + 1
-      end
-
-      if not availableUnits then
-        spawnZone = trigger.misc.getZone(self.baseZones[math.random(#self.baseZones)])
-      end
-
-      for unitSpecIndex = 1, #group.unitSpecs do
-        local unitSpec = group.unitSpecs[unitSpecIndex]
-
-        addedGroupUnitsCount = 0
-
-        if availableUnits then
-          -- Use pre-existing units
-          local availableUnitIndex = 1
-          while addedGroupUnitsCount < unitSpec.count and availableUnitIndex <= #availableUnits do
-            local unit = availableUnits[availableUnitIndex]
-            if unit:isExist()
-              and not takenUnits[availableUnitIndex]
-              and unit:getTypeName() == unitSpec.type then
-              local x = unit:getPosition().p.x
-              local y = unit:getPosition().p.z
-              local heading = autogft.getUnitHeading(unit)
-              addGroupUnit(unitSpec.type, unit:getName(), x, y, heading)
-              takenUnits[availableUnitIndex] = true
-            end
-            availableUnitIndex = availableUnitIndex + 1
-          end
-          if #takenUnits >= #availableUnits then finished = true end
-        else
-          -- Spawn new units
-          while addedGroupUnitsCount < unitSpec.count do
-            local name
-            -- Find a unique unit name
-            while (not name) or Unit.getByName(name) do
-              replacedUnitNameCounter = replacedUnitNameCounter + 1
-              name = "autogft unit #" .. replacedUnitNameCounter
-            end
-            local x = spawnZone.point.x + 15 * spawnedUnitCount
-            local y = spawnZone.point.z - 15 * spawnedUnitCount
-            addGroupUnit(unitSpec.type, name, x, y, 0)
-            spawnedUnitCount = spawnedUnitCount + 1
-          end
-        end
-      end
-      if #groupUnits > 0 then
-        local groupName
-        -- Find a unique group name
-        while (not groupName) or Group.getByName(groupName) do
-          replacedGroupNameCounter = replacedGroupNameCounter + 1
-          groupName = "autogft group #" .. replacedGroupNameCounter
-          if groupNamePrefix then groupName = groupNamePrefix .. "-" .. groupName end
-        end
-        local dcsGroupData = {
-          ["route"] = {},
-          ["units"] = groupUnits,
-          ["name"] = groupName
-        }
-
-        -- Create a group
-        local dcsGroup = coalition.addGroup(self.country, Group.Category.GROUND, dcsGroupData)
-
-        -- Issue group to control zone
-        self.groups[groupIndex]:setDCSGroup(dcsGroup)
-        self.groups[groupIndex]:advance()
-      end
-    end
-    groupIndex = groupIndex + 1
-  end
-
-  return self
-end
-
----
 -- Scans the map once for any pre-existing units to control in this task force.
 -- Groups with name starting with the scan prefix will be considered.
 -- A task force will only take control of units according to the task force unit specification.
@@ -548,10 +400,10 @@ function autogft_TaskForce:scanUnits(groupNamePrefix)
     if not self.country then
       self:setCountry(availableUnits[1]:getCountry())
     end
-    if #self.groups <= 0 then
+    if self.reinforcer.groupsUnitSpecs.length <= 0 then
       self:autoAddUnitLayout(availableUnits)
     end
-    self:reinforceFromUnits(availableUnits, groupNamePrefix)
+    self.reinforcer:reinforceFromUnits(availableUnits)
   end
 
   return self
@@ -581,7 +433,20 @@ end
 -- @param #TaskForce self
 -- @return #TaskForce
 function autogft_TaskForce:addUnits(count, type)
-  if #self.groups <= 0 then self:addGroup() end
-  self.groups[#self.groups]:addUnitSpec(autogft_UnitSpec:new(count, type))
+  if not self.lastAddedGroup then self:addGroup() end
+  local unitSpecs = self.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
+  unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, type)
+  return self
+end
+
+---
+-- Disables respawning of units. Sets the task force to only use pre-existing units when reinforcing. If invoked, always invoke this before units are added.
+-- @param #TaskForce self
+-- @return #TaskForce
+function autogft_TaskForce:useStaging()
+  local baseMessage = "Cannot change task force reinforcing policy after base zones have been added."
+  assert(#self.reinforcer.baseZones == 0, baseMessage .. " Invoke \"useStaging\" before adding base zones.")
+  assert(self.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. " Invoke \"useStaging\" before add units.")
+  self.reinforcer = autogft_SelectingReinforcer:new()
   return self
 end
