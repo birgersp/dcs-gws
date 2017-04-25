@@ -1,7 +1,6 @@
 @echo off
 
 set sources=^
- autogft\core.lua^
  autogft\class.lua^
  autogft\controlzone.lua^
  autogft\group.lua^
@@ -11,6 +10,7 @@ set sources=^
  autogft\tasksequence.lua^
  autogft\unitcluster.lua^
  autogft\unitspec.lua^
+ autogft\util.lua^
  autogft\vector2.lua^
  autogft\vector3.lua^
  autogft\waypoint.lua^
