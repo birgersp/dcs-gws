@@ -5,10 +5,6 @@
 -- @type autogft
 autogft = {}
 
--- Misc
-
-autogft.autoInitReinforcementTimers = true
-
 -- Utility function definitions
 
 ---
