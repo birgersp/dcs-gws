@@ -255,3 +255,7 @@ function autogft.logFunction()
   end
   autogft.log("Function trace: " .. trace)
 end
+
+function autogft.getTableID(table)
+  return tostring(table):sub(8)
+end
