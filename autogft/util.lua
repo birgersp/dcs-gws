@@ -71,15 +71,13 @@ function autogft.getDistanceBetween(a, b)
 end
 
 ---
--- @function getUnitsInZones
 -- @param #number coalitionId
--- @param #list<#string> zoneNames
+-- @param #list<DCSZone#Zone> zones
 -- @return #list<DCSUnit#Unit>
-function autogft.getUnitsInZones(coalitionId, zoneNames)
+function autogft.getUnitsInZones(coalitionId, zones)
   local result = {}
   local groups = coalition.getGroups(coalitionId)
-  for zoneNameIndex = 1, #zoneNames do
-    local zone = trigger.misc.getZone(zoneNames[zoneNameIndex])
+  for _, zone in pairs(zones) do
     local radiusSquared = zone.radius * zone.radius
     for _, group in pairs(groups) do
       local units = group:getUnits()
@@ -95,6 +93,19 @@ function autogft.getUnitsInZones(coalitionId, zoneNames)
     end
   end
   return result
+end
+
+---
+-- @param #number coalitionId
+-- @param #list<#string> zoneNames
+-- @return #list<DCSUnit#Unit>
+function autogft.getUnitsInZonesByNames(coalitionId, zoneNames)
+  local zones = {}
+  for zoneNameIndex = 1, #zoneNames do
+    local zone = trigger.misc.getZone(zoneNames[zoneNameIndex])
+    zones[#zones + 1] = zone
+  end
+  return autogft.getUnitsInZones(coalitionId, zones)
 end
 
 ---

@@ -156,9 +156,9 @@ end
 function autogft_TaskForce:autoAddUnitLayoutFromBases()
 
   -- Determine coalition based on units in base zones
-  local ownUnitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
+  local ownUnitsInBases = autogft.getUnitsInZonesByNames(coalition.side.BLUE, self.baseZones)
   if #ownUnitsInBases <= 0 then
-    ownUnitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.baseZones)
+    ownUnitsInBases = autogft.getUnitsInZonesByNames(coalition.side.RED, self.baseZones)
   end
 
   if #ownUnitsInBases > 0 then
@@ -225,9 +225,9 @@ function autogft_TaskForce:reinforce(useSpawning)
   if not useSpawning then
     -- If task force country is unset, determine country from available units
     if not self.country then
-      availableUnits = autogft.getUnitsInZones(coalition.side.RED, self.baseZones)
+      availableUnits = autogft.getUnitsInZonesByNames(coalition.side.RED, self.baseZones)
       if #availableUnits <= 0 then
-        availableUnits = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
+        availableUnits = autogft.getUnitsInZonesByNames(coalition.side.BLUE, self.baseZones)
       end
 
       if #availableUnits > 0 then
@@ -235,7 +235,7 @@ function autogft_TaskForce:reinforce(useSpawning)
       end
 
     else
-      availableUnits = autogft.getUnitsInZones(self.coalition, self.baseZones)
+      availableUnits = autogft.getUnitsInZonesByNames(self.coalition, self.baseZones)
     end
   end
 
