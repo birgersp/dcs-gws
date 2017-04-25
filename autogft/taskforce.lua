@@ -223,11 +223,9 @@ function autogft_TaskForce:reinforce(useSpawning)
   assert(#self.baseZones > 0, "Task force has no base zones. Use \"addBaseZone\" to add a base zone.")
   local availableUnits
   if not useSpawning then
-
-    availableUnits = {}
+    -- If task force country is unset, determine country from available units
     if not self.country then
-
-      availableUnits = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
+      availableUnits = autogft.getUnitsInZones(coalition.side.RED, self.baseZones)
       if #availableUnits <= 0 then
         availableUnits = autogft.getUnitsInZones(coalition.side.BLUE, self.baseZones)
       end
