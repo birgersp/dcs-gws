@@ -1,8 +1,6 @@
 
 package.path = package.path .. ";../autogft/?.lua"
-require("core")
 require("class")
-autogft.debugMode = true
 
 
 
