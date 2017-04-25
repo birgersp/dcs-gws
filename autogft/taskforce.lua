@@ -350,11 +350,11 @@ end
 ---
 -- Adds a base zone to the task force, used for reinforcing (spawning or staging area).
 -- @param #TaskForce self
--- @param #string baseZone Name of base zone
+-- @param #string zoneName Name of base zone
 -- @return #TaskForce This instance (self)
-function autogft_TaskForce:addBaseZone(baseZone)
-  autogft.assertZoneExists(baseZone)
-  self.baseZones[#self.baseZones + 1] = baseZone
+function autogft_TaskForce:addBaseZone(zoneName)
+  self.baseZones[#self.baseZones + 1] = zoneName
+  assert(self.baseZones[#self.baseZones], "Zone \"" .. zoneName .. "\" does not exist in this mission.")
   return self
 end
 

@@ -38,8 +38,8 @@ autogft_ZoneTask = autogft_Task:extend()
 -- @return #ZoneTask
 function autogft_ZoneTask:new(zoneName)
   self = self:createInstance()
-  autogft.assertZoneExists(zoneName)
   self.zone = trigger.misc.getZone(zoneName)
+  assert(self.zone, "Zone \"" .. zoneName .. "\" does not exist in this mission.")
   return self
 end
 
