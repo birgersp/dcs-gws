@@ -26,12 +26,22 @@ function Mammal:print()
   print("Mammal name: " .. self.name)
 end
 
+---
+-- @param #Mammal self
+function Mammal:abstractFunc()
+  self:throwAbstractFunctionError()
+end
+
 
 
 ---
 -- @type Person
 -- @extends #Mammal
 Person = Mammal:extend()
+
+function Person:abstractFunc()
+  print("Hello from function overriding abstractFunc")
+end
 
 
 
@@ -97,6 +107,7 @@ local function test()
 
   local person = Person:new("Charlie Brown")
   person:print()
+  person:abstractFunc()
 
   local dog = Dog:new("Snoopy", person)
   dog:print()
