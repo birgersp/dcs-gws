@@ -43,7 +43,7 @@ autogft_Reinforcer = autogft_Class:create()
 function autogft_Reinforcer:new()
   self = self:createInstance()
   self.baseZones = {}
-  self.countryID = -1
+  self.countryID = nil
   self.unitSkill = "High"
   return self
 end
@@ -105,6 +105,12 @@ function autogft_Reinforcer:assertHasBaseZones()
 end
 
 ---
+-- @param #Reinforcer self
+function autogft_Reinforcer:reinforce()
+  self:throwAbstractFunctionError()
+end
+
+---
 -- @type SpecificUnitReinforcer
 -- @field map#Map groupsUnitSpecs
 -- @extends #Reinforcer
@@ -121,17 +127,52 @@ end
 
 ---
 -- @param #SpecificUnitReinforcer self
--- @param group#Group group
--- @param #list<unitspec#UnitSpec> unitSpecs
-function autogft_SpecificUnitReinforcer:setGroupUnitSpecs(group, unitSpecs)
-  self.groupsUnitSpecs:put(group, unitSpecs)
+function autogft_SpecificUnitReinforcer:assertHasGroupsUnitSpecs()
+  assert(self.groupsUnitSpecs.length, "No group unit specifications. Use \"setGroupUnitSpecs\" to set group unit specifications.")
 end
 
 ---
 -- @param #SpecificUnitReinforcer self
-function autogft_SpecificUnitReinforcer:assertHasGroupsUnitSpecs()
-  autogft.log(self.groupsUnitSpecs)
-  assert(self.groupsUnitSpecs.length, "No group unit specifications. Use \"setGroupUnitSpecs\" to set group unit specifications.")
+-- @param #list<DCSUnit#Unit> availableUnits
+function autogft_SpecificUnitReinforcer:reinforceFromUnits(availableUnits)
+  local takenUnitIndices = {}
+  for groupID, _ in pairs(self.groupsUnitSpecs.keys) do
+    local group = self.groupsUnitSpecs.keys[groupID] --group#Group
+
+    if not group:exists() then
+      local newUnits = {}
+      local unitSpecs = self.groupsUnitSpecs:get(group)
+      for unitSpecIndex = 1, #unitSpecs do
+        local unitSpec = unitSpecs[unitSpecIndex] --unitspec#UnitSpec
+
+        local addedGroupUnitsCount = 0
+
+        local availableUnitIndex = 1
+        while addedGroupUnitsCount < unitSpec.count and availableUnitIndex <= #availableUnits do
+          local unit = availableUnits[availableUnitIndex]
+          if unit:isExist()
+            and not takenUnitIndices[availableUnitIndex]
+            and unit:getTypeName() == unitSpec.type then
+            local x = unit:getPosition().p.x
+            local y = unit:getPosition().p.z
+            local heading = autogft.getUnitHeading(unit)
+
+            newUnits[#newUnits + 1] = autogft_ReinforcerUnit:new(unitSpec.type, unit:getName(), x, y, heading)
+            takenUnitIndices[availableUnitIndex] = true
+            addedGroupUnitsCount = addedGroupUnitsCount + 1
+          end
+          availableUnitIndex = availableUnitIndex + 1
+        end
+
+        if #takenUnitIndices >= #availableUnits then
+          break
+        end
+      end
+
+      self:addGroupUnits(group, newUnits)
+      group:advance()
+    end
+  end
 end
 
 ---
@@ -206,7 +247,7 @@ autogft_SelectingReinforcer = autogft_SpecificUnitReinforcer:extend()
 -- @return #SelectingReinforcer
 function autogft_SelectingReinforcer:new()
   self = autogft_SelectingReinforcer:createInstance()
-  self.coalitionID = -1
+  self.coalitionID = nil
   return self
 end
 
@@ -226,48 +267,9 @@ function autogft_SelectingReinforcer:reinforce()
   self:assertHasGroupsUnitSpecs()
 
   local availableUnits = autogft.getUnitsInZones(self.coalitionID, self.baseZones)
-  if #availableUnits <= 0 then
-    do return end
-  end
-
-  local takenUnitIndices = {}
-
-  for groupID, _ in pairs(self.groupsUnitSpecs.keys) do
-    local group = self.groupsUnitSpecs.keys[groupID] --group#Group
-
-    if not group:exists() then
-      local newUnits = {}
-      local unitSpecs = self.groupsUnitSpecs:get(group)
-      for unitSpecIndex = 1, #unitSpecs do
-        local unitSpec = unitSpecs[unitSpecIndex] --unitspec#UnitSpec
-
-        local addedGroupUnitsCount = 0
-
-        local availableUnitIndex = 1
-        while addedGroupUnitsCount < unitSpec.count and availableUnitIndex <= #availableUnits do
-          local unit = availableUnits[availableUnitIndex]
-          if unit:isExist()
-            and not takenUnitIndices[availableUnitIndex]
-            and unit:getTypeName() == unitSpec.type then
-            local x = unit:getPosition().p.x
-            local y = unit:getPosition().p.z
-            local heading = autogft.getUnitHeading(unit)
-
-            newUnits[#newUnits + 1] = autogft_ReinforcerUnit:new(unitSpec.type, unit:getName(), x, y, heading)
-            takenUnitIndices[availableUnitIndex] = true
-            addedGroupUnitsCount = addedGroupUnitsCount + 1
-          end
-          availableUnitIndex = availableUnitIndex + 1
-        end
-
-        if #takenUnitIndices >= #availableUnits then
-          break
-        end
-      end
-
-      self:addGroupUnits(group, newUnits)
-      group:advance()
-
-    end
+  autogft.log(self)
+  autogft.log(coalition.side.BLUE)
+  if #availableUnits > 0 then
+    self:reinforceFromUnits(availableUnits)
   end
 end
