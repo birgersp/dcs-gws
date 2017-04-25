@@ -1,8 +1,6 @@
 
-
 package.path = package.path .. ";../autogft/?.lua"
 require("core")
-autogft.debugMode = true
 
 local obj1 = {}
 local obj2 = {}
