@@ -3,7 +3,7 @@
 -- Using roads example
 -- This task force will use roads when advanding between certain tasks
 
-autogft_TaskForce:new()
+autogft_Setup:new()
   :addBaseZone("BLUE_BASE2")
   :addControlZone("CONTROL1")
   :startUsingRoads() -- (use roads to get to CONTROL2 and CONTROL5)

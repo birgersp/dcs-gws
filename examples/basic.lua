@@ -15,7 +15,7 @@
 -- Adding base zone(s)
 -- Adding control zone(s)
 
-autogft_TaskForce:new()
+autogft_Setup:new()
   :addBaseZone("BLUE_BASE1")
   :addControlZone("CONTROL1")
   :addControlZone("CONTROL2")
@@ -25,7 +25,7 @@ autogft_TaskForce:new()
 --- 
 -- (RED TASK FORCE)
 
-autogft_TaskForce:new()
+autogft_Setup:new()
   :addBaseZone("RED_BASE")
   :addControlZone("CONTROL5")
   :addControlZone("CONTROL2")
