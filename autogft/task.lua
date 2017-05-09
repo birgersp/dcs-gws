@@ -28,6 +28,13 @@ function autogft_Task:isAccomplished()
 end
 
 ---
+-- @param #Task self
+-- @return vector2#Vector2
+function autogft_Task:getLocation()
+  self:throwAbstractFunctionError()
+end
+
+---
 -- @type ZoneTask
 -- @extends #Task
 -- @field DCSZone#Zone zone
@@ -41,6 +48,17 @@ function autogft_ZoneTask:new(zoneName)
   self.zone = trigger.misc.getZone(zoneName)
   assert(self.zone, "Zone \"" .. zoneName .. "\" does not exist in this mission.")
   return self
+end
+
+---
+-- @param #ZoneTask self
+-- @return vector2#Vector2
+function autogft_ZoneTask:getLocation()
+  local radius = self.zone.radius
+  local zonePos = autogft_Vector2:new(self.zone.point.x, self.zone.point.z)
+  local randomAngle = math.random(math.pi * 2)
+  local randomPos = autogft_Vector2:new(math.cos(randomAngle), math.sin(randomAngle)):scale(radius * 0.75)
+  return zonePos:plus(randomPos)
 end
 
 ---

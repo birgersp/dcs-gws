@@ -10,8 +10,9 @@
 -- @field DCSUnit#Unit groupLead
 -- @field #number destination
 -- @field #boolean progressing
--- @field #number routeOvershootM (Default is 500)
--- @field #number maxDistanceM (Default is 10000)
+-- @field #number routeOvershootM
+-- @field #number maxDistanceM
+-- @field #number usingRoadDistanceThresholdM
 autogft_Group = autogft_Class:create()
 
 ---
@@ -25,6 +26,7 @@ function autogft_Group:new(taskSequence)
   self.progressing = true
   self.routeOvershootM = 500
   self.maxDistanceM = 10000
+  self.usingRoadDistanceThresholdM = 3000
   self:setDCSGroup(nil)
   return self
 end
@@ -124,40 +126,25 @@ end
 -- @return #Group
 function autogft_Group:forceAdvance()
 
-  local destination
-
   local destinationTask = self.taskSequence.tasks[self.destinationIndex]
-  local destinationZone = self.taskSequence.tasks[self.destinationIndex].zone
-  local destinationZonePos = autogft_Vector2:new(destinationZone.point.x, destinationZone.point.z)
+  local destination = destinationTask:getLocation()
   local groupLeadPosDCS = self.groupLead:getPosition().p
   local groupPos = autogft_Vector2:new(groupLeadPosDCS.x, groupLeadPosDCS.z)
-  local groupToZone = destinationZonePos:minus(groupPos)
-  local groupToZoneMag = groupToZone:getMagnitude()
+  local groupToDestination = destination:minus(groupPos)
+  local groupToDestinationMag = groupToDestination:getMagnitude()
+  local shortened = false
 
   -- If the task force has a "max distance" specified
   if self.maxDistanceM > 0 then
     local units = self.dcsGroup:getUnits()
 
-    if groupToZoneMag - destinationZone.radius > self.maxDistanceM then
-      local destinationX = groupPos.x + groupToZone.x / groupToZoneMag * self.maxDistanceM
-      local destinationY = groupPos.y + groupToZone.y / groupToZoneMag * self.maxDistanceM
+    -- If distance to destination is greater than max distance
+    if groupToDestinationMag > self.maxDistanceM then
+      local destinationX = groupPos.x + groupToDestination.x / groupToDestinationMag * self.maxDistanceM
+      local destinationY = groupPos.y + groupToDestination.y / groupToDestinationMag * self.maxDistanceM
       destination = autogft_Vector2:new(destinationX, destinationY)
+      shortened = true
     end
-  end
-
-  -- Determine if destination position is shortened
-  local shortened = false
-  if destination then
-    shortened = true
-  else
-    -- If not shortened, use random point
-    local radius = destinationZone.radius - self.routeOvershootM
-    if radius < 0 then
-      radius = 0
-    end
-    local randomAngle = math.random(math.pi * 2)
-    local randomPos = autogft_Vector2:new(math.cos(randomAngle), math.sin(randomAngle)):scale(radius)
-    destination = destinationZonePos:plus(randomPos)
   end
 
   -- (Whether to use roads or not, depends on the next task)
@@ -179,8 +166,8 @@ function autogft_Group:forceAdvance()
 
   addWaypoint(groupPos.x, groupPos.y)
 
-  -- Only use roads if group is at a certain distance away from zone
-  if useRoads and groupToZoneMag > (destinationZone.radius * 1.5) then
+  -- Only use roads if group is at a certain distance away from destination
+  if useRoads and groupToDestinationMag > self.usingRoadDistanceThresholdM then
     addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
     addWaypoint(destination.x, destination.y, true)
   end
