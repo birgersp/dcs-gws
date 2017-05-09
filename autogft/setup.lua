@@ -227,6 +227,9 @@ end
 -- @param #Setup self
 -- @return #Setup This instance (self)
 function autogft_Setup:reinforce()
+  if self.taskSequence.currentTaskIndex == 0 then
+    self:updateTarget()
+  end
   self.reinforcer:reinforce()
 end
 
