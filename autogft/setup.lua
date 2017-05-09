@@ -14,7 +14,7 @@
 -- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
 -- @field #number advancementTimerId Advancement timer identifier
 -- @field tasksequence#TaskSequence taskSequence Task sequence
--- @field reinforcer#SpecificUnitReinforcer reinforcer
+-- @field reinforcer#Reinforcer reinforcer
 -- @field group#Group lastAddedGroup
 autogft_Setup = autogft_Class:create()
 
@@ -97,8 +97,10 @@ function autogft_Setup:autoInitialize()
     self:setCountry(unitsInBases[1]:getCountry())
   end
 
-  if self.reinforcer.groupsUnitSpecs.length <= 0 then
-    self:autoAddUnitLayoutFromBases()
+  if self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+    if self.reinforcer.groupsUnitSpecs.length <= 0 then
+      self:autoAddUnitLayoutFromBases()
+    end
   end
 
   if #self.reinforcer.baseZones > 0 then
@@ -433,6 +435,7 @@ end
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:addUnits(count, type)
+  assert(self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer), "Cannot add units with this function to this type of reinforcer")
   if not self.lastAddedGroup then self:addGroup() end
   local unitSpecs = self.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
   unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, type)
@@ -446,7 +449,9 @@ end
 function autogft_Setup:useStaging()
   local baseMessage = "Cannot change task force reinforcing policy after base zones have been added."
   assert(#self.reinforcer.baseZones == 0, baseMessage .. " Invoke \"useStaging\" before adding base zones.")
-  assert(self.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. " Invoke \"useStaging\" before add units.")
+  if self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+    assert(self.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. " Invoke \"useStaging\" before add units.")
+  end
   self.reinforcer = autogft_SelectingReinforcer:new()
   return self
 end
