@@ -267,8 +267,6 @@ function autogft_SelectingReinforcer:reinforce()
   self:assertHasGroupsUnitSpecs()
 
   local availableUnits = autogft.getUnitsInZones(self.coalitionID, self.baseZones)
-  autogft.log(self)
-  autogft.log(coalition.side.BLUE)
   if #availableUnits > 0 then
     self:reinforceFromUnits(availableUnits)
   end

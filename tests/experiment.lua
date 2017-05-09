@@ -5,9 +5,10 @@ if not initialized then
 
   autogft_Setup:new()
     :addBaseZone("BLUE_BASE3")
-    :addIntermidiateZone("CONTROL1")
-    :addIntermidiateZone("CONTROL2")
-    :addIntermidiateZone("CONTROL3")
+    :addControlZone("CONTROL1")
+    :addControlZone("CONTROL2")
+    :addControlZone("CONTROL3")
+    :setAdvancementTimer(60)
 
   initialized = true
 

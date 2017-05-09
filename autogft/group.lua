@@ -8,7 +8,7 @@
 -- @field tasksequence#TaskSequence taskSequence
 -- @field DCSGroup#Group dcsGroup
 -- @field DCSUnit#Unit groupLead
--- @field #number destination
+-- @field #number destinationIndex
 -- @field #boolean progressing
 -- @field #number routeOvershootM
 -- @field #number maxDistanceM
@@ -23,6 +23,7 @@ function autogft_Group:new(taskSequence)
   self = self:createInstance()
   self.unitSpecs = {}
   self.taskSequence = taskSequence
+  self.destinationIndex = 1
   self.progressing = true
   self.routeOvershootM = 500
   self.maxDistanceM = 10000
@@ -89,20 +90,55 @@ function autogft_Group:advance()
   self:updateGroupLead()
   if self.groupLead then
 
-    local currentDestination = self.destinationIndex
-    local destinationZone = self.taskSequence.tasks[self.destinationIndex].zone
-    if autogft.unitIsWithinZone(self.groupLead, destinationZone) then
-      -- If destination reached, update target
-      if self.destinationIndex < self.taskSequence.currentTaskIndex then
-        self.destinationIndex = self.destinationIndex + 1
-        self.progressing = true
-      elseif self.destinationIndex > self.taskSequence.currentTaskIndex then
-        self.destinationIndex = self.destinationIndex - 1
-        self.progressing = false
+    local previousDestination = self.destinationIndex
+    local currentTaskIndex = self.taskSequence.currentTaskIndex
+    if previousDestination <= currentTaskIndex then
+      self.progressing = true
+    elseif previousDestination > currentTaskIndex then
+      self.progressing = false
+    end
+
+    -- Determine next destination, nil means undetermined
+    local destinationIndex = previousDestination
+    local nextDestination = nil
+    while not nextDestination do
+
+      -- If destination is current task
+      if destinationIndex == currentTaskIndex then
+        nextDestination = destinationIndex
+      else
+        -- Else if destination index is out of bounds
+        if destinationIndex < 1 then
+          nextDestination = 1
+        elseif destinationIndex > #self.taskSequence.tasks then
+          nextDestination = #self.taskSequence.tasks
+        end
+      end
+
+      if not nextDestination then
+        -- If task is zone task, check if reached
+        local task = self.taskSequence.tasks[destinationIndex]
+        if task:instanceOf(autogft_ZoneTask) then
+          local zone = task.zone --DCSZone#Zone
+          -- If not reached, set as destination
+          if not autogft.unitIsWithinZone(self.groupLead, zone) then
+            nextDestination = destinationIndex
+          end
+        end
+      end
+
+      if not nextDestination then
+        -- Increment / decrement destination
+        if self.progressing then
+          destinationIndex = destinationIndex + 1
+        else
+          destinationIndex = destinationIndex - 1
+        end
       end
     end
 
-    if currentDestination ~= self.destinationIndex then
+    self.destinationIndex = nextDestination
+    if previousDestination ~= self.destinationIndex then
       self:forceAdvance()
     else
       local prevPos = self.groupLead:getPosition().p
@@ -149,8 +185,8 @@ function autogft_Group:forceAdvance()
 
   -- (Whether to use roads or not, depends on the next task)
   local nextTask = destinationTask
-  if not self.progressing then
-    nextTask = self.taskSequence.tasks[self.destinationIndex + 1]
+  if not self.progressing and self.destinationIndex > 1 then
+    nextTask = self.taskSequence.tasks[self.destinationIndex - 1]
   end
   local useRoads = nextTask.useRoads
 
