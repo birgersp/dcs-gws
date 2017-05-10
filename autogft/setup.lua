@@ -5,37 +5,33 @@
 ---
 -- @type Setup
 -- @extends class#Class
--- @field #number coalition Coalition ID
--- @field #number speed Desired speed of moving units, in m/s (default: max speed)
--- @field #number maxDistanceKM Maximum distance of task force routes between each advancement, in kilometres (default: 10)
--- @field #boolean useRoads Wether the task force should use roads or not (default: false)
--- @field #string skill Skill of units (default: "High")
--- @field #number reinforcementTimerId Reinforcement timer identifier
--- @field #number stopReinforcementTimerId Reinforcement stopping timer identifier
--- @field #number advancementTimerId Advancement timer identifier
--- @field tasksequence#TaskSequence taskSequence Task sequence
--- @field reinforcer#Reinforcer reinforcer
+-- @field taskforce#TaskForce taskForce
+-- @field #number coalition
+-- @field #number speed
+-- @field #number maxDistanceKM
+-- @field #boolean useRoads
+-- @field #string skill
+-- @field #number reinforcementTimerId
+-- @field #number stopReinforcementTimerId
+-- @field #number advancementTimerId
 -- @field group#Group lastAddedGroup
 autogft_Setup = autogft_Class:create()
 
 ---
 -- Creates a new task force instance.
--- To override, use ${Setup.setReinforceTimer} or ${Setup.setRespawnTimer}.
 -- @param #Setup self
 -- @return #Setup This instance (self)
 function autogft_Setup:new()
 
   self = self:createInstance()
+  self.taskForce = autogft_TaskForce:new()
   self.coalition = nil
   self.speed = 9999
   self.maxDistanceKM = 10
   self.useRoads = false
   self.reinforcementTimerId = nil
   self.advancementTimerId = nil
-  self.taskSequence = autogft_TaskSequence:new()
-  self.reinforcer = autogft_RespawningReinforcer:new()
   self.lastAddedGroup = nil
-  self.groups = {}
 
   local function autoInitialize()
     self:autoInitialize()
@@ -90,21 +86,21 @@ end
 function autogft_Setup:autoInitialize()
 
   if not self.coalition then
-    local unitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.reinforcer.baseZones)
+    local unitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.taskForce.reinforcer.baseZones)
     if #unitsInBases == 0 then
-      unitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.reinforcer.baseZones)
+      unitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.taskForce.reinforcer.baseZones)
     end
     assert(#unitsInBases > 0, "Could not determine task force coalition")
     self:setCountry(unitsInBases[1]:getCountry())
   end
 
-  if self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
-    if self.reinforcer.groupsUnitSpecs.length <= 0 then
+  if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+    if self.taskForce.reinforcer.groupsUnitSpecs.length <= 0 then
       self:autoAddUnitLayoutFromBases()
     end
   end
 
-  if #self.reinforcer.baseZones > 0 then
+  if #self.taskForce.reinforcer.baseZones > 0 then
     if not self.reinforcementTimerId then
       self:setReinforceTimer(600)
     end
@@ -168,7 +164,7 @@ end
 function autogft_Setup:autoAddUnitLayoutFromBases()
 
   -- Determine coalition based on units in base zones
-  local ownUnitsInBases = autogft.getUnitsInZones(self.coalition, self.reinforcer.baseZones)
+  local ownUnitsInBases = autogft.getUnitsInZones(self.coalition, self.taskForce.reinforcer.baseZones)
 
   if #ownUnitsInBases > 0 then
     self:autoAddUnitLayout(ownUnitsInBases)
@@ -206,7 +202,7 @@ end
 function autogft_Setup:addTask(task)
   task.useRoads = self.useRoads
   task.speed = self.speed
-  self.taskSequence:addTask(task)
+  self.taskForce.taskSequence:addTask(task)
   return self
 end
 
@@ -218,40 +214,10 @@ end
 -- @return #Setup This instance (self)
 function autogft_Setup:addGroup()
 
-  self.groups[#self.groups + 1] = autogft_Group:new(self.taskSequence)
-  self.lastAddedGroup = self.groups[#self.groups]
-  if self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
-    self.reinforcer.groupsUnitSpecs:put(self.lastAddedGroup, {})
-  end
-  return self
-end
-
----
--- Triggers task force reinforcing.
--- @param #Setup self
--- @return #Setup This instance (self)
-function autogft_Setup:reinforce()
-  if self.taskSequence.currentTaskIndex == 0 then
-    self:updateTarget()
-  end
-  self.reinforcer:reinforce()
-end
-
----
--- Checks the status of tasks, and sets the current target task (@{#Setup.target}) of this task force.
--- @param #Setup self
-function autogft_Setup:updateTarget()
-  self.taskSequence:updateCurrentTask()
-end
-
----
--- Sets all units to move towards the current target.
--- @param #Setup self
--- @return #Setup This instance (self)
-function autogft_Setup:advance()
-  assert(#self.taskSequence.tasks > 0, "Task force has no tasks. Use \"addControlTask\" to add a control zone task.")
-  for _, group in pairs(self.groups) do
-    if group:exists() then group:advance() end
+  self.taskForce.groups[#self.taskForce.groups + 1] = autogft_Group:new(self.taskForce.taskSequence)
+  self.lastAddedGroup = self.taskForce.groups[#self.taskForce.groups]
+  if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+    self.taskForce.reinforcer.groupsUnitSpecs:put(self.lastAddedGroup, {})
   end
   return self
 end
@@ -265,8 +231,8 @@ end
 function autogft_Setup:setAdvancementTimer(timeInterval)
   self:stopAdvancementTimer()
   local function updateAndAdvance()
-    self:updateTarget()
-    self:advance()
+    self.taskForce:updateTarget()
+    self.taskForce:advance()
     self.advancementTimerId = autogft.scheduleFunction(updateAndAdvance, timeInterval)
   end
   self.advancementTimerId = autogft.scheduleFunction(updateAndAdvance, timeInterval)
@@ -282,10 +248,10 @@ end
 function autogft_Setup:setReinforceTimer(timeInterval)
   self:stopReinforcing()
 
-  assert(#self.reinforcer.baseZones > 0, "Cannot set reinforcing timer for this task force, no base zones are declared.")
+  assert(#self.taskForce.reinforcer.baseZones > 0, "Cannot set reinforcing timer for this task force, no base zones are declared.")
 
   local function reinforce()
-    self:reinforce()
+    self.taskForce:reinforce()
     self.reinforcementTimerId = autogft.scheduleFunction(reinforce, timeInterval)
   end
   autogft.scheduleFunction(reinforce, 5)
@@ -299,7 +265,7 @@ end
 -- @param DCSUnit#Unit unit Unit in question
 -- @return #boolean True if this task force contains the unit, false otherwise.
 function autogft_Setup:containsUnit(unit)
-  for _, group in pairs(self.reinforcer.groupsUnitSpecs.keys) do
+  for _, group in pairs(self.taskForce.reinforcer.groupsUnitSpecs.keys) do
     if group:containsUnit(unit) then return true end
   end
   return false
@@ -313,14 +279,14 @@ end
 function autogft_Setup:setCountry(country)
   self.coalition = coalition.getCountryCoalition(country)
   -- Update capturing tasks coalition
-  for i = 1, #self.taskSequence.tasks do
-    local task = self.taskSequence.tasks[i]
+  for i = 1, #self.taskForce.taskSequence.tasks do
+    local task = self.taskForce.taskSequence.tasks[i]
     if task:instanceOf(autogft_CaptureTask) then
       task.coalition = self.coalition
     end
   end
   -- Update reinforcer
-  self.reinforcer:setCountryID(country)
+  self.taskForce.reinforcer:setCountryID(country)
   return self
 end
 
@@ -330,7 +296,7 @@ end
 -- @param #string zoneName Name of base zone
 -- @return #Setup This instance (self)
 function autogft_Setup:addBaseZone(zoneName)
-  self.reinforcer:addBaseZone(zoneName)
+  self.taskForce.reinforcer:addBaseZone(zoneName)
   return self
 end
 
@@ -373,7 +339,7 @@ end
 -- @return #Setup This instance (self)
 function autogft_Setup:setSpeed(speed)
   self.speed = speed
-  if #self.taskSequence.tasks > 0 then self.taskSequence.tasks[#self.taskSequence.tasks].speed = self.speed end
+  if #self.taskForce.taskSequence.tasks > 0 then self.taskForce.taskSequence.tasks[#self.taskForce.taskSequence.tasks].speed = self.speed end
   return self
 end
 
@@ -409,10 +375,10 @@ function autogft_Setup:scanUnits(groupNamePrefix)
     if not self.country then
       self:setCountry(availableUnits[1]:getCountry())
     end
-    if self.reinforcer.groupsUnitSpecs.length <= 0 then
+    if self.taskForce.reinforcer.groupsUnitSpecs.length <= 0 then
       self:autoAddUnitLayout(availableUnits)
     end
-    self.reinforcer:reinforceFromUnits(availableUnits)
+    self.taskForce.reinforcer:reinforceFromUnits(availableUnits)
   end
 
   return self
@@ -442,9 +408,9 @@ end
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:addUnits(count, type)
-  assert(self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer), "Cannot add units with this function to this type of reinforcer")
+  assert(self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer), "Cannot add units with this function to this type of reinforcer")
   if not self.lastAddedGroup then self:addGroup() end
-  local unitSpecs = self.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
+  local unitSpecs = self.taskForce.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
   unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, type)
   return self
 end
@@ -455,10 +421,10 @@ end
 -- @return #Setup
 function autogft_Setup:useStaging()
   local baseMessage = "Cannot change task force reinforcing policy after base zones have been added."
-  assert(#self.reinforcer.baseZones == 0, baseMessage .. " Invoke \"useStaging\" before adding base zones.")
-  if self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
-    assert(self.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. " Invoke \"useStaging\" before add units.")
+  assert(#self.taskForce.reinforcer.baseZones == 0, baseMessage .. " Invoke \"useStaging\" before adding base zones.")
+  if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+    assert(self.taskForce.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. " Invoke \"useStaging\" before add units.")
   end
-  self.reinforcer = autogft_SelectingReinforcer:new()
+  self.taskForce.reinforcer = autogft_SelectingReinforcer:new()
   return self
 end
