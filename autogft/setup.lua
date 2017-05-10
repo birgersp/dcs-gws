@@ -19,7 +19,7 @@
 autogft_Setup = autogft_Class:create()
 
 ---
--- Creates a new task force instance.
+-- Creates a new setup instance.
 -- @param #Setup self
 -- @return #Setup This instance (self)
 function autogft_Setup:new()
@@ -190,7 +190,8 @@ function autogft_Setup:stopAdvancementTimer()
 end
 
 ---
--- Adds an intermidiate zone task (see @{task#taskTypes.INTERMIDIATE}).
+-- Adds an intermidiate zone task.
+-- Task force units advancing through the task list will move through this task zone to get to the next one.
 -- @param #Setup self
 -- @param #string zoneName
 -- @return #Setup
@@ -353,7 +354,7 @@ end
 ---
 -- Scans the map once for any pre-existing units to control in this task force.
 -- Groups with name starting with the scan prefix will be considered.
--- A task force will only take control of units according to the task force unit specification.
+-- A task force will only take control of units according to the task force unit specification (added units).
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:scanUnits(groupNamePrefix)
