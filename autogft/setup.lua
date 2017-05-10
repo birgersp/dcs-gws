@@ -35,6 +35,7 @@ function autogft_Setup:new()
   self.taskSequence = autogft_TaskSequence:new()
   self.reinforcer = autogft_RespawningReinforcer:new()
   self.lastAddedGroup = nil
+  self.groups = {}
 
   local function autoInitialize()
     self:autoInitialize()
@@ -216,9 +217,12 @@ end
 -- @param #Setup self
 -- @return #Setup This instance (self)
 function autogft_Setup:addGroup()
-  local unitSpec = autogft_UnitSpec:new(0, "")
-  self.lastAddedGroup = autogft_Group:new(self.taskSequence)
-  self.reinforcer.groupsUnitSpecs:put(self.lastAddedGroup, {})
+
+  self.groups[#self.groups + 1] = autogft_Group:new(self.taskSequence)
+  self.lastAddedGroup = self.groups[#self.groups]
+  if self.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+    self.reinforcer.groupsUnitSpecs:put(self.lastAddedGroup, {})
+  end
   return self
 end
 
@@ -246,7 +250,7 @@ end
 -- @return #Setup This instance (self)
 function autogft_Setup:advance()
   assert(#self.taskSequence.tasks > 0, "Task force has no tasks. Use \"addControlTask\" to add a control zone task.")
-  for _, group in pairs(self.reinforcer.groupsUnitSpecs.keys) do
+  for _, group in pairs(self.groups) do
     if group:exists() then group:advance() end
   end
   return self
