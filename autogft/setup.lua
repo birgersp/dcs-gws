@@ -94,7 +94,7 @@ function autogft_Setup:autoInitialize()
     if #unitsInBases == 0 then
       unitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.taskForce.reinforcer.baseZones)
     end
-    assert(#unitsInBases > 0, "Could not determine task force coalition")
+    assert(#unitsInBases > 0, "Could not determine task force coalition, please set country.")
     self:setCountry(unitsInBases[1]:getCountry())
   end
 
@@ -415,7 +415,7 @@ end
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:addUnits(count, type)
-  assert(self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer), "Cannot add units with this function to this type of reinforcer")
+  assert(self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer), "Cannot add units with this function to this type of reinforcer.")
   if not self.lastAddedGroup then self:addGroup() end
   local unitSpecs = self.taskForce.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
   unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, type)
@@ -427,11 +427,7 @@ end
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:useStaging()
-  local baseMessage = "Cannot change task force reinforcing policy after base zones have been added."
-  assert(#self.taskForce.reinforcer.baseZones == 0, baseMessage .. " Invoke \"useStaging\" before adding base zones.")
-  if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
-    assert(self.taskForce.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. " Invoke \"useStaging\" before add units.")
-  end
+  self:assertCanChangeReinforcer()
   self.taskForce.reinforcer = autogft_SelectingReinforcer:new()
   return self
 end
@@ -444,11 +440,11 @@ end
 function autogft_Setup:linkBase(zoneName, groupName)
   assert(trigger.misc.getZone(zoneName), "Cannot link base. Zone \"" .. zoneName .. "\" does not exist in this mission.")
   self.baseLinks:put(zoneName, groupName)
+  return self
 end
 
 ---
 -- @param #Setup self
--- @return #Setup
 function autogft_Setup:checkBaseLinks()
 
   for _, zoneName in pairs(self.baseLinks.keys) do
@@ -474,5 +470,42 @@ function autogft_Setup:checkBaseLinks()
         self.taskForce.reinforcer.baseZones[baseZoneI] = nil
       end
     end
+  end
+end
+
+---
+-- @param #Setup self
+-- @return #Setup
+function autogft_Setup:useRandomUnits()
+  self:assertCanChangeReinforcer()
+  self.taskForce.reinforcer = autogft_RandomReinforcer:new()
+  return self
+end
+
+---
+-- @param #Setup self
+-- @param #number max
+-- @param #string type
+-- @param #number minimum
+-- @return #Setup
+function autogft_Setup:addRandomUnitAlternative(max, type, minimum)
+  if not self.taskForce.reinforcer:instanceOf(autogft_RandomReinforcer) then
+    self:useRandomUnits()
+  end
+  local reinforcer = self.taskForce.reinforcer --reinforcer#RandomReinforcer
+  if not self.lastAddedGroup then self:addGroup() end
+  local unitSpecs = self.taskForce.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
+  unitSpecs[#unitSpecs + 1] = autogft_RandomUnitSpec:new(max, type, minimum)
+  return self
+end
+
+---
+-- @param #Setup self
+function autogft_Setup:assertCanChangeReinforcer()
+  local baseMessage = "Cannot change task force reinforcing policy: "
+  assert(self.coalition == nil, baseMessage .. "Coalition/country already set.")
+  assert(#self.taskForce.reinforcer.baseZones == 0, baseMessage .. "Bases already added, invoke \"useStaging\" before adding base zones.")
+  if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+    assert(self.taskForce.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. "Groups/units already added, invoke \"useStaging\" before addding units.")
   end
 end

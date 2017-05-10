@@ -271,3 +271,70 @@ function autogft_SelectingReinforcer:reinforce()
     self:reinforceFromUnits(availableUnits)
   end
 end
+
+---
+-- @type RandomUnitSpec
+-- @extends unitspec#UnitSpec
+-- @field #number minimum
+-- @field #number diff
+autogft_RandomUnitSpec = autogft_UnitSpec:extend()
+
+---
+-- @param #RandomUnitSpec self
+-- @param #number
+function autogft_RandomUnitSpec:new(count, type, minimum)
+  if minimum == nil then minimum = 0 end
+  self = self:createInstance(autogft_UnitSpec:new(count, type))
+  self.minimum = minimum
+  self.diff = count - minimum
+  return self
+end
+
+---
+-- @type RandomReinforcer
+-- @extends #SpecificUnitReinforcer
+-- @field #RespawningReinforcer respawningReinforcer
+autogft_RandomReinforcer = autogft_SpecificUnitReinforcer:extend()
+
+---
+-- @param #RandomReinforcer self
+-- @return #RandomReinforcer
+function autogft_RandomReinforcer:new()
+  self = self:createInstance()
+  self.respawningReinforcer = autogft_RespawningReinforcer:new()
+  self.respawningReinforcer.baseZones = self.baseZones
+  return self
+end
+
+---
+-- @param #RandomReinforcer self
+function autogft_RandomReinforcer:reinforce()
+  for _, group in pairs(self.groupsUnitSpecs.keys) do
+    local randomUnitSpecs = self.groupsUnitSpecs:get(group) --#list<#RandomUnitSpec>
+    local unitSpecs = {}
+    for i = 1, #randomUnitSpecs do
+      local randomUnitSpec = randomUnitSpecs[i]
+      local random = math.floor(math.random(randomUnitSpec.diff + 0.9999))
+      local count = randomUnitSpec.minimum + random
+      unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, randomUnitSpec.type)
+    end
+    self.respawningReinforcer.groupsUnitSpecs:put(group, unitSpecs)
+  end
+  self.respawningReinforcer:reinforce()
+end
+
+---
+-- @param #RandomReinforcer self
+-- @param group#Group group
+-- @param #list<#RandomUnitSpec> randomUnitSpecs
+function autogft_RandomReinforcer:setGroupUnitSpecs(group, randomUnitSpecs)
+  self.groupsUnitSpecs:put(group, randomUnitSpecs)
+end
+
+---
+-- @param #RandomReinforcer self
+-- @param #number id
+function autogft_RandomReinforcer:setCountryID(id)
+  autogft_Reinforcer.setCountryID(self, id)
+  self.respawningReinforcer:setCountryID(id)
+end

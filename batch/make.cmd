@@ -2,6 +2,9 @@
 
 set sources=^
  autogft\class.lua^
+ autogft\unitspec.lua^
+ autogft\vector2.lua^
+ autogft\vector3.lua^
  autogft\controlzone.lua^
  autogft\group.lua^
  autogft\groupcommand.lua^
@@ -12,10 +15,7 @@ set sources=^
  autogft\taskforce.lua^
  autogft\tasksequence.lua^
  autogft\unitcluster.lua^
- autogft\unitspec.lua^
  autogft\util.lua^
- autogft\vector2.lua^
- autogft\vector3.lua^
  autogft\waypoint.lua^
  unit-types\unit-types.lua
 
