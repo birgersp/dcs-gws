@@ -15,6 +15,7 @@
 -- @field #number stopReinforcementTimerId
 -- @field #number advancementTimerId
 -- @field group#Group lastAddedGroup
+-- @field map#Map baseLinks
 autogft_Setup = autogft_Class:create()
 
 ---
@@ -32,6 +33,7 @@ function autogft_Setup:new()
   self.reinforcementTimerId = nil
   self.advancementTimerId = nil
   self.lastAddedGroup = nil
+  self.baseLinks = autogft_Map:new()
 
   local function autoInitialize()
     self:autoInitialize()
@@ -84,6 +86,8 @@ end
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:autoInitialize()
+
+  self.taskForce.reinforcer:assertHasBaseZones()
 
   if not self.coalition then
     local unitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.taskForce.reinforcer.baseZones)
@@ -251,8 +255,11 @@ function autogft_Setup:setReinforceTimer(timeInterval)
   assert(#self.taskForce.reinforcer.baseZones > 0, "Cannot set reinforcing timer for this task force, no base zones are declared.")
 
   local function reinforce()
-    self.taskForce:reinforce()
-    self.reinforcementTimerId = autogft.scheduleFunction(reinforce, timeInterval)
+    self:checkBaseLinks()
+    if #self.taskForce.reinforcer.baseZones > 0 then
+      self.taskForce:reinforce()
+      self.reinforcementTimerId = autogft.scheduleFunction(reinforce, timeInterval)
+    end
   end
   autogft.scheduleFunction(reinforce, 5)
 
@@ -427,4 +434,45 @@ function autogft_Setup:useStaging()
   end
   self.taskForce.reinforcer = autogft_SelectingReinforcer:new()
   return self
+end
+
+---
+-- @param #Setup self
+-- @param #string zoneName
+-- @param #string groupName
+-- @return #Setup
+function autogft_Setup:linkBase(zoneName, groupName)
+  assert(trigger.misc.getZone(zoneName), "Cannot link base. Zone \"" .. zoneName .. "\" does not exist in this mission.")
+  self.baseLinks:put(zoneName, groupName)
+end
+
+---
+-- @param #Setup self
+-- @return #Setup
+function autogft_Setup:checkBaseLinks()
+
+  for _, zoneName in pairs(self.baseLinks.keys) do
+    local groupName = self.baseLinks:get(zoneName)
+    local group = Group.getByName(groupName)
+    -- If linked group is missing or destroyed
+    if not autogft.groupExists(group) then
+      local linkedBaseZone = trigger.misc.getZone(zoneName)
+      -- Find zone in question
+      local baseZone = nil
+      local baseZoneI = 1
+      while not baseZone and baseZoneI <= #self.taskForce.reinforcer.baseZones do
+        local zone = self.taskForce.reinforcer.baseZones[baseZoneI]
+        if autogft.compareZones(linkedBaseZone, zone) then
+          baseZone = zone
+        end
+        baseZoneI = baseZoneI + 1
+      end
+      baseZoneI = baseZoneI - 1
+
+      -- Remove zone from reinforcer
+      if baseZone then
+        self.taskForce.reinforcer.baseZones[baseZoneI] = nil
+      end
+    end
+  end
 end
