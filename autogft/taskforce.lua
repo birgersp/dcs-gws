@@ -29,11 +29,9 @@ end
 ---
 -- @param #TaskForce self
 function autogft_TaskForce:advance()
-  local i = 1
-  while i <= #self.groups do
+  for i = 1, #self.groups do
     local group = self.groups[i]
     if group:exists() then group:advance() end
-    i = i + 1
   end
 end
 

@@ -137,6 +137,27 @@ function autogft.getUniqueGroupName(prefix)
 end
 
 ---
+-- @param DCSZone#Zone zone1
+-- @param DCSZone#Zone zone2
+function autogft.compareZones(zone1, zone2)
+  return autogft_Vector3.equals(zone1.point, zone2.point)
+end
+
+---
+-- @param DCSGroup#Group group
+-- @return #boolean
+function autogft.groupExists(group)
+  local units = group:getUnits()
+  for i = 1, #units do
+    local unit = units[i] --DCSUnit#Unit
+    if unit and unit:isExist() then
+      return true
+    end
+  end
+  return false
+end
+
+---
 -- Deep copy a table
 -- Code from https://gist.github.com/MihailJP/3931841
 function autogft.deepCopy(t)

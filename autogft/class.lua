@@ -90,3 +90,16 @@ function autogft_Class:throwAbstractFunctionError()
   local functionName = debug.getinfo(2, "n").name
   error("Abstract function \"" .. functionName .. "\" invoked.")
 end
+
+---
+-- Compares each field of this object the each field of another, and returns whether the fields are identical.
+-- @param #Class self
+-- @return #boolean
+function autogft_Class:equals(object)
+  for key, value in pairs(object) do
+    if self[key] ~= value then
+      return false
+    end
+  end
+  return true
+end
