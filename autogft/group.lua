@@ -108,10 +108,10 @@ function autogft_Group:advance()
         nextDestination = destinationIndex
       else
         -- Else if destination index is out of bounds
-        if destinationIndex < 1 then
-          nextDestination = 1
-        elseif destinationIndex > #self.taskSequence.tasks then
+        if destinationIndex > #self.taskSequence.tasks then
           nextDestination = #self.taskSequence.tasks
+        elseif destinationIndex < 1 then
+          nextDestination = 1
         end
       end
 
@@ -161,6 +161,10 @@ end
 -- @param #Group self
 -- @return #Group
 function autogft_Group:forceAdvance()
+
+  if #self.taskSequence.tasks == 0 then
+    do return end
+  end
 
   local destinationTask = self.taskSequence.tasks[self.destinationIndex]
   local destination = destinationTask:getLocation()
