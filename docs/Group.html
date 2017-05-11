@@ -18,15 +18,18 @@
 			</li></ul>
 		<ul>
 					<li><a href="Class.html">Class</a></li>
-					<li><a href="ControlZone.html">ControlZone</a></li>
-					<li><a href="Core.html">Core</a></li>
 					<li>Group</li>
 					<li><a href="GroupCommand.html">GroupCommand</a></li>
 					<li><a href="IOCEV.html">IOCEV</a></li>
+					<li><a href="Map.html">Map</a></li>
+					<li><a href="Reinforcer.html">Reinforcer</a></li>
+					<li><a href="Setup.html">Setup</a></li>
 					<li><a href="Task.html">Task</a></li>
 					<li><a href="TaskForce.html">TaskForce</a></li>
+					<li><a href="TaskSequence.html">TaskSequence</a></li>
 					<li><a href="UnitCluster.html">UnitCluster</a></li>
 					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
+					<li><a href="Util.html">Util</a></li>
 					<li><a href="Vector2.html">Vector2</a></li>
 					<li><a href="Vector3.html">Vector3</a></li>
 					<li><a href="Waypoint.html">Waypoint</a></li>
@@ -55,12 +58,6 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Group).ROUTE_OVERSHOOT">Group.ROUTE_OVERSHOOT</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Group).addUnitSpec">Group:addUnitSpec(unitSpec)</a></td>
 		<td class="summary">
 
@@ -85,7 +82,7 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Group).destination">Group.destination</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Group).destinationIndex">Group.destinationIndex</a></td>
 		<td class="summary">
 
 </td>
@@ -109,13 +106,25 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Group).new">Group:new(taskForce)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Group).maxDistanceM">Group.maxDistanceM</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(Group).new">Group:new(taskSequence)</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Group).progressing">Group.progressing</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(Group).routeOvershootM">Group.routeOvershootM</a></td>
 		<td class="summary">
 
 </td>
@@ -133,7 +142,7 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Group).taskForce">Group.taskForce</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Group).taskSequence">Group.taskSequence</a></td>
 		<td class="summary">
 
 </td>
@@ -146,6 +155,12 @@
 		</tr>
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Group).updateGroupLead">Group:updateGroupLead()</a></td>
+		<td class="summary">
+
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(Group).usingRoadDistanceThresholdM">Group.usingRoadDistanceThresholdM</a></td>
 		<td class="summary">
 
 </td>
@@ -180,20 +195,6 @@
 <dd>
 	
 <p>nitspec#UnitSpec> unitSpecs</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(Group).ROUTE_OVERSHOOT" >
-<strong>Group.ROUTE_OVERSHOOT</strong>
-</a>
-</dt>
-<dd>
-	
-
 
 </dd>
 </dl>
@@ -280,8 +281,8 @@
 <dt>
 
 		<em>#number</em>
-<a id="#(Group).destination" >
-<strong>Group.destination</strong>
+<a id="#(Group).destinationIndex" >
+<strong>Group.destinationIndex</strong>
 </a>
 </dt>
 <dd>
@@ -343,8 +344,22 @@
 		<dl class="function">
 <dt>
 
+		<em>#number</em>
+<a id="#(Group).maxDistanceM" >
+<strong>Group.maxDistanceM</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 <a id="#(Group).new" >
-<strong>Group:new(taskForce)</strong>
+<strong>Group:new(taskSequence)</strong>
 </a>
 </dt>
 <dd>
@@ -355,7 +370,7 @@
 		<ul>
 				<li>
 				
-<p><code><em><a href="taskforce.html##(TaskForce)">taskforce#TaskForce</a> taskForce </em></code>: </p>
+<p><code><em><a href="tasksequence.html##(TaskSequence)">tasksequence#TaskSequence</a> taskSequence </em></code>: </p>
 
 				</li>
 		</ul>
@@ -372,6 +387,20 @@
 		<em>#boolean</em>
 <a id="#(Group).progressing" >
 <strong>Group.progressing</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(Group).routeOvershootM" >
+<strong>Group.routeOvershootM</strong>
 </a>
 </dt>
 <dd>
@@ -436,9 +465,9 @@ aypoint#Waypoint> waypoints</p>
 		<dl class="function">
 <dt>
 
-		<em><a href="taskforce.html##(TaskForce)">taskforce#TaskForce</a></em>
-<a id="#(Group).taskForce" >
-<strong>Group.taskForce</strong>
+		<em><a href="tasksequence.html##(TaskSequence)">tasksequence#TaskSequence</a></em>
+<a id="#(Group).taskSequence" >
+<strong>Group.taskSequence</strong>
 </a>
 </dt>
 <dd>
@@ -466,6 +495,20 @@ aypoint#Waypoint> waypoints</p>
 
 <a id="#(Group).updateGroupLead" >
 <strong>Group:updateGroupLead()</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(Group).usingRoadDistanceThresholdM" >
+<strong>Group.usingRoadDistanceThresholdM</strong>
 </a>
 </dt>
 <dd>

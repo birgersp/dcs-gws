@@ -25,8 +25,8 @@
 					<li><a href="Reinforcer.html">Reinforcer</a></li>
 					<li><a href="Setup.html">Setup</a></li>
 					<li><a href="Task.html">Task</a></li>
-					<li>TaskForce</li>
-					<li><a href="TaskSequence.html">TaskSequence</a></li>
+					<li><a href="TaskForce.html">TaskForce</a></li>
+					<li>TaskSequence</li>
 					<li><a href="UnitCluster.html">UnitCluster</a></li>
 					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
 					<li><a href="Util.html">Util</a></li>
@@ -36,66 +36,59 @@
 		</ul>
 	</div>
 	<div id="content">
-   <h1>Module <code>TaskForce</code></h1>
+   <h1>Module <code>TaskSequence</code></h1>
    
 
 
 	<h2>Global(s)</h2>
 	<table class="function_list">
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_TaskForce">autogft_TaskForce</a></td>
+		<td class="name" nowrap="nowrap"><a href="#autogft_TaskSequence">autogft_TaskSequence</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 	</table>
-	<h2><a id="#(TaskForce)" >Type <code>TaskForce</code></a></h2>
+	<h2><a id="#(TaskSequence)" >Type <code>TaskSequence</code></a></h2>
 		<table class="function_list">
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).<">TaskForce.<</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).<">TaskSequence.<</a></td>
 		<td class="summary">
-<p>roup#Group> groups</p>
-
+<p>ask#Task> tasks</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).advance">TaskForce:advance()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).groups">TaskForce.groups</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).addTask">TaskSequence:addTask(task)</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).new">TaskForce:new()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).currentTaskIndex">TaskSequence.currentTaskIndex</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforce">TaskForce:reinforce()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).getCurrentTask">TaskSequence:getCurrentTask()</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).reinforcer">TaskForce.reinforcer</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).new">TaskSequence:new()</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).taskSequence">TaskForce.taskSequence</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).tasks">TaskSequence.tasks</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskForce).updateTarget">TaskForce:updateTarget()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).updateCurrentTask">TaskSequence:updateCurrentTask()</a></td>
 		<td class="summary">
 
 </td>
@@ -106,9 +99,9 @@
 		<dl class="function">
 <dt>
 
-		<em><a href="##(TaskForce)">#TaskForce</a></em>
-<a id="autogft_TaskForce" >
-<strong>autogft_TaskForce</strong>
+		<em><a href="##(TaskSequence)">#TaskSequence</a></em>
+<a id="autogft_TaskSequence" >
+<strong>autogft_TaskSequence</strong>
 </a>
 </dt>
 <dd>
@@ -117,19 +110,53 @@
 
 </dd>
 </dl>
-	<h2><a id="#(TaskForce)" >Type <code>TaskForce</code></a></h2>
+	<h2><a id="#(TaskSequence)" >Type <code>TaskSequence</code></a></h2>
 		<h3>Field(s)</h3>
 		<dl class="function">
 <dt>
 
 		<em><a href="##(list)">#list</a></em>
-<a id="#(TaskForce).<" >
-<strong>TaskForce.<</strong>
+<a id="#(TaskSequence).<" >
+<strong>TaskSequence.<</strong>
 </a>
 </dt>
 <dd>
 	
-<p>roup#Group> groups</p>
+<p>ask#Task> tasks</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskSequence).addTask" >
+<strong>TaskSequence:addTask(task)</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em><a href="task.html##(Task)">task#Task</a> task </em></code>: </p>
+
+				</li>
+		</ul>
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em>#number</em>
+<a id="#(TaskSequence).currentTaskIndex" >
+<strong>TaskSequence.currentTaskIndex</strong>
+</a>
+</dt>
+<dd>
+	
 
 
 </dd>
@@ -137,12 +164,30 @@
 		<dl class="function">
 <dt>
 
-<a id="#(TaskForce).advance" >
-<strong>TaskForce:advance()</strong>
+<a id="#(TaskSequence).getCurrentTask" >
+<strong>TaskSequence:getCurrentTask()</strong>
 </a>
 </dt>
 <dd>
 	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(TaskSequence).new" >
+<strong>TaskSequence:new()</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(TaskSequence)">#TaskSequence</a>:</em></p>
 
 
 </dd>
@@ -151,8 +196,8 @@
 <dt>
 
 		<em></em>
-<a id="#(TaskForce).groups" >
-<strong>TaskForce.groups</strong>
+<a id="#(TaskSequence).tasks" >
+<strong>TaskSequence.tasks</strong>
 </a>
 </dt>
 <dd>
@@ -164,72 +209,8 @@
 		<dl class="function">
 <dt>
 
-<a id="#(TaskForce).new" >
-<strong>TaskForce:new()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskForce).reinforce" >
-<strong>TaskForce:reinforce()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(TaskForce)">#TaskForce</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="reinforcer.html##(Reinforcer)">reinforcer#Reinforcer</a></em>
-<a id="#(TaskForce).reinforcer" >
-<strong>TaskForce.reinforcer</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="tasksequence.html##(TaskSequence)">tasksequence#TaskSequence</a></em>
-<a id="#(TaskForce).taskSequence" >
-<strong>TaskForce.taskSequence</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskForce).updateTarget" >
-<strong>TaskForce:updateTarget()</strong>
+<a id="#(TaskSequence).updateCurrentTask" >
+<strong>TaskSequence:updateCurrentTask()</strong>
 </a>
 </dt>
 <dd>
