@@ -245,10 +245,11 @@ function autogft_Setup:setAdvancementTimer(timeInterval)
 end
 
 ---
--- Starts a timer which reinforces the task force.
+-- Starts a timer which reinforces the task force on time intervals.
+-- Every time interval, linked base zones are checked (see @{Setup.checkBaseLinks}).
+-- If all base zones are disabled (due to linked groups being destroyed), the task force is not reinforced.
 -- @param #Setup self
 -- @param #number timeInterval Time [seconds] between each reinforcement
--- @param #boolean useSpawning (Optional) Specifies wether to spawn new units or use pre-existing units (default: false)
 -- @return #Setup This instance (self)
 function autogft_Setup:setReinforceTimer(timeInterval)
   self:stopReinforcing()
@@ -299,7 +300,7 @@ function autogft_Setup:setCountry(country)
 end
 
 ---
--- Adds a base zone to the task force, used for reinforcing (spawning or staging area).
+-- Adds a base zone to the task force, which will be used for reinforcing.
 -- @param #Setup self
 -- @param #string zoneName Name of base zone
 -- @return #Setup This instance (self)
@@ -309,7 +310,10 @@ function autogft_Setup:addBaseZone(zoneName)
 end
 
 ---
--- Adds a control zone task (see @{task#taskTypes.CONTROL}).
+-- Adds a control zone task.
+-- The task force units will move to and attack this zone as long as there are enemy units present.
+-- If enemy units re-appear, the task force will retake it.
+-- Task force units advancing through the task list will move through this task zone to get to the next one.
 -- @param #Setup self
 -- @param #string zoneName Name of target zone
 -- @return #Setup This instance (self)
@@ -319,6 +323,7 @@ end
 
 ---
 -- Sets the skill of the task force reinforcement units.
+-- Skill alternatives are the same as in the mission editor: Any from "Average" to "Random".
 -- @param #Setup self
 -- @param #string skill New skill
 -- @return #Setup This instance (self)
@@ -393,7 +398,7 @@ function autogft_Setup:scanUnits(groupNamePrefix)
 end
 
 ---
--- Stops the reinforcing/respawning timers.
+-- Stops the reinforcing/respawning timers (see @{Setup.setReinforceTimer}).
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:stopReinforcing()
@@ -424,16 +429,16 @@ function autogft_Setup:addUnits(count, type)
 end
 
 ---
--- Disables respawning of units. Sets the task force to only use pre-existing units when reinforcing. If invoked, always invoke this before units are added.
+-- Sets the task force to only use pre-existing units when reinforcing. Always invoke this before units are added (not after).
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:useStaging()
-  self:assertCanChangeReinforcer()
-  self.taskForce.reinforcer = autogft_SelectingReinforcer:new()
+  self:setReinforcer(autogft_SelectingReinforcer:new())
   return self
 end
 
 ---
+-- Links a base zone to a group. Linked bases will be disabled for this task force if the group is destroyed (see @{Setup.checkBaseLinks}.
 -- @param #Setup self
 -- @param #string zoneName
 -- @param #string groupName
@@ -445,6 +450,8 @@ function autogft_Setup:linkBase(zoneName, groupName)
 end
 
 ---
+-- Checks all base zones with links to see if the specified unit still exists in the mission.
+-- If the group linked with the base zone does not exist (is destroyed), the base zone is disabled for this task force.
 -- @param #Setup self
 function autogft_Setup:checkBaseLinks()
 
@@ -475,15 +482,17 @@ function autogft_Setup:checkBaseLinks()
 end
 
 ---
+-- Sets the task force to use a randomized unit spawner when reinforcing.
+-- The random units must be specified with ${Setup.addRandomUnitAlternative}).
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:useRandomUnits()
-  self:assertCanChangeReinforcer()
-  self.taskForce.reinforcer = autogft_RandomReinforcer:new()
+  self:setReinforcer(autogft_RandomReinforcer:new())
   return self
 end
 
 ---
+-- Adds a random unit alternative, given a maximum count, type and minimum count.
 -- @param #Setup self
 -- @param #number max
 -- @param #string type
@@ -501,12 +510,23 @@ function autogft_Setup:addRandomUnitAlternative(max, type, minimum)
 end
 
 ---
+-- Performs checks to determine if the task force can change reinforcer.
 -- @param #Setup self
 function autogft_Setup:assertCanChangeReinforcer()
   local baseMessage = "Cannot change task force reinforcing policy: "
-  assert(self.coalition == nil, baseMessage .. "Coalition/country already set.")
-  assert(#self.taskForce.reinforcer.baseZones == 0, baseMessage .. "Bases already added, invoke \"useStaging\" before adding base zones.")
+  assert(#self.taskForce.reinforcer.baseZones == 0, baseMessage .. "Base zones already added.")
   if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
-    assert(self.taskForce.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. "Groups/units already added, invoke \"useStaging\" before addding units.")
+    assert(self.taskForce.reinforcer.groupsUnitSpecs.length == 0, baseMessage .. "Groups/units already added.")
   end
+end
+
+---
+-- Sets the reinforcer of the task force.
+-- @param #Setup self
+-- @param reinforcer#Reinforcer reinforcer
+function autogft_Setup:setReinforcer(reinforcer)
+  self:assertCanChangeReinforcer()
+  reinforcer.unitSkill = self.skill
+  reinforcer.countryID = self.taskForce.reinforcer.countryID
+  self.taskForce.reinforcer = reinforcer
 end
