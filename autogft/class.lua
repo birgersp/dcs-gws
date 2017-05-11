@@ -1,6 +1,5 @@
 
 ---
--- Class emulation.
 -- @module Class
 
 ---
