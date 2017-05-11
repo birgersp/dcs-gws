@@ -5,7 +5,6 @@ set sources=^
  autogft\unitspec.lua^
  autogft\vector2.lua^
  autogft\vector3.lua^
- autogft\controlzone.lua^
  autogft\group.lua^
  autogft\groupcommand.lua^
  autogft\map.lua^
