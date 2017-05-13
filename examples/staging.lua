@@ -1,8 +1,8 @@
 
 --- 
 -- Reinforcing from idle units (staging) example
+-- Rather than respawning new units, this task force will ONLY use units that are pre-existing in the mission as reinforcements
 -- The desired groups and units must be specified. In this example, 2 groups are specified with 2 units in each
--- The "reinforce timer" will disable automatic respawning, and the task force will be reinforced from idle units instead (time interval: 600 seconds)
 
 autogft_Setup:new()
   :useStaging()
@@ -12,4 +12,3 @@ autogft_Setup:new()
   :addControlZone("CONTROL1")
   :addControlZone("CONTROL2")
   :addControlZone("CONTROL3")
-  :setReinforceTimer(600)
