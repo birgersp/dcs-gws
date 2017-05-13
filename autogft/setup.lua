@@ -496,6 +496,7 @@ end
 
 ---
 -- Adds a random unit alternative, given a maximum count, type and minimum count.
+-- When the task force is reinforced, a random number (between minimum and maximum) of units will be spawned for the task force group.
 -- @param #Setup self
 -- @param #number max
 -- @param #string type
