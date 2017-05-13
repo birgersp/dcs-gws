@@ -170,6 +170,11 @@ function autogft_Setup:autoAddUnitLayoutFromBases()
 
   if #ownUnitsInBases > 0 then
     self:autoAddUnitLayout(ownUnitsInBases)
+    local reinforcer = self.taskForce.reinforcer --reinforcer#SpecificUnitReinforcer
+    local tempReinforcer = autogft_SelectingReinforcer:new()
+    tempReinforcer.groupsUnitSpecs = reinforcer.groupsUnitSpecs
+    tempReinforcer:setCountryID(reinforcer.countryID)
+    tempReinforcer:reinforceFromUnits(ownUnitsInBases)
   end
 
   return self
