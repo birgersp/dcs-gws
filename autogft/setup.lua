@@ -87,24 +87,22 @@ end
 -- @return #Setup
 function autogft_Setup:autoInitialize()
 
-  self.taskForce.reinforcer:assertHasBaseZones()
-
-  if not self.coalition then
-    local unitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.taskForce.reinforcer.baseZones)
-    if #unitsInBases == 0 then
-      unitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.taskForce.reinforcer.baseZones)
-    end
-    assert(#unitsInBases > 0, "Could not determine task force coalition, please set country.")
-    self:setCountry(unitsInBases[1]:getCountry())
-  end
-
-  if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
-    if self.taskForce.reinforcer.groupsUnitSpecs.length <= 0 then
-      self:autoAddUnitLayoutFromBases()
-    end
-  end
-
   if #self.taskForce.reinforcer.baseZones > 0 then
+    if not self.coalition then
+      local unitsInBases = autogft.getUnitsInZones(coalition.side.RED, self.taskForce.reinforcer.baseZones)
+      if #unitsInBases == 0 then
+        unitsInBases = autogft.getUnitsInZones(coalition.side.BLUE, self.taskForce.reinforcer.baseZones)
+      end
+      assert(#unitsInBases > 0, "Could not determine task force coalition, please set country.")
+      self:setCountry(unitsInBases[1]:getCountry())
+    end
+
+    if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
+      if self.taskForce.reinforcer.groupsUnitSpecs.length <= 0 then
+        self:autoAddUnitLayoutFromBases()
+      end
+    end
+
     if not self.reinforcementTimerId then
       self:setReinforceTimer(600)
     end
