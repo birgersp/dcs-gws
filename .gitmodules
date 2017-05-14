@@ -2,7 +2,3 @@
 	path = unit-types
 	url = https://github.com/birgersp/dcs-unit-types.git
 	branch = master
-[submodule "dcs-api"]
-	path = dcs-api
-	url = https://github.com/FlightControl-Master/DCS-API.git
-	branch = master

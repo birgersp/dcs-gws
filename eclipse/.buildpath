@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
 	<buildpathentry kind="src" path="autogft"/>
-	<buildpathentry kind="src" path="dcs-api"/>
 	<buildpathentry kind="src" path="unit-types"/>
 </buildpath>
