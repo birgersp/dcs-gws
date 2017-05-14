@@ -46,11 +46,14 @@ function autogft_iocev.informOfClosestEnemyVehicles(group)
     do return end
   end
 
-  local closestEnemy = autogft_iocev.getClosestEnemyVehicle(unit)
+  local closestEnemy = autogft_iocev.getClosestEnemyGroundUnit(unit)
+
   if not closestEnemy then
     trigger.action.outTextForGroup(group:getID(), autogft_iocev.NO_VEHICLES_MSG, autogft_iocev.MESSAGE_TIME)
   else
-    local enemyCluster = autogft_iocev.getFriendlyVehiclesWithin(closestEnemy, autogft_iocev.MAX_CLUSTER_DISTANCE)
+
+    local enemyCluster = autogft_iocev.getFriendlyGroundUnitsWithin(closestEnemy, autogft_iocev.MAX_CLUSTER_DISTANCE)
+    enemyCluster.units[#enemyCluster.units + 1] = closestEnemy
 
     local groupUnitPosDCS = unit:getPosition().p
     local groupUnitPos = autogft_Vector2:new(groupUnitPosDCS.x, groupUnitPosDCS.z)
@@ -58,22 +61,22 @@ function autogft_iocev.informOfClosestEnemyVehicles(group)
 
     local dirRad = autogft_Vector2.Axis.X:getAngleTo(groupToMid) + autogft.getHeadingNorthCorrection(groupUnitPosDCS)
     local cardinalDir = autogft_iocev.radToCardinalDir(dirRad)
-    local distanceM = autogft.getDistanceBetween(enemyCluster.midPoint, groupUnitPos)
+    local distanceM = enemyCluster.midPoint:getCopy():scale(-1):add(groupUnitPos):getMagnitude()
     local distanceKM = distanceM / 1000
     local distanceNM = distanceKM / 1.852
 
-    local vehicleTypes = {}
-    for i = 1, #enemyCluster.unitNames do
-      local type = Unit.getByName(enemyCluster.unitNames[i]):getTypeName()
-      if vehicleTypes[type] == nil then
-        vehicleTypes[type] = 0
+    local unitTypes = {}
+    for i = 1, #enemyCluster.units do
+      local unit = enemyCluster.units[i]
+      local typeName = unit:getTypeName()
+      if unitTypes[typeName] == nil then
+        unitTypes[typeName] = 0
       end
-
-      vehicleTypes[type] = vehicleTypes[type] + 1
+      unitTypes[typeName] = unitTypes[typeName] + 1
     end
 
     local text = ""
-    for key, val in pairs(vehicleTypes) do
+    for key, val in pairs(unitTypes) do
       if (text ~= "") then
         text = text..", "
       end
@@ -149,33 +152,19 @@ end
 -- @param DCSUnit#Unit unit
 -- @param #number radius
 -- @return unitcluster#UnitCluster
-function autogft_iocev.getFriendlyVehiclesWithin(unit, radius)
-  local coalitionString
-  if unit:getCoalition() == coalition.side.BLUE then
-    coalitionString = "[blue]"
-  else
-    coalitionString  = "[red]"
-  end
-  local unitTableStr = coalitionString .. '[vehicle]'
-  local units = mist.makeUnitTable({ unitTableStr })
+function autogft_iocev.getFriendlyGroundUnitsWithin(unit, radius)
 
-  local addedVehiclesNames = {unit:getName()}
+  local unitsWithinRange = {} --#list<DCSUnit#Unit>
+  local unitsWithinRangeNames = {}
+
   local minPos = unit:getPosition().p
   local maxPos = unit:getPosition().p
 
-  coalition.getGroups(unit:getCoalition())
+  -- Build table of all friendly ground units
+  local friendlyGroundUnits = {} --#list<DCSUnit#Unit>
+  autogft_iocev.forEachCoalitionUnit(unit:getCoalition(), function(friendlyUnit) friendlyGroundUnits[#friendlyGroundUnits + 1] = friendlyUnit end, Group.Category.GROUND)
 
-  ---
-  -- @param #list list
-  -- @param value
-  local function contains(list, value)
-    for i = 1, #list do
-      if list[i] == value then
-        return true
-      end
-    end
-    return false
-  end
+  local radius2 = radius^2
 
   ---
   -- @param DCSUnit#Unit unit
@@ -185,22 +174,30 @@ function autogft_iocev.getFriendlyVehiclesWithin(unit, radius)
     if pos.z < minPos.z then minPos.z = pos.z end
     if pos.x > maxPos.x then maxPos.x = pos.x end
     if pos.z > maxPos.z then maxPos.z = pos.z end
-    addedVehiclesNames[#addedVehiclesNames + 1] = unit:getName()
+    unitsWithinRange[#unitsWithinRange + 1] = unit
+    unitsWithinRangeNames[unit:getName()] = true
   end
 
   ---
   -- @param DCSUnit#Unit unit
   local function vehiclesWithinRecurse(targetUnit)
-    for i = 1, #units do
-      local nextUnit = Unit.getByName(units[i])
-      if nextUnit then
-        if nextUnit:getID() == targetUnit:getID() == false then
-          if autogft.getDistanceBetween(targetUnit:getPosition().p, nextUnit:getPosition().p) <= radius then
-            if contains(addedVehiclesNames, nextUnit:getName()) == false then
-              addUnit(nextUnit)
-              vehiclesWithinRecurse(nextUnit)
-            end
-          end
+
+    local targetUnitPos = targetUnit:getPosition().p
+
+    for i = 1, #friendlyGroundUnits do
+      local friendlyGroundUnit = friendlyGroundUnits[i] --DCSUnit#Unit
+      local friendlyGroundUnitID = friendlyGroundUnit:getID()
+      if friendlyGroundUnitID ~= unit:getID() and friendlyGroundUnitID ~= targetUnit:getID() then
+
+        local unitPos = friendlyGroundUnit:getPosition().p
+        local dX = unitPos.x - targetUnitPos.x
+        local dY = unitPos.y - targetUnitPos.y
+        local dZ = unitPos.z - targetUnitPos.z
+        local distance2 = dX*dX + dY*dY + dZ*dZ
+
+        if distance2 <= radius2 and not unitsWithinRangeNames[friendlyGroundUnit:getName()] then
+          addUnit(friendlyGroundUnit)
+          vehiclesWithinRecurse(friendlyGroundUnit)
         end
       end
     end
@@ -211,22 +208,16 @@ function autogft_iocev.getFriendlyVehiclesWithin(unit, radius)
   local dx = maxPos.x - minPos.x
   local dz = maxPos.z - minPos.z
 
-  local midPoint = { -- 3D to 2D conversion implemented
-    x = minPos.x + dx / 2,
-    y = minPos.z + dz / 2
-  }
+  local midPoint = autogft_Vector2:new(minPos.x + dx / 2, minPos.z + dz / 2)
 
-  local result = autogft_UnitCluster:new()
-  result.unitNames = addedVehiclesNames
-  result.midPoint = midPoint
+  local result = autogft_UnitCluster:new(unitsWithinRange, midPoint)
   return result
-
 end
 
 ---
 -- @param DCSUnit#Unit unit
 -- @return DCSUnit#Unit
-function autogft_iocev.getClosestEnemyVehicle(unit)
+function autogft_iocev.getClosestEnemyGroundUnit(unit)
 
   local unitPosition = unit:getPosition().p
 
@@ -241,32 +232,42 @@ function autogft_iocev.getClosestEnemyVehicle(unit)
   local closestEnemyDistance2
 
   -- For each enemy group
-  local enemyGroups = coalition.getGroups(enemyCoalitionID)
-  for enemyGroupI = 1, #enemyGroups do
-    local enemyGroup = enemyGroups[enemyGroupI] --DCSGroup#Group
-    if enemyGroup:isExist() then
+  autogft_iocev.forEachCoalitionUnit(enemyCoalitionID,
+    function(enemyUnit)
+      -- Determine distance (squared) between unit and enemy
+      local ePos = enemyUnit:getPosition().p
+      local dX = ePos.x - unitPosition.x
+      local dY = ePos.y - unitPosition.y
+      local dZ = ePos.z - unitPosition.z
+      local distance2 = dX*dX + dY*dY + dZ*dZ
 
-      -- For each enemy group unit
-      local enemyGroupUnits = enemyGroup:getUnits()
-      for enemyGroupUnitI = 1, #enemyGroupUnits do
-        local enemyGroupUnit = enemyGroupUnits[enemyGroupUnitI]
-        if enemyGroupUnit:isExist() then
+      if (not closestEnemy) or distance2 < closestEnemyDistance2 then
+        closestEnemy = enemyUnit
+        closestEnemyDistance2 = distance2
+      end
+    end, Group.Category.GROUND)
 
-          -- Determine distance (squared) between unit and enemy
-          local ePos = enemyGroupUnit:getPosition().p
-          local dX = ePos.x - unitPosition.x
-          local dY = ePos.y - unitPosition.y
-          local dZ = ePos.z - unitPosition.z
-          local distance2 = dX*dX + dY*dY + dZ*dZ
+  return closestEnemy
+end
 
-          if (not closestEnemy) or distance2 < closestEnemyDistance2 then
-            closestEnemy = enemyGroupUnit
-            closestEnemyDistance2 = distance2
-          end
+---
+-- @param #number coalitionID
+-- @param #function func
+-- @param #number category
+function autogft_iocev.forEachCoalitionUnit(coalitionID, func, category)
+
+  local groups = coalition.getGroups(coalitionID, category)
+  for groupIndex = 1, #groups do
+    local group = groups[groupIndex] --DCSGroup#Group
+    if group:isExist() then
+
+      local groupUnits = group:getUnits()
+      for groupUnitIndex = 1, #groupUnits do
+        local unit = groupUnits[groupUnitIndex]
+        if unit:isExist() then
+          func(unit)
         end
       end
     end
   end
-
-  return closestEnemy
 end

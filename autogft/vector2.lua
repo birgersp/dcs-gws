@@ -67,7 +67,7 @@ end
 
 ---
 -- @param #Vector2 self
--- @return #Vector2
+-- @return #number
 function autogft_Vector2:getMagnitude()
   return math.sqrt(self.x^2 + self.y^2)
 end
