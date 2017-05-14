@@ -8,7 +8,7 @@ autogft_iocev.COMMAND_TEXT = "Request location of enemy vehicles"
 autogft_iocev.NO_VEHICLES_MSG = "No enemy vehicles in range"
 autogft_iocev.MAX_CLUSTER_DISTANCE = 1000
 autogft_iocev.MESSAGE_TIME = 30
-autogft_iocev.COMMAND_ENABLING_DELAY = 5
+autogft_iocev.COMMAND_ENABLING_DELAY = 10
 
 ---
 -- @param #number rad Direction in radians
@@ -31,15 +31,23 @@ end
 -- @param DCSGroup#Group group
 function autogft_iocev.informOfClosestEnemyVehicles(group)
 
+  local groupHasMultiplePlayers = false
+
   local units = group:getUnits() --#list<DCSUnit#Unit>
-  local unit = nil
+  local unit = nil --DCSUnit#Unit
   local unitIndex = 1
-  while not unit and unitIndex <= #units do
+  while not groupHasMultiplePlayers and unitIndex <= #units do
     if units[unitIndex] and units[unitIndex]:isExist() then
-      unit = units[unitIndex]
-    else
-      unitIndex = unitIndex + 1
+      if units[unitIndex]:getPlayerName() then
+        if unit then
+          groupHasMultiplePlayers = true
+        else
+          unit = units[unitIndex]
+        end
+      end
     end
+
+    unitIndex = unitIndex + 1
   end
 
   if not unit then
@@ -60,7 +68,8 @@ function autogft_iocev.informOfClosestEnemyVehicles(group)
     local groupToMid = autogft_Vector2.minus(enemyCluster.midPoint, groupUnitPos)
 
     local dirRad = autogft_Vector2.Axis.X:getAngleTo(groupToMid) + autogft.getHeadingNorthCorrection(groupUnitPosDCS)
-    local cardinalDir = autogft_iocev.radToCardinalDir(dirRad)
+    --    local cardinalDir = autogft_iocev.radToCardinalDir(dirRad)
+    local dirHeading = math.floor(dirRad / math.pi * 180 + 0.5)
     local distanceM = enemyCluster.midPoint:getCopy():scale(-1):add(groupUnitPos):getMagnitude()
     local distanceKM = distanceM / 1000
     local distanceNM = distanceKM / 1.852
@@ -84,7 +93,12 @@ function autogft_iocev.informOfClosestEnemyVehicles(group)
     end
 
     local distanceNMRounded = math.floor(distanceNM + 0.5)
-    text = text .. " located " .. distanceNMRounded .. "nm " .. cardinalDir .. " of group lead"
+    text = text .. " located " .. distanceNMRounded .. "nm at " .. dirHeading
+
+    if groupHasMultiplePlayers then
+      text = text .. " from \"" .. unit:getPlayerName() .. "\""
+    end
+
     trigger.action.outTextForGroup(group:getID(), text, 30)
   end
 
