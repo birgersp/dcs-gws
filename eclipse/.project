@@ -36,6 +36,11 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/batch</locationURI>
 		</link>
 		<link>
+			<name>dcs-api</name>
+			<type>2</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/dcs-api</locationURI>
+		</link>
+		<link>
 			<name>examples</name>
 			<type>2</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/examples</locationURI>
