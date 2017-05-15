@@ -391,9 +391,7 @@ function autogft_Setup:scanUnits(groupNamePrefix)
     if not self.country then
       self:setCountry(availableUnits[1]:getCountry())
     end
-    if self.taskForce.reinforcer.groupsUnitSpecs.length <= 0 then
-      self:autoAddUnitLayout(availableUnits)
-    end
+    self:autoAddUnitLayout(availableUnits)
     self.taskForce.reinforcer:reinforceFromUnits(availableUnits)
   end
 
