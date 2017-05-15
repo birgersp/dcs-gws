@@ -19,15 +19,17 @@ set sources=^
  autogft\waypoint.lua^
  unit-types\unit-types.lua
 
-set /p version=<version.txt
-
 set output_dir=build
 
+set /p version=<version.txt
 set build=%output_dir%\autogft-%version%.lua
 set comment_prefix=--
 
 set current_dir=%cd%
 cd ..
+
+echo autogft_VERSION = "%version%">tests\version.lua
+
 echo Time is %time%
 if not exist %output_dir% md %output_dir%
 echo Cleaning contents of "%output_dir%"
