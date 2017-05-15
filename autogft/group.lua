@@ -12,8 +12,10 @@
 -- @field #boolean progressing
 -- @field #number routeOvershootM
 -- @field #number maxDistanceM
--- @field #number usingRoadDistanceThresholdM
+-- @field #number USING_ROAD_DISTANCE_THRESHOLD_M
 autogft_Group = autogft_Class:create()
+
+autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M = 500
 
 ---
 -- @param #Group self
@@ -27,7 +29,7 @@ function autogft_Group:new(taskSequence)
   self.progressing = true
   self.routeOvershootM = 500
   self.maxDistanceM = 10000
-  self.usingRoadDistanceThresholdM = 3000
+  self.usingRoadDistanceThresholdM = autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M
   self:setDCSGroup(nil)
   return self
 end
@@ -207,7 +209,7 @@ function autogft_Group:forceAdvance()
   addWaypoint(groupPos.x, groupPos.y)
 
   -- Only use roads if group is at a certain distance away from destination
-  if useRoads and groupToDestinationMag > self.usingRoadDistanceThresholdM then
+  if useRoads and groupToDestinationMag > autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M then
     addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
     addWaypoint(destination.x, destination.y, true)
   end
