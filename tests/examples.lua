@@ -1,13 +1,14 @@
 
 if not initialized then
 
-  assert(loadfile([[C:\Users\Birger\Workspace\dcs-autogft\build\autogft-1_9-beta.lua]]))()
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\tests\\version.lua")
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\build\\autogft-" .. autogft_VERSION .. ".lua")
 
-  assert(loadfile([[C:\Users\Birger\Workspace\dcs-autogft\examples\basic.lua]]))()
-  assert(loadfile([[C:\Users\Birger\Workspace\dcs-autogft\examples\miscellaneous.lua]]))()
-  assert(loadfile([[C:\Users\Birger\Workspace\dcs-autogft\examples\scanning.lua]]))()
-  assert(loadfile([[C:\Users\Birger\Workspace\dcs-autogft\examples\staging.lua]]))()
-  assert(loadfile([[C:\Users\Birger\Workspace\dcs-autogft\examples\using-roads.lua]]))()
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\examples\\basic.lua")
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\examples\\miscellaneous.lua")
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\examples\\scanning.lua")
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\examples\\staging.lua")
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\examples\\using-roads.lua")
 
   initialized = true
 
