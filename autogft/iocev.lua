@@ -141,9 +141,7 @@ function autogft_iocev.enable()
     enabledGroupCommands[group:getName()] = groupCommand
   end
 
-  local function reEnablingLoop()
-
-    local players = coalition.getPlayers(coalition.side.BLUE)
+  function enableForPlayers(players)
     for i = 1, #players do
       local player = players[i]
       local group = player:getGroup() --DCSGroup#Group
@@ -152,6 +150,12 @@ function autogft_iocev.enable()
         enableForGroup(group)
       end
     end
+  end
+
+  local function reEnablingLoop()
+
+    enableForPlayers(coalition.getPlayers(coalition.side.BLUE))
+    enableForPlayers(coalition.getPlayers(coalition.side.RED))
 
     autogft.scheduleFunction(reEnablingLoop, autogft_iocev.COMMAND_ENABLING_DELAY)
   end
