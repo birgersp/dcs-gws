@@ -1,8 +1,7 @@
 
 if not initialized then
 
-  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\tests\\version.lua")
-  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\build\\autogft-" .. autogft_VERSION .. ".lua")
+  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\tests\\load-all.lua")
 
   dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\examples\\basic.lua")
   dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\examples\\miscellaneous.lua")

@@ -20,6 +20,7 @@ set sources=^
  unit-types\unit-types.lua
 
 set output_dir=build
+set load_all_file=tests\load-all.lua
 
 set /p version=<version.txt
 set build=%output_dir%\autogft-%version%.lua
@@ -27,8 +28,7 @@ set comment_prefix=--
 
 set current_dir=%cd%
 cd ..
-
-echo autogft_VERSION = "%version%">tests\version.lua
+set root_dir=%cd%
 
 echo Time is %time%
 if not exist %output_dir% md %output_dir%
@@ -45,12 +45,18 @@ cd %current_dir%
 goto:eof
 
 :make
+
+	echo -- Auto-generated, do not edit>%load_all_file%
+
 	echo Writing to %output%
 	
 	break>%output%
 	setlocal EnableDelayedExpansion
 	set first=1
 	for %%a in (%input%) do (
+
+		echo dofile^([[%root_dir%\%%a]]^)>>%load_all_file%
+
 		echo Appending %%a
 		if !first!==0 (
 			echo.>> %output%
