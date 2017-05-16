@@ -75,6 +75,7 @@ end
 -- @param #list<DCSZone#Zone> zones
 -- @return #list<DCSUnit#Unit>
 function autogft.getUnitsInZones(coalitionId, zones)
+  local addedUnitIDs = {}
   local result = {}
   local groups = coalition.getGroups(coalitionId)
   for _, zone in pairs(zones) do
@@ -82,30 +83,21 @@ function autogft.getUnitsInZones(coalitionId, zones)
     for _, group in pairs(groups) do
       local units = group:getUnits()
       for unitIndex = 1, #units do
-        local unit = units[unitIndex]
-        local pos = unit:getPosition().p
-        local dx = zone.point.x - pos.x
-        local dy = zone.point.z - pos.z
-        if (dx*dx + dy*dy) <= radiusSquared then
-          result[#result + 1] = units[unitIndex]
+        local unit = units[unitIndex] --DCSUnit#Unit
+        local unitID = unit:getID()
+        if not addedUnitIDs[unitID] then
+          local pos = unit:getPosition().p
+          local dx = zone.point.x - pos.x
+          local dy = zone.point.z - pos.z
+          if (dx*dx + dy*dy) <= radiusSquared then
+            result[#result + 1] = units[unitIndex]
+            addedUnitIDs[unitID] = true
+          end
         end
       end
     end
   end
   return result
-end
-
----
--- @param #number coalitionId
--- @param #list<#string> zoneNames
--- @return #list<DCSUnit#Unit>
-function autogft.getUnitsInZonesByNames(coalitionId, zoneNames)
-  local zones = {}
-  for zoneNameIndex = 1, #zoneNames do
-    local zone = trigger.misc.getZone(zoneNames[zoneNameIndex])
-    zones[#zones + 1] = zone
-  end
-  return autogft.getUnitsInZones(coalitionId, zones)
 end
 
 ---
