@@ -354,7 +354,6 @@ end
 -- @return #Setup This instance (self)
 function autogft_Setup:setSpeed(speed)
   self.speed = speed
-  if #self.taskForce.taskSequence.tasks > 0 then self.taskForce.taskSequence.tasks[#self.taskForce.taskSequence.tasks].speed = self.speed end
   return self
 end
 
