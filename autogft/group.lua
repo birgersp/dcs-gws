@@ -16,6 +16,8 @@
 autogft_Group = autogft_Class:create()
 
 autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M = 500
+autogft_Group.ROUTE_OVERSHOOT_M = 250
+autogft_Group.MAX_ROUTE_DISTANCE_M = 10000
 
 ---
 -- @param #Group self
@@ -27,8 +29,8 @@ function autogft_Group:new(taskSequence)
   self.taskSequence = taskSequence
   self.destinationIndex = 1
   self.progressing = true
-  self.routeOvershootM = 500
-  self.maxDistanceM = 10000
+  self.routeOvershootM = autogft_Group.ROUTE_OVERSHOOT_M
+  self.maxDistanceM = autogft_Group.MAX_ROUTE_DISTANCE_M
   self.usingRoadDistanceThresholdM = autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M
   self:setDCSGroup(nil)
   return self
@@ -209,18 +211,23 @@ function autogft_Group:forceAdvance()
   addWaypoint(groupPos.x, groupPos.y)
 
   -- Only use roads if group is at a certain distance away from destination
-  if useRoads and groupToDestinationMag > autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M then
+  local usingRoads = (useRoads and groupToDestinationMag > self.usingRoadDistanceThresholdM)
+
+  -- If using roads, add on-road waypoints at position and destination
+  if usingRoads then
     addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
     addWaypoint(destination.x, destination.y, true)
+    usingRoads = true
   end
 
+  -- If not shortened, add overshoot waypoint off-road
   if not shortened then
     local overshoot = destination:plus(groupPos:times(-1)):normalize():scale(self.routeOvershootM):add(destination)
     addWaypoint(overshoot.x, overshoot.y)
-  end
-
-  if not shortened or not useRoads then
-    addWaypoint(destination.x + 1, destination.y + 1, useRoads)
+    addWaypoint(destination.x + 1, destination.y + 1)
+  elseif not usingRoads then
+    -- If shortened and not using roads, add intermidiate waypoint off-road
+    addWaypoint(destination.x + 1, destination.y + 1)
   end
 
   self:setRoute(waypoints)
