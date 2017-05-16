@@ -268,7 +268,7 @@ function autogft_SelectingReinforcer:reinforce()
 
   local availableUnits = autogft.getUnitsInZones(self.coalitionID, self.baseZones)
   if #availableUnits > 0 then
-    self:reinforceFromUnits(availableUnits)
+    autogft_SpecificUnitReinforcer.reinforceFromUnits(self, availableUnits)
   end
 end
 
