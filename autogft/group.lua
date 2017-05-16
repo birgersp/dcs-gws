@@ -89,6 +89,10 @@ end
 -- @return #Group
 function autogft_Group:advance()
 
+  if #self.taskSequence.tasks <= 0 or self.taskSequence.currentTaskIndex <= 0 then
+    do return end
+  end
+
   self:updateGroupLead()
   if self.groupLead then
 
@@ -163,10 +167,6 @@ end
 -- @param #Group self
 -- @return #Group
 function autogft_Group:forceAdvance()
-
-  if #self.taskSequence.tasks == 0 then
-    do return end
-  end
 
   local destinationTask = self.taskSequence.tasks[self.destinationIndex]
   local destination = destinationTask:getLocation()
