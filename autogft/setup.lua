@@ -243,7 +243,7 @@ function autogft_Setup:setAdvancementTimer(timeInterval)
     self.taskForce:advance()
     self.advancementTimerId = autogft.scheduleFunction(updateAndAdvance, timeInterval)
   end
-  self.advancementTimerId = autogft.scheduleFunction(updateAndAdvance, timeInterval)
+  updateAndAdvance()
   return self
 end
 
@@ -266,8 +266,7 @@ function autogft_Setup:setReinforceTimer(timeInterval)
       self.reinforcementTimerId = autogft.scheduleFunction(reinforce, timeInterval)
     end
   end
-  autogft.scheduleFunction(reinforce, 5)
-
+  reinforce()
   return self
 end
 
