@@ -4,11 +4,12 @@
 autogft_iocev = {}
 
 autogft_iocev.CARDINAL_DIRECTIONS = {"N", "N/NE", "NE", "NE/E", "E", "E/SE", "SE", "SE/S", "S", "S/SW", "SW", "SW/W", "W", "W/NW", "NW", "NW/N"}
-autogft_iocev.COMMAND_TEXT = "Request location of enemy vehicles"
 autogft_iocev.NO_VEHICLES_MSG = "No enemy vehicles in range"
 autogft_iocev.MAX_CLUSTER_DISTANCE = 1000
 autogft_iocev.MESSAGE_TIME = 30
 autogft_iocev.COMMAND_ENABLING_DELAY = 10
+
+autogft_iocev.subscribingGroups = {}
 
 ---
 -- @param #number rad Direction in radians
@@ -99,7 +100,7 @@ function autogft_iocev.informOfClosestEnemyVehicles(group)
       text = text .. " from \"" .. unit:getPlayerName() .. "\""
     end
 
-    trigger.action.outTextForGroup(group:getID(), text, 30)
+    trigger.action.outTextForGroup(group:getID(), text, autogft_iocev.MESSAGE_TIME)
   end
 
 end
@@ -108,46 +109,14 @@ function autogft_iocev.enable()
 
   local enabledGroupCommands = {}
 
-  ---
-  -- @param #number groupId
-  local function groupHasCommandEnabled(groupId)
-    for i = 1, #enabledGroupCommands do
-      if enabledGroupCommands[i].groupId == groupId then
-        return true
-      end
-    end
-    return false
-  end
-
-  ---
-  -- @param DCSGroup#Group group
-  local function groupHasPlayer(group)
-    local units = group:getUnits()
-    for i = 1, #units do
-      if units[i]:getPlayerName() ~= nil then return true end
-    end
-    return false
-  end
-
-  ---
-  -- @param DCSGroup#Group group
-  local function enableForGroup(group)
-    local function triggerCommand()
-      local unit = group:getUnit(1)
-      autogft_iocev.informOfClosestEnemyVehicles(group)
-    end
-    local groupCommand = autogft_GroupCommand:new(autogft_iocev.COMMAND_TEXT, group:getName(), triggerCommand)
-    groupCommand:enable()
-    enabledGroupCommands[group:getName()] = groupCommand
-  end
-
-  function enableForPlayers(players)
+  local function enableForPlayers(players)
     for i = 1, #players do
       local player = players[i]
       local group = player:getGroup() --DCSGroup#Group
       local groupName = group:getName()
       if not enabledGroupCommands[groupName] then
-        enableForGroup(group)
+        autogft_GroupIntel:new(group)
+        enabledGroupCommands[groupName] = true
       end
     end
   end
@@ -159,7 +128,6 @@ function autogft_iocev.enable()
 
     autogft.scheduleFunction(reEnablingLoop, autogft_iocev.COMMAND_ENABLING_DELAY)
   end
-
   reEnablingLoop()
 
 end

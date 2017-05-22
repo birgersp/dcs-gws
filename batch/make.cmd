@@ -6,6 +6,7 @@ set sources=^
  autogft\vector2.lua^
  autogft\vector3.lua^
  autogft\groupcommand.lua^
+ autogft\groupintel.lua^
  autogft\iocev.lua^
  autogft\map.lua^
  autogft\reinforcer.lua^

@@ -4,8 +4,7 @@
 ---
 -- @type GroupCommand
 -- @extends class#Class
--- @field #string commandName
--- @field #string groupName
+-- @field #string commandText
 -- @field #number groupId
 -- @field #function func
 -- @field #number timerId
@@ -14,15 +13,14 @@ autogft_GroupCommand = autogft_Class:create()
 
 ---
 -- @param #GroupCommand self
--- @param #string commandName
--- @param #string groupName
+-- @param DCSGroup#Group group
+-- @param #string commandText
 -- @param #function func
 -- @return #GroupCommand
-function autogft_GroupCommand:new(commandName, groupName, func)
+function autogft_GroupCommand:new(group, commandText, func)
   self = self:createInstance()
-  self.commandName = commandName
-  self.groupName = groupName
-  self.groupId = Group.getByName(groupName):getID()
+  self.commandText = commandText
+  self.groupId = group:getID()
   self.func = func
   return self
 end
@@ -34,7 +32,7 @@ function autogft_GroupCommand:enable()
 
   local flagName = "groupCommandFlag"..self.groupId
   trigger.action.setUserFlag(flagName, 0)
-  trigger.action.addOtherCommandForGroup(self.groupId, self.commandName, flagName, 1)
+  trigger.action.addOtherCommandForGroup(self.groupId, self.commandText, flagName, 1)
 
   local function checkTrigger()
     if self.enabled == true then
@@ -53,6 +51,6 @@ end
 -- @param #GroupCommand self
 function autogft_GroupCommand:disable()
   -- Remove group command from mission
-  trigger.action.removeOtherCommandForGroup(self.groupId, self.commandName)
+  trigger.action.removeOtherCommandForGroup(self.groupId, self.commandText)
   self.enabled = false
 end
