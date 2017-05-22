@@ -13,7 +13,7 @@
 
 autogft_Setup:new()
   :setCountry(country.id.NORWAY)
-  :addGroup():addUnits(1, "Hummer")
+  :addTaskGroup():addUnits(1, "Hummer")
   :addBaseZone("BLUE_BASE4")
   :addIntermidiateZone("CONTROL1")
   :addControlZone("SAFE_SPOT")

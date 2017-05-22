@@ -66,7 +66,7 @@ end
 
 ---
 -- @param #Reinforcer self
--- @param group#Group group
+-- @param taskgroup#TaskGroup group
 -- @param #list<#ReinforcerUnit> units
 function autogft_Reinforcer:addGroupUnits(group, units)
 
@@ -137,7 +137,7 @@ end
 function autogft_SpecificUnitReinforcer:reinforceFromUnits(availableUnits)
   local takenUnitIndices = {}
   for groupID, _ in pairs(self.groupsUnitSpecs.keys) do
-    local group = self.groupsUnitSpecs.keys[groupID] --group#Group
+    local group = self.groupsUnitSpecs.keys[groupID] --taskgroup#TaskGroup
 
     if not group:exists() then
       local newUnits = {}
@@ -214,7 +214,7 @@ function autogft_RespawningReinforcer:reinforce()
   local spawnedUnitCount = 0
 
   for groupID, _ in pairs(self.groupsUnitSpecs.keys) do
-    local group = self.groupsUnitSpecs.keys[groupID] --group#Group
+    local group = self.groupsUnitSpecs.keys[groupID] --taskgroup#TaskGroup
 
     if not group:exists() then
       local newUnits = {}
@@ -325,7 +325,7 @@ end
 
 ---
 -- @param #RandomReinforcer self
--- @param group#Group group
+-- @param taskgroup#TaskGroup group
 -- @param #list<#RandomUnitSpec> randomUnitSpecs
 function autogft_RandomReinforcer:setGroupUnitSpecs(group, randomUnitSpecs)
   self.groupsUnitSpecs:put(group, randomUnitSpecs)

@@ -1,8 +1,8 @@
 ---
--- @module Group
+-- @module TaskGroup
 
 ---
--- @type Group
+-- @type TaskGroup
 -- @extends class#Class
 -- @field #list<unitspec#UnitSpec> unitSpecs
 -- @field tasksequence#TaskSequence taskSequence
@@ -13,32 +13,32 @@
 -- @field #number routeOvershootM
 -- @field #number maxDistanceM
 -- @field #number USING_ROAD_DISTANCE_THRESHOLD_M
-autogft_Group = autogft_Class:create()
+autogft_TaskGroup = autogft_Class:create()
 
-autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M = 500
-autogft_Group.ROUTE_OVERSHOOT_M = 250
-autogft_Group.MAX_ROUTE_DISTANCE_M = 10000
+autogft_TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M = 500
+autogft_TaskGroup.ROUTE_OVERSHOOT_M = 250
+autogft_TaskGroup.MAX_ROUTE_DISTANCE_M = 10000
 
 ---
--- @param #Group self
+-- @param #TaskGroup self
 -- @param tasksequence#TaskSequence taskSequence
--- @return #Group
-function autogft_Group:new(taskSequence)
+-- @return #TaskGroup
+function autogft_TaskGroup:new(taskSequence)
   self = self:createInstance()
   self.unitSpecs = {}
   self.taskSequence = taskSequence
   self.destinationIndex = 1
   self.progressing = true
-  self.routeOvershootM = autogft_Group.ROUTE_OVERSHOOT_M
-  self.maxDistanceM = autogft_Group.MAX_ROUTE_DISTANCE_M
-  self.usingRoadDistanceThresholdM = autogft_Group.USING_ROAD_DISTANCE_THRESHOLD_M
+  self.routeOvershootM = autogft_TaskGroup.ROUTE_OVERSHOOT_M
+  self.maxDistanceM = autogft_TaskGroup.MAX_ROUTE_DISTANCE_M
+  self.usingRoadDistanceThresholdM = autogft_TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M
   self:setDCSGroup(nil)
   return self
 end
 
 ---
--- @param #Group self
-function autogft_Group:updateGroupLead()
+-- @param #TaskGroup self
+function autogft_TaskGroup:updateGroupLead()
   self.groupLead = nil
   if self.dcsGroup then
     local unitIndex = 1
@@ -54,9 +54,9 @@ function autogft_Group:updateGroupLead()
 end
 
 ---
--- @param #Group self
--- @return #Group
-function autogft_Group:exists()
+-- @param #TaskGroup self
+-- @return #TaskGroup
+function autogft_TaskGroup:exists()
   self:updateGroupLead()
   if self.groupLead then
     return true
@@ -65,10 +65,10 @@ function autogft_Group:exists()
 end
 
 ---
--- @param #Group self
+-- @param #TaskGroup self
 -- @param DCSUnit#Unit unit
 -- @return #boolean
-function autogft_Group:containsUnit(unit)
+function autogft_TaskGroup:containsUnit(unit)
   if self.dcsGroup then
     local units = self.dcsGroup:getUnits()
     for unitIndex = 1, #units do
@@ -79,17 +79,17 @@ function autogft_Group:containsUnit(unit)
 end
 
 ---
--- @param #Group self
+-- @param #TaskGroup self
 -- @param unitspec#UnitSpec unitSpec
-function autogft_Group:addUnitSpec(unitSpec)
+function autogft_TaskGroup:addUnitSpec(unitSpec)
   self.unitSpecs[#self.unitSpecs + 1] = unitSpec
   return self
 end
 
 ---
--- @param #Group self
--- @return #Group
-function autogft_Group:advance()
+-- @param #TaskGroup self
+-- @return #TaskGroup
+function autogft_TaskGroup:advance()
 
   if #self.taskSequence.tasks <= 0 or self.taskSequence.currentTaskIndex <= 0 then
     do return end
@@ -166,9 +166,9 @@ function autogft_Group:advance()
 end
 
 ---
--- @param #Group self
--- @return #Group
-function autogft_Group:forceAdvance()
+-- @param #TaskGroup self
+-- @return #TaskGroup
+function autogft_TaskGroup:forceAdvance()
 
   local destinationTask = self.taskSequence.tasks[self.destinationIndex]
   local destination = destinationTask:getLocation()
@@ -236,19 +236,19 @@ function autogft_Group:forceAdvance()
 end
 
 ---
--- @param #Group self
+-- @param #TaskGroup self
 -- @param DCSGroup#Group newGroup
--- @return #Group
-function autogft_Group:setDCSGroup(newGroup)
+-- @return #TaskGroup
+function autogft_TaskGroup:setDCSGroup(newGroup)
   self.dcsGroup = newGroup
   self.destinationIndex = 1
   return self
 end
 
 ---
--- @param #Group self
+-- @param #TaskGroup self
 -- @param #list<waypoint#Waypoint> waypoints
-function autogft_Group:setRoute(waypoints)
+function autogft_TaskGroup:setRoute(waypoints)
   if self:exists() then
     local dcsTask = {
       id = "Mission",

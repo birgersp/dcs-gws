@@ -14,7 +14,7 @@
 -- @field #number reinforcementTimerId
 -- @field #number stopReinforcementTimerId
 -- @field #number advancementTimerId
--- @field group#Group lastAddedGroup
+-- @field taskgroup#TaskGroup lastAddedGroup
 -- @field map#Map baseLinks
 autogft_Setup = autogft_Class:create()
 
@@ -150,7 +150,7 @@ function autogft_Setup:autoAddUnitLayout(units)
 
   -- Iterate through the table of groups, add groups and units
   for _, group in pairs(groupUnits) do
-    self:addGroup()
+    self:addTaskGroup()
     for type, count in pairs(group) do
       self:addUnits(count, type)
     end
@@ -220,9 +220,9 @@ end
 -- See "unit-types" for a complete list of available unit types.
 -- @param #Setup self
 -- @return #Setup This instance (self)
-function autogft_Setup:addGroup()
+function autogft_Setup:addTaskGroup()
 
-  self.taskForce.groups[#self.taskForce.groups + 1] = autogft_Group:new(self.taskForce.taskSequence)
+  self.taskForce.groups[#self.taskForce.groups + 1] = autogft_TaskGroup:new(self.taskForce.taskSequence)
   self.lastAddedGroup = self.taskForce.groups[#self.taskForce.groups]
   if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
     self.taskForce.reinforcer.groupsUnitSpecs:put(self.lastAddedGroup, {})
@@ -416,12 +416,12 @@ function autogft_Setup:stopReinforcing()
 end
 
 ---
--- Adds unit specifications to the most recently added group (see @{#Setup.addGroup}) of the task force.
+-- Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:addUnits(count, type)
   assert(self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer), "Cannot add units with this function to this type of reinforcer.")
-  if not self.lastAddedGroup then self:addGroup() end
+  if not self.lastAddedGroup then self:addTaskGroup() end
   local unitSpecs = self.taskForce.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
   unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, type)
   return self
@@ -503,7 +503,7 @@ function autogft_Setup:addRandomUnitAlternative(max, type, minimum)
     self:useRandomUnits()
   end
   local reinforcer = self.taskForce.reinforcer --reinforcer#RandomReinforcer
-  if not self.lastAddedGroup then self:addGroup() end
+  if not self.lastAddedGroup then self:addTaskGroup() end
   local unitSpecs = self.taskForce.reinforcer.groupsUnitSpecs:get(self.lastAddedGroup)
   unitSpecs[#unitSpecs + 1] = autogft_RandomUnitSpec:new(max, type, minimum)
   return self

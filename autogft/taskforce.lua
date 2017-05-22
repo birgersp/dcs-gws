@@ -6,7 +6,7 @@
 -- @extends class#Class
 -- @field tasksequence#TaskSequence taskSequence
 -- @field reinforcer#Reinforcer reinforcer
--- @field #list<group#Group> groups
+-- @field #list<taskgroup#TaskGroup> groups
 autogft_TaskForce = autogft_Class:create()
 
 ---

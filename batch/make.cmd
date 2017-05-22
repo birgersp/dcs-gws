@@ -5,7 +5,6 @@ set sources=^
  autogft\unitspec.lua^
  autogft\vector2.lua^
  autogft\vector3.lua^
- autogft\group.lua^
  autogft\groupcommand.lua^
  autogft\iocev.lua^
  autogft\map.lua^
@@ -13,6 +12,7 @@ set sources=^
  autogft\setup.lua^
  autogft\task.lua^
  autogft\taskforce.lua^
+ autogft\taskgroup.lua^
  autogft\tasksequence.lua^
  autogft\unitcluster.lua^
  autogft\util.lua^
