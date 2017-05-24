@@ -133,6 +133,11 @@ function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetU
       z = cluster.midPoint.y
     }
     local lat, lon, _ = coord.LOtoLL(dcsVec3)
+    local latCoordinate = autogft_Coordinate:new(lat)
+    local lonCoordinate = autogft_Coordinate:new(lon)
+
+    local latString = latCoordinate:getDegreesString(2) .. " " .. latCoordinate:getMinutesString(3, 3)
+    local lonString = lonCoordinate:getDegreesString(3) .. " " .. lonCoordinate:getMinutesString(3, 3)
 
     --    local observerToCluster = autogft_Vector2.minus(cluster.midPoint, observerPosVec2)
     --    local dirRad = autogft_Vector2.Axis.X:getAngleTo(observerToCluster) + observerHeadingNortCorrection
@@ -142,7 +147,7 @@ function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetU
     --    local distanceNM = distanceKM / 1.852
     --    local distanceNMRounded = math.floor(distanceNM + 0.5)
 
-    text = text .. " at " .. lat .. ", " .. lon
+    text = text .. " at " .. latString .. ", " .. lonString
     message = message .. text .. "\n"
   end
   return message
