@@ -310,13 +310,17 @@ end
 -- @param #RandomReinforcer self
 function autogft_RandomReinforcer:reinforce()
   for _, group in pairs(self.groupsUnitSpecs.keys) do
-    local randomUnitSpecs = self.groupsUnitSpecs:get(group) --#list<#RandomUnitSpec>
+    local randomUnitSpecs = self.groupsUnitSpecs:get(group)
     local unitSpecs = {}
     for i = 1, #randomUnitSpecs do
-      local randomUnitSpec = randomUnitSpecs[i]
-      local random = math.floor(math.random(randomUnitSpec.diff + 0.9999))
-      local count = randomUnitSpec.minimum + random
-      unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, randomUnitSpec.type)
+      local unitSpec = randomUnitSpecs[i] --unitspec#UnitSpec
+
+      local count = unitSpec.count
+      if unitSpec:instanceOf(autogft_RandomUnitSpec) then
+        local random = math.floor(math.random(unitSpec.diff + 0.9999))
+        count = unitSpec.minimum + random
+      end
+      unitSpecs[#unitSpecs + 1] = autogft_UnitSpec:new(count, unitSpec.type)
     end
     self.respawningReinforcer.groupsUnitSpecs:put(group, unitSpecs)
   end
