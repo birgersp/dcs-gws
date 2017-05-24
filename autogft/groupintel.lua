@@ -44,15 +44,19 @@ function autogft_GroupIntel:start()
   if self.started then
     do return end
   end
-  
+
   self.started = true
   self.startCommand:disable()
   self.stopCommand:enable()
 
   local function intelLoop()
     if self.started then
-      autogft_iocev.informOfClosestEnemyVehicles(self.targetGroup)
-      autogft.scheduleFunction(intelLoop, autogft_GroupIntel.INTEL_LOOP_DELAY)
+      if self.targetGroup:isExist() then
+        autogft_iocev.informOfClosestEnemyVehicles(self.targetGroup)
+        autogft.scheduleFunction(intelLoop, autogft_GroupIntel.INTEL_LOOP_DELAY)
+      else
+        self:stop()
+      end
     end
   end
   intelLoop()
