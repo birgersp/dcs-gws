@@ -97,7 +97,7 @@ end
 -- @param DCSVec3#Vec3 observerPosition
 -- @param #list<DCSUnit#Unit> targetUnits
 -- @param #number adjacentUnitThreshold
-function autogft_observerIntel.getTargetUnitsMessage(observerPosition, targetUnits, adjacentUnitThreshold)
+function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetUnits, adjacentUnitThreshold)
 
   local observerPosVec2 = autogft_Vector2:new(observerPosition.x, observerPosition.z)
   local observerHeadingNortCorrection = autogft.getHeadingNorthCorrection(observerPosition)
@@ -127,15 +127,22 @@ function autogft_observerIntel.getTargetUnitsMessage(observerPosition, targetUni
       autogft.log(text)
     end
 
-    local observerToCluster = autogft_Vector2.minus(cluster.midPoint, observerPosVec2)
-    local dirRad = autogft_Vector2.Axis.X:getAngleTo(observerToCluster) + observerHeadingNortCorrection
-    local dirHeading = math.floor(dirRad / math.pi * 180 + 0.5)
-    local distanceM = observerToCluster:getMagnitude()
-    local distanceKM = distanceM / 1000
-    local distanceNM = distanceKM / 1.852
+    local dcsVec3 = {
+      x = cluster.midPoint.x,
+      y = 0,
+      z = cluster.midPoint.y
+    }
+    local lat, lon, _ = coord.LOtoLL(dcsVec3)
 
-    local distanceNMRounded = math.floor(distanceNM + 0.5)
-    text = text .. " located " .. distanceNMRounded .. "nm at " .. dirHeading
+    --    local observerToCluster = autogft_Vector2.minus(cluster.midPoint, observerPosVec2)
+    --    local dirRad = autogft_Vector2.Axis.X:getAngleTo(observerToCluster) + observerHeadingNortCorrection
+    --    local dirHeading = math.floor(dirRad / math.pi * 180 + 0.5)
+    --    local distanceM = observerToCluster:getMagnitude()
+    --    local distanceKM = distanceM / 1000
+    --    local distanceNM = distanceKM / 1.852
+    --    local distanceNMRounded = math.floor(distanceNM + 0.5)
+
+    text = text .. " at " .. lat .. ", " .. lon
     message = message .. text .. "\n"
   end
   return message
@@ -215,7 +222,7 @@ function autogft_ObserverIntel:viewTarget()
   if (#availableEnemyUnits == 0) then
     message = autogft_ObserverIntel.NO_TARGETS_OBSERVED_MESSAGE
   else
-    message = autogft_observerIntel.getTargetUnitsMessage(observerPosition, availableEnemyUnits, autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M)
+    message = autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, availableEnemyUnits, autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M)
   end
 
   trigger.action.outTextForGroup(self.groupID, message, autogft_ObserverIntel.MESSAGE_TIME)
