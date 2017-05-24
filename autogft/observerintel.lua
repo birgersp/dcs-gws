@@ -51,8 +51,10 @@ function autogft_ObserverIntel:viewThreat()
   local observerPosVec2 = autogft_Vector2:new(observerPosition.x, observerPosition.z)
   local observerHeadingNortCorrection = autogft.getHeadingNorthCorrection(observerPosition)
 
-  local availableEnemyUnits = {}
+  local unitGroupMaxDistance2 = autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M^2
 
+  -- Create list of enemy units within max distance
+  local availableEnemyUnits = {}
   for enemyGroupI = 1, #enemyGroundGroups do
     local enemyGroup = enemyGroundGroups[enemyGroupI]
     if enemyGroup and enemyGroup:isExist() then
@@ -73,17 +75,19 @@ function autogft_ObserverIntel:viewThreat()
     end
   end
 
-
-  local unitGroupMaxDistance2 = autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M^2
+  ---
+  -- Creates a cluster of units, from all units adjacent to an origin unit
   local function getCluster(clusterOriginUnit)
 
     local unitsWithinRange = {} --#list<DCSUnit#Unit>
     local unitsWithinRangeIndices = {}
+    local unitsWithinRangeNames = {}
 
     local minPos = clusterOriginUnit:getPosition().p
     local maxPos = clusterOriginUnit:getPosition().p
 
     ---
+    -- Adds a unit to the cluster
     -- @param DCSUnit#Unit unit
     local function addUnit(unit)
       local pos = unit:getPosition().p
@@ -92,57 +96,65 @@ function autogft_ObserverIntel:viewThreat()
       if pos.x > maxPos.x then maxPos.x = pos.x end
       if pos.z > maxPos.z then maxPos.z = pos.z end
       unitsWithinRange[#unitsWithinRange + 1] = unit
+      unitsWithinRangeNames[unit:getName()] = true
     end
 
     ---
+    -- Iterates through units to see if they are adjacent to a target unit
     -- @param DCSUnit#Unit unit
     local function vehiclesWithinRecurse(targetUnit)
-
       local targetUnitPos = targetUnit:getPosition().p
-
       for i = 1, #availableEnemyUnits do
         local friendlyGroundUnit = availableEnemyUnits[i] --DCSUnit#Unit
-        local friendlyGroundUnitID = friendlyGroundUnit:getID()
-        if friendlyGroundUnitID ~= targetUnit:getID() then
 
-          local unitPos = friendlyGroundUnit:getPosition().p
-          local dX = unitPos.x - targetUnitPos.x
-          local dY = unitPos.y - targetUnitPos.y
-          local dZ = unitPos.z - targetUnitPos.z
-          local distance2 = dX*dX + dY*dY + dZ*dZ
+        -- If not previously added
+        if not unitsWithinRangeNames[friendlyGroundUnit:getName()] then
 
-          if distance2 <= unitGroupMaxDistance2 and not unitsWithinRangeIndices[i] then
+          -- If unit is target unit (self)
+          if friendlyGroundUnit:getName() == targetUnit:getName() then
             addUnit(friendlyGroundUnit)
-            unitsWithinRangeIndices[i] = true
-            vehiclesWithinRecurse(friendlyGroundUnit)
+          else
+            -- Verify that friendly unit is within range of target unit
+            local unitPos = friendlyGroundUnit:getPosition().p
+            local dX = unitPos.x - targetUnitPos.x
+            local dY = unitPos.y - targetUnitPos.y
+            local dZ = unitPos.z - targetUnitPos.z
+            local distance2 = dX*dX + dY*dY + dZ*dZ
+            if distance2 <= unitGroupMaxDistance2 then
+              addUnit(friendlyGroundUnit)
+              vehiclesWithinRecurse(friendlyGroundUnit)
+            end
           end
         end
       end
     end
-
     vehiclesWithinRecurse(clusterOriginUnit)
 
+    -- Units put into the cluster are removed from the list of available enemy units
     local newAvailableUnits = {}
     for i = 1, #availableEnemyUnits do
-      if not unitsWithinRangeIndices[i] then
+      if not unitsWithinRangeNames[availableEnemyUnits[i]:getName()] then
         newAvailableUnits[#newAvailableUnits + 1] = availableEnemyUnits[i]
       end
     end
     availableEnemyUnits = newAvailableUnits
 
+    -- Determine cluster midpoint
     local dx = maxPos.x - minPos.x
     local dz = maxPos.z - minPos.z
-
     local midPoint = autogft_Vector2:new(minPos.x + dx / 2, minPos.z + dz / 2)
+
     return autogft_UnitCluster:new(unitsWithinRange, midPoint)
   end
 
+  -- Create clusters from all available enemy units
   local clusters = {}
   while #availableEnemyUnits > 0 do
     local cluster = getCluster(availableEnemyUnits[1])
     clusters[#clusters + 1] = cluster
   end
 
+  -- Create message from clusters
   local message = ""
   if #clusters == 0 then
     message = "no enemy units observed"
