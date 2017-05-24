@@ -99,9 +99,6 @@ end
 -- @param #number adjacentUnitThreshold
 function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetUnits, adjacentUnitThreshold)
 
-  local observerPosVec2 = autogft_Vector2:new(observerPosition.x, observerPosition.z)
-  local observerHeadingNortCorrection = autogft.getHeadingNorthCorrection(observerPosition)
-
   local clusters = autogft_observerIntel.getUnitClusters(targetUnits, adjacentUnitThreshold)
 
   -- Create message from clusters
@@ -170,7 +167,7 @@ end
 function autogft_ObserverIntel:viewTarget()
 
   local enemyGroundGroups = coalition.getGroups(self.enemyCoalitionID, Group.Category.GROUND)
-  local observerMaxDistance2 = self.OBSERVER_MAX_DISTANCE_M^2
+  local observerMaxDistance2 = autogft_ObserverIntel.OBSERVER_MAX_DISTANCE_M^2
 
   local observerPosition = self.targetGroup:getUnit(1):getPosition().p
 
@@ -217,7 +214,7 @@ function autogft_observerIntel.enable(groupNamePrefix)
   local function enableForGroups(groups)
     for groupI = 1, #groups do
       local group = groups[groupI]
-      if group and group:isExist() then
+      if group and group:isExist() and group:getName():find(groupNamePrefix) == 1 then
         local units = group:getUnits()
         for unitI = 1, #units do
           local unit = units[unitI] --DCSUnit#Unit
