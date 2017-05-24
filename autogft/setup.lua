@@ -358,42 +358,41 @@ function autogft_Setup:setSpeed(speed)
 end
 
 ---
--- Scans the map once for any pre-existing units to control in this task force.
--- Groups with name starting with the scan prefix will be considered.
--- A task force will only take control of units according to the task force unit specification (added units).
+-- Invokes @{Setup.copyGroupsLayout} and @{Setup.useExistingGroups}.
 -- @param #Setup self
+-- @param #string groupNamePrefix
 -- @return #Setup
 function autogft_Setup:scanUnits(groupNamePrefix)
-
-  local coalitionGroups = {
-    coalition.getGroups(coalition.side.BLUE),
-    coalition.getGroups(coalition.side.RED)
-  }
-
-  local availableUnits = {}
-
-  local coalition = 1
-  while coalition <= #coalitionGroups and #availableUnits == 0 do
-    for _, group in pairs(coalitionGroups[coalition]) do
-      if group:getName():find(groupNamePrefix) == 1 then
-        local units = group:getUnits()
-        for unitIndex = 1, #units do
-          availableUnits[#availableUnits + 1] = units[unitIndex]
-        end
-      end
-    end
-    coalition = coalition + 1
-  end
-
-  if #availableUnits > 0 then
-    if not self.country then
-      self:setCountry(availableUnits[1]:getCountry())
-    end
-    self:autoAddUnitLayout(availableUnits)
-    self.taskForce.reinforcer:reinforceFromUnits(availableUnits)
-  end
-
+  self:copyGroupsLayout(groupNamePrefix)
+  self:useExistingGroups(groupNamePrefix)
   return self
+end
+
+---
+-- Scans the mission once for any group(s) with a name prefix. The task force will then use the same layout  as the group(s) when reinforcing.
+-- @param #Setup self
+-- @return #Setup
+function autogft_Setup:copyGroupsLayout(groupNamePrefix)
+
+  local availableUnits = autogft.getUnitsByGroupNamePrefix(groupNamePrefix)
+  assert(#availableUnits > 0, "Copying groups layout failed: No groups with a name prefix of \"" .. groupNamePrefix .. "\" was found")
+  self:autoAddUnitLayout(availableUnits)
+
+end
+
+---
+-- Scans the mission once for any group(s) with a name prefix. The task force will immidiately assume control of the units in the group(s)
+-- @param #Setup self
+-- @return #Setup
+function autogft_Setup:useExistingGroups(groupNamePrefix)
+
+  local errorMessage = "Using existing groups failed: "
+  assert(self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer), errorMessage .. "Cannot use existing groups with this type of task force reinforcing policy")
+  local availableUnits = autogft.getUnitsByGroupNamePrefix(groupNamePrefix)
+  assert(#availableUnits > 0, errorMessage .. "No groups with a name prefix of \"" .. groupNamePrefix .. "\" was found")
+  local reinforcer = self.taskForce.reinforcer --reinforcer#SpecificUnitReinforcer
+  reinforcer:reinforceFromUnits(availableUnits)
+
 end
 
 ---
