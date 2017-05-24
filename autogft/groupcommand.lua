@@ -11,6 +11,8 @@
 -- @field #boolean enabled
 autogft_GroupCommand = autogft_Class:create()
 
+autogft_GroupCommand.COMMAND_COUNT = 0
+
 ---
 -- @param #GroupCommand self
 -- @param DCSGroup#Group group
@@ -30,7 +32,9 @@ end
 function autogft_GroupCommand:enable()
   self.enabled = true
 
-  local flagName = "groupCommandFlag"..self.groupId
+  local flagName = "groupCommandFlag"..autogft_GroupCommand.COMMAND_COUNT
+  autogft_GroupCommand.COMMAND_COUNT = autogft_GroupCommand.COMMAND_COUNT + 1
+
   trigger.action.setUserFlag(flagName, 0)
   trigger.action.addOtherCommandForGroup(self.groupId, self.commandText, flagName, 1)
 
