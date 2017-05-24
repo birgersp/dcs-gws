@@ -166,39 +166,15 @@ end
 -- @param #ObserverIntel self
 function autogft_ObserverIntel:viewTarget()
 
-  local enemyGroundGroups = coalition.getGroups(self.enemyCoalitionID, Group.Category.GROUND)
-  local observerMaxDistance2 = autogft_ObserverIntel.OBSERVER_MAX_DISTANCE_M^2
+  local ownUnit = self.targetGroup:getUnit(1)
 
-  local observerPosition = self.targetGroup:getUnit(1):getPosition().p
-
-  local unitGroupMaxDistance2 = autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M^2
-
-  -- Create list of enemy units within max distance
-  local availableEnemyUnits = {}
-  for enemyGroupI = 1, #enemyGroundGroups do
-    local enemyGroup = enemyGroundGroups[enemyGroupI]
-    if enemyGroup and enemyGroup:isExist() then
-      local enemyUnits = enemyGroup:getUnits()
-      for enemyUnitI = 1, #enemyUnits do
-        local enemyUnit = enemyUnits[enemyUnitI] --DCSUnit#Unit
-        if enemyUnit and enemyUnit:isExist() then
-          local enemyPos = enemyUnit:getPosition().p
-          local dX = enemyPos.x - observerPosition.x
-          local dY = enemyPos.y - observerPosition.y
-          local dZ = enemyPos.z - observerPosition.z
-          local distance2 = dX*dX + dY*dY + dZ*dZ
-          if distance2 <= observerMaxDistance2 then
-            availableEnemyUnits[#availableEnemyUnits + 1] = enemyUnit
-          end
-        end
-      end
-    end
-  end
+  local availableEnemyUnits = autogft.getEnemyGroundUnitsWithin(ownUnit, autogft_ObserverIntel.OBSERVER_MAX_DISTANCE_M)
 
   local message
   if (#availableEnemyUnits == 0) then
     message = autogft_ObserverIntel.NO_TARGETS_OBSERVED_MESSAGE
   else
+    local observerPosition = ownUnit:getPosition().p
     message = autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, availableEnemyUnits, autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M)
   end
 
