@@ -18,13 +18,17 @@
 			</li></ul>
 		<ul>
 					<li><a href="Class.html">Class</a></li>
-					<li><a href="Group.html">Group</a></li>
+					<li><a href="Coordinate.html">Coordinate</a></li>
 					<li><a href="GroupCommand.html">GroupCommand</a></li>
+					<li><a href="GroupIntel.html">GroupIntel</a></li>
+					<li><a href="IOCEV.html">IOCEV</a></li>
 					<li><a href="Map.html">Map</a></li>
+					<li><a href="ObserverIntel.html">ObserverIntel</a></li>
 					<li><a href="Reinforcer.html">Reinforcer</a></li>
 					<li>Setup</li>
 					<li><a href="Task.html">Task</a></li>
 					<li><a href="TaskForce.html">TaskForce</a></li>
+					<li><a href="TaskGroup.html">TaskGroup</a></li>
 					<li><a href="TaskSequence.html">TaskSequence</a></li>
 					<li><a href="UnitCluster.html">UnitCluster</a></li>
 					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
@@ -63,12 +67,6 @@
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Setup).addGroup">Setup:addGroup()</a></td>
-		<td class="summary">
-<p>Adds another group specification to the task force.</p>
-</td>
-		</tr>
-		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Setup).addIntermidiateZone">Setup:addIntermidiateZone(zoneName)</a></td>
 		<td class="summary">
 <p>Adds an intermidiate zone task.</p>
@@ -87,9 +85,15 @@
 </td>
 		</tr>
 		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(Setup).addTaskGroup">Setup:addTaskGroup()</a></td>
+		<td class="summary">
+<p>Adds another group specification to the task force.</p>
+</td>
+		</tr>
+		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Setup).addUnits">Setup:addUnits(count, type)</a></td>
 		<td class="summary">
-<p>Adds unit specifications to the most recently added group (see <a href="##(Setup).addGroup">Setup.addGroup</a>) of the task force.</p>
+<p>Adds unit specifications to the most recently added group (see <a href="##(Setup).addTaskGroup">Setup.addTaskGroup</a>) of the task force.</p>
 </td>
 		</tr>
 		<tr>
@@ -147,6 +151,12 @@
 </td>
 		</tr>
 		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(Setup).copyGroupsLayout">Setup:copyGroupsLayout(groupNamePrefix)</a></td>
+		<td class="summary">
+<p>Scans the mission once for any group(s) with a name prefix.</p>
+</td>
+		</tr>
+		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Setup).lastAddedGroup">Setup.lastAddedGroup</a></td>
 		<td class="summary">
 
@@ -179,7 +189,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Setup).scanUnits">Setup:scanUnits(groupNamePrefix)</a></td>
 		<td class="summary">
-<p>Scans the map once for any pre-existing units to control in this task force.</p>
+<p>Invokes <a href="##(Setup).copyGroupsLayout">Setup.copyGroupsLayout</a> and <a href="##(Setup).useExistingGroups">Setup.useExistingGroups</a>.</p>
 </td>
 		</tr>
 		<tr>
@@ -197,7 +207,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Setup).setMaxRouteDistance">Setup:setMaxRouteDistance(maxDistanceKM)</a></td>
 		<td class="summary">
-<p>Sets the maximum distance of unit routes (see <a href="##(Setup).maxDistanceKM">Setup.maxDistanceKM</a>).</p>
+<p>Sets the maximum distance of unit routes.</p>
 </td>
 		</tr>
 		<tr>
@@ -227,7 +237,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Setup).setSpeed">Setup:setSpeed(speed)</a></td>
 		<td class="summary">
-<p>Sets the desired speed of the task force units when advancing (see <a href="##(Setup).speed">Setup.speed</a>).</p>
+<p>Sets the desired speed of the task force units when advancing.</p>
 </td>
 		</tr>
 		<tr>
@@ -263,7 +273,7 @@
 		<tr>
 		<td class="name" nowrap="nowrap"><a href="##(Setup).stopReinforcing">Setup:stopReinforcing()</a></td>
 		<td class="summary">
-<p>Stops the reinforcing/respawning timers (see <a href="Setup.setReinforceTimer.html">Setup.setReinforceTimer</a>).</p>
+<p>Stops the reinforcing/respawning timers (see <a href="##(Setup).setReinforceTimer">Setup.setReinforceTimer</a>).</p>
 </td>
 		</tr>
 		<tr>
@@ -276,6 +286,12 @@
 		<td class="name" nowrap="nowrap"><a href="##(Setup).taskForce">Setup.taskForce</a></td>
 		<td class="summary">
 
+</td>
+		</tr>
+		<tr>
+		<td class="name" nowrap="nowrap"><a href="##(Setup).useExistingGroups">Setup:useExistingGroups(groupNamePrefix)</a></td>
+		<td class="summary">
+<p>Scans the mission once for any group(s) with a name prefix.</p>
 </td>
 		</tr>
 		<tr>
@@ -367,28 +383,6 @@ Name of target zone</p>
 
 				</li>
 		</ul>
-		<h3>Return value</h3>
-				
-<p><em><a href="##(Setup)">#Setup</a>:</em>
-This instance (self)</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Setup).addGroup" >
-<strong>Setup:addGroup()</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Adds another group specification to the task force.</p>
-
-	
-<p>After a group is added, use <a href="##(Setup).addUnits">Setup.addUnits</a> to add units.
-See "unit-types" for a complete list of available unit types.</p>
-
 		<h3>Return value</h3>
 				
 <p><em><a href="##(Setup)">#Setup</a>:</em>
@@ -493,13 +487,35 @@ This instance (self)</p>
 		<dl class="function">
 <dt>
 
+<a id="#(Setup).addTaskGroup" >
+<strong>Setup:addTaskGroup()</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Adds another group specification to the task force.</p>
+
+	
+<p>After a group is added, use <a href="##(Setup).addUnits">Setup.addUnits</a> to add units.
+See "unit-types" for a complete list of available unit types.</p>
+
+		<h3>Return value</h3>
+				
+<p><em><a href="##(Setup)">#Setup</a>:</em>
+This instance (self)</p>
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 <a id="#(Setup).addUnits" >
 <strong>Setup:addUnits(count, type)</strong>
 </a>
 </dt>
 <dd>
 	
-<p>Adds unit specifications to the most recently added group (see <a href="##(Setup).addGroup">Setup.addGroup</a>) of the task force.</p>
+<p>Adds unit specifications to the most recently added group (see <a href="##(Setup).addTaskGroup">Setup.addTaskGroup</a>) of the task force.</p>
 
 		<h3>Parameters</h3>
 		<ul>
@@ -690,7 +706,36 @@ True if this task force contains the unit, false otherwise.</p>
 		<dl class="function">
 <dt>
 
-		<em><a href="group.html##(Group)">group#Group</a></em>
+<a id="#(Setup).copyGroupsLayout" >
+<strong>Setup:copyGroupsLayout(groupNamePrefix)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Scans the mission once for any group(s) with a name prefix.</p>
+
+	
+<p>The task force will then use the same layout  as the group(s) when reinforcing.</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em> groupNamePrefix </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(Setup)">#Setup</a>:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+		<em><a href="taskgroup.html##(TaskGroup)">taskgroup#TaskGroup</a></em>
 <a id="#(Setup).lastAddedGroup" >
 <strong>Setup.lastAddedGroup</strong>
 </a>
@@ -790,17 +835,13 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Scans the map once for any pre-existing units to control in this task force.</p>
-
-	
-<p>Groups with name starting with the scan prefix will be considered.
-A task force will only take control of units according to the task force unit specification (added units).</p>
+<p>Invokes <a href="##(Setup).copyGroupsLayout">Setup.copyGroupsLayout</a> and <a href="##(Setup).useExistingGroups">Setup.useExistingGroups</a>.</p>
 
 		<h3>Parameter</h3>
 		<ul>
 				<li>
 				
-<p><code><em> groupNamePrefix </em></code>: </p>
+<p><code><em>#string groupNamePrefix </em></code>: </p>
 
 				</li>
 		</ul>
@@ -877,7 +918,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Sets the maximum distance of unit routes (see <a href="##(Setup).maxDistanceKM">Setup.maxDistanceKM</a>).</p>
+<p>Sets the maximum distance of unit routes.</p>
 
 	
 <p>If set, this number constrains how far groups of the task force will move between each move command (advancement).
@@ -1018,7 +1059,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Sets the desired speed of the task force units when advancing (see <a href="##(Setup).speed">Setup.speed</a>).</p>
+<p>Sets the desired speed of the task force units when advancing.</p>
 
 		<h3>Parameter</h3>
 		<ul>
@@ -1123,7 +1164,7 @@ This instance (self)</p>
 </dt>
 <dd>
 	
-<p>Stops the reinforcing/respawning timers (see <a href="Setup.setReinforceTimer.html">Setup.setReinforceTimer</a>).</p>
+<p>Stops the reinforcing/respawning timers (see <a href="##(Setup).setReinforceTimer">Setup.setReinforceTimer</a>).</p>
 
 		<h3>Return value</h3>
 				
@@ -1160,6 +1201,35 @@ This instance (self)</p>
 </dt>
 <dd>
 	
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(Setup).useExistingGroups" >
+<strong>Setup:useExistingGroups(groupNamePrefix)</strong>
+</a>
+</dt>
+<dd>
+	
+<p>Scans the mission once for any group(s) with a name prefix.</p>
+
+	
+<p>The task force will immidiately assume control of the units in the group(s)</p>
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em> groupNamePrefix </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em><a href="##(Setup)">#Setup</a>:</em></p>
 
 
 </dd>

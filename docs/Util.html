@@ -18,13 +18,17 @@
 			</li></ul>
 		<ul>
 					<li><a href="Class.html">Class</a></li>
-					<li><a href="Group.html">Group</a></li>
+					<li><a href="Coordinate.html">Coordinate</a></li>
 					<li><a href="GroupCommand.html">GroupCommand</a></li>
+					<li><a href="GroupIntel.html">GroupIntel</a></li>
+					<li><a href="IOCEV.html">IOCEV</a></li>
 					<li><a href="Map.html">Map</a></li>
+					<li><a href="ObserverIntel.html">ObserverIntel</a></li>
 					<li><a href="Reinforcer.html">Reinforcer</a></li>
 					<li><a href="Setup.html">Setup</a></li>
 					<li><a href="Task.html">Task</a></li>
 					<li><a href="TaskForce.html">TaskForce</a></li>
+					<li><a href="TaskGroup.html">TaskGroup</a></li>
 					<li><a href="TaskSequence.html">TaskSequence</a></li>
 					<li><a href="UnitCluster.html">UnitCluster</a></li>
 					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
@@ -106,13 +110,13 @@ Code from https://gist.github.com/MihailJP/3931841</p>
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft).getUnitsInZones">autogft.getUnitsInZones(coalitionId, <, zones)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(autogft).getUnitsByGroupNamePrefix">autogft.getUnitsByGroupNamePrefix(groupNamePrefix)</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(autogft).getUnitsInZonesByNames">autogft.getUnitsInZonesByNames(coalitionId, <, zoneNames)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(autogft).getUnitsInZones">autogft.getUnitsInZones(coalitionId, <, zones)</a></td>
 		<td class="summary">
 
 </td>
@@ -437,6 +441,27 @@ ec3</p>
 		<dl class="function">
 <dt>
 
+<a id="#(autogft).getUnitsByGroupNamePrefix" >
+<strong>autogft.getUnitsByGroupNamePrefix(groupNamePrefix)</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#string groupNamePrefix </em></code>: </p>
+
+				</li>
+		</ul>
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
 <a id="#(autogft).getUnitsInZones" >
 <strong>autogft.getUnitsInZones(coalitionId, <, zones)</strong>
 </a>
@@ -461,43 +486,6 @@ CSZone#Zone> zones</p>
 				<li>
 				
 <p><code><em> zones </em></code>: </p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em><a href="##(list)">#list</a>:</em>
-DCSUnit#Unit></p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(autogft).getUnitsInZonesByNames" >
-<strong>autogft.getUnitsInZonesByNames(coalitionId, <, zoneNames)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#number coalitionId </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em><a href="##(list)">#list</a> &lt; </em></code>: 
-string> zoneNames</p>
-
-				</li>
-				<li>
-				
-<p><code><em> zoneNames </em></code>: </p>
 
 				</li>
 		</ul>

@@ -335,7 +335,7 @@ function autogft_Setup:setSkill(skill)
 end
 
 ---
--- Sets the maximum distance of unit routes (see @{#Setup.maxDistanceKM}).
+-- Sets the maximum distance of unit routes.
 -- If set, this number constrains how far groups of the task force will move between each move command (advancement).
 -- When units are moving towards a target, units will stop at this distance and wait for the next movement command.
 -- This prevents lag when computing routes over long distances.
@@ -348,7 +348,7 @@ function autogft_Setup:setMaxRouteDistance(maxDistanceKM)
 end
 
 ---
--- Sets the desired speed of the task force units when advancing (see @{#Setup.speed}).
+-- Sets the desired speed of the task force units when advancing.
 -- @param #Setup self
 -- @param #boolean speed New speed (in knots)
 -- @return #Setup This instance (self)
@@ -358,7 +358,7 @@ function autogft_Setup:setSpeed(speed)
 end
 
 ---
--- Invokes @{Setup.copyGroupsLayout} and @{Setup.useExistingGroups}.
+-- Invokes @{#Setup.copyGroupsLayout} and @{#Setup.useExistingGroups}.
 -- @param #Setup self
 -- @param #string groupNamePrefix
 -- @return #Setup
@@ -396,7 +396,7 @@ function autogft_Setup:useExistingGroups(groupNamePrefix)
 end
 
 ---
--- Stops the reinforcing/respawning timers (see @{Setup.setReinforceTimer}).
+-- Stops the reinforcing/respawning timers (see @{#Setup.setReinforceTimer}).
 -- @param #Setup self
 -- @return #Setup
 function autogft_Setup:stopReinforcing()

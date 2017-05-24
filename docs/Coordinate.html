@@ -18,7 +18,7 @@
 			</li></ul>
 		<ul>
 					<li><a href="Class.html">Class</a></li>
-					<li><a href="Coordinate.html">Coordinate</a></li>
+					<li>Coordinate</li>
 					<li><a href="GroupCommand.html">GroupCommand</a></li>
 					<li><a href="GroupIntel.html">GroupIntel</a></li>
 					<li><a href="IOCEV.html">IOCEV</a></li>
@@ -29,7 +29,7 @@
 					<li><a href="Task.html">Task</a></li>
 					<li><a href="TaskForce.html">TaskForce</a></li>
 					<li><a href="TaskGroup.html">TaskGroup</a></li>
-					<li>TaskSequence</li>
+					<li><a href="TaskSequence.html">TaskSequence</a></li>
 					<li><a href="UnitCluster.html">UnitCluster</a></li>
 					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
 					<li><a href="Util.html">Util</a></li>
@@ -39,59 +39,47 @@
 		</ul>
 	</div>
 	<div id="content">
-   <h1>Module <code>TaskSequence</code></h1>
+   <h1>Module <code>Coordinate</code></h1>
    
 
 
 	<h2>Global(s)</h2>
 	<table class="function_list">
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_TaskSequence">autogft_TaskSequence</a></td>
+		<td class="name" nowrap="nowrap"><a href="#autogft_Coordinate">autogft_Coordinate</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 	</table>
-	<h2><a id="#(TaskSequence)" >Type <code>TaskSequence</code></a></h2>
+	<h2><a id="#(Coordinate)" >Type <code>Coordinate</code></a></h2>
 		<table class="function_list">
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).<">TaskSequence.<</a></td>
-		<td class="summary">
-<p>ask#Task> tasks</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).addTask">TaskSequence:addTask(task)</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Coordinate).degrees">Coordinate.degrees</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).currentTaskIndex">TaskSequence.currentTaskIndex</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Coordinate).getDegreesString">Coordinate:getDegreesString(minDigits)</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).getCurrentTask">TaskSequence:getCurrentTask()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Coordinate).getMinutesString">Coordinate:getMinutesString(minDecimals, maxDecimals)</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).new">TaskSequence:new()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Coordinate).minutes">Coordinate.minutes</a></td>
 		<td class="summary">
 
 </td>
 		</tr>
 		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).tasks">TaskSequence.tasks</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskSequence).updateCurrentTask">TaskSequence:updateCurrentTask()</a></td>
+		<td class="name" nowrap="nowrap"><a href="##(Coordinate).new">Coordinate:new(degrees)</a></td>
 		<td class="summary">
 
 </td>
@@ -102,9 +90,9 @@
 		<dl class="function">
 <dt>
 
-		<em><a href="##(TaskSequence)">#TaskSequence</a></em>
-<a id="autogft_TaskSequence" >
-<strong>autogft_TaskSequence</strong>
+		<em><a href="##(Coordinate)">#Coordinate</a></em>
+<a id="autogft_Coordinate" >
+<strong>autogft_Coordinate</strong>
 </a>
 </dt>
 <dd>
@@ -113,27 +101,27 @@
 
 </dd>
 </dl>
-	<h2><a id="#(TaskSequence)" >Type <code>TaskSequence</code></a></h2>
+	<h2><a id="#(Coordinate)" >Type <code>Coordinate</code></a></h2>
 		<h3>Field(s)</h3>
 		<dl class="function">
 <dt>
 
-		<em><a href="##(list)">#list</a></em>
-<a id="#(TaskSequence).<" >
-<strong>TaskSequence.<</strong>
+		<em>#number</em>
+<a id="#(Coordinate).degrees" >
+<strong>Coordinate.degrees</strong>
 </a>
 </dt>
 <dd>
 	
-<p>ask#Task> tasks</p>
+
 
 </dd>
 </dl>
 		<dl class="function">
 <dt>
 
-<a id="#(TaskSequence).addTask" >
-<strong>TaskSequence:addTask(task)</strong>
+<a id="#(Coordinate).getDegreesString" >
+<strong>Coordinate:getDegreesString(minDigits)</strong>
 </a>
 </dt>
 <dd>
@@ -144,18 +132,54 @@
 		<ul>
 				<li>
 				
-<p><code><em><a href="task.html##(Task)">task#Task</a> task </em></code>: </p>
+<p><code><em>#number minDigits </em></code>: </p>
 
 				</li>
 		</ul>
+		<h3>Return value</h3>
+				
+<p><em>#string:</em></p>
+
+
+</dd>
+</dl>
+		<dl class="function">
+<dt>
+
+<a id="#(Coordinate).getMinutesString" >
+<strong>Coordinate:getMinutesString(minDecimals, maxDecimals)</strong>
+</a>
+</dt>
+<dd>
+	
+
+
+		<h3>Parameters</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number minDecimals </em></code>: </p>
+
+				</li>
+				<li>
+				
+<p><code><em>#number maxDecimals </em></code>: </p>
+
+				</li>
+		</ul>
+		<h3>Return value</h3>
+				
+<p><em>#string:</em></p>
+
+
 </dd>
 </dl>
 		<dl class="function">
 <dt>
 
 		<em>#number</em>
-<a id="#(TaskSequence).currentTaskIndex" >
-<strong>TaskSequence.currentTaskIndex</strong>
+<a id="#(Coordinate).minutes" >
+<strong>Coordinate.minutes</strong>
 </a>
 </dt>
 <dd>
@@ -167,64 +191,30 @@
 		<dl class="function">
 <dt>
 
-<a id="#(TaskSequence).getCurrentTask" >
-<strong>TaskSequence:getCurrentTask()</strong>
+<a id="#(Coordinate).new" >
+<strong>Coordinate:new(degrees)</strong>
 </a>
 </dt>
 <dd>
 	
 
 
-</dd>
-</dl>
-		<dl class="function">
-<dt>
+		<h3>Parameter</h3>
+		<ul>
+				<li>
+				
+<p><code><em>#number degrees </em></code>: </p>
 
-<a id="#(TaskSequence).new" >
-<strong>TaskSequence:new()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
+				</li>
+		</ul>
 		<h3>Return value</h3>
 				
-<p><em><a href="##(TaskSequence)">#TaskSequence</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="#(TaskSequence).tasks" >
-<strong>TaskSequence.tasks</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskSequence).updateCurrentTask" >
-<strong>TaskSequence:updateCurrentTask()</strong>
-</a>
-</dt>
-<dd>
-	
+<p><em><a href="##(Coordinate)">#Coordinate</a>:</em></p>
 
 
 </dd>
 </dl>
 
-			<h2><a id="#(list)" >Type <code>list</code></a></h2>
-			
 </div>
 
 </div>
