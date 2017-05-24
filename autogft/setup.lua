@@ -38,7 +38,7 @@ function autogft_Setup:new()
   local function autoInitialize()
     self:autoInitialize()
   end
-  autogft.scheduleFunction(autoInitialize, 2)
+  autogft.scheduleFunction(autoInitialize, 1)
 
   return self
 end
