@@ -150,6 +150,33 @@ function autogft.groupExists(group)
 end
 
 ---
+-- @param #string groupNamePrefix
+function autogft.getUnitsByGroupNamePrefix(groupNamePrefix)
+
+  local coalitionGroups = {
+    coalition.getGroups(coalition.side.BLUE),
+    coalition.getGroups(coalition.side.RED)
+  }
+
+  local availableUnits = {}
+
+  local coalition = 1
+  while coalition <= #coalitionGroups and #availableUnits == 0 do
+    for _, group in pairs(coalitionGroups[coalition]) do
+      if group:getName():find(groupNamePrefix) == 1 then
+        local units = group:getUnits()
+        for unitIndex = 1, #units do
+          availableUnits[#availableUnits + 1] = units[unitIndex]
+        end
+      end
+    end
+    coalition = coalition + 1
+  end
+
+  return availableUnits
+end
+
+---
 -- Deep copy a table
 -- Code from https://gist.github.com/MihailJP/3931841
 function autogft.deepCopy(t)
