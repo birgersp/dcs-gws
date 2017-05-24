@@ -108,24 +108,7 @@ function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetU
   local message = ""
   for clusterI = 1, #clusters do
     local cluster = clusters[clusterI] --unitcluster#UnitCluster
-    local unitTypes = {}
-    for i = 1, #cluster.units do
-      local unit = cluster.units[i]
-      local typeName = unit:getTypeName()
-      if unitTypes[typeName] == nil then
-        unitTypes[typeName] = 0
-      end
-      unitTypes[typeName] = unitTypes[typeName] + 1
-    end
-
-    local text = ""
-    for key, val in pairs(unitTypes) do
-      if text ~= "" then
-        text = text..", "
-      end
-      text = text..val.." "..key
-      autogft.log(text)
-    end
+    local text = cluster:getInfoString()
 
     local dcsVec3 = {
       x = cluster.midPoint.x,
@@ -138,14 +121,6 @@ function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetU
 
     local latString = latCoordinate:getDegreesString(2) .. " " .. latCoordinate:getMinutesString(3, 3)
     local lonString = lonCoordinate:getDegreesString(3) .. " " .. lonCoordinate:getMinutesString(3, 3)
-
-    --    local observerToCluster = autogft_Vector2.minus(cluster.midPoint, observerPosVec2)
-    --    local dirRad = autogft_Vector2.Axis.X:getAngleTo(observerToCluster) + observerHeadingNortCorrection
-    --    local dirHeading = math.floor(dirRad / math.pi * 180 + 0.5)
-    --    local distanceM = observerToCluster:getMagnitude()
-    --    local distanceKM = distanceM / 1000
-    --    local distanceNM = distanceKM / 1.852
-    --    local distanceNMRounded = math.floor(distanceNM + 0.5)
 
     text = text .. " at " .. latString .. ", " .. lonString
     message = message .. text .. "\n"
@@ -194,7 +169,7 @@ end
 -- @param #ObserverIntel self
 function autogft_ObserverIntel:viewTarget()
 
-  local enemyGroundGroups = coalition.getGroups(self.enemyCoalitionID)
+  local enemyGroundGroups = coalition.getGroups(self.enemyCoalitionID, Group.Category.GROUND)
   local observerMaxDistance2 = self.OBSERVER_MAX_DISTANCE_M^2
 
   local observerPosition = self.targetGroup:getUnit(1):getPosition().p

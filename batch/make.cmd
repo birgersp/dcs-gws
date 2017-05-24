@@ -8,7 +8,6 @@ set sources=^
  autogft\coordinate.lua^
  autogft\groupcommand.lua^
  autogft\groupintel.lua^
- autogft\iocev.lua^
  autogft\map.lua^
  autogft\observerintel.lua^
  autogft\reinforcer.lua^

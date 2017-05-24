@@ -177,6 +177,51 @@ function autogft.getUnitsByGroupNamePrefix(groupNamePrefix)
 end
 
 ---
+-- @param DCSUnit#Unit unit
+-- @return #number
+function autogft.getEnemyCoalitionID(unit)
+  local result = coalition.side.RED
+  if unit:getCoalition() == coalition.side.RED then
+    result = coalition.side.BLUE
+  end
+  return result
+end
+
+---
+-- @param DCSUnit#Unit unit
+-- @param #number radius
+-- @return #list<DCSUnit#Unit>
+function autogft.getEnemyGroundUnitsWithin(unit, radius)
+
+  local enemyGroundGroups = coalition.getGroups(autogft.getEnemyCoalitionID(unit), Group.Category.GROUND)
+  local observerMaxDistance2 = radius^2
+  local observerPosition = unit:getPosition().p
+
+  -- Create list of enemy units within max distance
+  local targetUnits = {}
+  for enemyGroupI = 1, #enemyGroundGroups do
+    local enemyGroup = enemyGroundGroups[enemyGroupI]
+    if enemyGroup and enemyGroup:isExist() then
+      local enemyUnits = enemyGroup:getUnits()
+      for enemyUnitI = 1, #enemyUnits do
+        local enemyUnit = enemyUnits[enemyUnitI] --DCSUnit#Unit
+        if enemyUnit and enemyUnit:isExist() then
+          local enemyPos = enemyUnit:getPosition().p
+          local dX = enemyPos.x - observerPosition.x
+          local dY = enemyPos.y - observerPosition.y
+          local dZ = enemyPos.z - observerPosition.z
+          local distance2 = dX*dX + dY*dY + dZ*dZ
+          if distance2 <= observerMaxDistance2 then
+            targetUnits[#targetUnits + 1] = enemyUnit
+          end
+        end
+      end
+    end
+  end
+  return targetUnits
+end
+
+---
 -- Deep copy a table
 -- Code from https://gist.github.com/MihailJP/3931841
 function autogft.deepCopy(t)
