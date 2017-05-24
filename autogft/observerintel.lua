@@ -234,25 +234,31 @@ function autogft_observerIntel.enable(groupNamePrefix)
 
   local enabledGroupNames = {}
 
-  ---
-  -- @param #list<DCSUnit#Unit> players
-  local function enableForPlayers(players)
-
-    for i = 1, #players do
-      local player = players[i]
-      local group = player:getGroup()
-      local groupName = group:getName()
-      if not enabledGroupNames[groupName] and groupName:find(groupNamePrefix) == 1 then
-        autogft_ObserverIntel:new(group)
-        enabledGroupNames[groupName] = true
+  local function enableForGroups(groups)
+    for groupI = 1, #groups do
+      local group = groups[groupI]
+      if group and group:isExist() then
+        local units = group:getUnits()
+        for unitI = 1, #units do
+          local unit = units[unitI] --DCSUnit#Unit
+          if unit and unit:isExist() then
+            if unit:getPlayerName() then
+              local groupName = group:getName()
+              if not enabledGroupNames[groupName] then
+                autogft_ObserverIntel:new(group)
+                enabledGroupNames[groupName] = true
+              end
+            end
+          end
+        end
       end
     end
   end
 
   local function reEnablingLoop()
 
-    enableForPlayers(coalition.getPlayers(coalition.side.BLUE))
-    enableForPlayers(coalition.getPlayers(coalition.side.RED))
+    enableForGroups(coalition.getGroups(coalition.side.BLUE))
+    enableForGroups(coalition.getGroups(coalition.side.RED))
 
     autogft.scheduleFunction(reEnablingLoop, autogft_observerIntel.RE_ENABLING_LOOP_DELAY)
   end
