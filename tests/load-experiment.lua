@@ -1,0 +1,1 @@
+dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\tests\\experiment.lua")
