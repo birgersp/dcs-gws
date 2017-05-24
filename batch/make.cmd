@@ -9,6 +9,7 @@ set sources=^
  autogft\groupintel.lua^
  autogft\iocev.lua^
  autogft\map.lua^
+ autogft\observerintel.lua^
  autogft\reinforcer.lua^
  autogft\setup.lua^
  autogft\task.lua^
