@@ -1,6 +1,7 @@
 @echo off
 
 set sources=^
+ unit-types\unit-types.lua^
  autogft\class.lua^
  autogft\unitspec.lua^
  autogft\vector2.lua^
@@ -18,8 +19,7 @@ set sources=^
  autogft\tasksequence.lua^
  autogft\unitcluster.lua^
  autogft\util.lua^
- autogft\waypoint.lua^
- unit-types\unit-types.lua
+ autogft\waypoint.lua
 
 set output_dir=build
 set load_all_file=tests\load-all.lua

@@ -13,6 +13,7 @@ function autogft_observerIntel.getUnitClusters(targetUnits, adjacentUnitThreshol
 
   ---
   -- Creates a cluster of units, from all units adjacent to an origin unit
+  -- @param DCSUnit#Unit clusterOriginUnit
   local function getCluster(clusterOriginUnit)
 
     local unitsWithinRange = {} --#list<DCSUnit#Unit>
@@ -105,7 +106,16 @@ function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetU
   local message = ""
   for clusterI = 1, #clusters do
     local cluster = clusters[clusterI] --unitcluster#UnitCluster
-    local text = cluster:getInfoString()
+
+    local unitTypeCount = cluster:getUnitTypeCount()
+    local text = ""
+    for unitType, count in pairs(unitTypeCount) do
+      if text ~= "" then
+        text = text..", "
+      end
+      text = text..autogft_observerIntel.getUnitCountTerm(count).." "
+      text = text..autogft.getUnitTypeNameTerm(unitType)
+    end
 
     local dcsVec3 = {
       x = cluster.midPoint.x,
@@ -179,6 +189,22 @@ function autogft_ObserverIntel:viewTarget()
   end
 
   trigger.action.outTextForGroup(self.groupID, message, autogft_ObserverIntel.MESSAGE_TIME)
+end
+
+---
+-- @param #number count
+-- @return #string
+function autogft_observerIntel.getUnitCountTerm(count)
+
+  if count < 4 then
+    return "Platoon"
+  elseif count < 10 then
+    return "Company"
+  elseif count < 19 then
+    return "2x Company"
+  end
+
+  return "Battalion"
 end
 
 ---

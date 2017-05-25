@@ -5,7 +5,39 @@
 -- @type autogft
 autogft = {}
 
+autogft.unitTypeNameTerms = {} --#map<#string, #string>
+autogft.unitTypeTerms = {
+  MBT= "MBT",
+  INFANTRY_FIGHTING_VEHICLE = "IFV",
+  SAM = "SAM"
+}
+
+do
+
+  local function add(table, term)
+    for _, name in pairs(table) do
+      autogft.unitTypeNameTerms[name] = term
+    end
+  end
+
+  add(unitType.vehicle.tank, autogft.unitTypeTerms.MBT)
+  add(unitType.vehicle.ifv, autogft.unitTypeTerms.INFANTRY_FIGHTING_VEHICLE)
+  add(unitType.vehicle.sam, autogft.unitTypeTerms.SAM)
+
+end
+
 -- Utility function definitions
+
+---
+-- @param #string unitTypeName
+-- @return #string
+function autogft.getUnitTypeNameTerm(unitTypeName)
+  local term = autogft.unitTypeNameTerms[unitTypeName]
+  if not term then
+    term = unitTypeName
+  end
+  return term
+end
 
 ---
 -- @param DCSVec3#Vec3 position

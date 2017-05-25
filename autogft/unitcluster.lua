@@ -22,8 +22,8 @@ end
 
 ---
 -- @param #UnitCluster self
--- @return #string
-function autogft_UnitCluster:getInfoString()
+-- @return #map<#string, #number>
+function autogft_UnitCluster:getUnitTypeCount()
   local unitTypes = {}
   for i = 1, #self.units do
     local unit = self.units[i]
@@ -33,13 +33,5 @@ function autogft_UnitCluster:getInfoString()
     end
     unitTypes[typeName] = unitTypes[typeName] + 1
   end
-
-  local text = ""
-  for key, val in pairs(unitTypes) do
-    if text ~= "" then
-      text = text..", "
-    end
-    text = text..val.." "..key
-  end
-  return text
+  return unitTypes
 end

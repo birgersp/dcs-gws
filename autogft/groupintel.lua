@@ -98,7 +98,14 @@ function autogft_GroupIntel:viewEnemyGroundTargets()
     message = ""
     for clusterI = 1, #clusters do
       local cluster = clusters[clusterI] --unitcluster#UnitCluster
-      local text = cluster:getInfoString()
+      local unitTypeCount = cluster:getUnitTypeCount()
+      local text = ""
+      for unitTypeName, count in pairs(unitTypeCount) do
+        if text ~= "" then
+          text = text..", "
+        end
+        text = text..count.." "..autogft.getUnitTypeNameTerm(unitTypeName)
+      end
 
       local observerToCluster = autogft_Vector2.minus(cluster.midPoint, observerPosVec2)
       local dirRad = autogft_Vector2.Axis.X:getAngleTo(observerToCluster) + observerHeadingNortCorrection
@@ -109,7 +116,7 @@ function autogft_GroupIntel:viewEnemyGroundTargets()
       local distanceNMRounded = math.floor(distanceNM + 0.5)
       local distanceKMFloored = math.floor(distanceKM)
 
-      text = text .. " at " .. distanceKMFloored .. "km at " .. dirHeading
+      text = text .. ", " .. distanceKMFloored .. "km at " .. dirHeading
       message = message .. text .. "\n"
     end
   end
