@@ -119,6 +119,7 @@ end
 -- Automatically adds groups and units.
 -- Determines which groups and units that should be added to the task force by looking at a list of units and copying the layout.
 -- @param #Setup self
+-- @param #list<DCSUnit#Unit> units
 -- @return #Setup
 function autogft_Setup:autoAddUnitLayout(units)
 
