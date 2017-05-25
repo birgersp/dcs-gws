@@ -9,10 +9,12 @@ This project aims to enable DCS World mission makers to easily set up dynamic ba
 ## Getting started
 1. Download [the latest autogft release zip](https://github.com/birgersp/dcs-autogft/releases/latest/) and unzip it 
 
-2. Add some trigger zones to your mission, these can act as "bases" or "objectives"
+2. Add some trigger zones to your mission, these can act as "bases" or "objectives" 
+
+3. Put some AI units in your bases
 <img src="http://i.imgur.com/GuYEOLj.jpg"/>
 
-3. Create a new script (a ".lua" file) for your mission
+4. Create a new script (a ".lua" file) for your mission
 
 ```
 -- (example mission script)
@@ -30,12 +32,12 @@ autogft_Setup:new()
   :addControlZone("OBJECTIVE_WEST")
 ```
 
-4. Create a mission start trigger in the mission editor 
+5. Create a mission start trigger in the mission editor 
 
-5. Add two "DO SCRIPT FILE" actions to the trigger, one to load the autogft script (first) and another to load your mission script
+6. Add two "DO SCRIPT FILE" actions to the trigger, one to load the autogft script (first) and another to load your mission script
 <img src="http://i.imgur.com/8enqsoo.jpg"/>
 
-6. The mission is ready to start. Following the example here, the red and blue units will battle in the objective zones. Dead groups will respawn in the base zones. 
+7. The mission is ready to start. Following the example here, the red and blue units will battle in the objective zones. Dead groups will respawn in the base zones. 
 
 Please note: If you want to change your mission script later, you need to reload it into your mission by clicking "open" in the do script file action and select it again. 
 
