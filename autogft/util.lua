@@ -9,7 +9,8 @@ autogft.unitTypeNameTerms = {} --#map<#string, #string>
 autogft.unitTypeTerms = {
   MBT= "MBT",
   INFANTRY_FIGHTING_VEHICLE = "IFV",
-  SAM = "SAM"
+  SAM = "SAM",
+  INFANTRY = "INFANTRY"
 }
 
 do
@@ -23,6 +24,7 @@ do
   add(unitType.vehicle.tank, autogft.unitTypeTerms.MBT)
   add(unitType.vehicle.ifv, autogft.unitTypeTerms.INFANTRY_FIGHTING_VEHICLE)
   add(unitType.vehicle.sam, autogft.unitTypeTerms.SAM)
+  add(unitType.infantry, autogft.unitTypeTerms.INFANTRY)
 
 end
 
