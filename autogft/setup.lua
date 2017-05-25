@@ -379,6 +379,7 @@ function autogft_Setup:copyGroupsLayout(groupNamePrefix)
   assert(#availableUnits > 0, "Copying groups layout failed: No groups with a name prefix of \"" .. groupNamePrefix .. "\" was found")
   self:autoAddUnitLayout(availableUnits)
 
+  return self
 end
 
 ---
@@ -394,6 +395,7 @@ function autogft_Setup:useExistingGroups(groupNamePrefix)
   local reinforcer = self.taskForce.reinforcer --reinforcer#SpecificUnitReinforcer
   reinforcer:reinforceFromUnits(availableUnits)
 
+  return self
 end
 
 ---
