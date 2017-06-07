@@ -36,6 +36,7 @@ end
 -- @field #number countryID
 -- @field #string unitSkill
 autogft_Reinforcer = autogft_Class:create()
+autogft_Reinforcer.UNIT_SKILL = "High"
 
 ---
 -- @param #Reinforcer self
@@ -44,7 +45,7 @@ function autogft_Reinforcer:new()
   self = self:createInstance()
   self.baseZones = {}
   self.countryID = nil
-  self.unitSkill = "High"
+  self.unitSkill = autogft_Reinforcer.UNIT_SKILL
   return self
 end
 
