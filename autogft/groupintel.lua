@@ -17,6 +17,7 @@ autogft_GroupIntel.START_COMMAND_TEXT = "START INTEL"
 autogft_GroupIntel.STOP_COMMAND_TEXT = "STOP INTEL"
 autogft_GroupIntel.INTEL_LOOP_DELAY = 60
 autogft_GroupIntel.MESSAGE_TIME = 30
+autogft_GroupIntel.OBSERVABLE_DISTANCE_M = 18500
 
 ---
 -- @param #GroupIntel self
@@ -81,18 +82,18 @@ end
 function autogft_GroupIntel:viewEnemyGroundTargets()
 
   local ownUnit = self.targetGroup:getUnit(1)
-  local targetUnits = autogft.getEnemyGroundUnitsWithin(ownUnit, autogft_ObserverIntel.OBSERVER_MAX_DISTANCE_M)
+  local targetUnits = autogft.getEnemyGroundUnitsWithin(ownUnit, autogft_GroupIntel.OBSERVABLE_DISTANCE_M)
   local observerPosition = ownUnit:getPosition().p
 
   local message
   if (#targetUnits == 0) then
-    message = autogft_ObserverIntel.NO_TARGETS_OBSERVED_MESSAGE
+    message = autogft_intel.NO_TARGETS_OBSERVED_MESSAGE
   else
 
     local observerPosVec2 = autogft_Vector2:new(observerPosition.x, observerPosition.z)
     local observerHeadingNortCorrection = autogft.getHeadingNorthCorrection(observerPosition)
 
-    local clusters = autogft_observerIntel.getUnitClusters(targetUnits, autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M)
+    local clusters = autogft_intel.getUnitClusters(targetUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
 
     -- Create message from clusters
     message = ""
@@ -154,7 +155,7 @@ function autogft_groupIntel.enable()
     enableForGroups(coalition.getGroups(coalition.side.BLUE))
     enableForGroups(coalition.getGroups(coalition.side.RED))
 
-    autogft.scheduleFunction(reEnablingLoop, autogft_observerIntel.RE_ENABLING_LOOP_DELAY)
+    autogft.scheduleFunction(reEnablingLoop, autogft_intel.RE_ENABLING_LOOP_DELAY)
   end
   reEnablingLoop()
 

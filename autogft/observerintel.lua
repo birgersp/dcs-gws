@@ -1,14 +1,22 @@
 ---
--- @module ObserverIntel
+-- @module InformedGroup
 
-autogft_observerIntel = {}
-autogft_observerIntel.RE_ENABLING_LOOP_DELAY = 10
+autogft_intel = {}
+autogft_intel.RE_ENABLING_LOOP_DELAY = 10
+
+autogft_intel.OBSERVABLE_DISTANCE_M = 6000
+autogft_intel.COHERENT_UNIT_DISTANCE_M = 800
+autogft_intel.INTEL_UPDATE_INTERVAL_S = 600
+autogft_intel.NO_UNITS_OBSERVED_MSG = "No targets observed"
+autogft_intel.intelMessage = {}
+autogft_intel.intelMessage[coalition.side.RED] = autogft_intel.NO_UNITS_OBSERVED_MSG
+autogft_intel.intelMessage[coalition.side.BLUE] = autogft_intel.NO_UNITS_OBSERVED_MSG
 
 ---
 -- @param #list<DCSUnit#Unit> targetUnits
 -- @param #number adjacentUnitThreshold
 -- @return #list<unitcluster#UnitCluster>
-function autogft_observerIntel.getUnitClusters(targetUnits, adjacentUnitThreshold)
+function autogft_intel.getUnitClusters(targetUnits, adjacentUnitThreshold)
 
   local adjacentUnitThreshold2 = adjacentUnitThreshold^2
 
@@ -96,12 +104,11 @@ function autogft_observerIntel.getUnitClusters(targetUnits, adjacentUnitThreshol
 end
 
 ---
--- @param DCSVec3#Vec3 observerPosition
 -- @param #list<DCSUnit#Unit> targetUnits
 -- @param #number adjacentUnitThreshold
-function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetUnits, adjacentUnitThreshold)
+function autogft_intel.getTargetUnitsLLMessage(targetUnits, adjacentUnitThreshold)
 
-  local clusters = autogft_observerIntel.getUnitClusters(targetUnits, adjacentUnitThreshold)
+  local clusters = autogft_intel.getUnitClusters(targetUnits, adjacentUnitThreshold)
 
   -- Create message from clusters
   local message = ""
@@ -114,7 +121,7 @@ function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetU
       if text ~= "" then
         text = text..", "
       end
-      text = text..autogft_observerIntel.getUnitCountTerm(count).." "
+      text = text..autogft_intel.getUnitCountTerm(count).." "
       text = text..autogft.getUnitTypeNameTerm(unitType)
     end
 
@@ -137,65 +144,47 @@ function autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, targetU
 end
 
 ---
--- @type ObserverIntel
+-- @type InformedGroup
 -- @extends class#Class
 -- @field DCSGroup#Group targetGroup
 -- @field #number groupID
--- @field #number enemyCoalitionID
-autogft_ObserverIntel = autogft_Class:create()
+-- @field #number coalitionID
+autogft_InformedGroup = autogft_Class:create()
 
-autogft_ObserverIntel.TARGET_COMMAND_TEXT = "TARGET"
-autogft_ObserverIntel.OBSERVER_MAX_DISTANCE_M = 18500
-autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M = 800
-autogft_ObserverIntel.MESSAGE_TIME = 60
-autogft_ObserverIntel.NO_TARGETS_OBSERVED_MESSAGE = "No targets observed"
+autogft_InformedGroup.TARGET_COMMAND_TEXT = "TARGET"
+autogft_InformedGroup.MESSAGE_TIME = 60
+autogft_InformedGroup.NO_TARGETS_OBSERVED_MESSAGE = "No targets observed"
 
 ---
--- @param #ObserverIntel self
+-- @param #InformedGroup self
 -- @param DCSGroup#Group targetGroup
--- @return #ObserverIntel
-function autogft_ObserverIntel:new(targetGroup)
+-- @return #InformedGroup
+function autogft_InformedGroup:new(targetGroup)
   self = self:createInstance()
   self.targetGroup = targetGroup
   self.groupID = targetGroup:getID()
-
-  self.enemyCoalitionID = coalition.side.RED
-  if self.targetGroup:getCoalition() == coalition.side.RED then
-    self.enemyCoalitionID = coalition.side.BLUE
-  end
+  self.coalitionID = targetGroup:getCoalition()
 
   local function viewTarget()
     self:viewTarget()
   end
 
-  autogft_GroupCommand:new(targetGroup, autogft_ObserverIntel.TARGET_COMMAND_TEXT, viewTarget):enable()
+  autogft_GroupCommand:new(targetGroup, autogft_InformedGroup.TARGET_COMMAND_TEXT, viewTarget):enable()
 
   return self
 end
 
 ---
--- @param #ObserverIntel self
-function autogft_ObserverIntel:viewTarget()
+-- @param #InformedGroup self
+function autogft_InformedGroup:viewTarget()
 
-  local ownUnit = self.targetGroup:getUnit(1)
-
-  local availableEnemyUnits = autogft.getEnemyGroundUnitsWithin(ownUnit, autogft_ObserverIntel.OBSERVER_MAX_DISTANCE_M)
-
-  local message
-  if (#availableEnemyUnits == 0) then
-    message = autogft_ObserverIntel.NO_TARGETS_OBSERVED_MESSAGE
-  else
-    local observerPosition = ownUnit:getPosition().p
-    message = autogft_observerIntel.getTargetUnitsLLMessage(observerPosition, availableEnemyUnits, autogft_ObserverIntel.UNIT_GROUP_MAX_DISTANCE_M)
-  end
-
-  trigger.action.outTextForGroup(self.groupID, message, autogft_ObserverIntel.MESSAGE_TIME)
+  trigger.action.outTextForGroup(self.groupID, autogft_intel.intelMessage[self.coalitionID], autogft_InformedGroup.MESSAGE_TIME)
 end
 
 ---
 -- @param #number count
 -- @return #string
-function autogft_observerIntel.getUnitCountTerm(count)
+function autogft_intel.getUnitCountTerm(count)
 
   if count < 4 then
     return "Platoon"
@@ -208,9 +197,83 @@ function autogft_observerIntel.getUnitCountTerm(count)
   return "Battalion"
 end
 
+function autogft_intel.updateIntel()
+
+  local observerMaxDistance2 = autogft_intel.OBSERVABLE_DISTANCE_M^2
+
+  local observedRedUnits = {} --#list<DCSUnit#Unit>
+  local observedBlueUnits = {} --#list<DCSUnit#Unit>
+
+  local redGroups = coalition.getGroups(coalition.side.RED, Group.Category.GROUND)
+  local blueGroups = coalition.getGroups(coalition.side.BLUE, Group.Category.GROUND)
+
+  local observedRedUnitNames = {} --#list<#string>
+
+  -- For each blue group
+  for blueGroupI = 1, #blueGroups do
+    local blueGroup = blueGroups[blueGroupI]
+    if blueGroup and blueGroup:isExist() then
+      local blueGroupUnits = blueGroup:getUnits()
+
+      -- For each unit in blue group
+      for blueUnitI = 1, #blueGroupUnits do
+        local blueUnit = blueGroupUnits[blueUnitI] --DCSUnit#Unit
+        if blueUnit and blueUnit:isExist() then
+
+          local blueUnitObserved = false
+          local observerPosition = blueUnit:getPosition().p
+
+          -- For each red group
+          for redGroupI = 1, #redGroups do
+            local redGroup = redGroups[redGroupI]
+            if redGroup and redGroup:isExist() then
+              local redGroupUnits = redGroup:getUnits()
+
+              -- For each unit in red group
+              for redGroupI = 1, #redGroupUnits do
+                local redUnit = redGroupUnits[redGroupI] --DCSUnit#Unit
+                if redUnit and redUnit:isExist() then
+
+                  local redUnitPos = redUnit:getPosition().p
+                  local dX = redUnitPos.x - observerPosition.x
+                  local dY = redUnitPos.y - observerPosition.y
+                  local dZ = redUnitPos.z - observerPosition.z
+                  local distance2 = dX*dX + dY*dY + dZ*dZ
+                  if distance2 <= observerMaxDistance2 then
+                    local redUnitName = redUnit:getName()
+                    if not observedRedUnitNames[redUnitName] then
+                      observedRedUnits[#observedRedUnits + 1] = redUnit
+                      observedRedUnitNames[redUnit:getName()] = true
+                    end
+                    blueUnitObserved = true
+                  end
+                end
+              end
+            end
+          end
+
+          if blueUnitObserved then
+            observedBlueUnits[#observedBlueUnits + 1] = blueUnit
+          end
+        end
+      end
+    end
+  end
+
+  autogft_intel.intelMessage[coalition.side.RED] = autogft_intel.getTargetUnitsLLMessage(observedBlueUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
+  autogft_intel.intelMessage[coalition.side.BLUE] = autogft_intel.getTargetUnitsLLMessage(observedRedUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
+
+end
+
 ---
 -- @param #string groupNamePrefix
-function autogft_observerIntel.enable(groupNamePrefix)
+function autogft_intel.enable(groupNamePrefix)
+
+  local function updateIntelLoop()
+    autogft_intel.updateIntel()
+    autogft.scheduleFunction(updateIntelLoop, autogft_intel.INTEL_UPDATE_INTERVAL_S)
+  end
+  updateIntelLoop()
 
   local enabledGroupNames = {}
 
@@ -225,7 +288,7 @@ function autogft_observerIntel.enable(groupNamePrefix)
             if unit:getPlayerName() then
               local groupName = group:getName()
               if not enabledGroupNames[groupName] then
-                autogft_ObserverIntel:new(group)
+                autogft_InformedGroup:new(group)
                 enabledGroupNames[groupName] = true
               end
             end
@@ -240,7 +303,7 @@ function autogft_observerIntel.enable(groupNamePrefix)
     enableForGroups(coalition.getGroups(coalition.side.BLUE))
     enableForGroups(coalition.getGroups(coalition.side.RED))
 
-    autogft.scheduleFunction(reEnablingLoop, autogft_observerIntel.RE_ENABLING_LOOP_DELAY)
+    autogft.scheduleFunction(reEnablingLoop, autogft_intel.RE_ENABLING_LOOP_DELAY)
   end
   reEnablingLoop()
 
