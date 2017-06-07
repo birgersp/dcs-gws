@@ -5,7 +5,7 @@
 -- @type autogft
 autogft = {}
 
-autogft.unitTypeNameTerms = {} --#map<#string, #string>
+autogft.unitTypeNameTermMap = {} --#map<#string, #string>
 autogft.unitTypeTerms = {
   MBT= "MBT",
   INFANTRY_FIGHTING_VEHICLE = "IFV",
@@ -17,7 +17,7 @@ do
 
   local function add(table, term)
     for _, name in pairs(table) do
-      autogft.unitTypeNameTerms[name] = term
+      autogft.unitTypeNameTermMap[name] = term
     end
   end
 
@@ -34,7 +34,7 @@ end
 -- @param #string unitTypeName
 -- @return #string
 function autogft.getUnitTypeNameTerm(unitTypeName)
-  local term = autogft.unitTypeNameTerms[unitTypeName]
+  local term = autogft.unitTypeNameTermMap[unitTypeName]
   if not term then
     term = unitTypeName
   end
