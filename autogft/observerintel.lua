@@ -7,10 +7,9 @@ autogft_intel.RE_ENABLING_LOOP_DELAY = 10
 autogft_intel.OBSERVABLE_DISTANCE_M = 6000
 autogft_intel.COHERENT_UNIT_DISTANCE_M = 800
 autogft_intel.INTEL_UPDATE_INTERVAL_S = 600
-autogft_intel.NO_UNITS_OBSERVED_MSG = "No targets observed"
 autogft_intel.intelMessage = {}
-autogft_intel.intelMessage[coalition.side.RED] = autogft_intel.NO_UNITS_OBSERVED_MSG
-autogft_intel.intelMessage[coalition.side.BLUE] = autogft_intel.NO_UNITS_OBSERVED_MSG
+autogft_intel.intelMessage[coalition.side.RED] = ""
+autogft_intel.intelMessage[coalition.side.BLUE] = ""
 
 ---
 -- @param #list<DCSUnit#Unit> targetUnits
@@ -112,33 +111,37 @@ function autogft_intel.getTargetUnitsLLMessage(targetUnits, adjacentUnitThreshol
 
   -- Create message from clusters
   local message = ""
-  for clusterI = 1, #clusters do
-    local cluster = clusters[clusterI] --unitcluster#UnitCluster
+  if #clusters == 0 then
+    message = "(NO TARGETS)"
+  else
+    for clusterI = 1, #clusters do
+      local cluster = clusters[clusterI] --unitcluster#UnitCluster
 
-    local unitTypeCount = cluster:getUnitTypeCount()
-    local text = ""
-    for unitType, count in pairs(unitTypeCount) do
-      if text ~= "" then
-        text = text..", "
+      local unitTypeCount = cluster:getUnitTypeCount()
+      local text = ""
+      for unitType, count in pairs(unitTypeCount) do
+        if text ~= "" then
+          text = text..", "
+        end
+        text = text..autogft_intel.getUnitCountTerm(count).." "
+        text = text..autogft.getUnitTypeNameTerm(unitType)
       end
-      text = text..autogft_intel.getUnitCountTerm(count).." "
-      text = text..autogft.getUnitTypeNameTerm(unitType)
+
+      local dcsVec3 = {
+        x = cluster.midPoint.x,
+        y = 0,
+        z = cluster.midPoint.y
+      }
+      local lat, lon, _ = coord.LOtoLL(dcsVec3)
+      local latCoordinate = autogft_Coordinate:new(lat)
+      local lonCoordinate = autogft_Coordinate:new(lon)
+
+      local latString = "N" .. latCoordinate:getDegreesString(2) .. " " .. latCoordinate:getMinutesString(1, 1) .. "00"
+      local lonString = "E" .. lonCoordinate:getDegreesString(3) .. " " .. lonCoordinate:getMinutesString(1, 1) .. "00"
+
+      text = text .. " at " .. latString .. ", " .. lonString
+      message = message .. text .. "\n"
     end
-
-    local dcsVec3 = {
-      x = cluster.midPoint.x,
-      y = 0,
-      z = cluster.midPoint.y
-    }
-    local lat, lon, _ = coord.LOtoLL(dcsVec3)
-    local latCoordinate = autogft_Coordinate:new(lat)
-    local lonCoordinate = autogft_Coordinate:new(lon)
-
-    local latString = latCoordinate:getDegreesString(2) .. " " .. latCoordinate:getMinutesString(3, 3)
-    local lonString = lonCoordinate:getDegreesString(3) .. " " .. lonCoordinate:getMinutesString(3, 3)
-
-    text = text .. " at " .. latString .. ", " .. lonString
-    message = message .. text .. "\n"
   end
   return message
 end
@@ -195,6 +198,37 @@ function autogft_intel.getUnitCountTerm(count)
   end
 
   return "Battalion"
+end
+
+function autogft_intel.getEnemySituationMessageHeader()
+
+  local timeS = timer.getTime0() + timer.getAbsTime()
+  local hour = math.floor(timeS / 3600)
+  local minute = math.floor((timeS - (hour * 3600)) / 60)
+  hour = hour + 12
+
+  while hour >= 24 do
+    hour = hour - 24
+  end
+
+  local hourString = "" .. hour
+  while hourString:len() < 2 do
+    hourString = "0" .. hourString
+  end
+
+  local minueString = "" .. minute
+  while minueString:len() < 2 do
+    minueString = "0" .. minueString
+  end
+
+  local message = "FROM: GROUND FORCE COMMANDER"
+  message = message .. "\n" .. "TO: JTAC"
+  message = message .. "\n"
+  message = message .. "\n" .. "ENEMY SITUATION"
+  message = message .. "\n" .. "As of " .. hourString .. ":" .. minueString .. "L We have received the following reporting:"
+
+  return message
+
 end
 
 function autogft_intel.updateIntel()
@@ -260,8 +294,9 @@ function autogft_intel.updateIntel()
     end
   end
 
-  autogft_intel.intelMessage[coalition.side.RED] = autogft_intel.getTargetUnitsLLMessage(observedBlueUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
-  autogft_intel.intelMessage[coalition.side.BLUE] = autogft_intel.getTargetUnitsLLMessage(observedRedUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
+  local messageHeader = autogft_intel.getEnemySituationMessageHeader() .. "\n"
+  autogft_intel.intelMessage[coalition.side.RED] = messageHeader .. autogft_intel.getTargetUnitsLLMessage(observedBlueUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
+  autogft_intel.intelMessage[coalition.side.BLUE] = messageHeader .. autogft_intel.getTargetUnitsLLMessage(observedRedUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
 
 end
 
