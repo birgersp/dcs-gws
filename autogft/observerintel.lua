@@ -7,6 +7,7 @@ autogft_observerIntel.RE_ENABLING_LOOP_DELAY = 10
 ---
 -- @param #list<DCSUnit#Unit> targetUnits
 -- @param #number adjacentUnitThreshold
+-- @return #list<unitcluster#UnitCluster>
 function autogft_observerIntel.getUnitClusters(targetUnits, adjacentUnitThreshold)
 
   local adjacentUnitThreshold2 = adjacentUnitThreshold^2
