@@ -256,9 +256,13 @@ end
 -- @param #number timeInterval Time [seconds] between each reinforcement
 -- @return #Setup This instance (self)
 function autogft_Setup:setReinforceTimer(timeInterval)
-  self:stopReinforcing()
 
   assert(#self.taskForce.reinforcer.baseZones > 0, "Cannot set reinforcing timer for this task force, no base zones are declared.")
+
+  if self.reinforcementTimerId then
+    timer.removeFunction(self.reinforcementTimerId)
+    self.reinforcementTimerId = nil
+  end
 
   local function reinforce()
     self:checkBaseLinks()
