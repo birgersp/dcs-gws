@@ -1,9 +1,12 @@
 
 if not initialized then
 
-  dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\tests\\load-all.lua")
+  dofile("C:\\Users\\birge\\repo\\dcs-autogft\\tests\\load-all.lua")
 
-  autogft_observerIntel.enable("JTAC")
+  autogft_Setup:new()
+  :addBaseZone("BLUE_BASE")
+  :setReinforceTimerMax(1200)
+  :addControlZone("OBJECTIVE_WEST")
 
   initialized = true
 

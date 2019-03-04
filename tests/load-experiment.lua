@@ -1,1 +1,1 @@
-dofile("C:\\Users\\Birger\\Workspace\\dcs-autogft\\tests\\experiment.lua")
+dofile("C:\\Users\\birge\\Workspace\\dcs-autogft\\tests\\experiment.lua")
