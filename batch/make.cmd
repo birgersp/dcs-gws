@@ -22,7 +22,8 @@ set sources=^
  autogft\waypoint.lua
 
 set build_dir=build
-set load_all_file=tests\load-all.lua
+set build_test_dir=build-test
+set experiment_file=%build_test_dir%\load-experiment.lua
 
 set /p version=<version.txt
 set build_file=%build_dir%\autogft-%version%.lua
@@ -34,6 +35,7 @@ echo Time is %time%
 if not exist %build_dir% md %build_dir%
 echo Cleaning contents of "%build_dir%"
 del /Q %build_dir%
+if not exist %build_test_dir% md %build_test_dir%
 rem set input=%sources%
 rem set output=%build_file%
 rem call:make
@@ -46,7 +48,8 @@ goto:eof
 
 :make
 
-	echo -- Auto-generated, do not edit>%load_all_file%
+	echo -- Auto-generated, do not edit>%experiment_file%
+	echo if not finished then>>%experiment_file%
 
 	echo Writing to %output%
 	
@@ -55,7 +58,7 @@ goto:eof
 	set first=1
 	for %%a in (%input%) do (
 
-		echo dofile^([[%root_dir%\%%a]]^)>>%load_all_file%
+		echo dofile^([[%root_dir%\%%a]]^)>>%experiment_file%
 
 		echo Appending %%a
 		if !first!==0 (
@@ -70,6 +73,10 @@ goto:eof
 		
 		set first=0
 	)
+
+	echo dofile^([[%root_dir%\tests\experiment.lua]]^)>>%experiment_file%
+	echo if not keep_looping then finished=true end>>%experiment_file%
+	echo end>>%experiment_file%
 	
 	echo Done
 goto:eof

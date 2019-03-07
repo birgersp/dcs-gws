@@ -1,2 +1,3 @@
-/build/
-/build-zip/
+build/
+build-zip/
+build-test/
