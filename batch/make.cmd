@@ -36,47 +36,37 @@ if not exist %build_dir% md %build_dir%
 echo Cleaning contents of "%build_dir%"
 del /Q %build_dir%
 if not exist %build_test_dir% md %build_test_dir%
-rem set input=%sources%
-rem set output=%build_file%
-rem call:make
-set input=%sources%
 set output="%build_file%"
-call:make
 
-cd %root_dir%
-goto:eof
+echo -- Auto-generated, do not edit>%experiment_file%
+echo if not finished then>>%experiment_file%
 
-:make
+echo Writing to %output%
+break>%output%
+setlocal EnableDelayedExpansion
+set first=1
+for %%a in (%sources%) do (
 
-	echo -- Auto-generated, do not edit>%experiment_file%
-	echo if not finished then>>%experiment_file%
+	echo dofile^([[%root_dir%\%%a]]^)>>%experiment_file%
 
-	echo Writing to %output%
-	
-	break>%output%
-	setlocal EnableDelayedExpansion
-	set first=1
-	for %%a in (%input%) do (
-
-		echo dofile^([[%root_dir%\%%a]]^)>>%experiment_file%
-
-		echo Appending %%a
-		if !first!==0 (
-			echo.>> %output%
-			echo.>> %output%
-			echo.>> %output%
-		)
-	
-		echo %comment_prefix%>>%output% %%a
+	echo Appending %%a
+	if !first!==0 (
 		echo.>> %output%
-		type %%a>>%output%
-		
-		set first=0
+		echo.>> %output%
+		echo.>> %output%
 	)
 
-	echo dofile^([[%root_dir%\tests\experiment.lua]]^)>>%experiment_file%
-	echo if not keep_looping then finished=true end>>%experiment_file%
-	echo end>>%experiment_file%
+	echo %comment_prefix%>>%output% %%a
+	echo.>> %output%
+	type %%a>>%output%
 	
-	echo Done
-goto:eof
+	set first=0
+)
+
+echo dofile^([[%root_dir%\tests\experiment.lua]]^)>>%experiment_file%
+echo if not keep_looping then finished=true end>>%experiment_file%
+echo end>>%experiment_file%
+
+echo Done
+
+cd %root_dir%
