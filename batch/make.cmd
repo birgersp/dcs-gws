@@ -21,29 +21,27 @@ set sources=^
  autogft\util.lua^
  autogft\waypoint.lua
 
-set output_dir=build
+set build_dir=build
 set load_all_file=tests\load-all.lua
 
 set /p version=<version.txt
-set build=%output_dir%\autogft-%version%.lua
+set build_file=%build_dir%\autogft-%version%.lua
 set comment_prefix=--
 
-set current_dir=%cd%
-cd ..
 set root_dir=%cd%
 
 echo Time is %time%
-if not exist %output_dir% md %output_dir%
-echo Cleaning contents of "%output_dir%"
-del /Q %output_dir%
+if not exist %build_dir% md %build_dir%
+echo Cleaning contents of "%build_dir%"
+del /Q %build_dir%
 rem set input=%sources%
-rem set output=%build%
+rem set output=%build_file%
 rem call:make
 set input=%sources%
-set output=%build%
+set output="%build_file%"
 call:make
 
-cd %current_dir%
+cd %root_dir%
 goto:eof
 
 :make
