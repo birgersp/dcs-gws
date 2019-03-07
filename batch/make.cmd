@@ -21,9 +21,17 @@ set sources=^
  autogft\util.lua^
  autogft\waypoint.lua
 
+set examples=^
+ examples\basic.lua^
+ examples\miscellaneous.lua^
+ examples\scanning.lua^
+ examples\staging.lua^
+ examples\using-roads.lua
+
 set build_dir=build
 set build_test_dir=build-test
 set experiment_file=%build_test_dir%\load-experiment.lua
+set examples_file=%build_test_dir%\load-examples.lua
 
 set /p version=<version.txt
 set build_file=%build_dir%\autogft-%version%.lua
@@ -38,16 +46,22 @@ del /Q %build_dir%
 if not exist %build_test_dir% md %build_test_dir%
 set output="%build_file%"
 
-echo -- Auto-generated, do not edit>%experiment_file%
+set auto_generated_msg=-- Auto-generated, do not edit
+
+echo %auto_generated_msg%>%experiment_file%
+echo %auto_generated_msg%>%examples_file%
 echo if not finished then>>%experiment_file%
+echo if not finished then>>%examples_file%
 
 echo Writing to %output%
 break>%output%
+
 setlocal EnableDelayedExpansion
 set first=1
 for %%a in (%sources%) do (
 
 	echo dofile^([[%root_dir%\%%a]]^)>>%experiment_file%
+	echo dofile^([[%root_dir%\%%a]]^)>>%examples_file%
 
 	echo Appending %%a
 	if !first!==0 (
@@ -66,6 +80,13 @@ for %%a in (%sources%) do (
 echo dofile^([[%root_dir%\tests\experiment.lua]]^)>>%experiment_file%
 echo if not keep_looping then finished=true end>>%experiment_file%
 echo end>>%experiment_file%
+
+for %%a in (%examples%) do (
+	echo dofile^([[%root_dir%\%%a]]^)>>%examples_file%
+)
+
+echo finished=true>>%examples_file%
+echo end>>%examples_file%
 
 echo Done
 
