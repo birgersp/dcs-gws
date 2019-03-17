@@ -1,8 +1,0 @@
-[submodule "unit-types"]
-	path = unit-types
-	url = https://github.com/birgersp/dcs-unit-types.git
-	branch = master
-[submodule "dcs-api"]
-	path = dcs-api
-	url = https://github.com/birgersp/dcs-api.git
-	branch = master
