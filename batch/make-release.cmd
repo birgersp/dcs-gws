@@ -16,7 +16,7 @@ set build_dir=build
 set examples_destination=%build_dir%\examples
 set archive_dir=build-zip
 set archive_file=%archive_dir%\autogft-%version%.zip
-set include=unit-types\unit-types.txt
+set include=unit-types.txt
 
 call make.cmd
 call make-docs.cmd

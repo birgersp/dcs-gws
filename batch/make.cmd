@@ -1,7 +1,7 @@
 @echo off
 
 set sources=^
- unit-types\unit-types.lua^
+ unit-types.lua^
  autogft\class.lua^
  autogft\unitspec.lua^
  autogft\vector2.lua^
