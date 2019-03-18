@@ -52,4 +52,5 @@ See [issue list](https://github.com/birgersp/dcs-autogft/issues)
 ## Credits
 - [DCS-API](https://github.com/FlightControl-Master/DCS-API) initially written by [Sven](https://github.com/FlightControl-Master)
 - [thebgpikester](https://github.com/thebgpikester) for extensive testing and support
+- [DCS Community](https://forums.eagle.ru/showthread.php?t=179522) for feedback and testing support
 - [132nd Virtual Wing](http://www.132virtualwing.org/)
