@@ -49,6 +49,29 @@ Please note: If you want to change your mission script later, you need to reload
 ## Planned features
 See [issue list](https://github.com/birgersp/dcs-autogft/issues)
 
+## Develop/experimenting
+This project can be imported into LuaDevelopmentTools. It should automatically execute the compilation script whenever you save a change to the source files.
+
+If you prefer not to use LuaDevelopmentTools, follow these steps to compile the source files:
+1. Open a Command Prompt terminal (`cmd.exe`)
+2. Change directory to the project (use the command `cd C:\MyLuaProjects\dcs-autogft`)
+3. Execute the command `batch/make.cmd`
+
+Once the source files have been compiled, you should see a `build` and a `build-test` folder in the project.
+
+During compilation, the source files are merged to a single script. In addition, a "load experiment" script is also generated. Load this script into your mission:
+1. Create or open your DCS World mission with the Mission Editor
+2. Add a trigger: MISSION START
+3. Add an action: DO SCRIPT
+4. In the DO SCRIPT text, add `dofile("C:\\MyLuaProjects\\dcs-autogft\\build-test\\load-experiment.lua")`
+5. Save the mission
+6. Click "FLIGHT" and then "PREPARE MISSION"
+7. The mission will start (you might get an error when the mission starts, depending on what's in the `tests\experiment.lua` script but ignore that for now)
+
+Now you can minimize DCS World, edit the source files (located in the `autogft` folder), and do some experiments/testing with the `tests\experiment.lua` file. Once the code with your experiment is ready for another test, re-compile it (happens automatically when saving in LuaDevelopmentTools, or see the steps above) and restart the mission (press SHIFT+R).
+
+If you want to make a pull request, please use the same commit message and code style as the rest of the project. Please refer to the issue that the commit is regarding.
+
 ## Credits
 - [DCS-API](https://github.com/FlightControl-Master/DCS-API) initially written by [Sven](https://github.com/FlightControl-Master)
 - [thebgpikester](https://github.com/thebgpikester)
