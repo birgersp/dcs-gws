@@ -6,7 +6,7 @@ if not exist batch/%~nx0 (
 )
 
 set sources=^
- unit-types.lua^
+ unit-types\unit-types.lua^
  autogft\class.lua^
  autogft\unitspec.lua^
  autogft\vector2.lua^
