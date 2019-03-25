@@ -1,5 +1,10 @@
 @echo off
 
+if not exist batch/%~nx0 (
+	echo Error: This script must run from project root dir
+	exit /b 2
+)
+
 set sources=^
  unit-types.lua^
  autogft\class.lua^
