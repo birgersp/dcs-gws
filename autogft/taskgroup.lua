@@ -153,6 +153,7 @@ function autogft_TaskGroup:advance()
       local prevPosX = prevPos.x
       local prevPosZ = prevPos.z
       local function checkPosAdvance()
+        self:updateGroupLead()
         if self.groupLead then
           local currentPos = self.groupLead:getPosition().p
           if currentPos.x == prevPosX and currentPos.z == prevPosZ then
