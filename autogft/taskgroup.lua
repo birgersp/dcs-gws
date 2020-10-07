@@ -55,7 +55,7 @@ end
 
 ---
 -- @param #TaskGroup self
--- @return #TaskGroup
+-- @return #boolean
 function autogft_TaskGroup:exists()
   self:updateGroupLead()
   if self.groupLead then
@@ -81,6 +81,7 @@ end
 ---
 -- @param #TaskGroup self
 -- @param unitspec#UnitSpec unitSpec
+-- @return #TaskGroup
 function autogft_TaskGroup:addUnitSpec(unitSpec)
   self.unitSpecs[#self.unitSpecs + 1] = unitSpec
   return self
@@ -88,7 +89,6 @@ end
 
 ---
 -- @param #TaskGroup self
--- @return #TaskGroup
 function autogft_TaskGroup:advance()
 
   if #self.taskSequence.tasks <= 0 or self.taskSequence.currentTaskIndex <= 0 then
