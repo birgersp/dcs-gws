@@ -225,6 +225,7 @@ function autogft_Setup:addTaskGroup()
 
   self.taskForce.groups[#self.taskForce.groups + 1] = autogft_TaskGroup:new(self.taskForce.taskSequence)
   self.lastAddedGroup = self.taskForce.groups[#self.taskForce.groups]
+  self.lastAddedGroup.maxDistanceM = self.maxDistanceKM * 1000
   if self.taskForce.reinforcer:instanceOf(autogft_SpecificUnitReinforcer) then
     self.taskForce.reinforcer.groupsUnitSpecs:put(self.lastAddedGroup, {})
   end
