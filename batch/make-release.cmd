@@ -18,11 +18,13 @@ set archive_dir=build-zip
 set archive_file=%archive_dir%\autogft-%version%.zip
 set include=unit-types\unit-types.txt
 
-call make.cmd
-call make-docs.cmd
-
 set current_dir=%cd%
 cd ..
+
+setlocal
+call batch/make.cmd
+call batch/make-docs.cmd
+endlocal
 
 for %%a in (%include%) do (
 	echo Including %%a
