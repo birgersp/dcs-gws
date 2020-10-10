@@ -180,16 +180,14 @@ function autogft_TaskGroup:forceAdvance()
   local shortened = false
 
   -- If the task force has a "max distance" specified
-  if self.maxDistanceM > 0 then
-    local units = self.dcsGroup:getUnits()
+  local units = self.dcsGroup:getUnits()
 
-    -- If distance to destination is greater than max distance
-    if groupToDestinationMag > self.maxDistanceM then
-      local destinationX = groupPos.x + groupToDestination.x / groupToDestinationMag * self.maxDistanceM
-      local destinationY = groupPos.y + groupToDestination.y / groupToDestinationMag * self.maxDistanceM
-      destination = autogft_Vector2:new(destinationX, destinationY)
-      shortened = true
-    end
+  -- If distance to destination is greater than max distance
+  if groupToDestinationMag > self.maxDistanceM then
+    local destinationX = groupPos.x + groupToDestination.x / groupToDestinationMag * self.maxDistanceM
+    local destinationY = groupPos.y + groupToDestination.y / groupToDestinationMag * self.maxDistanceM
+    destination = autogft_Vector2:new(destinationX, destinationY)
+    shortened = true
   end
 
   -- (Whether to use roads or not, depends on the next task)
