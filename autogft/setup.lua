@@ -4,18 +4,7 @@
 
 ---
 -- @type Setup
--- @extends class#Class
--- @field taskforce#TaskForce taskForce
--- @field #number coalition
--- @field #number speed
--- @field #number maxDistanceKM
--- @field #boolean useRoads
--- @field #string skill
--- @field #number reinforcementTimerId
--- @field #number stopReinforcementTimerId
--- @field #number advancementTimerId
--- @field taskgroup#TaskGroup lastAddedGroup
--- @field map#Map baseLinks
+-- @extends setupbase#SetupBase
 autogft_Setup = autogft_Class:create()
 
 ---
@@ -23,17 +12,6 @@ autogft_Setup = autogft_Class:create()
 -- @param #Setup self
 -- @return #Setup This instance (self)
 function autogft_Setup:new()
-
-  self = self:createInstance()
-  self.taskForce = autogft_TaskForce:new()
-  self.coalition = nil
-  self.speed = 9999
-  self.maxDistanceKM = 10
-  self.useRoads = false
-  self.reinforcementTimerId = nil
-  self.advancementTimerId = nil
-  self.lastAddedGroup = nil
-  self.baseLinks = autogft_Map:new()
 
   local function autoInitialize()
     self:autoInitialize()
