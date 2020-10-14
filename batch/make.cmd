@@ -17,6 +17,7 @@ set sources=^
  autogft\map.lua^
  autogft\observerintel.lua^
  autogft\reinforcer.lua^
+ autogft\setupbase.lua^
  autogft\setup.lua^
  autogft\task.lua^
  autogft\taskforce.lua^
