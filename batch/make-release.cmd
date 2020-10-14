@@ -21,6 +21,8 @@ set include=unit-types\unit-types.txt
 set current_dir=%cd%
 cd ..
 
+echo Creating release version %version%
+
 setlocal
 call batch/make.cmd
 call batch/make-docs.cmd

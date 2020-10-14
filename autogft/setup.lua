@@ -117,6 +117,8 @@ end
 ---
 -- Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.
 -- @param #Setup self
+-- @param #number count
+-- @param #string type
 -- @return #Setup
 function autogft_Setup:addUnits(count, type)
   return autogft_SetupBase.addUnits(self, count, type)
