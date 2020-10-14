@@ -1,0 +1,300 @@
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="menu">
+        <h2>Modules</h2>
+        <h3 class='modulelink'><a href='Class.html'>Class</a></h3>
+<h3 class='modulelink'><a href='Coordinate.html'>Coordinate</a></h3>
+<h3 class='modulelink'><a href='GroupCommand.html'>GroupCommand</a></h3>
+<h3 class='modulelink'><a href='GroupIntel.html'>GroupIntel</a></h3>
+<h3 class='modulelink'><a href='InformedGroup.html'>InformedGroup</a></h3>
+<h3 class='modulelink'><a href='Map.html'>Map</a></h3>
+<h3 class='modulelink'><a href='Reinforcer.html'>Reinforcer</a></h3>
+<h3 class='modulelink'><a href='Setup.html'>Setup</a></h3>
+<h3 class='modulelink'><a href='SetupBase.html'>SetupBase</a></h3>
+<h3 class='modulelink'><a href='Task.html'>Task</a></h3>
+<h3 class='modulelink'><a href='TaskForce.html'>TaskForce</a></h3>
+<h3 class='modulelink'><a href='TaskGroup.html'>TaskGroup</a></h3>
+<h3 class='modulelink'><a href='TaskSequence.html'>TaskSequence</a></h3>
+<h3 class='modulelink'><a href='UnitCluster.html'>UnitCluster</a></h3>
+<h3 class='modulelink'><a href='UnitSpecification.html'>UnitSpecification</a></h3>
+<h3 class='modulelink'><a href='Util.html'>Util</a></h3>
+<h3 class='modulelink'><a href='Vector2.html'>Vector2</a></h3>
+<h3 class='modulelink'><a href='Vector3.html'>Vector3</a></h3>
+<h3 class='modulelink'><a href='Waypoint.html'>Waypoint</a></h3>
+
+    </div>
+    <div class="content">
+        <div class="content2">
+            <h1>SetupBase</h1>
+<h2>Types</h2>
+<ul><li><a href='SetupBase.html##SetupBase'>#SetupBase</a></li>
+</ul><h3 class='typeheader' id='#SetupBase'>Type #SetupBase</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.addBaseZone'>addBaseZone</a></p></td>
+<td class='funcdesccell'><p class='cell'>Adds a base zone to the task force, which will be used for reinforcing.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.addControlZone'>addControlZone</a></p></td>
+<td class='funcdesccell'><p class='cell'>Adds a control zone task.
+The task force units will move to and attack this zone as long as there are enemy units present.
+If enemy units re-appear, the task force will retake it.
+Task force units advancing through the task list will move through this task zone to get to the next one.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.addIntermidiateZone'>addIntermidiateZone</a></p></td>
+<td class='funcdesccell'><p class='cell'>Adds an intermidiate zone task.
+Task force units advancing through the task list will move through this task zone to get to the next one.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.addRandomUnitAlternative'>addRandomUnitAlternative</a></p></td>
+<td class='funcdesccell'><p class='cell'>Adds a random unit alternative, given a maximum count, type and minimum count.
+When the task force is reinforced, a random number (between minimum and maximum) of units will be spawned for the task force group.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.addTask'>addTask</a></p></td>
+<td class='funcdesccell'><p class='cell'>Adds a task to the task force</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.addTaskGroup'>addTaskGroup</a></p></td>
+<td class='funcdesccell'><p class='cell'>Adds another group specification to the task force.
+After a group is added, use @{#Setup.addUnits} to add units.
+See "unit-types" for a complete list of available unit types.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.addUnits'>addUnits</a></p></td>
+<td class='funcdesccell'><p class='cell'>Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.assertCanChangeReinforcer'>assertCanChangeReinforcer</a></p></td>
+<td class='funcdesccell'><p class='cell'>Performs checks to determine if the task force can change reinforcer.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.autoAddUnitLayout'>autoAddUnitLayout</a></p></td>
+<td class='funcdesccell'><p class='cell'>Automatically adds groups and units.
+Determines which groups and units that should be added to the task force by looking at a list of units and copying the layout.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.autoAddUnitLayoutFromBases'>autoAddUnitLayoutFromBases</a></p></td>
+<td class='funcdesccell'><p class='cell'>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${Setup.autoAddUnitLayout})</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.autoInitialize'>autoInitialize</a></p></td>
+<td class='funcdesccell'><p class='cell'>Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).
+Default reinforcement timer intervals is 600 seconds. Default advancement timer intervals is 300 seconds.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.checkBaseLinks'>checkBaseLinks</a></p></td>
+<td class='funcdesccell'><p class='cell'>Checks all base zones with links to see if the specified unit still exists in the mission.
+If the group linked with the base zone does not exist (is destroyed), the base zone is disabled for this task force.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.containsUnit'>containsUnit</a></p></td>
+<td class='funcdesccell'><p class='cell'>Checks if a particular unit is present in this task force.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.copyGroupsLayout'>copyGroupsLayout</a></p></td>
+<td class='funcdesccell'><p class='cell'>Scans the mission once for any group(s) with a name prefix. The task force will then use the same layout  as the group(s) when reinforcing.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.linkBase'>linkBase</a></p></td>
+<td class='funcdesccell'><p class='cell'>Links a base zone to a group. Linked bases will be disabled for this task force if the group is destroyed (see @{Setup.checkBaseLinks}.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'>Creates a new setup instance.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.scanUnits'>scanUnits</a></p></td>
+<td class='funcdesccell'><p class='cell'>Invokes @{#Setup.copyGroupsLayout} and @{#Setup.useExistingGroups}.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setAdvancementTimer'>setAdvancementTimer</a></p></td>
+<td class='funcdesccell'><p class='cell'>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.
+Invokes @{#Setup.moveToTarget}.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setCountry'>setCountry</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the country ID of this task force.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setMaxRouteDistance'>setMaxRouteDistance</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the maximum distance of unit routes.
+If set, this number constrains how far groups of the task force will move between each move command (advancement).
+When units are moving towards a target, units will stop at this distance and wait for the next movement command.
+This prevents lag when computing routes over long distances.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setReinforcer'>setReinforcer</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the reinforcer of the task force.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setReinforceTimer'>setReinforceTimer</a></p></td>
+<td class='funcdesccell'><p class='cell'>Starts a timer which reinforces the task force on time intervals.
+Every time interval, linked base zones are checked (see @{Setup.checkBaseLinks}).
+If all base zones are disabled (due to linked groups being destroyed), the task force is not reinforced.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setReinforceTimerMax'>setReinforceTimerMax</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the maximum time reinforcements will keep coming.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setSkill'>setSkill</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the skill of the task force reinforcement units.
+Skill alternatives are the same as in the mission editor: Any from "Average" to "Random".</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.setSpeed'>setSpeed</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the desired speed of the task force units when advancing.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.startUsingRoads'>startUsingRoads</a></p></td>
+<td class='funcdesccell'><p class='cell'>Specifies the task force to use roads when advancing through the next tasks that are added.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.stopAdvancementTimer'>stopAdvancementTimer</a></p></td>
+<td class='funcdesccell'><p class='cell'>Stops the advancement timer</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.stopReinforcing'>stopReinforcing</a></p></td>
+<td class='funcdesccell'><p class='cell'>Stops the reinforcing/respawning timers (see @{#Setup.setReinforceTimer}).</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.stopUsingRoads'>stopUsingRoads</a></p></td>
+<td class='funcdesccell'><p class='cell'>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.useExistingGroups'>useExistingGroups</a></p></td>
+<td class='funcdesccell'><p class='cell'>Scans the mission once for any group(s) with a name prefix. The task force will immidiately assume control of the units in the group(s)</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.useRandomUnits'>useRandomUnits</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the task force to use a randomized unit spawner when reinforcing.
+The random units must be specified with ${Setup.addRandomUnitAlternative}).</p></td>
+</tr><tr><td><p class='cell'><a href='SetupBase.html##SetupBase.useStaging'>useStaging</a></p></td>
+<td class='funcdesccell'><p class='cell'>Sets the task force to only use pre-existing units when reinforcing. Always invoke this before units are added (not after).</p></td>
+</tr></tbody></table><div id='#SetupBase.addBaseZone'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.addBaseZone'>#SetupBase.addBaseZone</a></h4>
+<p>Adds a base zone to the task force, which will be used for reinforcing.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string zoneName - Name of base zone</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.addControlZone'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.addControlZone'>#SetupBase.addControlZone</a></h4>
+<p>Adds a control zone task.
+The task force units will move to and attack this zone as long as there are enemy units present.
+If enemy units re-appear, the task force will retake it.
+Task force units advancing through the task list will move through this task zone to get to the next one.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string zoneName - Name of target zone</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.addIntermidiateZone'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.addIntermidiateZone'>#SetupBase.addIntermidiateZone</a></h4>
+<p>Adds an intermidiate zone task.
+Task force units advancing through the task list will move through this task zone to get to the next one.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string zoneName - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.addRandomUnitAlternative'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.addRandomUnitAlternative'>#SetupBase.addRandomUnitAlternative</a></h4>
+<p>Adds a random unit alternative, given a maximum count, type and minimum count.
+When the task force is reinforced, a random number (between minimum and maximum) of units will be spawned for the task force group.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number max - </li>
+<li>#string type - </li>
+<li>#number minimum - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.addTask'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.addTask'>#SetupBase.addTask</a></h4>
+<p>Adds a task to the task force</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>task#Task task - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.addTaskGroup'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.addTaskGroup'>#SetupBase.addTaskGroup</a></h4>
+<p>Adds another group specification to the task force.
+After a group is added, use @{#Setup.addUnits} to add units.
+See "unit-types" for a complete list of available unit types.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.addUnits'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.addUnits'>#SetupBase.addUnits</a></h4>
+<p>Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.assertCanChangeReinforcer'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.assertCanChangeReinforcer'>#SetupBase.assertCanChangeReinforcer</a></h4>
+<p>Performs checks to determine if the task force can change reinforcer.</p>
+<hr></div><div id='#SetupBase.autoAddUnitLayout'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.autoAddUnitLayout'>#SetupBase.autoAddUnitLayout</a></h4>
+<p>Automatically adds groups and units.
+Determines which groups and units that should be added to the task force by looking at a list of units and copying the layout.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#list&lt;DCSUnit#Unit&gt; units - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.autoAddUnitLayoutFromBases'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.autoAddUnitLayoutFromBases'>#SetupBase.autoAddUnitLayoutFromBases</a></h4>
+<p>Looks through base zones for units and attempts to add the same layout to the task force (by invoking ${Setup.autoAddUnitLayout})</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.autoInitialize'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.autoInitialize'>#SetupBase.autoInitialize</a></h4>
+<p>Automatically initializes the task force by starting timers (if not started) and adding groups and units (if not added).
+Default reinforcement timer intervals is 600 seconds. Default advancement timer intervals is 300 seconds.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.checkBaseLinks'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.checkBaseLinks'>#SetupBase.checkBaseLinks</a></h4>
+<p>Checks all base zones with links to see if the specified unit still exists in the mission.
+If the group linked with the base zone does not exist (is destroyed), the base zone is disabled for this task force.</p>
+<hr></div><div id='#SetupBase.containsUnit'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.containsUnit'>#SetupBase.containsUnit</a></h4>
+<p>Checks if a particular unit is present in this task force.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>DCSUnit#Unit unit - Unit in question</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#boolean - True if this task force contains the unit, false otherwise.</li></ul>
+<hr></div><div id='#SetupBase.copyGroupsLayout'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.copyGroupsLayout'>#SetupBase.copyGroupsLayout</a></h4>
+<p>Scans the mission once for any group(s) with a name prefix. The task force will then use the same layout  as the group(s) when reinforcing.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.linkBase'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.linkBase'>#SetupBase.linkBase</a></h4>
+<p>Links a base zone to a group. Linked bases will be disabled for this task force if the group is destroyed (see @{Setup.checkBaseLinks}.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string zoneName - </li>
+<li>#string groupName - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.new'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.new'>#SetupBase.new</a></h4>
+<p>Creates a new setup instance.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.scanUnits'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.scanUnits'>#SetupBase.scanUnits</a></h4>
+<p>Invokes @{#Setup.copyGroupsLayout} and @{#Setup.useExistingGroups}.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string groupNamePrefix - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.setAdvancementTimer'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setAdvancementTimer'>#SetupBase.setAdvancementTimer</a></h4>
+<p>Starts a timer which updates the current target zone, and issues the task force units to engage it on given time intervals.
+Invokes @{#Setup.moveToTarget}.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number timeInterval - Seconds between each target update</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.setCountry'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setCountry'>#SetupBase.setCountry</a></h4>
+<p>Sets the country ID of this task force.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number country - Country ID</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.setMaxRouteDistance'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setMaxRouteDistance'>#SetupBase.setMaxRouteDistance</a></h4>
+<p>Sets the maximum distance of unit routes.
+If set, this number constrains how far groups of the task force will move between each move command (advancement).
+When units are moving towards a target, units will stop at this distance and wait for the next movement command.
+This prevents lag when computing routes over long distances.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number maxDistanceKM - Maximum distance (kilometres)</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.setReinforcer'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setReinforcer'>#SetupBase.setReinforcer</a></h4>
+<p>Sets the reinforcer of the task force.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>reinforcer#Reinforcer reinforcer - </li>
+</ul><hr></div><div id='#SetupBase.setReinforceTimer'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setReinforceTimer'>#SetupBase.setReinforceTimer</a></h4>
+<p>Starts a timer which reinforces the task force on time intervals.
+Every time interval, linked base zones are checked (see @{Setup.checkBaseLinks}).
+If all base zones are disabled (due to linked groups being destroyed), the task force is not reinforced.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number timeInterval - Time [seconds] between each reinforcement</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.setReinforceTimerMax'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setReinforceTimerMax'>#SetupBase.setReinforceTimerMax</a></h4>
+<p>Sets the maximum time reinforcements will keep coming.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number time - Time [seconds] until reinforcements will stop coming</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.setSkill'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setSkill'>#SetupBase.setSkill</a></h4>
+<p>Sets the skill of the task force reinforcement units.
+Skill alternatives are the same as in the mission editor: Any from "Average" to "Random".</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string skill - New skill</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.setSpeed'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.setSpeed'>#SetupBase.setSpeed</a></h4>
+<p>Sets the desired speed of the task force units when advancing.</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#boolean speed - New speed (in knots)</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase - This instance (self)</li></ul>
+<hr></div><div id='#SetupBase.startUsingRoads'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.startUsingRoads'>#SetupBase.startUsingRoads</a></h4>
+<p>Specifies the task force to use roads when advancing through the next tasks that are added.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.stopAdvancementTimer'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.stopAdvancementTimer'>#SetupBase.stopAdvancementTimer</a></h4>
+<p>Stops the advancement timer</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.stopReinforcing'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.stopReinforcing'>#SetupBase.stopReinforcing</a></h4>
+<p>Stops the reinforcing/respawning timers (see @{#Setup.setReinforceTimer}).</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.stopUsingRoads'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.stopUsingRoads'>#SetupBase.stopUsingRoads</a></h4>
+<p>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.useExistingGroups'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.useExistingGroups'>#SetupBase.useExistingGroups</a></h4>
+<p>Scans the mission once for any group(s) with a name prefix. The task force will immidiately assume control of the units in the group(s)</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.useRandomUnits'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.useRandomUnits'>#SetupBase.useRandomUnits</a></h4>
+<p>Sets the task force to use a randomized unit spawner when reinforcing.
+The random units must be specified with ${Setup.addRandomUnitAlternative}).</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div><div id='#SetupBase.useStaging'><h4 class='functionheader'><a href='SetupBase.html##SetupBase.useStaging'>#SetupBase.useStaging</a></h4>
+<p>Sets the task force to only use pre-existing units when reinforcing. Always invoke this before units are added (not after).</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SetupBase</li></ul>
+<hr></div>
+        </div>
+    </div>
+</body>
+</html>

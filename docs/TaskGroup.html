@@ -1,590 +1,90 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-	<head>
-		<link rel="stylesheet" href="stylesheet.css" type="text/css"/>
-	</head>
+<head>
+    <link rel="stylesheet" href="style.css" />
+</head>
 <body>
-<div id="container">
-<div id="product">
-	<div id="product_logo"></div>
-	<div id="product_name"><big><b></b></big></div>
-	<div id="product_description"></div>
-</div>
-<div id="main">
-	<div id="navigation">
-		<h2>Modules</h2>
-			<ul><li>
-				<a href="index.html">index</a>
-			</li></ul>
-		<ul>
-					<li><a href="Class.html">Class</a></li>
-					<li><a href="Coordinate.html">Coordinate</a></li>
-					<li><a href="GroupCommand.html">GroupCommand</a></li>
-					<li><a href="GroupIntel.html">GroupIntel</a></li>
-					<li><a href="IOCEV.html">IOCEV</a></li>
-					<li><a href="Map.html">Map</a></li>
-					<li><a href="ObserverIntel.html">ObserverIntel</a></li>
-					<li><a href="Reinforcer.html">Reinforcer</a></li>
-					<li><a href="Setup.html">Setup</a></li>
-					<li><a href="Task.html">Task</a></li>
-					<li><a href="TaskForce.html">TaskForce</a></li>
-					<li>TaskGroup</li>
-					<li><a href="TaskSequence.html">TaskSequence</a></li>
-					<li><a href="UnitCluster.html">UnitCluster</a></li>
-					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
-					<li><a href="Util.html">Util</a></li>
-					<li><a href="Vector2.html">Vector2</a></li>
-					<li><a href="Vector3.html">Vector3</a></li>
-					<li><a href="Waypoint.html">Waypoint</a></li>
-		</ul>
-	</div>
-	<div id="content">
-   <h1>Module <code>TaskGroup</code></h1>
-   
-
-
-	<h2>Global(s)</h2>
-	<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_TaskGroup">autogft_TaskGroup</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-	<h2><a id="#(TaskGroup)" >Type <code>TaskGroup</code></a></h2>
-		<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).<">TaskGroup.<</a></td>
-		<td class="summary">
-<p>nitspec#UnitSpec> unitSpecs</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).MAX_ROUTE_DISTANCE_M">TaskGroup.MAX_ROUTE_DISTANCE_M</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).ROUTE_OVERSHOOT_M">TaskGroup.ROUTE_OVERSHOOT_M</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).USING_ROAD_DISTANCE_THRESHOLD_M">TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).addUnitSpec">TaskGroup:addUnitSpec(unitSpec)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).advance">TaskGroup:advance()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).containsUnit">TaskGroup:containsUnit(unit)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).dcsGroup">TaskGroup.dcsGroup</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).destinationIndex">TaskGroup.destinationIndex</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).exists">TaskGroup:exists()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).forceAdvance">TaskGroup:forceAdvance()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).groupLead">TaskGroup.groupLead</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).maxDistanceM">TaskGroup.maxDistanceM</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).new">TaskGroup:new(taskSequence)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).progressing">TaskGroup.progressing</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).routeOvershootM">TaskGroup.routeOvershootM</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).setDCSGroup">TaskGroup:setDCSGroup(newGroup)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).setRoute">TaskGroup:setRoute(<, waypoints)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).taskSequence">TaskGroup.taskSequence</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).unitSpecs">TaskGroup.unitSpecs</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).updateGroupLead">TaskGroup:updateGroupLead()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(TaskGroup).usingRoadDistanceThresholdM">TaskGroup.usingRoadDistanceThresholdM</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-	<h2>Global(s)</h2>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(TaskGroup)">#TaskGroup</a></em>
-<a id="autogft_TaskGroup" >
-<strong>autogft_TaskGroup</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-	<h2><a id="#(TaskGroup)" >Type <code>TaskGroup</code></a></h2>
-		<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(list)">#list</a></em>
-<a id="#(TaskGroup).<" >
-<strong>TaskGroup.<</strong>
-</a>
-</dt>
-<dd>
-	
-<p>nitspec#UnitSpec> unitSpecs</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(TaskGroup).MAX_ROUTE_DISTANCE_M" >
-<strong>TaskGroup.MAX_ROUTE_DISTANCE_M</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(TaskGroup).ROUTE_OVERSHOOT_M" >
-<strong>TaskGroup.ROUTE_OVERSHOOT_M</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(TaskGroup).USING_ROAD_DISTANCE_THRESHOLD_M" >
-<strong>TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).addUnitSpec" >
-<strong>TaskGroup:addUnitSpec(unitSpec)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="unitspec.html##(UnitSpec)">unitspec#UnitSpec</a> unitSpec </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).advance" >
-<strong>TaskGroup:advance()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(TaskGroup)">#TaskGroup</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).containsUnit" >
-<strong>TaskGroup:containsUnit(unit)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="DCSUnit.html##(Unit)">DCSUnit#Unit</a> unit </em></code>: </p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em>#boolean:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="DCSGroup.html##(Group)">DCSGroup#Group</a></em>
-<a id="#(TaskGroup).dcsGroup" >
-<strong>TaskGroup.dcsGroup</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(TaskGroup).destinationIndex" >
-<strong>TaskGroup.destinationIndex</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).exists" >
-<strong>TaskGroup:exists()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(TaskGroup)">#TaskGroup</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).forceAdvance" >
-<strong>TaskGroup:forceAdvance()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(TaskGroup)">#TaskGroup</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="DCSUnit.html##(Unit)">DCSUnit#Unit</a></em>
-<a id="#(TaskGroup).groupLead" >
-<strong>TaskGroup.groupLead</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(TaskGroup).maxDistanceM" >
-<strong>TaskGroup.maxDistanceM</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).new" >
-<strong>TaskGroup:new(taskSequence)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="tasksequence.html##(TaskSequence)">tasksequence#TaskSequence</a> taskSequence </em></code>: </p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em><a href="##(TaskGroup)">#TaskGroup</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#boolean</em>
-<a id="#(TaskGroup).progressing" >
-<strong>TaskGroup.progressing</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(TaskGroup).routeOvershootM" >
-<strong>TaskGroup.routeOvershootM</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).setDCSGroup" >
-<strong>TaskGroup:setDCSGroup(newGroup)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="DCSGroup.html##(Group)">DCSGroup#Group</a> newGroup </em></code>: </p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em><a href="##(TaskGroup)">#TaskGroup</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).setRoute" >
-<strong>TaskGroup:setRoute(<, waypoints)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="##(list)">#list</a> &lt; </em></code>: 
-aypoint#Waypoint> waypoints</p>
-
-				</li>
-				<li>
-				
-<p><code><em> waypoints </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="tasksequence.html##(TaskSequence)">tasksequence#TaskSequence</a></em>
-<a id="#(TaskGroup).taskSequence" >
-<strong>TaskGroup.taskSequence</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="#(TaskGroup).unitSpecs" >
-<strong>TaskGroup.unitSpecs</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(TaskGroup).updateGroupLead" >
-<strong>TaskGroup:updateGroupLead()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="#(TaskGroup).usingRoadDistanceThresholdM" >
-<strong>TaskGroup.usingRoadDistanceThresholdM</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-
-			<h2><a id="#(list)" >Type <code>list</code></a></h2>
-			
-</div>
-
-</div>
+    <div class="menu">
+        <h2>Modules</h2>
+        <h3 class='modulelink'><a href='Class.html'>Class</a></h3>
+<h3 class='modulelink'><a href='Coordinate.html'>Coordinate</a></h3>
+<h3 class='modulelink'><a href='GroupCommand.html'>GroupCommand</a></h3>
+<h3 class='modulelink'><a href='GroupIntel.html'>GroupIntel</a></h3>
+<h3 class='modulelink'><a href='InformedGroup.html'>InformedGroup</a></h3>
+<h3 class='modulelink'><a href='Map.html'>Map</a></h3>
+<h3 class='modulelink'><a href='Reinforcer.html'>Reinforcer</a></h3>
+<h3 class='modulelink'><a href='Setup.html'>Setup</a></h3>
+<h3 class='modulelink'><a href='SetupBase.html'>SetupBase</a></h3>
+<h3 class='modulelink'><a href='Task.html'>Task</a></h3>
+<h3 class='modulelink'><a href='TaskForce.html'>TaskForce</a></h3>
+<h3 class='modulelink'><a href='TaskGroup.html'>TaskGroup</a></h3>
+<h3 class='modulelink'><a href='TaskSequence.html'>TaskSequence</a></h3>
+<h3 class='modulelink'><a href='UnitCluster.html'>UnitCluster</a></h3>
+<h3 class='modulelink'><a href='UnitSpecification.html'>UnitSpecification</a></h3>
+<h3 class='modulelink'><a href='Util.html'>Util</a></h3>
+<h3 class='modulelink'><a href='Vector2.html'>Vector2</a></h3>
+<h3 class='modulelink'><a href='Vector3.html'>Vector3</a></h3>
+<h3 class='modulelink'><a href='Waypoint.html'>Waypoint</a></h3>
+
+    </div>
+    <div class="content">
+        <div class="content2">
+            <h1>TaskGroup</h1>
+<h2>Types</h2>
+<ul><li><a href='TaskGroup.html##TaskGroup'>#TaskGroup</a></li>
+</ul><h3 class='typeheader' id='#TaskGroup'>Type #TaskGroup</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.addUnitSpec'>addUnitSpec</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.advance'>advance</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.containsUnit'>containsUnit</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.exists'>exists</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.forceAdvance'>forceAdvance</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.setDCSGroup'>setDCSGroup</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.setRoute'>setRoute</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='TaskGroup.html##TaskGroup.updateGroupLead'>updateGroupLead</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#TaskGroup.addUnitSpec'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.addUnitSpec'>#TaskGroup.addUnitSpec</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>unitspec#UnitSpec unitSpec - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#TaskGroup</li></ul>
+<hr></div><div id='#TaskGroup.advance'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.advance'>#TaskGroup.advance</a></h4>
+<hr></div><div id='#TaskGroup.containsUnit'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.containsUnit'>#TaskGroup.containsUnit</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>DCSUnit#Unit unit - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#boolean</li></ul>
+<hr></div><div id='#TaskGroup.exists'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.exists'>#TaskGroup.exists</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#boolean</li></ul>
+<hr></div><div id='#TaskGroup.forceAdvance'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.forceAdvance'>#TaskGroup.forceAdvance</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#TaskGroup</li></ul>
+<hr></div><div id='#TaskGroup.new'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.new'>#TaskGroup.new</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>tasksequence#TaskSequence taskSequence - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#TaskGroup</li></ul>
+<hr></div><div id='#TaskGroup.setDCSGroup'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.setDCSGroup'>#TaskGroup.setDCSGroup</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>DCSGroup#Group newGroup - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#TaskGroup</li></ul>
+<hr></div><div id='#TaskGroup.setRoute'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.setRoute'>#TaskGroup.setRoute</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#list&lt;waypoint#Waypoint&gt; waypoints - </li>
+</ul><hr></div><div id='#TaskGroup.updateGroupLead'><h4 class='functionheader'><a href='TaskGroup.html##TaskGroup.updateGroupLead'>#TaskGroup.updateGroupLead</a></h4>
+<hr></div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,281 +1,89 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-	<head>
-		<link rel="stylesheet" href="stylesheet.css" type="text/css"/>
-	</head>
+<head>
+    <link rel="stylesheet" href="style.css" />
+</head>
 <body>
-<div id="container">
-<div id="product">
-	<div id="product_logo"></div>
-	<div id="product_name"><big><b></b></big></div>
-	<div id="product_description"></div>
-</div>
-<div id="main">
-	<div id="navigation">
-		<h2>Modules</h2>
-			<ul><li>
-				<a href="index.html">index</a>
-			</li></ul>
-		<ul>
-					<li>Class</li>
-					<li><a href="Coordinate.html">Coordinate</a></li>
-					<li><a href="GroupCommand.html">GroupCommand</a></li>
-					<li><a href="GroupIntel.html">GroupIntel</a></li>
-					<li><a href="IOCEV.html">IOCEV</a></li>
-					<li><a href="Map.html">Map</a></li>
-					<li><a href="ObserverIntel.html">ObserverIntel</a></li>
-					<li><a href="Reinforcer.html">Reinforcer</a></li>
-					<li><a href="Setup.html">Setup</a></li>
-					<li><a href="Task.html">Task</a></li>
-					<li><a href="TaskForce.html">TaskForce</a></li>
-					<li><a href="TaskGroup.html">TaskGroup</a></li>
-					<li><a href="TaskSequence.html">TaskSequence</a></li>
-					<li><a href="UnitCluster.html">UnitCluster</a></li>
-					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
-					<li><a href="Util.html">Util</a></li>
-					<li><a href="Vector2.html">Vector2</a></li>
-					<li><a href="Vector3.html">Vector3</a></li>
-					<li><a href="Waypoint.html">Waypoint</a></li>
-		</ul>
-	</div>
-	<div id="content">
-   <h1>Module <code>Class</code></h1>
-   
+    <div class="menu">
+        <h2>Modules</h2>
+        <h3 class='modulelink'><a href='Class.html'>Class</a></h3>
+<h3 class='modulelink'><a href='Coordinate.html'>Coordinate</a></h3>
+<h3 class='modulelink'><a href='GroupCommand.html'>GroupCommand</a></h3>
+<h3 class='modulelink'><a href='GroupIntel.html'>GroupIntel</a></h3>
+<h3 class='modulelink'><a href='InformedGroup.html'>InformedGroup</a></h3>
+<h3 class='modulelink'><a href='Map.html'>Map</a></h3>
+<h3 class='modulelink'><a href='Reinforcer.html'>Reinforcer</a></h3>
+<h3 class='modulelink'><a href='Setup.html'>Setup</a></h3>
+<h3 class='modulelink'><a href='SetupBase.html'>SetupBase</a></h3>
+<h3 class='modulelink'><a href='Task.html'>Task</a></h3>
+<h3 class='modulelink'><a href='TaskForce.html'>TaskForce</a></h3>
+<h3 class='modulelink'><a href='TaskGroup.html'>TaskGroup</a></h3>
+<h3 class='modulelink'><a href='TaskSequence.html'>TaskSequence</a></h3>
+<h3 class='modulelink'><a href='UnitCluster.html'>UnitCluster</a></h3>
+<h3 class='modulelink'><a href='UnitSpecification.html'>UnitSpecification</a></h3>
+<h3 class='modulelink'><a href='Util.html'>Util</a></h3>
+<h3 class='modulelink'><a href='Vector2.html'>Vector2</a></h3>
+<h3 class='modulelink'><a href='Vector3.html'>Vector3</a></h3>
+<h3 class='modulelink'><a href='Waypoint.html'>Waypoint</a></h3>
 
-
-	<h2>Global(s)</h2>
-	<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_Class">autogft_Class</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-	<h2><a id="#(Class)" >Type <code>Class</code></a></h2>
-		<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Class).create">Class:create()</a></td>
-		<td class="summary">
+    </div>
+    <div class="content">
+        <div class="content2">
+            <h1>Class</h1>
+<h2>Types</h2>
+<ul><li><a href='Class.html##Class'>#Class</a></li>
+</ul><h3 class='typeheader' id='#Class'>Type #Class</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Class.html##Class.create'>create</a></p></td>
+<td class='funcdesccell'><p class='cell'>Creates a new class.</p></td>
+</tr><tr><td><p class='cell'><a href='Class.html##Class.createInstance'>createInstance</a></p></td>
+<td class='funcdesccell'><p class='cell'>Instantiates this class.
+Do not override this function (see @{#Class.new}).</p></td>
+</tr><tr><td><p class='cell'><a href='Class.html##Class.equals'>equals</a></p></td>
+<td class='funcdesccell'><p class='cell'>Compares each field of this object the each field of another, and returns whether the fields are identical.</p></td>
+</tr><tr><td><p class='cell'><a href='Class.html##Class.extend'>extend</a></p></td>
+<td class='funcdesccell'><p class='cell'>Creates a subclass of this class.</p></td>
+</tr><tr><td><p class='cell'><a href='Class.html##Class.instanceOf'>instanceOf</a></p></td>
+<td class='funcdesccell'><p class='cell'>Returns wether this object is a type or subtype of a class.</p></td>
+</tr><tr><td><p class='cell'><a href='Class.html##Class.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'>Instanties this class.
+Override this function to create a custom constructor.</p></td>
+</tr><tr><td><p class='cell'><a href='Class.html##Class.throwAbstractFunctionError'>throwAbstractFunctionError</a></p></td>
+<td class='funcdesccell'><p class='cell'>Throws an error with the message that an abstract function was invoked.
+The name of the function invoking this function will be included in the message.</p></td>
+</tr></tbody></table><div id='#Class.create'><h4 class='functionheader'><a href='Class.html##Class.create'>#Class.create</a></h4>
 <p>Creates a new class.</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Class).createInstance">Class:createInstance(superObject)</a></td>
-		<td class="summary">
-<p>Instantiates this class.</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Class).equals">Class:equals(object)</a></td>
-		<td class="summary">
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#Class</li></ul>
+<hr></div><div id='#Class.createInstance'><h4 class='functionheader'><a href='Class.html##Class.createInstance'>#Class.createInstance</a></h4>
+<p>Instantiates this class.
+Do not override this function (see @{#Class.new}).</p>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#table superObject - (Optional) Parent object which the new instance will inherit attributes from</li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#table</li></ul>
+<hr></div><div id='#Class.equals'><h4 class='functionheader'><a href='Class.html##Class.equals'>#Class.equals</a></h4>
 <p>Compares each field of this object the each field of another, and returns whether the fields are identical.</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Class).extend">Class:extend()</a></td>
-		<td class="summary">
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#boolean</li></ul>
+<hr></div><div id='#Class.extend'><h4 class='functionheader'><a href='Class.html##Class.extend'>#Class.extend</a></h4>
 <p>Creates a subclass of this class.</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Class).instanceOf">Class:instanceOf(class)</a></td>
-		<td class="summary">
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#Class</li></ul>
+<hr></div><div id='#Class.instanceOf'><h4 class='functionheader'><a href='Class.html##Class.instanceOf'>#Class.instanceOf</a></h4>
 <p>Returns wether this object is a type or subtype of a class.</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Class).new">Class:new()</a></td>
-		<td class="summary">
-<p>Instanties this class.</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Class).throwAbstractFunctionError">Class:throwAbstractFunctionError()</a></td>
-		<td class="summary">
-<p>Throws an error with the message that an abstract function was invoked.</p>
-</td>
-		</tr>
-	</table>
-
-	<h2>Global(s)</h2>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(Class)">#Class</a></em>
-<a id="autogft_Class" >
-<strong>autogft_Class</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-	<h2><a id="#(Class)" >Type <code>Class</code></a></h2>
-		
-<p>A template for creating autogft objects.</p>
-
-	<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-<a id="#(Class).create" >
-<strong>Class:create()</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Creates a new class.</p>
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(Class)">#Class</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Class).createInstance" >
-<strong>Class:createInstance(superObject)</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Instantiates this class.</p>
-
-	
-<p>Do not override this function (see <a href="##(Class).new">Class.new</a>).</p>
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#table superObject </em></code>: 
-(Optional) Parent object which the new instance will inherit attributes from</p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em>#table:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Class).equals" >
-<strong>Class:equals(object)</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Compares each field of this object the each field of another, and returns whether the fields are identical.</p>
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em> object </em></code>: </p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em>#boolean:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Class).extend" >
-<strong>Class:extend()</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Creates a subclass of this class.</p>
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(Class)">#Class</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Class).instanceOf" >
-<strong>Class:instanceOf(class)</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Returns wether this object is a type or subtype of a class.</p>
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em> class </em></code>: </p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em>#boolean:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Class).new" >
-<strong>Class:new()</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Instanties this class.</p>
-
-	
-<p>Override this function to create a custom constructor.</p>
-
-		<h3>Return value</h3>
-				
-<p><em>#table:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Class).throwAbstractFunctionError" >
-<strong>Class:throwAbstractFunctionError()</strong>
-</a>
-</dt>
-<dd>
-	
-<p>Throws an error with the message that an abstract function was invoked.</p>
-
-	
-<p>The name of the function invoking this function will be included in the message.</p>
-
-</dd>
-</dl>
-
-</div>
-
-</div>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#boolean</li></ul>
+<hr></div><div id='#Class.new'><h4 class='functionheader'><a href='Class.html##Class.new'>#Class.new</a></h4>
+<p>Instanties this class.
+Override this function to create a custom constructor.</p>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#table</li></ul>
+<hr></div><div id='#Class.throwAbstractFunctionError'><h4 class='functionheader'><a href='Class.html##Class.throwAbstractFunctionError'>#Class.throwAbstractFunctionError</a></h4>
+<p>Throws an error with the message that an abstract function was invoked.
+The name of the function invoking this function will be included in the message.</p>
+<hr></div>
+        </div>
+    </div>
 </body>
 </html>

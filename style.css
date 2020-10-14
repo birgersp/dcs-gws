@@ -1,0 +1,85 @@
+body {
+    font-family: Arial;
+}
+
+a:visited, a:link, a:hover, a:active {
+    color: mediumblue;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+hr {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+td {
+    margin: 0.2em;
+    border: 1px solid black;
+}
+
+.menu {
+    float: left;
+    width: 200px;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.modulelink {
+    font-size: 1em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.content {
+    height: 100%;
+    overflow-y: scroll;
+    padding-left: 0.5em;
+}
+
+.content2 {
+    margin-bottom: 10em;
+    margin-right: 1em;
+}
+
+.typeheader {
+    margin-top: 2em;
+}
+
+.functionheader {
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.funcdesccell {
+    width: 100%;
+}
+
+p {
+    margin-left: 1em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+table {
+    margin-bottom: 2em;
+}
+
+.cell, .cellheader {
+    margin-left: 0.2em;
+}
+
+.cellheader {
+    font-weight: bold;
+}
+
+.funcparamheader, .funcreturnheader {
+    margin-bottom: 0em;
+    margin-top: 0em;
+    font-size: 1em;
+}
+
+ul {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}

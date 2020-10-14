@@ -1,1155 +1,166 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-	<head>
-		<link rel="stylesheet" href="stylesheet.css" type="text/css"/>
-	</head>
+<head>
+    <link rel="stylesheet" href="style.css" />
+</head>
 <body>
-<div id="container">
-<div id="product">
-	<div id="product_logo"></div>
-	<div id="product_name"><big><b></b></big></div>
-	<div id="product_description"></div>
-</div>
-<div id="main">
-	<div id="navigation">
-		<h2>Modules</h2>
-			<ul><li>
-				<a href="index.html">index</a>
-			</li></ul>
-		<ul>
-					<li><a href="Class.html">Class</a></li>
-					<li><a href="Coordinate.html">Coordinate</a></li>
-					<li><a href="GroupCommand.html">GroupCommand</a></li>
-					<li><a href="GroupIntel.html">GroupIntel</a></li>
-					<li><a href="IOCEV.html">IOCEV</a></li>
-					<li><a href="Map.html">Map</a></li>
-					<li><a href="ObserverIntel.html">ObserverIntel</a></li>
-					<li>Reinforcer</li>
-					<li><a href="Setup.html">Setup</a></li>
-					<li><a href="Task.html">Task</a></li>
-					<li><a href="TaskForce.html">TaskForce</a></li>
-					<li><a href="TaskGroup.html">TaskGroup</a></li>
-					<li><a href="TaskSequence.html">TaskSequence</a></li>
-					<li><a href="UnitCluster.html">UnitCluster</a></li>
-					<li><a href="UnitSpecification.html">UnitSpecification</a></li>
-					<li><a href="Util.html">Util</a></li>
-					<li><a href="Vector2.html">Vector2</a></li>
-					<li><a href="Vector3.html">Vector3</a></li>
-					<li><a href="Waypoint.html">Waypoint</a></li>
-		</ul>
-	</div>
-	<div id="content">
-   <h1>Module <code>Reinforcer</code></h1>
-   
-
-
-	<h2>Global(s)</h2>
-	<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_RandomReinforcer">autogft_RandomReinforcer</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_RandomUnitSpec">autogft_RandomUnitSpec</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_Reinforcer">autogft_Reinforcer</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_ReinforcerUnit">autogft_ReinforcerUnit</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_RespawningReinforcer">autogft_RespawningReinforcer</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_SelectingReinforcer">autogft_SelectingReinforcer</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="#autogft_SpecificUnitReinforcer">autogft_SpecificUnitReinforcer</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-	<h2><a id="#(Reinforcer)" >Type <code>Reinforcer</code></a></h2>
-		<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).<">Reinforcer.<</a></td>
-		<td class="summary">
-<p>CSZone#Zone> baseZones</p>
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).addBaseZone">Reinforcer:addBaseZone(name)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).addGroupUnits">Reinforcer:addGroupUnits(group, <, units)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).assertHasBaseZones">Reinforcer:assertHasBaseZones()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).baseZones">Reinforcer.baseZones</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).countryID">Reinforcer.countryID</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).new">Reinforcer:new()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).reinforce">Reinforcer:reinforce()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).setCountryID">Reinforcer:setCountryID(id)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(Reinforcer).unitSkill">Reinforcer.unitSkill</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-			<h2><a id="#(RandomReinforcer)">Type <code>RandomReinforcer</code></a></h2>
-				<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomReinforcer).baseZones">RandomReinforcer.baseZones</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomReinforcer).new">RandomReinforcer:new()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomReinforcer).reinforce">RandomReinforcer:reinforce()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomReinforcer).respawningReinforcer">RandomReinforcer.respawningReinforcer</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomReinforcer).setCountryID">RandomReinforcer:setCountryID(id)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomReinforcer).setGroupUnitSpecs">RandomReinforcer:setGroupUnitSpecs(group, <, randomUnitSpecs)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-			<h2><a id="#(RandomUnitSpec)">Type <code>RandomUnitSpec</code></a></h2>
-				<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomUnitSpec).diff">RandomUnitSpec.diff</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomUnitSpec).minimum">RandomUnitSpec.minimum</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RandomUnitSpec).new">RandomUnitSpec:new(#, count, type, minimum)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-			<h2><a id="#(ReinforcerUnit)">Type <code>ReinforcerUnit</code></a></h2>
-				<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(ReinforcerUnit).heading">ReinforcerUnit.heading</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(ReinforcerUnit).name">ReinforcerUnit.name</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(ReinforcerUnit).new">ReinforcerUnit:new(type, name, x, y, heading)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(ReinforcerUnit).type">ReinforcerUnit.type</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(ReinforcerUnit).x">ReinforcerUnit.x</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(ReinforcerUnit).y">ReinforcerUnit.y</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-			<h2><a id="#(RespawningReinforcer)">Type <code>RespawningReinforcer</code></a></h2>
-				<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RespawningReinforcer).baseZones">RespawningReinforcer.baseZones</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RespawningReinforcer).getUniqueUnitName">RespawningReinforcer:getUniqueUnitName()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RespawningReinforcer).new">RespawningReinforcer:new()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RespawningReinforcer).reinforce">RespawningReinforcer:reinforce()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(RespawningReinforcer).uniqueUnitNameCount">RespawningReinforcer.uniqueUnitNameCount</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-			<h2><a id="#(SelectingReinforcer)">Type <code>SelectingReinforcer</code></a></h2>
-				<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SelectingReinforcer).coalitionID">SelectingReinforcer.coalitionID</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SelectingReinforcer).new">SelectingReinforcer:new()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SelectingReinforcer).reinforce">SelectingReinforcer:reinforce()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SelectingReinforcer).setCountryID">SelectingReinforcer:setCountryID(id)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-			<h2><a id="#(SpecificUnitReinforcer)">Type <code>SpecificUnitReinforcer</code></a></h2>
-				<table class="function_list">
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SpecificUnitReinforcer).assertHasGroupsUnitSpecs">SpecificUnitReinforcer:assertHasGroupsUnitSpecs()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SpecificUnitReinforcer).groupsUnitSpecs">SpecificUnitReinforcer.groupsUnitSpecs</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SpecificUnitReinforcer).new">SpecificUnitReinforcer:new()</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-		<tr>
-		<td class="name" nowrap="nowrap"><a href="##(SpecificUnitReinforcer).reinforceFromUnits">SpecificUnitReinforcer:reinforceFromUnits(<, availableUnits)</a></td>
-		<td class="summary">
-
-</td>
-		</tr>
-	</table>
-
-	<h2>Global(s)</h2>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(RandomReinforcer)">#RandomReinforcer</a></em>
-<a id="autogft_RandomReinforcer" >
-<strong>autogft_RandomReinforcer</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(RandomUnitSpec)">#RandomUnitSpec</a></em>
-<a id="autogft_RandomUnitSpec" >
-<strong>autogft_RandomUnitSpec</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(Reinforcer)">#Reinforcer</a></em>
-<a id="autogft_Reinforcer" >
-<strong>autogft_Reinforcer</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(ReinforcerUnit)">#ReinforcerUnit</a></em>
-<a id="autogft_ReinforcerUnit" >
-<strong>autogft_ReinforcerUnit</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(RespawningReinforcer)">#RespawningReinforcer</a></em>
-<a id="autogft_RespawningReinforcer" >
-<strong>autogft_RespawningReinforcer</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(SelectingReinforcer)">#SelectingReinforcer</a></em>
-<a id="autogft_SelectingReinforcer" >
-<strong>autogft_SelectingReinforcer</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(SpecificUnitReinforcer)">#SpecificUnitReinforcer</a></em>
-<a id="autogft_SpecificUnitReinforcer" >
-<strong>autogft_SpecificUnitReinforcer</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-	<h2><a id="#(Reinforcer)" >Type <code>Reinforcer</code></a></h2>
-		<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(list)">#list</a></em>
-<a id="#(Reinforcer).<" >
-<strong>Reinforcer.<</strong>
-</a>
-</dt>
-<dd>
-	
-<p>CSZone#Zone> baseZones</p>
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Reinforcer).addBaseZone" >
-<strong>Reinforcer:addBaseZone(name)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#string name </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Reinforcer).addGroupUnits" >
-<strong>Reinforcer:addGroupUnits(group, <, units)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="taskgroup.html##(TaskGroup)">taskgroup#TaskGroup</a> group </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em><a href="##(list)">#list</a> &lt; </em></code>: 
-ReinforcerUnit> units</p>
-
-				</li>
-				<li>
-				
-<p><code><em> units </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Reinforcer).assertHasBaseZones" >
-<strong>Reinforcer:assertHasBaseZones()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="#(Reinforcer).baseZones" >
-<strong>Reinforcer.baseZones</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(Reinforcer).countryID" >
-<strong>Reinforcer.countryID</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Reinforcer).new" >
-<strong>Reinforcer:new()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(Reinforcer)">#Reinforcer</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Reinforcer).reinforce" >
-<strong>Reinforcer:reinforce()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(Reinforcer).setCountryID" >
-<strong>Reinforcer:setCountryID(id)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#number id </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#string</em>
-<a id="#(Reinforcer).unitSkill" >
-<strong>Reinforcer.unitSkill</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-
-			<h2><a id="#(RandomReinforcer)" >Type <code>RandomReinforcer</code></a></h2>
-				<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="#(RandomReinforcer).baseZones" >
-<strong>RandomReinforcer.baseZones</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RandomReinforcer).new" >
-<strong>RandomReinforcer:new()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(RandomReinforcer)">#RandomReinforcer</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RandomReinforcer).reinforce" >
-<strong>RandomReinforcer:reinforce()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="##(RespawningReinforcer)">#RespawningReinforcer</a></em>
-<a id="#(RandomReinforcer).respawningReinforcer" >
-<strong>RandomReinforcer.respawningReinforcer</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RandomReinforcer).setCountryID" >
-<strong>RandomReinforcer:setCountryID(id)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#number id </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RandomReinforcer).setGroupUnitSpecs" >
-<strong>RandomReinforcer:setGroupUnitSpecs(group, <, randomUnitSpecs)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="taskgroup.html##(TaskGroup)">taskgroup#TaskGroup</a> group </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em><a href="##(list)">#list</a> &lt; </em></code>: 
-RandomUnitSpec> randomUnitSpecs</p>
-
-				</li>
-				<li>
-				
-<p><code><em> randomUnitSpecs </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-
-			<h2><a id="#(RandomUnitSpec)" >Type <code>RandomUnitSpec</code></a></h2>
-				<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(RandomUnitSpec).diff" >
-<strong>RandomUnitSpec.diff</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(RandomUnitSpec).minimum" >
-<strong>RandomUnitSpec.minimum</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RandomUnitSpec).new" >
-<strong>RandomUnitSpec:new(#, count, type, minimum)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em> # </em></code>: 
-umber</p>
-
-				</li>
-				<li>
-				
-<p><code><em> count </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em> type </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em> minimum </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-
-			<h2><a id="#(ReinforcerUnit)" >Type <code>ReinforcerUnit</code></a></h2>
-				<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(ReinforcerUnit).heading" >
-<strong>ReinforcerUnit.heading</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#string</em>
-<a id="#(ReinforcerUnit).name" >
-<strong>ReinforcerUnit.name</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(ReinforcerUnit).new" >
-<strong>ReinforcerUnit:new(type, name, x, y, heading)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#string type </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em>#string name </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em>#number x </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em>#number y </em></code>: </p>
-
-				</li>
-				<li>
-				
-<p><code><em>#number heading </em></code>: </p>
-
-				</li>
-		</ul>
-		<h3>Return value</h3>
-				
-<p><em><a href="##(ReinforcerUnit)">#ReinforcerUnit</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#string</em>
-<a id="#(ReinforcerUnit).type" >
-<strong>ReinforcerUnit.type</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(ReinforcerUnit).x" >
-<strong>ReinforcerUnit.x</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(ReinforcerUnit).y" >
-<strong>ReinforcerUnit.y</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-
-			<h2><a id="#(RespawningReinforcer)" >Type <code>RespawningReinforcer</code></a></h2>
-				<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-		<em></em>
-<a id="#(RespawningReinforcer).baseZones" >
-<strong>RespawningReinforcer.baseZones</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RespawningReinforcer).getUniqueUnitName" >
-<strong>RespawningReinforcer:getUniqueUnitName()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em>#string:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RespawningReinforcer).new" >
-<strong>RespawningReinforcer:new()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(RespawningReinforcer)">#RespawningReinforcer</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(RespawningReinforcer).reinforce" >
-<strong>RespawningReinforcer:reinforce()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(RespawningReinforcer).uniqueUnitNameCount" >
-<strong>RespawningReinforcer.uniqueUnitNameCount</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-
-			<h2><a id="#(SelectingReinforcer)" >Type <code>SelectingReinforcer</code></a></h2>
-				<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-		<em>#number</em>
-<a id="#(SelectingReinforcer).coalitionID" >
-<strong>SelectingReinforcer.coalitionID</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(SelectingReinforcer).new" >
-<strong>SelectingReinforcer:new()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(SelectingReinforcer)">#SelectingReinforcer</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(SelectingReinforcer).reinforce" >
-<strong>SelectingReinforcer:reinforce()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(SelectingReinforcer).setCountryID" >
-<strong>SelectingReinforcer:setCountryID(id)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameter</h3>
-		<ul>
-				<li>
-				
-<p><code><em>#number id </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-
-			<h2><a id="#(SpecificUnitReinforcer)" >Type <code>SpecificUnitReinforcer</code></a></h2>
-				<h3>Field(s)</h3>
-		<dl class="function">
-<dt>
-
-<a id="#(SpecificUnitReinforcer).assertHasGroupsUnitSpecs" >
-<strong>SpecificUnitReinforcer:assertHasGroupsUnitSpecs()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-		<em><a href="map.html##(Map)">map#Map</a></em>
-<a id="#(SpecificUnitReinforcer).groupsUnitSpecs" >
-<strong>SpecificUnitReinforcer.groupsUnitSpecs</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(SpecificUnitReinforcer).new" >
-<strong>SpecificUnitReinforcer:new()</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Return value</h3>
-				
-<p><em><a href="##(SpecificUnitReinforcer)">#SpecificUnitReinforcer</a>:</em></p>
-
-
-</dd>
-</dl>
-		<dl class="function">
-<dt>
-
-<a id="#(SpecificUnitReinforcer).reinforceFromUnits" >
-<strong>SpecificUnitReinforcer:reinforceFromUnits(<, availableUnits)</strong>
-</a>
-</dt>
-<dd>
-	
-
-
-		<h3>Parameters</h3>
-		<ul>
-				<li>
-				
-<p><code><em><a href="##(list)">#list</a> &lt; </em></code>: 
-CSUnit#Unit> availableUnits</p>
-
-				</li>
-				<li>
-				
-<p><code><em> availableUnits </em></code>: </p>
-
-				</li>
-		</ul>
-</dd>
-</dl>
-
-			<h2><a id="#(list)" >Type <code>list</code></a></h2>
-			
-</div>
-
-</div>
+    <div class="menu">
+        <h2>Modules</h2>
+        <h3 class='modulelink'><a href='Class.html'>Class</a></h3>
+<h3 class='modulelink'><a href='Coordinate.html'>Coordinate</a></h3>
+<h3 class='modulelink'><a href='GroupCommand.html'>GroupCommand</a></h3>
+<h3 class='modulelink'><a href='GroupIntel.html'>GroupIntel</a></h3>
+<h3 class='modulelink'><a href='InformedGroup.html'>InformedGroup</a></h3>
+<h3 class='modulelink'><a href='Map.html'>Map</a></h3>
+<h3 class='modulelink'><a href='Reinforcer.html'>Reinforcer</a></h3>
+<h3 class='modulelink'><a href='Setup.html'>Setup</a></h3>
+<h3 class='modulelink'><a href='SetupBase.html'>SetupBase</a></h3>
+<h3 class='modulelink'><a href='Task.html'>Task</a></h3>
+<h3 class='modulelink'><a href='TaskForce.html'>TaskForce</a></h3>
+<h3 class='modulelink'><a href='TaskGroup.html'>TaskGroup</a></h3>
+<h3 class='modulelink'><a href='TaskSequence.html'>TaskSequence</a></h3>
+<h3 class='modulelink'><a href='UnitCluster.html'>UnitCluster</a></h3>
+<h3 class='modulelink'><a href='UnitSpecification.html'>UnitSpecification</a></h3>
+<h3 class='modulelink'><a href='Util.html'>Util</a></h3>
+<h3 class='modulelink'><a href='Vector2.html'>Vector2</a></h3>
+<h3 class='modulelink'><a href='Vector3.html'>Vector3</a></h3>
+<h3 class='modulelink'><a href='Waypoint.html'>Waypoint</a></h3>
+
+    </div>
+    <div class="content">
+        <div class="content2">
+            <h1>Reinforcer</h1>
+<h2>Types</h2>
+<ul><li><a href='Reinforcer.html##RandomReinforcer'>#RandomReinforcer</a></li>
+<li><a href='Reinforcer.html##RandomUnitSpec'>#RandomUnitSpec</a></li>
+<li><a href='Reinforcer.html##Reinforcer'>#Reinforcer</a></li>
+<li><a href='Reinforcer.html##ReinforcerUnit'>#ReinforcerUnit</a></li>
+<li><a href='Reinforcer.html##RespawningReinforcer'>#RespawningReinforcer</a></li>
+<li><a href='Reinforcer.html##SelectingReinforcer'>#SelectingReinforcer</a></li>
+<li><a href='Reinforcer.html##SpecificUnitReinforcer'>#SpecificUnitReinforcer</a></li>
+</ul><h3 class='typeheader' id='#RandomReinforcer'>Type #RandomReinforcer</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RandomReinforcer.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RandomReinforcer.reinforce'>reinforce</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RandomReinforcer.setCountryID'>setCountryID</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RandomReinforcer.setGroupUnitSpecs'>setGroupUnitSpecs</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#RandomReinforcer.new'><h4 class='functionheader'><a href='Reinforcer.html##RandomReinforcer.new'>#RandomReinforcer.new</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#RandomReinforcer</li></ul>
+<hr></div><div id='#RandomReinforcer.reinforce'><h4 class='functionheader'><a href='Reinforcer.html##RandomReinforcer.reinforce'>#RandomReinforcer.reinforce</a></h4>
+<hr></div><div id='#RandomReinforcer.setCountryID'><h4 class='functionheader'><a href='Reinforcer.html##RandomReinforcer.setCountryID'>#RandomReinforcer.setCountryID</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number id - </li>
+</ul><hr></div><div id='#RandomReinforcer.setGroupUnitSpecs'><h4 class='functionheader'><a href='Reinforcer.html##RandomReinforcer.setGroupUnitSpecs'>#RandomReinforcer.setGroupUnitSpecs</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>taskgroup#TaskGroup group - </li>
+<li>#list&lt;#RandomUnitSpec&gt; randomUnitSpecs - </li>
+</ul><hr></div><h3 class='typeheader' id='#RandomUnitSpec'>Type #RandomUnitSpec</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RandomUnitSpec.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#RandomUnitSpec.new'><h4 class='functionheader'><a href='Reinforcer.html##RandomUnitSpec.new'>#RandomUnitSpec.new</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number  - </li>
+</ul><hr></div><h3 class='typeheader' id='#Reinforcer'>Type #Reinforcer</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##Reinforcer.addBaseZone'>addBaseZone</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##Reinforcer.addGroupUnits'>addGroupUnits</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##Reinforcer.assertHasBaseZones'>assertHasBaseZones</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##Reinforcer.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##Reinforcer.reinforce'>reinforce</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##Reinforcer.setCountryID'>setCountryID</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#Reinforcer.addBaseZone'><h4 class='functionheader'><a href='Reinforcer.html##Reinforcer.addBaseZone'>#Reinforcer.addBaseZone</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string name - </li>
+</ul><hr></div><div id='#Reinforcer.addGroupUnits'><h4 class='functionheader'><a href='Reinforcer.html##Reinforcer.addGroupUnits'>#Reinforcer.addGroupUnits</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>taskgroup#TaskGroup group - </li>
+<li>#list&lt;#ReinforcerUnit&gt; units - </li>
+</ul><hr></div><div id='#Reinforcer.assertHasBaseZones'><h4 class='functionheader'><a href='Reinforcer.html##Reinforcer.assertHasBaseZones'>#Reinforcer.assertHasBaseZones</a></h4>
+<hr></div><div id='#Reinforcer.new'><h4 class='functionheader'><a href='Reinforcer.html##Reinforcer.new'>#Reinforcer.new</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#Reinforcer</li></ul>
+<hr></div><div id='#Reinforcer.reinforce'><h4 class='functionheader'><a href='Reinforcer.html##Reinforcer.reinforce'>#Reinforcer.reinforce</a></h4>
+<hr></div><div id='#Reinforcer.setCountryID'><h4 class='functionheader'><a href='Reinforcer.html##Reinforcer.setCountryID'>#Reinforcer.setCountryID</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number id - </li>
+</ul><hr></div><h3 class='typeheader' id='#ReinforcerUnit'>Type #ReinforcerUnit</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##ReinforcerUnit.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#ReinforcerUnit.new'><h4 class='functionheader'><a href='Reinforcer.html##ReinforcerUnit.new'>#ReinforcerUnit.new</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#string type - </li>
+<li>#string name - </li>
+<li>#number x - </li>
+<li>#number y - </li>
+<li>#number heading - </li>
+</ul><h4 class='funcreturnheader'>Return</h4>
+<ul><li>#ReinforcerUnit</li></ul>
+<hr></div><h3 class='typeheader' id='#RespawningReinforcer'>Type #RespawningReinforcer</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RespawningReinforcer.getUniqueUnitName'>getUniqueUnitName</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RespawningReinforcer.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##RespawningReinforcer.reinforce'>reinforce</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#RespawningReinforcer.getUniqueUnitName'><h4 class='functionheader'><a href='Reinforcer.html##RespawningReinforcer.getUniqueUnitName'>#RespawningReinforcer.getUniqueUnitName</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#string</li></ul>
+<hr></div><div id='#RespawningReinforcer.new'><h4 class='functionheader'><a href='Reinforcer.html##RespawningReinforcer.new'>#RespawningReinforcer.new</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#RespawningReinforcer</li></ul>
+<hr></div><div id='#RespawningReinforcer.reinforce'><h4 class='functionheader'><a href='Reinforcer.html##RespawningReinforcer.reinforce'>#RespawningReinforcer.reinforce</a></h4>
+<hr></div><h3 class='typeheader' id='#SelectingReinforcer'>Type #SelectingReinforcer</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##SelectingReinforcer.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##SelectingReinforcer.reinforce'>reinforce</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##SelectingReinforcer.setCountryID'>setCountryID</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#SelectingReinforcer.new'><h4 class='functionheader'><a href='Reinforcer.html##SelectingReinforcer.new'>#SelectingReinforcer.new</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SelectingReinforcer</li></ul>
+<hr></div><div id='#SelectingReinforcer.reinforce'><h4 class='functionheader'><a href='Reinforcer.html##SelectingReinforcer.reinforce'>#SelectingReinforcer.reinforce</a></h4>
+<hr></div><div id='#SelectingReinforcer.setCountryID'><h4 class='functionheader'><a href='Reinforcer.html##SelectingReinforcer.setCountryID'>#SelectingReinforcer.setCountryID</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#number id - </li>
+</ul><hr></div><h3 class='typeheader' id='#SpecificUnitReinforcer'>Type #SpecificUnitReinforcer</h3>
+<table><tbody><tr><td><p class='cellheader'>Name</p></td>
+<td class='funcdesccell'><p class='cellheader'>Description</p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##SpecificUnitReinforcer.assertHasGroupsUnitSpecs'>assertHasGroupsUnitSpecs</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##SpecificUnitReinforcer.new'>new</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr><tr><td><p class='cell'><a href='Reinforcer.html##SpecificUnitReinforcer.reinforceFromUnits'>reinforceFromUnits</a></p></td>
+<td class='funcdesccell'><p class='cell'></p></td>
+</tr></tbody></table><div id='#SpecificUnitReinforcer.assertHasGroupsUnitSpecs'><h4 class='functionheader'><a href='Reinforcer.html##SpecificUnitReinforcer.assertHasGroupsUnitSpecs'>#SpecificUnitReinforcer.assertHasGroupsUnitSpecs</a></h4>
+<hr></div><div id='#SpecificUnitReinforcer.new'><h4 class='functionheader'><a href='Reinforcer.html##SpecificUnitReinforcer.new'>#SpecificUnitReinforcer.new</a></h4>
+<h4 class='funcreturnheader'>Return</h4>
+<ul><li>#SpecificUnitReinforcer</li></ul>
+<hr></div><div id='#SpecificUnitReinforcer.reinforceFromUnits'><h4 class='functionheader'><a href='Reinforcer.html##SpecificUnitReinforcer.reinforceFromUnits'>#SpecificUnitReinforcer.reinforceFromUnits</a></h4>
+<h4 class='funcparamheader'>Parameters</h4>
+<ul class='funcparamlist'><li>#list&lt;DCSUnit#Unit&gt; availableUnits - </li>
+</ul><hr></div>
+        </div>
+    </div>
 </body>
 </html>
