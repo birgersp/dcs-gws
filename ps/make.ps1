@@ -25,7 +25,28 @@ $outFileWarning = "-- Auto-generated, do not edit"
 
 $version = Get-Content -Path $versionFile
 Write-Host "Building version $($version) $date"
-$files = Get-ChildItem $srcDir *.lua
+$files = @(
+	"unit-types\unit-types.lua",
+	"autogft\class.lua",
+	"autogft\unitspec.lua",
+	"autogft\vector2.lua",
+	"autogft\vector3.lua",
+	"autogft\coordinate.lua",
+	"autogft\groupcommand.lua",
+	"autogft\groupintel.lua",
+	"autogft\map.lua",
+	"autogft\observerintel.lua",
+	"autogft\reinforcer.lua",
+	"autogft\setupbase.lua",
+	"autogft\setup.lua",
+	"autogft\task.lua",
+	"autogft\taskforce.lua",
+	"autogft\taskgroup.lua",
+	"autogft\tasksequence.lua",
+	"autogft\unitcluster.lua",
+	"autogft\util.lua",
+	"autogft\waypoint.lua"
+)
 $outFileSB = [System.Text.StringBuilder]::new()
 $examplesSB = [System.Text.StringBuilder]::new()
 $experimentsSB = [System.Text.StringBuilder]::new()
@@ -33,7 +54,7 @@ $experimentsSB = [System.Text.StringBuilder]::new()
 [void]$outFileSB.Append("$($outFileWarning)`n")
 [void]$outFileSB.Append("-- Version $($version)`n")
 [void]$outFileSB.Append("-- Build $($date)`n")
-[void]$experimentsSB.Append($outFileWarning)
+[void]$experimentsSB.Append("$($outFileWarning)`n")
 [void]$examplesSB.Append($outFileWarning)
 
 function Add-Src {
@@ -52,9 +73,9 @@ Add-Src "unit-types\unit-types.lua" $outFileSB
 
 for ($i=0; $i -lt $files.Count; $i++) {
 	$filename = $files[$i]
-	Add-Src $srcDir\$filename $outFileSB
-	[void]$experimentsSB.Append("dofile($($srcDirFull)\$($filename))`n")
-	[void]$examplesSB.Append("dofile($($srcDirFull)\$($filename))`n")
+	Add-Src $filename $outFileSB
+	[void]$experimentsSB.Append("dofile([[$($rootDir)\$($filename)]])`n")
+	[void]$examplesSB.Append("dofile([[$($rootDir)\$($filename)]])`n")
 }
 
 $buildFilename = "$($projectName)-$($version).lua"
