@@ -5,633 +5,467 @@
 <body>
     <div class="menu">
         <h2>Modules</h2>
-        <h3 class='modulelink'>
-<a href='Class.html'>
-Class</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Coordinate.html'>
-Coordinate</a>
-</h3>
-<h3 class='modulelink'>
-<a href='GroupCommand.html'>
-GroupCommand</a>
-</h3>
-<h3 class='modulelink'>
-<a href='GroupIntel.html'>
-GroupIntel</a>
-</h3>
-<h3 class='modulelink'>
-<a href='InformedGroup.html'>
-InformedGroup</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Map.html'>
-Map</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Reinforcer.html'>
-Reinforcer</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Setup.html'>
-Setup</a>
-</h3>
-<h3 class='modulelink'>
-<a href='SetupBase.html'>
-SetupBase</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Task.html'>
-Task</a>
-</h3>
-<h3 class='modulelink'>
-<a href='TaskForce.html'>
-TaskForce</a>
-</h3>
-<h3 class='modulelink'>
-<a href='TaskGroup.html'>
-TaskGroup</a>
-</h3>
-<h3 class='modulelink'>
-<a href='TaskSequence.html'>
-TaskSequence</a>
-</h3>
-<h3 class='modulelink'>
-<a href='UnitCluster.html'>
-UnitCluster</a>
-</h3>
-<h3 class='modulelink'>
-<a href='UnitSpecification.html'>
-UnitSpecification</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Util.html'>
-Util</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Vector2.html'>
-Vector2</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Vector3.html'>
-Vector3</a>
-</h3>
-<h3 class='modulelink'>
-<a href='Waypoint.html'>
-Waypoint</a>
-</h3>
-
+		<h3 class='modulelink'>
+			<a href='Class.html'>Class</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Coordinate.html'>Coordinate</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='GroupCommand.html'>GroupCommand</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='GroupIntel.html'>GroupIntel</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='InformedGroup.html'>InformedGroup</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Map.html'>Map</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Reinforcer.html'>Reinforcer</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Setup.html'>Setup</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='SetupBase.html'>SetupBase</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Task.html'>Task</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='TaskForce.html'>TaskForce</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='TaskGroup.html'>TaskGroup</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='TaskSequence.html'>TaskSequence</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='UnitCluster.html'>UnitCluster</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='UnitSpecification.html'>UnitSpecification</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Util.html'>Util</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Vector2.html'>Vector2</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Vector3.html'>Vector3</a>
+		</h3>
+		<h3 class='modulelink'>
+			<a href='Waypoint.html'>Waypoint</a>
+		</h3>
     </div>
     <div class="content">
         <div class="content2">
-            <h1>
-Setup</h1>
-<p>
-AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.</p>
-<h2>
-Types</h2>
-<ul>
-<li>
-<a href='Setup.html##Setup'>
-#Setup</a>
-</li>
-</ul>
-<h3 class='typeheader' id='#Setup'>
-Type #Setup</h3>
-<table>
-<tbody>
-<tr>
-<td>
-<p class='cellheader'>
-Name</p>
-</td>
-<td class='funcdesccell'>
-<p class='cellheader'>
-Description</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.addBaseZone'>
-addBaseZone</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Adds a base zone to the task force, which will be used for reinforcing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.addControlZone'>
-addControlZone</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Adds a control zone task.
-The task force units will move to and attack this zone as long as there are enemy units present.
-If enemy units re-appear, the task force will retake it.
-Task force units advancing through the task list will move through this task zone to get to the next one.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.addIntermidiateZone'>
-addIntermidiateZone</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Adds an intermidiate zone task.
-Task force units advancing through the task list will move through this task zone to get to the next one.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.addRandomUnitAlternative'>
-addRandomUnitAlternative</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Adds a random unit alternative, given a maximum count, type and minimum count.
-When the task force is reinforced, a random number (between minimum and maximum) of units will be spawned for the task force group.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.addTaskGroup'>
-addTaskGroup</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Adds another group specification to the task force.
-After a group is added, use @{#Setup.addUnits} to add units.
-See "unit-types" for a complete list of available unit types.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.addUnits'>
-addUnits</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.linkBase'>
-linkBase</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Links a base zone to a group. Linked bases will be disabled for this task force if the group is destroyed (see @{Setup.checkBaseLinks}.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.new'>
-new</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Creates a new setup instance.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.scanUnits'>
-scanUnits</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Invokes @{#Setup.copyGroupsLayout} and @{#Setup.useExistingGroups}.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.setCountry'>
-setCountry</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Sets the country ID of this task force.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.setSkill'>
-setSkill</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Sets the skill of the task force reinforcement units.
-Skill alternatives are the same as in the mission editor: Any from "Average" to "Random".</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.setSpeed'>
-setSpeed</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Sets the desired speed of the task force units when advancing.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.startUsingRoads'>
-startUsingRoads</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Specifies the task force to use roads when advancing through the next tasks that are added.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.stopUsingRoads'>
-stopUsingRoads</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.useRandomUnits'>
-useRandomUnits</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Sets the task force to use a randomized unit spawner when reinforcing.
-The random units must be specified with ${Setup.addRandomUnitAlternative}).</p>
-</td>
-</tr>
-<tr>
-<td>
-<p class='cell'>
-<a href='Setup.html##Setup.useStaging'>
-useStaging</a>
-</p>
-</td>
-<td class='funcdesccell'>
-<p class='cell'>
-Sets the task force to only use pre-existing units when reinforcing. Always invoke this before units are added (not after).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<div id='#Setup.addBaseZone'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.addBaseZone'>
-#Setup.addBaseZone</a>
-</h4>
-<p>
-Adds a base zone to the task force, which will be used for reinforcing.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#string zoneName - Name of base zone</li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup - This instance (self)</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.addControlZone'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.addControlZone'>
-#Setup.addControlZone</a>
-</h4>
-<p>
-Adds a control zone task.
-The task force units will move to and attack this zone as long as there are enemy units present.
-If enemy units re-appear, the task force will retake it.
-Task force units advancing through the task list will move through this task zone to get to the next one.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#string zoneName - Name of target zone</li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup - This instance (self)</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.addIntermidiateZone'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.addIntermidiateZone'>
-#Setup.addIntermidiateZone</a>
-</h4>
-<p>
-Adds an intermidiate zone task.
-Task force units advancing through the task list will move through this task zone to get to the next one.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#string zoneName - </li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.addRandomUnitAlternative'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.addRandomUnitAlternative'>
-#Setup.addRandomUnitAlternative</a>
-</h4>
-<p>
-Adds a random unit alternative, given a maximum count, type and minimum count.
-When the task force is reinforced, a random number (between minimum and maximum) of units will be spawned for the task force group.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#number max - </li>
-<li>
-#string type - </li>
-<li>
-#number minimum - </li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.addTaskGroup'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.addTaskGroup'>
-#Setup.addTaskGroup</a>
-</h4>
-<p>
-Adds another group specification to the task force.
-After a group is added, use @{#Setup.addUnits} to add units.
-See "unit-types" for a complete list of available unit types.</p>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup - This instance (self)</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.addUnits'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.addUnits'>
-#Setup.addUnits</a>
-</h4>
-<p>
-Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#number count - </li>
-<li>
-#string type - </li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.linkBase'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.linkBase'>
-#Setup.linkBase</a>
-</h4>
-<p>
-Links a base zone to a group. Linked bases will be disabled for this task force if the group is destroyed (see @{Setup.checkBaseLinks}.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#string zoneName - </li>
-<li>
-#string groupName - </li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.new'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.new'>
-#Setup.new</a>
-</h4>
-<p>
-Creates a new setup instance.</p>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup - This instance (self)</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.scanUnits'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.scanUnits'>
-#Setup.scanUnits</a>
-</h4>
-<p>
-Invokes @{#Setup.copyGroupsLayout} and @{#Setup.useExistingGroups}.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#string groupNamePrefix - </li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.setCountry'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.setCountry'>
-#Setup.setCountry</a>
-</h4>
-<p>
-Sets the country ID of this task force.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#number country - Country ID</li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup - This instance (self)</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.setSkill'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.setSkill'>
-#Setup.setSkill</a>
-</h4>
-<p>
-Sets the skill of the task force reinforcement units.
-Skill alternatives are the same as in the mission editor: Any from "Average" to "Random".</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#string skill - New skill</li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup - This instance (self)</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.setSpeed'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.setSpeed'>
-#Setup.setSpeed</a>
-</h4>
-<p>
-Sets the desired speed of the task force units when advancing.</p>
-<h4 class='funcparamheader'>
-Parameters</h4>
-<ul class='funcparamlist'>
-<li>
-#boolean speed - New speed (in knots)</li>
-</ul>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup - This instance (self)</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.startUsingRoads'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.startUsingRoads'>
-#Setup.startUsingRoads</a>
-</h4>
-<p>
-Specifies the task force to use roads when advancing through the next tasks that are added.</p>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.stopUsingRoads'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.stopUsingRoads'>
-#Setup.stopUsingRoads</a>
-</h4>
-<p>
-Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.useRandomUnits'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.useRandomUnits'>
-#Setup.useRandomUnits</a>
-</h4>
-<p>
-Sets the task force to use a randomized unit spawner when reinforcing.
-The random units must be specified with ${Setup.addRandomUnitAlternative}).</p>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-<div id='#Setup.useStaging'>
-<h4 class='functionheader'>
-<a href='Setup.html##Setup.useStaging'>
-#Setup.useStaging</a>
-</h4>
-<p>
-Sets the task force to only use pre-existing units when reinforcing. Always invoke this before units are added (not after).</p>
-<h4 class='funcreturnheader'>
-Return</h4>
-<ul>
-<li>
-#Setup</li>
-</ul>
-<hr>
-</div>
-
+			<h1>Setup</h1>
+			<p>AI units which can be set to automatically capture target zones, advance through captured zones and be reinforced when taking casualties.</p>
+			<h2>Types</h2>
+			<ul>
+				<li>
+					<a href='Setup.html##Setup'>#Setup</a>
+				</li>
+			</ul>
+			<h3 class='typeheader' id='#Setup'>Type #Setup</h3>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<p class='cellheader'>Name</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cellheader'>Description</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.addBaseZone'>addBaseZone</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Adds a base zone to the task force, which will be used for reinforcing.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.addControlZone'>addControlZone</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Adds a control zone task.<br>The task force units will move to and attack this zone as long as there are enemy units present.<br>If enemy units re-appear, the task force will retake it.<br>Task force units advancing through the task list will move through this task zone to get to the next one.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.addIntermidiateZone'>addIntermidiateZone</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Adds an intermidiate zone task.<br>Task force units advancing through the task list will move through this task zone to get to the next one.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.addRandomUnitAlternative'>addRandomUnitAlternative</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Adds a random unit alternative, given a maximum count, type and minimum count.<br>When the task force is reinforced, a random number (between minimum and maximum) of units will be spawned for the task force group.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.addTaskGroup'>addTaskGroup</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Adds another group specification to the task force.<br>After a group is added, use @{#Setup.addUnits} to add units.<br>See "unit-types" for a complete list of available unit types.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.addUnits'>addUnits</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.linkBase'>linkBase</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Links a base zone to a group. Linked bases will be disabled for this task force if the group is destroyed (see @{Setup.checkBaseLinks}.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.new'>new</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Creates a new setup instance.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.scanUnits'>scanUnits</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Invokes @{#Setup.copyGroupsLayout} and @{#Setup.useExistingGroups}.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.setCountry'>setCountry</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Sets the country ID of this task force.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.setSkill'>setSkill</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Sets the skill of the task force reinforcement units.<br>Skill alternatives are the same as in the mission editor: Any from "Average" to "Random".</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.setSpeed'>setSpeed</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Sets the desired speed of the task force units when advancing.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.startUsingRoads'>startUsingRoads</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Specifies the task force to use roads when advancing through the next tasks that are added.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.stopUsingRoads'>stopUsingRoads</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.useRandomUnits'>useRandomUnits</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Sets the task force to use a randomized unit spawner when reinforcing.<br>The random units must be specified with ${Setup.addRandomUnitAlternative}).</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Setup.html##Setup.useStaging'>useStaging</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'>Sets the task force to only use pre-existing units when reinforcing. Always invoke this before units are added (not after).</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div id='#Setup.addBaseZone'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.addBaseZone'>#Setup.addBaseZone</a>
+				</h4>
+				<p>Adds a base zone to the task force, which will be used for reinforcing.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#string zoneName - Name of base zone</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup - This instance (self)</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.addControlZone'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.addControlZone'>#Setup.addControlZone</a>
+				</h4>
+				<p>Adds a control zone task.<br>The task force units will move to and attack this zone as long as there are enemy units present.<br>If enemy units re-appear, the task force will retake it.<br>Task force units advancing through the task list will move through this task zone to get to the next one.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#string zoneName - Name of target zone</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup - This instance (self)</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.addIntermidiateZone'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.addIntermidiateZone'>#Setup.addIntermidiateZone</a>
+				</h4>
+				<p>Adds an intermidiate zone task.<br>Task force units advancing through the task list will move through this task zone to get to the next one.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#string zoneName - </li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.addRandomUnitAlternative'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.addRandomUnitAlternative'>#Setup.addRandomUnitAlternative</a>
+				</h4>
+				<p>Adds a random unit alternative, given a maximum count, type and minimum count.<br>When the task force is reinforced, a random number (between minimum and maximum) of units will be spawned for the task force group.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#number max - </li>
+					<li>#string type - </li>
+					<li>#number minimum - </li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.addTaskGroup'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.addTaskGroup'>#Setup.addTaskGroup</a>
+				</h4>
+				<p>Adds another group specification to the task force.<br>After a group is added, use @{#Setup.addUnits} to add units.<br>See "unit-types" for a complete list of available unit types.</p>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup - This instance (self)</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.addUnits'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.addUnits'>#Setup.addUnits</a>
+				</h4>
+				<p>Adds unit specifications to the most recently added group (see @{#Setup.addTaskGroup}) of the task force.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#number count - </li>
+					<li>#string type - </li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.linkBase'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.linkBase'>#Setup.linkBase</a>
+				</h4>
+				<p>Links a base zone to a group. Linked bases will be disabled for this task force if the group is destroyed (see @{Setup.checkBaseLinks}.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#string zoneName - </li>
+					<li>#string groupName - </li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.new'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.new'>#Setup.new</a>
+				</h4>
+				<p>Creates a new setup instance.</p>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup - This instance (self)</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.scanUnits'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.scanUnits'>#Setup.scanUnits</a>
+				</h4>
+				<p>Invokes @{#Setup.copyGroupsLayout} and @{#Setup.useExistingGroups}.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#string groupNamePrefix - </li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.setCountry'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.setCountry'>#Setup.setCountry</a>
+				</h4>
+				<p>Sets the country ID of this task force.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#number country - Country ID</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup - This instance (self)</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.setSkill'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.setSkill'>#Setup.setSkill</a>
+				</h4>
+				<p>Sets the skill of the task force reinforcement units.<br>Skill alternatives are the same as in the mission editor: Any from "Average" to "Random".</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#string skill - New skill</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup - This instance (self)</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.setSpeed'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.setSpeed'>#Setup.setSpeed</a>
+				</h4>
+				<p>Sets the desired speed of the task force units when advancing.</p>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#boolean speed - New speed (in knots)</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup - This instance (self)</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.startUsingRoads'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.startUsingRoads'>#Setup.startUsingRoads</a>
+				</h4>
+				<p>Specifies the task force to use roads when advancing through the next tasks that are added.</p>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.stopUsingRoads'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.stopUsingRoads'>#Setup.stopUsingRoads</a>
+				</h4>
+				<p>Specifies the task force to stop using roads when advancing through the next tasks that are added.</p>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.useRandomUnits'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.useRandomUnits'>#Setup.useRandomUnits</a>
+				</h4>
+				<p>Sets the task force to use a randomized unit spawner when reinforcing.<br>The random units must be specified with ${Setup.addRandomUnitAlternative}).</p>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Setup.useStaging'>
+				<h4 class='functionheader'>
+					<a href='Setup.html##Setup.useStaging'>#Setup.useStaging</a>
+				</h4>
+				<p>Sets the task force to only use pre-existing units when reinforcing. Always invoke this before units are added (not after).</p>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Setup</li>
+				</ul>
+				<hr>
+			</div>
         </div>
     </div>
 </body>

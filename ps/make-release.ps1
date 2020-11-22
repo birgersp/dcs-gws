@@ -36,6 +36,13 @@ for ($i=0; $i -lt $exampleFiles.Count; $i++) {
 Copy-Item README.md $buildDir\README.txt -Force
 Copy-Item $exampleMission $buildDir\example-$version.miz
 
+# Copy docs
+Write-Host "Copying docs"
+[void](New-Item -ItemType Directory -Path $buildDir\docs -Force)
+foreach ($file in Get-ChildItem docs) {
+	Copy-Item docs\$file $buildDir\docs -Force
+}
+
 # Create zip dir
 [void](New-Item -ItemType Directory -Path $archiveDir -Force)
 if (Test-Path $archiveDir\$archiveFile) {
