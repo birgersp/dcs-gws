@@ -77,6 +77,7 @@ for ($i=0; $i -lt $files.Count; $i++) {
 	[void]$experimentsSB.Append("dofile([[$($rootDir)\$($filename)]])`n")
 	[void]$examplesSB.Append("dofile([[$($rootDir)\$($filename)]])`n")
 }
+[void]$experimentsSB.Append("dofile([[$($rootDir)\tests\experiment.lua]])`n")
 
 $buildFilename = "$($projectName)-$($version).lua"
 Write-File $buildDir $buildFilename $outFileSB.ToString()
