@@ -14,12 +14,6 @@ $exampleMission="~\Saved Games\DCS\Missions\autogft-example.miz"
 $rootDir = Get-Location
 $examplesDirFull = "$($rootDir)\$($examplesDir)"
 
-[void]$outFileSB.Append("$($outFileWarning)`n")
-[void]$outFileSB.Append("-- Version $($version)`n")
-[void]$outFileSB.Append("-- Build $($date)`n")
-[void]$experimentsSB.Append($outFileWarning)
-[void]$examplesSB.Append($outFileWarning)
-
 # Create examples dest dir
 [void](New-Item -ItemType Directory -Path $examplesDestination -Force)
 
@@ -48,4 +42,6 @@ foreach ($file in Get-ChildItem docs) {
 if (Test-Path $archiveDir\$archiveFile) {
 	Remove-Item $archiveDir\$archiveFile
 }
+
+# Create zip
 7z a .\$archiveDir\$archiveFile .\$buildDir\* .\$buildDir\docs\ .\$buildDir\examples\
