@@ -207,14 +207,14 @@ function autogft_TaskGroup:forceAdvance()
     waypoints[#waypoints + 1] = wp
   end
 
---  addWaypoint(groupPos.x, groupPos.y)
+  addWaypoint(groupPos.x, groupPos.y)
 
   -- Only use roads if group is at a certain distance away from destination
   local usingRoads = (useRoads and groupToDestinationMag > self.usingRoadDistanceThresholdM)
 
   -- If using roads, add on-road waypoints at position and destination
   if usingRoads then
---    addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
+    addWaypoint(groupPos.x + 1, groupPos.y + 1, true)
     addWaypoint(destination.x, destination.y, true)
     usingRoads = true
   end
@@ -222,7 +222,7 @@ function autogft_TaskGroup:forceAdvance()
   -- If not shortened, add overshoot waypoint off-road
   if not shortened then
     local overshoot = destination:plus(groupPos:times(-1)):normalize():scale(self.routeOvershootM):add(destination)
---    addWaypoint(overshoot.x, overshoot.y)
+    addWaypoint(overshoot.x, overshoot.y)
     addWaypoint(destination.x + 1, destination.y + 1)
   elseif not usingRoads then
     -- If shortened and not using roads, add intermidiate waypoint off-road
