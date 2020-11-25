@@ -8,6 +8,7 @@ $archiveFile = "autogft-$($version).zip"
 $examplesDestination = "$($buildDir)\examples"
 $exampleMission="~\Saved Games\DCS\Missions\autogft-example.miz"
 
+Remove-Item .\build\* -Recurse -Force
 & .\ps\make.ps1
 & .\ps\make-docs.ps1
 
