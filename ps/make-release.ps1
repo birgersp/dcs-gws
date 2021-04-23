@@ -6,7 +6,7 @@ $buildDir = "build"
 $version = Get-Content -Path $versionFile
 $archiveFile = "autogft-$($version).zip"
 $examplesDestination = "$($buildDir)\examples"
-$exampleMission="~\Saved Games\DCS\Missions\autogft-example.miz"
+$exampleMission="~\Saved Games\DCS.openbeta\Missions\autogft-example.miz"
 
 Remove-Item .\build\* -Recurse -Force
 & .\ps\make.ps1
