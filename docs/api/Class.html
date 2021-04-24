@@ -21,6 +21,9 @@
 			<a href='InformedGroup.html'>InformedGroup</a>
 		</h3>
 		<h3 class='modulelink'>
+			<a href='Intel.html'>Intel</a>
+		</h3>
+		<h3 class='modulelink'>
 			<a href='Map.html'>Map</a>
 		</h3>
 		<h3 class='modulelink'>
@@ -65,17 +68,14 @@
     </div>
     <div class="content">
         <div class="content2">
-			<h1>Vector3</h1>
+			<h1>Class</h1>
 			<h2>Types</h2>
 			<ul>
 				<li>
-					<a href='Vector3.html##Vector3'>#Vector3</a>
-				</li>
-				<li>
-					<a href='Vector3.html##Vector3.Axis'>#Vector3.Axis</a>
+					<a href='Class.html##Class'>#Class</a>
 				</li>
 			</ul>
-			<h3 class='typeheader' id='#Vector3'>Type #Vector3</h3>
+			<h3 class='typeheader' id='#Class'>Type #Class</h3>
 			<table>
 				<tbody>
 					<tr>
@@ -89,219 +89,152 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='Vector3.html##Vector3.add'>add</a>
+								<a href='Class.html##Class.create'>create</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
-							<p class='cell'></p>
+							<p class='cell'>Creates a new class.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='Vector3.html##Vector3.getAngleTo'>getAngleTo</a>
+								<a href='Class.html##Class.createInstance'>createInstance</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
-							<p class='cell'></p>
+							<p class='cell'>Instantiates this class.<br>Do not override this function (see @{#Class.new}).</p>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='Vector3.html##Vector3.getCopy'>getCopy</a>
+								<a href='Class.html##Class.equals'>equals</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
-							<p class='cell'></p>
+							<p class='cell'>Compares each field of this object the each field of another, and returns whether the fields are identical.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='Vector3.html##Vector3.getCrossProduct'>getCrossProduct</a>
+								<a href='Class.html##Class.extend'>extend</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
-							<p class='cell'></p>
+							<p class='cell'>Creates a subclass of this class.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='Vector3.html##Vector3.getDotProduct'>getDotProduct</a>
+								<a href='Class.html##Class.instanceOf'>instanceOf</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
-							<p class='cell'></p>
+							<p class='cell'>Returns wether this object is a type or subtype of a class.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='Vector3.html##Vector3.getMagnitude'>getMagnitude</a>
+								<a href='Class.html##Class.new'>new</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
-							<p class='cell'></p>
+							<p class='cell'>Instanties this class.<br>Override this function to create a custom constructor.</p>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='Vector3.html##Vector3.new'>new</a>
+								<a href='Class.html##Class.throwAbstractFunctionError'>throwAbstractFunctionError</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
-							<p class='cell'></p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p class='cell'>
-								<a href='Vector3.html##Vector3.normalize'>normalize</a>
-							</p>
-						</td>
-						<td class='funcdesccell'>
-							<p class='cell'></p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p class='cell'>
-								<a href='Vector3.html##Vector3.scale'>scale</a>
-							</p>
-						</td>
-						<td class='funcdesccell'>
-							<p class='cell'></p>
+							<p class='cell'>Throws an error with the message that an abstract function was invoked.<br>The name of the function invoking this function will be included in the message.</p>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<div id='#Vector3.add'>
+			<div id='#Class.create'>
 				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.add'>#Vector3.add</a>
+					<a href='Class.html##Class.create'>#Class.create</a>
 				</h4>
+				<p>Creates a new class.</p>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Class</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Class.createInstance'>
+				<h4 class='functionheader'>
+					<a href='Class.html##Class.createInstance'>#Class.createInstance</a>
+				</h4>
+				<p>Instantiates this class.<br>Do not override this function (see @{#Class.new}).</p>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>#Vector3 vector</li>
+					<li>#table superObject - (Optional) Parent object which the new instance will inherit attributes from</li>
 				</ul>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#Vector3</li>
+					<li>#table</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#Vector3.getAngleTo'>
+			<div id='#Class.equals'>
 				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.getAngleTo'>#Vector3.getAngleTo</a>
+					<a href='Class.html##Class.equals'>#Class.equals</a>
 				</h4>
-				<h4 class='funcparamheader'>Parameters</h4>
-				<ul class='funcparamlist'>
-					<li>#Vector3 vector</li>
-					<li>#Vector3 plane - (Optional)</li>
-				</ul>
+				<p>Compares each field of this object the each field of another, and returns whether the fields are identical.</p>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#number</li>
+					<li>#boolean</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#Vector3.getCopy'>
+			<div id='#Class.extend'>
 				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.getCopy'>#Vector3.getCopy</a>
+					<a href='Class.html##Class.extend'>#Class.extend</a>
 				</h4>
+				<p>Creates a subclass of this class.</p>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#Vector3</li>
+					<li>#Class</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#Vector3.getCrossProduct'>
+			<div id='#Class.instanceOf'>
 				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.getCrossProduct'>#Vector3.getCrossProduct</a>
+					<a href='Class.html##Class.instanceOf'>#Class.instanceOf</a>
 				</h4>
-				<h4 class='funcparamheader'>Parameters</h4>
-				<ul class='funcparamlist'>
-					<li>#Vector3 vector</li>
-				</ul>
+				<p>Returns wether this object is a type or subtype of a class.</p>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#Vector3</li>
+					<li>#boolean</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#Vector3.getDotProduct'>
+			<div id='#Class.new'>
 				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.getDotProduct'>#Vector3.getDotProduct</a>
+					<a href='Class.html##Class.new'>#Class.new</a>
 				</h4>
-				<h4 class='funcparamheader'>Parameters</h4>
-				<ul class='funcparamlist'>
-					<li>#Vector3 vector</li>
-				</ul>
+				<p>Instanties this class.<br>Override this function to create a custom constructor.</p>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#number</li>
+					<li>#table</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#Vector3.getMagnitude'>
+			<div id='#Class.throwAbstractFunctionError'>
 				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.getMagnitude'>#Vector3.getMagnitude</a>
+					<a href='Class.html##Class.throwAbstractFunctionError'>#Class.throwAbstractFunctionError</a>
 				</h4>
-				<h4 class='funcreturnheader'>Return</h4>
-				<ul>
-					<li>#number</li>
-				</ul>
+				<p>Throws an error with the message that an abstract function was invoked.<br>The name of the function invoking this function will be included in the message.</p>
 				<hr>
 			</div>
-			<div id='#Vector3.new'>
-				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.new'>#Vector3.new</a>
-				</h4>
-				<h4 class='funcreturnheader'>Return</h4>
-				<ul>
-					<li>#Vector3</li>
-				</ul>
-				<hr>
-			</div>
-			<div id='#Vector3.normalize'>
-				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.normalize'>#Vector3.normalize</a>
-				</h4>
-				<h4 class='funcreturnheader'>Return</h4>
-				<ul>
-					<li>#Vector3</li>
-				</ul>
-				<hr>
-			</div>
-			<div id='#Vector3.scale'>
-				<h4 class='functionheader'>
-					<a href='Vector3.html##Vector3.scale'>#Vector3.scale</a>
-				</h4>
-				<h4 class='funcparamheader'>Parameters</h4>
-				<ul class='funcparamlist'>
-					<li>#number factor</li>
-				</ul>
-				<h4 class='funcreturnheader'>Return</h4>
-				<ul>
-					<li>#Vector3</li>
-				</ul>
-				<hr>
-			</div>
-			<h3 class='typeheader' id='#Vector3.Axis'>Type #Vector3.Axis</h3>
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<p class='cellheader'>Name</p>
-						</td>
-						<td class='funcdesccell'>
-							<p class='cellheader'>Description</p>
-						</td>
-					</tr>
-				</tbody>
-			</table>
         </div>
     </div>
 </body>

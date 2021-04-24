@@ -21,6 +21,9 @@
 			<a href='InformedGroup.html'>InformedGroup</a>
 		</h3>
 		<h3 class='modulelink'>
+			<a href='Intel.html'>Intel</a>
+		</h3>
+		<h3 class='modulelink'>
 			<a href='Map.html'>Map</a>
 		</h3>
 		<h3 class='modulelink'>
@@ -65,14 +68,17 @@
     </div>
     <div class="content">
         <div class="content2">
-			<h1>TaskGroup</h1>
+			<h1>Vector2</h1>
 			<h2>Types</h2>
 			<ul>
 				<li>
-					<a href='TaskGroup.html##TaskGroup'>#TaskGroup</a>
+					<a href='Vector2.html##Vector2'>#Vector2</a>
+				</li>
+				<li>
+					<a href='Vector2.html##Vector2.Axis'>#Vector2.Axis</a>
 				</li>
 			</ul>
-			<h3 class='typeheader' id='#TaskGroup'>Type #TaskGroup</h3>
+			<h3 class='typeheader' id='#Vector2'>Type #Vector2</h3>
 			<table>
 				<tbody>
 					<tr>
@@ -86,7 +92,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.addUnitSpec'>addUnitSpec</a>
+								<a href='Vector2.html##Vector2.add'>add</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -96,7 +102,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.advance'>advance</a>
+								<a href='Vector2.html##Vector2.getAngleTo'>getAngleTo</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -106,7 +112,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.containsUnit'>containsUnit</a>
+								<a href='Vector2.html##Vector2.getCopy'>getCopy</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -116,7 +122,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.exists'>exists</a>
+								<a href='Vector2.html##Vector2.getCrossProduct'>getCrossProduct</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -126,7 +132,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.forceAdvance'>forceAdvance</a>
+								<a href='Vector2.html##Vector2.getDotProduct'>getDotProduct</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -136,7 +142,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.new'>new</a>
+								<a href='Vector2.html##Vector2.getMagnitude'>getMagnitude</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -146,7 +152,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.setDCSGroup'>setDCSGroup</a>
+								<a href='Vector2.html##Vector2.minus'>minus</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -156,7 +162,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.setRoute'>setRoute</a>
+								<a href='Vector2.html##Vector2.new'>new</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -166,7 +172,37 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskGroup.html##TaskGroup.updateGroupLead'>updateGroupLead</a>
+								<a href='Vector2.html##Vector2.normalize'>normalize</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'></p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Vector2.html##Vector2.plus'>plus</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'></p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Vector2.html##Vector2.scale'>scale</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'></p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='Vector2.html##Vector2.times'>times</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -175,104 +211,171 @@
 					</tr>
 				</tbody>
 			</table>
-			<div id='#TaskGroup.addUnitSpec'>
+			<div id='#Vector2.add'>
 				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.addUnitSpec'>#TaskGroup.addUnitSpec</a>
+					<a href='Vector2.html##Vector2.add'>#Vector2.add</a>
 				</h4>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>unitspec#UnitSpec unitSpec</li>
+					<li>#Vector2 vector</li>
 				</ul>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#TaskGroup</li>
+					<li>#Vector2</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#TaskGroup.advance'>
+			<div id='#Vector2.getAngleTo'>
 				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.advance'>#TaskGroup.advance</a>
-				</h4>
-				<hr>
-			</div>
-			<div id='#TaskGroup.containsUnit'>
-				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.containsUnit'>#TaskGroup.containsUnit</a>
+					<a href='Vector2.html##Vector2.getAngleTo'>#Vector2.getAngleTo</a>
 				</h4>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>DCSUnit#Unit unit</li>
+					<li>#Vector2 vector</li>
 				</ul>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#boolean</li>
+					<li>#Vector2</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#TaskGroup.exists'>
+			<div id='#Vector2.getCopy'>
 				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.exists'>#TaskGroup.exists</a>
+					<a href='Vector2.html##Vector2.getCopy'>#Vector2.getCopy</a>
 				</h4>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#boolean</li>
+					<li>#Vector2</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#TaskGroup.forceAdvance'>
+			<div id='#Vector2.getCrossProduct'>
 				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.forceAdvance'>#TaskGroup.forceAdvance</a>
-				</h4>
-				<h4 class='funcreturnheader'>Return</h4>
-				<ul>
-					<li>#TaskGroup</li>
-				</ul>
-				<hr>
-			</div>
-			<div id='#TaskGroup.new'>
-				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.new'>#TaskGroup.new</a>
+					<a href='Vector2.html##Vector2.getCrossProduct'>#Vector2.getCrossProduct</a>
 				</h4>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>tasksequence#TaskSequence taskSequence</li>
+					<li>#Vector2 vector</li>
 				</ul>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#TaskGroup</li>
+					<li>#number</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#TaskGroup.setDCSGroup'>
+			<div id='#Vector2.getDotProduct'>
 				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.setDCSGroup'>#TaskGroup.setDCSGroup</a>
+					<a href='Vector2.html##Vector2.getDotProduct'>#Vector2.getDotProduct</a>
 				</h4>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>DCSGroup#Group newGroup</li>
+					<li>#Vector2 vector</li>
 				</ul>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#TaskGroup</li>
+					<li>#Vector2</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#TaskGroup.setRoute'>
+			<div id='#Vector2.getMagnitude'>
 				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.setRoute'>#TaskGroup.setRoute</a>
+					<a href='Vector2.html##Vector2.getMagnitude'>#Vector2.getMagnitude</a>
+				</h4>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#number</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Vector2.minus'>
+				<h4 class='functionheader'>
+					<a href='Vector2.html##Vector2.minus'>#Vector2.minus</a>
 				</h4>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>#list&lt;waypoint#Waypoint&gt; waypoints</li>
+					<li>#Vector2 vector</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Vector2</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#TaskGroup.updateGroupLead'>
+			<div id='#Vector2.new'>
 				<h4 class='functionheader'>
-					<a href='TaskGroup.html##TaskGroup.updateGroupLead'>#TaskGroup.updateGroupLead</a>
+					<a href='Vector2.html##Vector2.new'>#Vector2.new</a>
 				</h4>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Vector2</li>
+				</ul>
 				<hr>
 			</div>
+			<div id='#Vector2.normalize'>
+				<h4 class='functionheader'>
+					<a href='Vector2.html##Vector2.normalize'>#Vector2.normalize</a>
+				</h4>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Vector2</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Vector2.plus'>
+				<h4 class='functionheader'>
+					<a href='Vector2.html##Vector2.plus'>#Vector2.plus</a>
+				</h4>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#Vector2 vector</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Vector2</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Vector2.scale'>
+				<h4 class='functionheader'>
+					<a href='Vector2.html##Vector2.scale'>#Vector2.scale</a>
+				</h4>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#number factor</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Vector2</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Vector2.times'>
+				<h4 class='functionheader'>
+					<a href='Vector2.html##Vector2.times'>#Vector2.times</a>
+				</h4>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#number factor</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Vector2</li>
+				</ul>
+				<hr>
+			</div>
+			<h3 class='typeheader' id='#Vector2.Axis'>Type #Vector2.Axis</h3>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<p class='cellheader'>Name</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cellheader'>Description</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
         </div>
     </div>
 </body>

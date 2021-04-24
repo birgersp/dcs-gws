@@ -21,6 +21,9 @@
 			<a href='InformedGroup.html'>InformedGroup</a>
 		</h3>
 		<h3 class='modulelink'>
+			<a href='Intel.html'>Intel</a>
+		</h3>
+		<h3 class='modulelink'>
 			<a href='Map.html'>Map</a>
 		</h3>
 		<h3 class='modulelink'>
@@ -65,14 +68,14 @@
     </div>
     <div class="content">
         <div class="content2">
-			<h1>UnitCluster</h1>
+			<h1>GroupCommand</h1>
 			<h2>Types</h2>
 			<ul>
 				<li>
-					<a href='UnitCluster.html##UnitCluster'>#UnitCluster</a>
+					<a href='GroupCommand.html##GroupCommand'>#GroupCommand</a>
 				</li>
 			</ul>
-			<h3 class='typeheader' id='#UnitCluster'>Type #UnitCluster</h3>
+			<h3 class='typeheader' id='#GroupCommand'>Type #GroupCommand</h3>
 			<table>
 				<tbody>
 					<tr>
@@ -86,7 +89,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='UnitCluster.html##UnitCluster.getUnitTypeCount'>getUnitTypeCount</a>
+								<a href='GroupCommand.html##GroupCommand.disable'>disable</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -96,7 +99,17 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='UnitCluster.html##UnitCluster.new'>new</a>
+								<a href='GroupCommand.html##GroupCommand.enable'>enable</a>
+							</p>
+						</td>
+						<td class='funcdesccell'>
+							<p class='cell'></p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p class='cell'>
+								<a href='GroupCommand.html##GroupCommand.new'>new</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -105,28 +118,31 @@
 					</tr>
 				</tbody>
 			</table>
-			<div id='#UnitCluster.getUnitTypeCount'>
+			<div id='#GroupCommand.disable'>
 				<h4 class='functionheader'>
-					<a href='UnitCluster.html##UnitCluster.getUnitTypeCount'>#UnitCluster.getUnitTypeCount</a>
+					<a href='GroupCommand.html##GroupCommand.disable'>#GroupCommand.disable</a>
 				</h4>
-				<h4 class='funcreturnheader'>Return</h4>
-				<ul>
-					<li>#map&lt;#string, #number&gt;</li>
-				</ul>
 				<hr>
 			</div>
-			<div id='#UnitCluster.new'>
+			<div id='#GroupCommand.enable'>
 				<h4 class='functionheader'>
-					<a href='UnitCluster.html##UnitCluster.new'>#UnitCluster.new</a>
+					<a href='GroupCommand.html##GroupCommand.enable'>#GroupCommand.enable</a>
+				</h4>
+				<hr>
+			</div>
+			<div id='#GroupCommand.new'>
+				<h4 class='functionheader'>
+					<a href='GroupCommand.html##GroupCommand.new'>#GroupCommand.new</a>
 				</h4>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>#list&lt;DCSUnit#Unit&gt; units</li>
-					<li>vector2#Vector2 midPoint</li>
+					<li>DCSGroup#Group group</li>
+					<li>#string commandText</li>
+					<li>#function func</li>
 				</ul>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#UnitCluster</li>
+					<li>#GroupCommand</li>
 				</ul>
 				<hr>
 			</div>

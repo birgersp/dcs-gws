@@ -43,7 +43,7 @@ Please note: If you want to change your mission script later, you need to reload
 
 ## Documenation
 - [Example mission scripts](https://github.com/birgersp/dcs-autogft/tree/master/examples)
-- [Code API](https://birgersp.github.io/dcs-autogft/Setup.html)
+- [Code API](https://birgersp.github.io/dcs-autogft/api/Setup.html)
 - [(Outdated) Version 0.1 demo/instructional video](https://www.youtube.com/watch?v=bmTS60qrF5g)
 
 ## Planned features

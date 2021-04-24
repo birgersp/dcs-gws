@@ -21,6 +21,9 @@
 			<a href='InformedGroup.html'>InformedGroup</a>
 		</h3>
 		<h3 class='modulelink'>
+			<a href='Intel.html'>Intel</a>
+		</h3>
+		<h3 class='modulelink'>
 			<a href='Map.html'>Map</a>
 		</h3>
 		<h3 class='modulelink'>
@@ -65,14 +68,14 @@
     </div>
     <div class="content">
         <div class="content2">
-			<h1>TaskSequence</h1>
+			<h1>Coordinate</h1>
 			<h2>Types</h2>
 			<ul>
 				<li>
-					<a href='TaskSequence.html##TaskSequence'>#TaskSequence</a>
+					<a href='Coordinate.html##Coordinate'>#Coordinate</a>
 				</li>
 			</ul>
-			<h3 class='typeheader' id='#TaskSequence'>Type #TaskSequence</h3>
+			<h3 class='typeheader' id='#Coordinate'>Type #Coordinate</h3>
 			<table>
 				<tbody>
 					<tr>
@@ -86,7 +89,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskSequence.html##TaskSequence.addTask'>addTask</a>
+								<a href='Coordinate.html##Coordinate.getDegreesString'>getDegreesString</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -96,7 +99,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskSequence.html##TaskSequence.getCurrentTask'>getCurrentTask</a>
+								<a href='Coordinate.html##Coordinate.getMinutesString'>getMinutesString</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -106,17 +109,7 @@
 					<tr>
 						<td>
 							<p class='cell'>
-								<a href='TaskSequence.html##TaskSequence.new'>new</a>
-							</p>
-						</td>
-						<td class='funcdesccell'>
-							<p class='cell'></p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p class='cell'>
-								<a href='TaskSequence.html##TaskSequence.updateCurrentTask'>updateCurrentTask</a>
+								<a href='Coordinate.html##Coordinate.new'>new</a>
 							</p>
 						</td>
 						<td class='funcdesccell'>
@@ -125,36 +118,47 @@
 					</tr>
 				</tbody>
 			</table>
-			<div id='#TaskSequence.addTask'>
+			<div id='#Coordinate.getDegreesString'>
 				<h4 class='functionheader'>
-					<a href='TaskSequence.html##TaskSequence.addTask'>#TaskSequence.addTask</a>
+					<a href='Coordinate.html##Coordinate.getDegreesString'>#Coordinate.getDegreesString</a>
 				</h4>
 				<h4 class='funcparamheader'>Parameters</h4>
 				<ul class='funcparamlist'>
-					<li>task#Task task</li>
+					<li>#number minDigits</li>
 				</ul>
-				<hr>
-			</div>
-			<div id='#TaskSequence.getCurrentTask'>
-				<h4 class='functionheader'>
-					<a href='TaskSequence.html##TaskSequence.getCurrentTask'>#TaskSequence.getCurrentTask</a>
-				</h4>
-				<hr>
-			</div>
-			<div id='#TaskSequence.new'>
-				<h4 class='functionheader'>
-					<a href='TaskSequence.html##TaskSequence.new'>#TaskSequence.new</a>
-				</h4>
 				<h4 class='funcreturnheader'>Return</h4>
 				<ul>
-					<li>#TaskSequence</li>
+					<li>#string</li>
 				</ul>
 				<hr>
 			</div>
-			<div id='#TaskSequence.updateCurrentTask'>
+			<div id='#Coordinate.getMinutesString'>
 				<h4 class='functionheader'>
-					<a href='TaskSequence.html##TaskSequence.updateCurrentTask'>#TaskSequence.updateCurrentTask</a>
+					<a href='Coordinate.html##Coordinate.getMinutesString'>#Coordinate.getMinutesString</a>
 				</h4>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#number minDecimals</li>
+					<li>#number maxDecimals</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#string</li>
+				</ul>
+				<hr>
+			</div>
+			<div id='#Coordinate.new'>
+				<h4 class='functionheader'>
+					<a href='Coordinate.html##Coordinate.new'>#Coordinate.new</a>
+				</h4>
+				<h4 class='funcparamheader'>Parameters</h4>
+				<ul class='funcparamlist'>
+					<li>#number degrees</li>
+				</ul>
+				<h4 class='funcreturnheader'>Return</h4>
+				<ul>
+					<li>#Coordinate</li>
+				</ul>
 				<hr>
 			</div>
         </div>
