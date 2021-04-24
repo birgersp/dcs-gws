@@ -1,9 +1,8 @@
 ---
--- @module InformedGroup
+-- @module Intel
 
 autogft_intel = {}
 autogft_intel.RE_ENABLING_LOOP_DELAY = 10
-
 autogft_intel.OBSERVABLE_DISTANCE_M = 6000
 autogft_intel.COHERENT_UNIT_DISTANCE_M = 800
 autogft_intel.INTEL_UPDATE_INTERVAL_S = 600
@@ -148,43 +147,6 @@ function autogft_intel.getTargetUnitsLLMessage(targetUnits, adjacentUnitThreshol
 end
 
 ---
--- @type InformedGroup
--- @extends class#Class
--- @field DCSGroup#Group targetGroup
--- @field #number groupID
--- @field #number coalitionID
-autogft_InformedGroup = autogft_Class:create()
-
-autogft_InformedGroup.TARGET_COMMAND_TEXT = "TARGET"
-autogft_InformedGroup.MESSAGE_TIME = 60
-
----
--- @param #InformedGroup self
--- @param DCSGroup#Group targetGroup
--- @return #InformedGroup
-function autogft_InformedGroup:new(targetGroup)
-  self = self:createInstance()
-  self.targetGroup = targetGroup
-  self.groupID = targetGroup:getID()
-  self.coalitionID = targetGroup:getCoalition()
-
-  local function viewTarget()
-    self:viewTarget()
-  end
-
-  autogft_GroupCommand:new(targetGroup, autogft_InformedGroup.TARGET_COMMAND_TEXT, viewTarget):enable()
-
-  return self
-end
-
----
--- @param #InformedGroup self
-function autogft_InformedGroup:viewTarget()
-
-  trigger.action.outTextForGroup(self.groupID, autogft_intel.intelMessage[self.coalitionID], autogft_InformedGroup.MESSAGE_TIME)
-end
-
----
 -- @param #number count
 -- @return #string
 function autogft_intel.getUnitCountTerm(count)
@@ -302,7 +264,7 @@ end
 
 ---
 -- @param #string groupNamePrefix
-function autogft_intel.enable(groupNamePrefix)
+function autogft_intel.enableLLMessagesForGroup(groupNamePrefix)
 
   local function updateIntelLoop()
     autogft_intel.updateIntel()

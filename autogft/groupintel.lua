@@ -13,8 +13,8 @@ autogft_groupIntel = {}
 -- @field #boolean started
 autogft_GroupIntel = autogft_Class:create()
 
-autogft_GroupIntel.START_COMMAND_TEXT = "START INTEL"
-autogft_GroupIntel.STOP_COMMAND_TEXT = "STOP INTEL"
+autogft_GroupIntel.START_COMMAND_TEXT = "Activate intel"
+autogft_GroupIntel.STOP_COMMAND_TEXT = "Deactivate intel"
 autogft_GroupIntel.INTEL_LOOP_DELAY = 60
 autogft_GroupIntel.MESSAGE_TIME = 30
 autogft_GroupIntel.OBSERVABLE_DISTANCE_M = 18500
