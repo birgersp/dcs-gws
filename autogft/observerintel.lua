@@ -10,6 +10,7 @@ autogft_intel.INTEL_UPDATE_INTERVAL_S = 600
 autogft_intel.intelMessage = {}
 autogft_intel.intelMessage[coalition.side.RED] = ""
 autogft_intel.intelMessage[coalition.side.BLUE] = ""
+autogft_intel.NO_TARGETS_OBSERVED_MESSAGE = "No targets observed"
 
 ---
 -- @param #list<DCSUnit#Unit> targetUnits
@@ -156,7 +157,6 @@ autogft_InformedGroup = autogft_Class:create()
 
 autogft_InformedGroup.TARGET_COMMAND_TEXT = "TARGET"
 autogft_InformedGroup.MESSAGE_TIME = 60
-autogft_InformedGroup.NO_TARGETS_OBSERVED_MESSAGE = "No targets observed"
 
 ---
 -- @param #InformedGroup self
