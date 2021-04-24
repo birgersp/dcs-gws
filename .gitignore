@@ -1,3 +1,5 @@
+.mypy_cache/
+
 build/
 build-zip/
 build-test/
