@@ -1,21 +1,21 @@
 ---
 -- @module Intel
 
-autogft_intel = {}
-autogft_intel.RE_ENABLING_LOOP_DELAY = 10
-autogft_intel.OBSERVABLE_DISTANCE_M = 6000
-autogft_intel.COHERENT_UNIT_DISTANCE_M = 800
-autogft_intel.INTEL_UPDATE_INTERVAL_S = 600
-autogft_intel.intelMessage = {}
-autogft_intel.intelMessage[coalition.side.RED] = ""
-autogft_intel.intelMessage[coalition.side.BLUE] = ""
-autogft_intel.NO_TARGETS_OBSERVED_MESSAGE = "No targets observed"
+gws_intel = {}
+gws_intel.RE_ENABLING_LOOP_DELAY = 10
+gws_intel.OBSERVABLE_DISTANCE_M = 6000
+gws_intel.COHERENT_UNIT_DISTANCE_M = 800
+gws_intel.INTEL_UPDATE_INTERVAL_S = 600
+gws_intel.intelMessage = {}
+gws_intel.intelMessage[coalition.side.RED] = ""
+gws_intel.intelMessage[coalition.side.BLUE] = ""
+gws_intel.NO_TARGETS_OBSERVED_MESSAGE = "No targets observed"
 
 ---
 -- @param #list<DCSUnit#Unit> targetUnits
 -- @param #number adjacentUnitThreshold
 -- @return #list<unitcluster#UnitCluster>
-function autogft_intel.getUnitClusters(targetUnits, adjacentUnitThreshold)
+function gws_intel.getUnitClusters(targetUnits, adjacentUnitThreshold)
 
   local adjacentUnitThreshold2 = adjacentUnitThreshold^2
 
@@ -87,9 +87,9 @@ function autogft_intel.getUnitClusters(targetUnits, adjacentUnitThreshold)
     -- Determine cluster midpoint
     local dx = maxPos.x - minPos.x
     local dz = maxPos.z - minPos.z
-    local midPoint = autogft_Vector2:new(minPos.x + dx / 2, minPos.z + dz / 2)
+    local midPoint = gws_Vector2:new(minPos.x + dx / 2, minPos.z + dz / 2)
 
-    return autogft_UnitCluster:new(unitsWithinRange, midPoint)
+    return gws_UnitCluster:new(unitsWithinRange, midPoint)
   end
 
   -- Create clusters from all available enemy units
@@ -105,9 +105,9 @@ end
 ---
 -- @param #list<DCSUnit#Unit> targetUnits
 -- @param #number adjacentUnitThreshold
-function autogft_intel.getTargetUnitsLLMessage(targetUnits, adjacentUnitThreshold)
+function gws_intel.getTargetUnitsLLMessage(targetUnits, adjacentUnitThreshold)
 
-  local clusters = autogft_intel.getUnitClusters(targetUnits, adjacentUnitThreshold)
+  local clusters = gws_intel.getUnitClusters(targetUnits, adjacentUnitThreshold)
 
   -- Create message from clusters
   local message = ""
@@ -123,8 +123,8 @@ function autogft_intel.getTargetUnitsLLMessage(targetUnits, adjacentUnitThreshol
         if text ~= "" then
           text = text..", "
         end
-        text = text..autogft_intel.getUnitCountTerm(count).." "
-        text = text..autogft.getUnitTypeNameTerm(unitType)
+        text = text..gws_intel.getUnitCountTerm(count).." "
+        text = text..gws.getUnitTypeNameTerm(unitType)
       end
 
       local dcsVec3 = {
@@ -133,8 +133,8 @@ function autogft_intel.getTargetUnitsLLMessage(targetUnits, adjacentUnitThreshol
         z = cluster.midPoint.y
       }
       local lat, lon, _ = coord.LOtoLL(dcsVec3)
-      local latCoordinate = autogft_Coordinate:new(lat)
-      local lonCoordinate = autogft_Coordinate:new(lon)
+      local latCoordinate = gws_Coordinate:new(lat)
+      local lonCoordinate = gws_Coordinate:new(lon)
 
       local latString = "N" .. latCoordinate:getDegreesString(2) .. " " .. latCoordinate:getMinutesString(1, 1) .. "00"
       local lonString = "E" .. lonCoordinate:getDegreesString(3) .. " " .. lonCoordinate:getMinutesString(1, 1) .. "00"
@@ -149,7 +149,7 @@ end
 ---
 -- @param #number count
 -- @return #string
-function autogft_intel.getUnitCountTerm(count)
+function gws_intel.getUnitCountTerm(count)
 
   if count < 4 then
     return "Platoon"
@@ -162,7 +162,7 @@ function autogft_intel.getUnitCountTerm(count)
   return "Battalion"
 end
 
-function autogft_intel.getEnemySituationMessageHeader()
+function gws_intel.getEnemySituationMessageHeader()
 
   local timeS = timer.getTime0() + timer.getAbsTime()
   local hour = math.floor(timeS / 3600)
@@ -193,9 +193,9 @@ function autogft_intel.getEnemySituationMessageHeader()
 
 end
 
-function autogft_intel.updateIntel()
+function gws_intel.updateIntel()
 
-  local observerMaxDistance2 = autogft_intel.OBSERVABLE_DISTANCE_M^2
+  local observerMaxDistance2 = gws_intel.OBSERVABLE_DISTANCE_M^2
 
   local observedRedUnits = {} --#list<DCSUnit#Unit>
   local observedBlueUnits = {} --#list<DCSUnit#Unit>
@@ -256,19 +256,19 @@ function autogft_intel.updateIntel()
     end
   end
 
-  local messageHeader = autogft_intel.getEnemySituationMessageHeader() .. "\n"
-  autogft_intel.intelMessage[coalition.side.RED] = messageHeader .. autogft_intel.getTargetUnitsLLMessage(observedBlueUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
-  autogft_intel.intelMessage[coalition.side.BLUE] = messageHeader .. autogft_intel.getTargetUnitsLLMessage(observedRedUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
+  local messageHeader = gws_intel.getEnemySituationMessageHeader() .. "\n"
+  gws_intel.intelMessage[coalition.side.RED] = messageHeader .. gws_intel.getTargetUnitsLLMessage(observedBlueUnits, gws_intel.COHERENT_UNIT_DISTANCE_M)
+  gws_intel.intelMessage[coalition.side.BLUE] = messageHeader .. gws_intel.getTargetUnitsLLMessage(observedRedUnits, gws_intel.COHERENT_UNIT_DISTANCE_M)
 
 end
 
 ---
 -- @param #string groupNamePrefix
-function autogft_intel.enableLLMessagesForGroup(groupNamePrefix)
+function gws_intel.enableLLMessagesForGroup(groupNamePrefix)
 
   local function updateIntelLoop()
-    autogft_intel.updateIntel()
-    autogft.scheduleFunction(updateIntelLoop, autogft_intel.INTEL_UPDATE_INTERVAL_S)
+    gws_intel.updateIntel()
+    gws.scheduleFunction(updateIntelLoop, gws_intel.INTEL_UPDATE_INTERVAL_S)
   end
   updateIntelLoop()
 
@@ -285,7 +285,7 @@ function autogft_intel.enableLLMessagesForGroup(groupNamePrefix)
             if unit:getPlayerName() then
               local groupName = group:getName()
               if not enabledGroupNames[groupName] then
-                autogft_InformedGroup:new(group)
+                gws_InformedGroup:new(group)
                 enabledGroupNames[groupName] = true
               end
             end
@@ -300,7 +300,7 @@ function autogft_intel.enableLLMessagesForGroup(groupNamePrefix)
     enableForGroups(coalition.getGroups(coalition.side.BLUE))
     enableForGroups(coalition.getGroups(coalition.side.RED))
 
-    autogft.scheduleFunction(reEnablingLoop, autogft_intel.RE_ENABLING_LOOP_DELAY)
+    gws.scheduleFunction(reEnablingLoop, gws_intel.RE_ENABLING_LOOP_DELAY)
   end
   reEnablingLoop()
 

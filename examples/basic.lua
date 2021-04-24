@@ -1,7 +1,7 @@
 
 ---
 -- Autonomous Ground Force Tasking basic example script
--- https://github.com/birgersp/dcs-autogft
+-- https://github.com/birgersp/dcs-gws
 --
 -- Lines beginning with "--" are comments and does not affect the code
 -- Put the standalone script and this script in "do script file" actions in a mission start trigger
@@ -15,7 +15,7 @@
 -- Adding base zone(s)
 -- Adding control zone(s)
 
-autogft_Setup:new()
+gws_Setup:new()
   :addBaseZone("BLUE_BASE1")
   :addControlZone("CONTROL1")
   :addControlZone("CONTROL2")
@@ -25,7 +25,7 @@ autogft_Setup:new()
 --- 
 -- (RED TASK FORCE)
 
-autogft_Setup:new()
+gws_Setup:new()
   :addBaseZone("RED_BASE")
   :addControlZone("CONTROL5")
   :addControlZone("CONTROL2")

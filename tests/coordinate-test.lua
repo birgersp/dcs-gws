@@ -1,9 +1,9 @@
 
-package.path = package.path .. ";../autogft/?.lua"
+package.path = package.path .. ";../gws/?.lua"
 require("class")
 require("coordinate")
 
-local coordinate1 = autogft_Coordinate:new(12.3456)
+local coordinate1 = gws_Coordinate:new(12.3456)
 assert(coordinate1.degrees == 12)
 assert(coordinate1.minutes .. "" == "20.736")
 

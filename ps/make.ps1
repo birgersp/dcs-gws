@@ -1,7 +1,7 @@
-$srcDir = "autogft"
+$srcDir = "gws"
 $buildDir = "build"
 $versionFile = "version.txt"
-$projectName = "autogft"
+$projectName = "gws"
 $buildTestDir = "build-test"
 $experimentFile = "load-experiment.lua"
 $examplesFile = "load-examples.lua"
@@ -27,26 +27,26 @@ $version = Get-Content -Path $versionFile
 Write-Host "Building version $($version) $date"
 $files = @(
 	"unit-types\unit-types.lua",
-	"autogft\class.lua",
-	"autogft\unitspec.lua",
-	"autogft\vector2.lua",
-	"autogft\vector3.lua",
-	"autogft\coordinate.lua",
-	"autogft\groupcommand.lua",
-	"autogft\groupintel.lua",
-	"autogft\map.lua",
-	"autogft\informedgroup.lua",
-	"autogft\intel.lua",
-	"autogft\reinforcer.lua",
-	"autogft\setupbase.lua",
-	"autogft\setup.lua",
-	"autogft\task.lua",
-	"autogft\taskforce.lua",
-	"autogft\taskgroup.lua",
-	"autogft\tasksequence.lua",
-	"autogft\unitcluster.lua",
-	"autogft\util.lua",
-	"autogft\waypoint.lua"
+	"gws\class.lua",
+	"gws\unitspec.lua",
+	"gws\vector2.lua",
+	"gws\vector3.lua",
+	"gws\coordinate.lua",
+	"gws\groupcommand.lua",
+	"gws\groupintel.lua",
+	"gws\map.lua",
+	"gws\informedgroup.lua",
+	"gws\intel.lua",
+	"gws\reinforcer.lua",
+	"gws\setupbase.lua",
+	"gws\setup.lua",
+	"gws\task.lua",
+	"gws\taskforce.lua",
+	"gws\taskgroup.lua",
+	"gws\tasksequence.lua",
+	"gws\unitcluster.lua",
+	"gws\util.lua",
+	"gws\waypoint.lua"
 )
 $outFileSB = [System.Text.StringBuilder]::new()
 $examplesSB = [System.Text.StringBuilder]::new()

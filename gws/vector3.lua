@@ -5,12 +5,12 @@
 -- @type Vector3
 -- @extends class#Class
 -- @extends DCSVec3#Vec3
-autogft_Vector3 = autogft_Class:create()
+gws_Vector3 = gws_Class:create()
 
 ---
 -- @param #Vector3 self
 -- @return #Vector3
-function autogft_Vector3:new(x, y, z)
+function gws_Vector3:new(x, y, z)
   self = self:createInstance()
   self.x = x
   self.y = y
@@ -21,15 +21,15 @@ end
 ---
 -- @param #Vector3 self
 -- @return #Vector3
-function autogft_Vector3:getCopy()
-  return autogft_Vector3:new(self.x, self.y, self.z)
+function gws_Vector3:getCopy()
+  return gws_Vector3:new(self.x, self.y, self.z)
 end
 
 ---
 -- @param #Vector3 self
 -- @param #Vector3 vector
 -- @return #Vector3
-function autogft_Vector3:add(vector)
+function gws_Vector3:add(vector)
   self.x = self.x + vector.x
   self.y = self.y + vector.y
   self.z = self.z + vector.z
@@ -40,7 +40,7 @@ end
 -- @param #Vector3 self
 -- @param #number factor
 -- @return #Vector3
-function autogft_Vector3:scale(factor)
+function gws_Vector3:scale(factor)
   self.x = self.x * factor
   self.y = self.y * factor
   self.z = self.z * factor
@@ -50,7 +50,7 @@ end
 ---
 -- @param #Vector3 self
 -- @return #Vector3
-function autogft_Vector3:normalize()
+function gws_Vector3:normalize()
   self:scale(1 / self:getMagnitude())
   return self
 end
@@ -59,7 +59,7 @@ end
 -- @param #Vector3 self
 -- @param #Vector3 vector
 -- @return #number
-function autogft_Vector3:getDotProduct(vector)
+function gws_Vector3:getDotProduct(vector)
   return self.x * vector.x + self.y * vector.y + self.z * vector.z
 end
 
@@ -67,17 +67,17 @@ end
 -- @param #Vector3 self
 -- @param #Vector3 vector
 -- @return #Vector3
-function autogft_Vector3:getCrossProduct(vector)
+function gws_Vector3:getCrossProduct(vector)
   local x = self.y * vector.z - self.z * vector.y
   local y = self.z * vector.x - self.x * vector.z
   local z = self.x * vector.y - self.y * vector.x
-  return autogft_Vector3:new(x, y, z)
+  return gws_Vector3:new(x, y, z)
 end
 
 ---
 -- @param #Vector3 self
 -- @return #number
-function autogft_Vector3:getMagnitude()
+function gws_Vector3:getMagnitude()
   return math.sqrt(self.x^2 + self.y^2 + self.z^2)
 end
 
@@ -86,7 +86,7 @@ end
 -- @param #Vector3 vector
 -- @param #Vector3 plane (Optional)
 -- @return #number
-function autogft_Vector3:getAngleTo(vector, plane)
+function gws_Vector3:getAngleTo(vector, plane)
   local cosine = self:getDotProduct(vector) / (self:getMagnitude() * vector:getMagnitude())
   local angle = math.acos(cosine)
   if plane then
@@ -103,8 +103,8 @@ end
 -- @field #Vector3 X
 -- @field #Vector3 Y
 -- @field #Vector3 Z
-autogft_Vector3.Axis = {
-  X = autogft_Vector3:new(1, 0, 0),
-  Y = autogft_Vector3:new(0, 1, 0),
-  Z = autogft_Vector3:new(0, 0, 1)
+gws_Vector3.Axis = {
+  X = gws_Vector3:new(1, 0, 0),
+  Y = gws_Vector3:new(0, 1, 0),
+  Z = gws_Vector3:new(0, 0, 1)
 }

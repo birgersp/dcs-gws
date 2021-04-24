@@ -6,13 +6,13 @@
 -- @extends class#Class
 -- @field #number degrees
 -- @field #number minutes
-autogft_Coordinate = autogft_Class:create()
+gws_Coordinate = gws_Class:create()
 
 ---
 -- @param #Coordinate self
 -- @param #number degrees
 -- @return #Coordinate
-function autogft_Coordinate:new(degrees)
+function gws_Coordinate:new(degrees)
   self = self:createInstance()
 
   self.degrees = math.floor(degrees)
@@ -25,7 +25,7 @@ end
 -- @param #Coordinate self
 -- @param #number minDigits
 -- @return #string
-function autogft_Coordinate:getDegreesString(minDigits)
+function gws_Coordinate:getDegreesString(minDigits)
   local string = self.degrees .. ""
   if minDigits then
     while string:len() < minDigits do
@@ -40,7 +40,7 @@ end
 -- @param #number minDecimals
 -- @param #number maxDecimals
 -- @return #string
-function autogft_Coordinate:getMinutesString(minDecimals, maxDecimals)
+function gws_Coordinate:getMinutesString(minDecimals, maxDecimals)
 
   local whole = math.floor(self.minutes)
   local wholeString = whole .. ""

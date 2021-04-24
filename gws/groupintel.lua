@@ -1,7 +1,7 @@
 ---
 -- @module GroupIntel
 
-autogft_groupIntel = {}
+gws_groupIntel = {}
 
 ---
 -- @type GroupIntel
@@ -11,43 +11,43 @@ autogft_groupIntel = {}
 -- @field groupcommand#GroupCommand startCommand
 -- @field groupcommand#GroupCommand stopCommand
 -- @field #boolean started
-autogft_GroupIntel = autogft_Class:create()
+gws_GroupIntel = gws_Class:create()
 
-autogft_GroupIntel.START_COMMAND_TEXT = "Activate intel"
-autogft_GroupIntel.STOP_COMMAND_TEXT = "Deactivate intel"
-autogft_GroupIntel.INTEL_LOOP_DELAY = 60
-autogft_GroupIntel.MESSAGE_TIME = 30
-autogft_GroupIntel.OBSERVABLE_DISTANCE_M = 18500
+gws_GroupIntel.START_COMMAND_TEXT = "Activate intel"
+gws_GroupIntel.STOP_COMMAND_TEXT = "Deactivate intel"
+gws_GroupIntel.INTEL_LOOP_DELAY = 60
+gws_GroupIntel.MESSAGE_TIME = 30
+gws_GroupIntel.OBSERVABLE_DISTANCE_M = 18500
 
 ---
 -- @param #GroupIntel self
 -- @param DCSGroup#Group targetGroup
 -- @return #GroupIntel
-function autogft_GroupIntel:new(targetGroup)
+function gws_GroupIntel:new(targetGroup)
 
   self = self:createInstance()
   self.targetGroup = targetGroup
-  self.enemyCoalitionID = autogft.getEnemyCoalitionID(self.targetGroup:getUnits()[1])
+  self.enemyCoalitionID = gws.getEnemyCoalitionID(self.targetGroup:getUnits()[1])
 
   self.started = false
 
   local function start()
     self:start()
   end
-  self.startCommand = autogft_GroupCommand:new(targetGroup, autogft_GroupIntel.START_COMMAND_TEXT, start)
+  self.startCommand = gws_GroupCommand:new(targetGroup, gws_GroupIntel.START_COMMAND_TEXT, start)
   self.startCommand:enable()
 
   local function stop()
     self:stop()
   end
-  self.stopCommand = autogft_GroupCommand:new(targetGroup, autogft_GroupIntel.STOP_COMMAND_TEXT, stop)
+  self.stopCommand = gws_GroupCommand:new(targetGroup, gws_GroupIntel.STOP_COMMAND_TEXT, stop)
 
   return self
 end
 
 ---
 -- @param #GroupIntel self
-function autogft_GroupIntel:start()
+function gws_GroupIntel:start()
   if self.started then
     do return end
   end
@@ -60,7 +60,7 @@ function autogft_GroupIntel:start()
     if self.started then
       if self.targetGroup:isExist() then
         self:viewEnemyGroundTargets()
-        autogft.scheduleFunction(intelLoop, autogft_GroupIntel.INTEL_LOOP_DELAY)
+        gws.scheduleFunction(intelLoop, gws_GroupIntel.INTEL_LOOP_DELAY)
       else
         self:stop()
       end
@@ -71,7 +71,7 @@ end
 
 ---
 -- @param #GroupIntel self
-function autogft_GroupIntel:stop()
+function gws_GroupIntel:stop()
   self.started = false
   self.stopCommand:disable()
   self.startCommand:enable()
@@ -79,21 +79,21 @@ end
 
 ---
 -- @param #GroupIntel self
-function autogft_GroupIntel:viewEnemyGroundTargets()
+function gws_GroupIntel:viewEnemyGroundTargets()
 
   local ownUnit = self.targetGroup:getUnit(1)
-  local targetUnits = autogft.getEnemyGroundUnitsWithin(ownUnit, autogft_GroupIntel.OBSERVABLE_DISTANCE_M)
+  local targetUnits = gws.getEnemyGroundUnitsWithin(ownUnit, gws_GroupIntel.OBSERVABLE_DISTANCE_M)
   local observerPosition = ownUnit:getPosition().p
 
   local message
   if (#targetUnits == 0) then
-    message = autogft_intel.NO_TARGETS_OBSERVED_MESSAGE
+    message = gws_intel.NO_TARGETS_OBSERVED_MESSAGE
   else
 
-    local observerPosVec2 = autogft_Vector2:new(observerPosition.x, observerPosition.z)
-    local observerHeadingNortCorrection = autogft.getHeadingNorthCorrection(observerPosition)
+    local observerPosVec2 = gws_Vector2:new(observerPosition.x, observerPosition.z)
+    local observerHeadingNortCorrection = gws.getHeadingNorthCorrection(observerPosition)
 
-    local clusters = autogft_intel.getUnitClusters(targetUnits, autogft_intel.COHERENT_UNIT_DISTANCE_M)
+    local clusters = gws_intel.getUnitClusters(targetUnits, gws_intel.COHERENT_UNIT_DISTANCE_M)
 
     -- Create message from clusters
     message = ""
@@ -105,11 +105,11 @@ function autogft_GroupIntel:viewEnemyGroundTargets()
         if text ~= "" then
           text = text..", "
         end
-        text = text..count.." "..autogft.getUnitTypeNameTerm(unitTypeName)
+        text = text..count.." "..gws.getUnitTypeNameTerm(unitTypeName)
       end
 
-      local observerToCluster = autogft_Vector2.minus(cluster.midPoint, observerPosVec2)
-      local dirRad = autogft_Vector2.Axis.X:getAngleTo(observerToCluster) + observerHeadingNortCorrection
+      local observerToCluster = gws_Vector2.minus(cluster.midPoint, observerPosVec2)
+      local dirRad = gws_Vector2.Axis.X:getAngleTo(observerToCluster) + observerHeadingNortCorrection
       local dirHeading = math.floor(dirRad / math.pi * 180 + 0.5)
       local distanceM = observerToCluster:getMagnitude()
       local distanceKM = distanceM / 1000
@@ -122,10 +122,10 @@ function autogft_GroupIntel:viewEnemyGroundTargets()
     end
   end
 
-  trigger.action.outTextForGroup(self.targetGroup:getID(), message, autogft_GroupIntel.MESSAGE_TIME)
+  trigger.action.outTextForGroup(self.targetGroup:getID(), message, gws_GroupIntel.MESSAGE_TIME)
 end
 
-function autogft_groupIntel.enable()
+function gws_groupIntel.enable()
 
   local enabledGroupNames = {}
 
@@ -140,7 +140,7 @@ function autogft_groupIntel.enable()
             if unit:getPlayerName() then
               local groupName = group:getName()
               if not enabledGroupNames[groupName] then
-                autogft_GroupIntel:new(group)
+                gws_GroupIntel:new(group)
                 enabledGroupNames[groupName] = true
               end
             end
@@ -155,7 +155,7 @@ function autogft_groupIntel.enable()
     enableForGroups(coalition.getGroups(coalition.side.BLUE))
     enableForGroups(coalition.getGroups(coalition.side.RED))
 
-    autogft.scheduleFunction(reEnablingLoop, autogft_intel.RE_ENABLING_LOOP_DELAY)
+    gws.scheduleFunction(reEnablingLoop, gws_intel.RE_ENABLING_LOOP_DELAY)
   end
   reEnablingLoop()
 

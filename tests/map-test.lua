@@ -1,5 +1,5 @@
 
-package.path = package.path .. ";../autogft/?.lua"
+package.path = package.path .. ";../gws/?.lua"
 require("class")
 require("util")
 require("map")
@@ -7,7 +7,7 @@ require("map")
 local someKey = {}
 local someValue = {x = 123}
 
-local map = autogft_Map:new()
+local map = gws_Map:new()
 assert(map.length == 0)
 map:put(someKey, someValue)
 

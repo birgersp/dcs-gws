@@ -2,24 +2,24 @@
 -- @module Class
 
 ---
--- A template for creating autogft objects.
+-- A template for creating gws objects.
 -- @type Class
-autogft_Class = {}
+gws_Class = {}
 
 ---
 -- Creates a new class.
 -- @param #Class self
 -- @return #Class
-function autogft_Class:create()
-  return setmetatable({}, {__index = autogft_Class})
+function gws_Class:create()
+  return setmetatable({}, {__index = gws_Class})
 end
 
 ---
 -- Creates a subclass of this class.
 -- @param #Class self
 -- @return #Class
-function autogft_Class:extend()
-  local class = autogft_Class:create()
+function gws_Class:extend()
+  local class = gws_Class:create()
   setmetatable(class, {__index = self})
   return class
 end
@@ -30,13 +30,13 @@ end
 -- @param #Class self
 -- @param #table superObject (Optional) Parent object which the new instance will inherit attributes from
 -- @return #table
-function autogft_Class:createInstance(superObject)
+function gws_Class:createInstance(superObject)
   local instance = setmetatable({}, {__index = self})
 
   -- Automatically invoke super-constructor if no superobject is provided
   if not superObject then
     local metatable = getmetatable(self)
-    if metatable and metatable ~= autogft_Class then
+    if metatable and metatable ~= gws_Class then
       superObject = metatable.__index:new()
     end
   end
@@ -55,7 +55,7 @@ end
 -- Override this function to create a custom constructor.
 -- @param #Class self
 -- @return #table
-function autogft_Class:new()
+function gws_Class:new()
   return self:createInstance(nil)
 end
 
@@ -63,7 +63,7 @@ end
 -- Returns wether this object is a type or subtype of a class.
 -- @param #Class self
 -- @return #boolean
-function autogft_Class:instanceOf(class)
+function gws_Class:instanceOf(class)
 
   local result = false
   local superClass
@@ -84,7 +84,7 @@ end
 -- Throws an error with the message that an abstract function was invoked.
 -- The name of the function invoking this function will be included in the message.
 -- @param #Class self
-function autogft_Class:throwAbstractFunctionError()
+function gws_Class:throwAbstractFunctionError()
   local functionName = debug.getinfo(2, "n").name
   error("Abstract function \"" .. functionName .. "\" invoked.")
 end
@@ -93,7 +93,7 @@ end
 -- Compares each field of this object the each field of another, and returns whether the fields are identical.
 -- @param #Class self
 -- @return #boolean
-function autogft_Class:equals(object)
+function gws_Class:equals(object)
   for key, value in pairs(object) do
     if self[key] ~= value then
       return false

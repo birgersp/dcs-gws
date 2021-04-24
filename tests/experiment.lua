@@ -1,1 +1,1 @@
-autogft_groupIntel.enable()
+gws_groupIntel.enable()

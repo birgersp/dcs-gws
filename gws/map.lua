@@ -7,12 +7,12 @@
 -- @field #map<#number, #table> keys
 -- @field #map<#number, #table> values
 -- @field #number length
-autogft_Map = autogft_Class:create()
+gws_Map = gws_Class:create()
 
 ---
 -- @param #Map self
 -- @return #Map
-function autogft_Map:new()
+function gws_Map:new()
   self = self:createInstance()
   self.keys = {}
   self.values = {}
@@ -24,8 +24,8 @@ end
 -- @param #Map self
 -- @param #table key
 -- @param #table value
-function autogft_Map:put(key, value)
-  local id = autogft.getTableID(key)
+function gws_Map:put(key, value)
+  local id = gws.getTableID(key)
   if not self.keys[id] then
     self.keys[id] = key
     self.length = self.length + 1
@@ -37,7 +37,7 @@ end
 -- @param #Map self
 -- @param #table key
 -- @return #table
-function autogft_Map:get(key)
-  local id = autogft.getTableID(key)
+function gws_Map:get(key)
+  local id = gws.getTableID(key)
   return self.values[id]
 end

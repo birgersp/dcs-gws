@@ -11,7 +11,7 @@
 -- manually setting the reinforcing timer to 300 second intervals,
 -- reinforcing (in this case, by respawning) will only happen for a total of 1200 sec (20 min)
 
-autogft_Setup:new()
+gws_Setup:new()
   :setCountry(country.id.NORWAY)
   :addTaskGroup():addUnits(1, "Hummer")
   :addBaseZone("BLUE_BASE4")

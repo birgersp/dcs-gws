@@ -1,5 +1,5 @@
 
-package.path = package.path .. ";../autogft/?.lua"
+package.path = package.path .. ";../gws/?.lua"
 require("class")
 
 
@@ -8,7 +8,7 @@ require("class")
 -- @type Mammal
 -- @extends class#Class
 -- @field #string name
-Mammal = autogft_Class:create()
+Mammal = gws_Class:create()
 
 ---
 -- @param #Mammal self
@@ -74,7 +74,7 @@ end
 -- @type Vehicle
 -- @extends class#Class
 -- @field #number someAttribute
-Vehicle = autogft_Class:create()
+Vehicle = gws_Class:create()
 
 ---
 -- @param #Vehicle self

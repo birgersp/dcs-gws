@@ -2,11 +2,11 @@
 -- @module Util
 
 ---
--- @type autogft
-autogft = {}
+-- @type gws
+gws = {}
 
-autogft.unitTypeNameTermMap = {} --#map<#string, #string>
-autogft.unitTypeTerms = {
+gws.unitTypeNameTermMap = {} --#map<#string, #string>
+gws.unitTypeTerms = {
   MBT= "MBT",
   INFANTRY_FIGHTING_VEHICLE = "IFV",
   AIR_DEFENCE = "AIR DEFENCE",
@@ -17,14 +17,14 @@ do
 
   local function add(table, term)
     for _, name in pairs(table) do
-      autogft.unitTypeNameTermMap[name] = term
+      gws.unitTypeNameTermMap[name] = term
     end
   end
 
-  add(unitType.vehicle.tank, autogft.unitTypeTerms.MBT)
-  add(unitType.vehicle.ifv, autogft.unitTypeTerms.INFANTRY_FIGHTING_VEHICLE)
-  add(unitType.vehicle.sam, autogft.unitTypeTerms.AIR_DEFENCE)
-  add(unitType.infantry, autogft.unitTypeTerms.INFANTRY)
+  add(unitType.vehicle.tank, gws.unitTypeTerms.MBT)
+  add(unitType.vehicle.ifv, gws.unitTypeTerms.INFANTRY_FIGHTING_VEHICLE)
+  add(unitType.vehicle.sam, gws.unitTypeTerms.AIR_DEFENCE)
+  add(unitType.infantry, gws.unitTypeTerms.INFANTRY)
 
 end
 
@@ -33,8 +33,8 @@ end
 ---
 -- @param #string unitTypeName
 -- @return #string
-function autogft.getUnitTypeNameTerm(unitTypeName)
-  local term = autogft.unitTypeNameTermMap[unitTypeName]
+function gws.getUnitTypeNameTerm(unitTypeName)
+  local term = gws.unitTypeNameTermMap[unitTypeName]
   if not term then
     term = unitTypeName
   end
@@ -44,7 +44,7 @@ end
 ---
 -- @param DCSVec3#Vec3 position
 -- @return #number
-function autogft.getHeadingNorthCorrection(position)
+function gws.getHeadingNorthCorrection(position)
   local latitude, longitude = coord.LOtoLL(position)
   local nortPosition = coord.LLtoLO(latitude + 1, longitude)
   return math.atan2(nortPosition.z - position.z, nortPosition.x - position.x)
@@ -53,10 +53,10 @@ end
 ---
 -- @param DCSUnit#Unit unit
 -- @return #number
-function autogft.getUnitHeading(unit)
+function gws.getUnitHeading(unit)
   local unitPosition = unit:getPosition()
-  local unitPos = autogft_Vector3.getCopy(unitPosition.p)
-  local heading = math.atan2(unitPosition.x.z, unitPosition.x.x) + autogft.getHeadingNorthCorrection(unitPos)
+  local unitPos = gws_Vector3.getCopy(unitPosition.p)
+  local heading = math.atan2(unitPosition.x.z, unitPosition.x.x) + gws.getHeadingNorthCorrection(unitPos)
   if heading < 0 then
     heading = heading + 2 * math.pi
   end
@@ -67,7 +67,7 @@ end
 -- @param DCSUnit#Unit unit
 -- @param DCSZone#Zone zone
 -- @return #boolean
-function autogft.unitIsWithinZone(unit, zone)
+function gws.unitIsWithinZone(unit, zone)
   local pos = unit:getPosition().p
   local dx = zone.point.x - pos.x
   local dy = zone.point.z - pos.z
@@ -82,7 +82,7 @@ end
 -- @param #list<DCSUnit#Unit> units
 -- @param #string type
 -- @return #number
-function autogft.countUnitsOfType(units, type)
+function gws.countUnitsOfType(units, type)
   local count = 0
   local unit
   for i = 1, #units do
@@ -97,7 +97,7 @@ end
 -- @param #vec3
 -- @param #vec3
 -- @return #number
-function autogft.getDistanceBetween(a, b)
+function gws.getDistanceBetween(a, b)
   local dx = a.x - b.x
   local dy = a.y - b.y
   local dz = a.z - b.z
@@ -108,7 +108,7 @@ end
 -- @param #number coalitionId
 -- @param #list<DCSZone#Zone> zones
 -- @return #list<DCSUnit#Unit>
-function autogft.getUnitsInZones(coalitionId, zones)
+function gws.getUnitsInZones(coalitionId, zones)
   local addedUnitIDs = {}
   local result = {}
   local groups = coalition.getGroups(coalitionId)
@@ -138,11 +138,11 @@ end
 -- @param #function func
 -- @param #number time Seconds
 -- @return #number Function id
-function autogft.scheduleFunction(func, time)
+function gws.scheduleFunction(func, time)
   local function triggerFunction()
     local success, message = pcall(func)
     if not success then
-      env.error("Error in scheduled function: " .. autogft.toString(message), true)
+      env.error("Error in scheduled function: " .. gws.toString(message), true)
     end
   end
   return timer.scheduleFunction(triggerFunction, {}, timer.getTime() + time)
@@ -151,12 +151,12 @@ end
 ---
 -- @param #string prefix (Optional)
 -- @return #string
-function autogft.getUniqueGroupName(prefix)
+function gws.getUniqueGroupName(prefix)
   local groupName
   local index = 0
   while (not groupName) or Group.getByName(groupName) do
     index = index + 1
-    groupName = "autogft group #" .. index
+    groupName = "gws group #" .. index
     if prefix then groupName = prefix .. "-" .. groupName end
   end
   return groupName
@@ -165,14 +165,14 @@ end
 ---
 -- @param DCSZone#Zone zone1
 -- @param DCSZone#Zone zone2
-function autogft.compareZones(zone1, zone2)
-  return autogft_Vector3.equals(zone1.point, zone2.point)
+function gws.compareZones(zone1, zone2)
+  return gws_Vector3.equals(zone1.point, zone2.point)
 end
 
 ---
 -- @param DCSGroup#Group group
 -- @return #boolean
-function autogft.groupExists(group)
+function gws.groupExists(group)
   local units = group:getUnits()
   for i = 1, #units do
     local unit = units[i] --DCSUnit#Unit
@@ -185,7 +185,7 @@ end
 
 ---
 -- @param #string groupNamePrefix
-function autogft.getUnitsByGroupNamePrefix(groupNamePrefix)
+function gws.getUnitsByGroupNamePrefix(groupNamePrefix)
 
   local coalitionGroups = {
     coalition.getGroups(coalition.side.BLUE),
@@ -213,7 +213,7 @@ end
 ---
 -- @param DCSUnit#Unit unit
 -- @return #number
-function autogft.getEnemyCoalitionID(unit)
+function gws.getEnemyCoalitionID(unit)
   local result = coalition.side.RED
   if unit:getCoalition() == coalition.side.RED then
     result = coalition.side.BLUE
@@ -225,9 +225,9 @@ end
 -- @param DCSUnit#Unit unit
 -- @param #number radius
 -- @return #list<DCSUnit#Unit>
-function autogft.getEnemyGroundUnitsWithin(unit, radius)
+function gws.getEnemyGroundUnitsWithin(unit, radius)
 
-  local enemyGroundGroups = coalition.getGroups(autogft.getEnemyCoalitionID(unit), Group.Category.GROUND)
+  local enemyGroundGroups = coalition.getGroups(gws.getEnemyCoalitionID(unit), Group.Category.GROUND)
   local observerMaxDistance2 = radius^2
   local observerPosition = unit:getPosition().p
 
@@ -258,13 +258,13 @@ end
 ---
 -- Deep copy a table
 -- Code from https://gist.github.com/MihailJP/3931841
-function autogft.deepCopy(t)
+function gws.deepCopy(t)
   if type(t) ~= "table" then return t end
   local meta = getmetatable(t)
   local target = {}
   for k, v in pairs(t) do
     if type(v) == "table" then
-      target[k] = autogft.deepCopy(v)
+      target[k] = gws.deepCopy(v)
     else
       target[k] = v
     end
@@ -275,7 +275,7 @@ end
 
 ---
 -- Returns a string representation of an object
-function autogft.toString(obj)
+function gws.toString(obj)
 
   local stringifiedTableIDs = {}
 
@@ -353,14 +353,14 @@ end
 ---
 -- @param #list list
 -- @param # item
-function autogft.contains(list, item)
+function gws.contains(list, item)
   for i = 1, #list do
     if list[i] == item then return true end
   end
   return false
 end
 
-function autogft.log(variable)
+function gws.log(variable)
   if not env then
     env = {
       info = function(msg)
@@ -385,10 +385,10 @@ function autogft.log(variable)
     variableName = "(undefined)"
   end
 
-  env.info(variableName .. ": " .. autogft.toString(variable))
+  env.info(variableName .. ": " .. gws.toString(variable))
 end
 
-function autogft.logFunction()
+function gws.logFunction()
   local trace = "(END)"
   local i = 2
   local functionName = debug.getinfo(i, "n").name
@@ -397,9 +397,9 @@ function autogft.logFunction()
     i = i + 1
     functionName = debug.getinfo(i, "n").name
   end
-  autogft.log("Function trace: " .. trace)
+  gws.log("Function trace: " .. trace)
 end
 
-function autogft.getTableID(table)
+function gws.getTableID(table)
   return tostring(table):sub(8)
 end

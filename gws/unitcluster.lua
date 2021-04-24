@@ -6,14 +6,14 @@
 -- @extends class#Class
 -- @field #list<DCSUnit#Unit> units
 -- @field vector2#Vector2 midPoint
-autogft_UnitCluster = autogft_Class:create()
+gws_UnitCluster = gws_Class:create()
 
 ---
 -- @param #UnitCluster self
 -- @param #list<DCSUnit#Unit> units
 -- @param vector2#Vector2 midPoint
 -- @return #UnitCluster
-function autogft_UnitCluster:new(units, midPoint)
+function gws_UnitCluster:new(units, midPoint)
   self = self:createInstance()
   self.units = units
   self.midPoint = midPoint
@@ -23,7 +23,7 @@ end
 ---
 -- @param #UnitCluster self
 -- @return #map<#string, #number>
-function autogft_UnitCluster:getUnitTypeCount()
+function gws_UnitCluster:getUnitTypeCount()
   local unitTypes = {}
   for i = 1, #self.units do
     local unit = self.units[i]

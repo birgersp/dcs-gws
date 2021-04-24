@@ -13,32 +13,32 @@
 -- @field #number routeOvershootM
 -- @field #number maxDistanceM
 -- @field #number USING_ROAD_DISTANCE_THRESHOLD_M
-autogft_TaskGroup = autogft_Class:create()
+gws_TaskGroup = gws_Class:create()
 
-autogft_TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M = 500
-autogft_TaskGroup.ROUTE_OVERSHOOT_M = 250
-autogft_TaskGroup.MAX_ROUTE_DISTANCE_M = 10000
+gws_TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M = 500
+gws_TaskGroup.ROUTE_OVERSHOOT_M = 250
+gws_TaskGroup.MAX_ROUTE_DISTANCE_M = 10000
 
 ---
 -- @param #TaskGroup self
 -- @param tasksequence#TaskSequence taskSequence
 -- @return #TaskGroup
-function autogft_TaskGroup:new(taskSequence)
+function gws_TaskGroup:new(taskSequence)
   self = self:createInstance()
   self.unitSpecs = {}
   self.taskSequence = taskSequence
   self.destinationIndex = 1
   self.progressing = true
-  self.routeOvershootM = autogft_TaskGroup.ROUTE_OVERSHOOT_M
-  self.maxDistanceM = autogft_TaskGroup.MAX_ROUTE_DISTANCE_M
-  self.usingRoadDistanceThresholdM = autogft_TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M
+  self.routeOvershootM = gws_TaskGroup.ROUTE_OVERSHOOT_M
+  self.maxDistanceM = gws_TaskGroup.MAX_ROUTE_DISTANCE_M
+  self.usingRoadDistanceThresholdM = gws_TaskGroup.USING_ROAD_DISTANCE_THRESHOLD_M
   self:setDCSGroup(nil)
   return self
 end
 
 ---
 -- @param #TaskGroup self
-function autogft_TaskGroup:updateGroupLead()
+function gws_TaskGroup:updateGroupLead()
   self.groupLead = nil
   if self.dcsGroup then
     local unitIndex = 1
@@ -56,7 +56,7 @@ end
 ---
 -- @param #TaskGroup self
 -- @return #boolean
-function autogft_TaskGroup:exists()
+function gws_TaskGroup:exists()
   self:updateGroupLead()
   if self.groupLead then
     return true
@@ -68,7 +68,7 @@ end
 -- @param #TaskGroup self
 -- @param DCSUnit#Unit unit
 -- @return #boolean
-function autogft_TaskGroup:containsUnit(unit)
+function gws_TaskGroup:containsUnit(unit)
   if self.dcsGroup then
     local units = self.dcsGroup:getUnits()
     for unitIndex = 1, #units do
@@ -82,14 +82,14 @@ end
 -- @param #TaskGroup self
 -- @param unitspec#UnitSpec unitSpec
 -- @return #TaskGroup
-function autogft_TaskGroup:addUnitSpec(unitSpec)
+function gws_TaskGroup:addUnitSpec(unitSpec)
   self.unitSpecs[#self.unitSpecs + 1] = unitSpec
   return self
 end
 
 ---
 -- @param #TaskGroup self
-function autogft_TaskGroup:advance()
+function gws_TaskGroup:advance()
 
   if #self.taskSequence.tasks <= 0 or self.taskSequence.currentTaskIndex <= 0 then
     do return end
@@ -126,10 +126,10 @@ function autogft_TaskGroup:advance()
       if not nextDestination then
         -- If task is zone task, check if reached
         local task = self.taskSequence.tasks[destinationIndex]
-        if task:instanceOf(autogft_ZoneTask) then
+        if task:instanceOf(gws_ZoneTask) then
           local zone = task.zone --DCSZone#Zone
           -- If not reached, set as destination
-          if not autogft.unitIsWithinZone(self.groupLead, zone) then
+          if not gws.unitIsWithinZone(self.groupLead, zone) then
             nextDestination = destinationIndex
           end
         end
@@ -161,7 +161,7 @@ function autogft_TaskGroup:advance()
           end
         end
       end
-      autogft.scheduleFunction(checkPosAdvance, 2)
+      gws.scheduleFunction(checkPosAdvance, 2)
     end
   end
 end
@@ -169,12 +169,12 @@ end
 ---
 -- @param #TaskGroup self
 -- @return #TaskGroup
-function autogft_TaskGroup:forceAdvance()
+function gws_TaskGroup:forceAdvance()
 
   local destinationTask = self.taskSequence.tasks[self.destinationIndex]
   local destination = destinationTask:getLocation()
   local groupLeadPosDCS = self.groupLead:getPosition().p
-  local groupPos = autogft_Vector2:new(groupLeadPosDCS.x, groupLeadPosDCS.z)
+  local groupPos = gws_Vector2:new(groupLeadPosDCS.x, groupLeadPosDCS.z)
   local groupToDestination = destination:minus(groupPos)
   local groupToDestinationMag = groupToDestination:getMagnitude()
   local shortened = false
@@ -186,7 +186,7 @@ function autogft_TaskGroup:forceAdvance()
   if groupToDestinationMag > self.maxDistanceM then
     local destinationX = groupPos.x + groupToDestination.x / groupToDestinationMag * self.maxDistanceM
     local destinationY = groupPos.y + groupToDestination.y / groupToDestinationMag * self.maxDistanceM
-    destination = autogft_Vector2:new(destinationX, destinationY)
+    destination = gws_Vector2:new(destinationX, destinationY)
     shortened = true
   end
 
@@ -199,10 +199,10 @@ function autogft_TaskGroup:forceAdvance()
 
   local waypoints = {}
   local function addWaypoint(x, y, useRoad)
-    local wp = autogft_Waypoint:new(x, y)
+    local wp = gws_Waypoint:new(x, y)
     wp.speed = nextTask.speed
     if useRoad then
-      wp.action = autogft_Waypoint.Action.ON_ROAD
+      wp.action = gws_Waypoint.Action.ON_ROAD
     end
     waypoints[#waypoints + 1] = wp
   end
@@ -238,7 +238,7 @@ end
 -- @param #TaskGroup self
 -- @param DCSGroup#Group newGroup
 -- @return #TaskGroup
-function autogft_TaskGroup:setDCSGroup(newGroup)
+function gws_TaskGroup:setDCSGroup(newGroup)
   self.dcsGroup = newGroup
   self.destinationIndex = 1
   return self
@@ -247,7 +247,7 @@ end
 ---
 -- @param #TaskGroup self
 -- @param #list<waypoint#Waypoint> waypoints
-function autogft_TaskGroup:setRoute(waypoints)
+function gws_TaskGroup:setRoute(waypoints)
   if self:exists() then
     local dcsTask = {
       id = "Mission",

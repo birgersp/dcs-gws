@@ -28,11 +28,11 @@ def doBuild():
     subprocess.run(["powershell", "-Command", "ps/make.ps1"])
 
 
-newestFile = getNewestFileIn("autogft")
+newestFile = getNewestFileIn("gws")
 doBuild()
 while (True):
     time.sleep(1)
-    file = getNewestFileIn("autogft")
+    file = getNewestFileIn("gws")
     if getFileTimestamp(file) > getFileTimestamp(newestFile):
         doBuild()
         newestFile = file
