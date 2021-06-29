@@ -1,7 +1,7 @@
 
 ---
 -- Ground Warfare Script basic example
--- https://github.com/birgersp/dcs-autogft
+-- https://github.com/birgersp/dcs-gws
 --
 -- Lines beginning with "--" are comments and does not affect the code
 -- Put the standalone script and this script in "do script file" actions in a mission start trigger
@@ -30,4 +30,3 @@ gws_Setup:new()
   :addControlZone("CONTROL5")
   :addControlZone("CONTROL2")
   :addControlZone("CONTROL1")
-  
