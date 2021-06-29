@@ -33,10 +33,7 @@ Copy-Item $exampleMission $buildDir\example-$version.miz
 
 # Copy docs
 Write-Host "Copying docs"
-[void](New-Item -ItemType Directory -Path $buildDir\docs -Force)
-foreach ($file in Get-ChildItem docs) {
-	Copy-Item docs\$file $buildDir\docs -Force
-}
+Copy-Item -Recurse docs $buildDir
 
 # Create zip dir
 [void](New-Item -ItemType Directory -Path $archiveDir -Force)
