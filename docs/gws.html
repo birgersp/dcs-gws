@@ -37,7 +37,7 @@
 	<p>(<a href="https://www.youtube.com/watch?v=Cqv3Mj-Ss58">Version 1.1 demo</a>)</p>
 	<h3>Getting started</h3>
 	<ol>
-		<li>Download the <a href="https://github.com/birgersp/dcs-gws/releases/latest/">latest gws release zip</a>
+		<li>Download the <a href="https://github.com/birgersp/dcs-autogft/releases/latest/">latest gws release zip</a>
 			and
 			unzip it</li>
 		<li>Add some trigger zones to your mission, these can act as "bases" or "objectives"</li>
@@ -70,6 +70,65 @@ gws_Setup:new()
 	<p>Please note: If you want to change your mission script later, you need to reload it into your mission by
 		clicking
 		"open" in the do script file action and select it again.</p>
+
+	<h3>Documentation</h3>
+	<ul>
+		<li><a href="https://github.com/birgersp/dcs-autogft/tree/master/examples">Example mission scripts</a></li>
+		<li><a href="api/Setup.html">Code API</a></li>
+		<li><a href="https://www.youtube.com/watch?v=bmTS60qrF5g">(Outdated) Version 0.1 demo/instructional video</a>
+		</li>
+	</ul>
+
+	<h3>Planned features</h3>
+	<p>See <a href="https://github.com/birgersp/dcs-autogft/issues">issue list</a></p>
+
+	<h3>Develop/experimenting</h3>
+	<p>This project can be imported into LuaDevelopmentTools. It should automatically execute the compilation script
+		whenever you save a change to the source files.</p>
+
+	<p>If you prefer not to use LuaDevelopmentTools, follow these steps to compile the source files:</p>
+	<ol>
+		<li>Open a Command Prompt terminal (cmd.exe)</li>
+		<li>Change directory to the project (use the command "cd C:\MyLuaProjects\dcs-autogft")</li>
+		<li>Execute the command batch/make.cmd</li>
+	</ol>
+
+	<p>Once the source files have been compiled, you should see a <code>build</code> and a <code>build-test</code>
+		folder in the project.</p>
+
+	<p>During compilation, the source files are merged to a single script. In addition, a "load experiment" script is
+		also generated. Load this script into your mission:</p>
+	<ol>
+		<li>Create or open your DCS World mission with the Mission Editor</li>
+		<li>Add a trigger: MISSION START</li>
+		<li>Add an action: DO SCRIPT</li>
+		<li>In the DO SCRIPT text, add
+			<code>dofile("C:\\MyLuaProjects\\dcs-autogft\\build-test\\load-experiment.lua")</code>
+		</li>
+		<li>Save the mission</li>
+		<li>Click "FLIGHT" and then "PREPARE MISSION"</li>
+		<li>The mission will start (you might get an error when the mission starts, depending on what's in the
+			<code>tests\experiment.lua</code> script but ignore that for now)
+		</li>
+	</ol>
+
+	<p>Now you can minimize DCS World, edit the source files (located in the <code>autogft</code> folder), and do some
+		experiments/testing with the <code>tests\experiment.lua</code> file. Once the code with your experiment is ready
+		for another test, re-compile it (happens automatically when saving in LuaDevelopmentTools, or see the steps
+		above) and restart the mission (press SHIFT+R).</p>
+
+	<p>If you want to make a pull request, please use the same commit message and code style as the rest of the project.
+		Please refer to the issue that the commit is regarding.</p>
+
+	<h3>Credits</h3>
+	<ul>
+		<li><a href="https://github.com/FlightControl-Master/DCS-API">DCS-API</a> initially written by <a
+				href="https://github.com/FlightControl-Master">Sven</a></li>
+		<li><a href="https://github.com/thebgpikester">thebgpikester</a></li>
+		<li><a href="https://forums.eagle.ru/showthread.php?t=179522">DCS Community</a></li>
+		<li><a href="http://www.132virtualwing.org/">132nd Virtual Wing</a></li>
+		<li><a href="https://github.com/jkhoel">jkhoel</a></li>
+	</ul>
 </body>
 
 </html>
