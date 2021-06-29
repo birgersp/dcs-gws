@@ -31,11 +31,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>autogft</name>
-			<type>2</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/autogft</locationURI>
-		</link>
-		<link>
 			<name>dcs</name>
 			<type>2</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/dcs</locationURI>
@@ -44,6 +39,11 @@
 			<name>examples</name>
 			<type>2</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/examples</locationURI>
+		</link>
+		<link>
+			<name>gws</name>
+			<type>2</type>
+			<location>$%7BPARENT-1-PROJECT_LOC%7D/gws</location>
 		</link>
 		<link>
 			<name>tests</name>
