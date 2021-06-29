@@ -1,7 +1,7 @@
 
 ---
--- Autonomous Ground Force Tasking basic example script
--- https://github.com/birgersp/dcs-gws
+-- Ground Warfare Script basic example
+-- https://github.com/birgersp/dcs-autogft
 --
 -- Lines beginning with "--" are comments and does not affect the code
 -- Put the standalone script and this script in "do script file" actions in a mission start trigger
