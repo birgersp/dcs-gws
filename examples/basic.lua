@@ -10,7 +10,7 @@
 
 
 
---- 
+---
 -- (BLUE TASK FORCE)
 -- Adding base zone(s)
 -- Adding control zone(s)
@@ -22,7 +22,7 @@ gws_Setup:new()
   :addControlZone("CONTROL5")
 
 
---- 
+---
 -- (RED TASK FORCE)
 
 gws_Setup:new()
