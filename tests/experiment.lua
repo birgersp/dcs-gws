@@ -1,1 +1,5 @@
-gws_groupIntel.enable()
+gws_Setup:new()
+  :scanUnits("BLUE")
+	:addBaseZone("Zone1")
+	:startUsingRoads()
+	:addControlZone("Zone2")

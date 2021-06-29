@@ -200,7 +200,10 @@ function gws.getUnitsByGroupNamePrefix(groupNamePrefix)
       if group:getName():find(groupNamePrefix) == 1 then
         local units = group:getUnits()
         for unitIndex = 1, #units do
-          availableUnits[#availableUnits + 1] = units[unitIndex]
+          local unit = units[unitIndex]
+          if unit:isActive() then
+            availableUnits[#availableUnits + 1] = units[unitIndex]
+          end
         end
       end
     end
