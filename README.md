@@ -1,6 +1,8 @@
 # Ground Warfare Script
 Utility script for DCS World mission making ([download](https://github.com/birgersp/dcs-gws/releases/latest/)).
 
+[![buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/birgersp)
+
 ## Project goal
 This project aims to enable DCS World mission makers to easily set up dynamic battle scenarios by using zones. AI units of a task force will automatically move to capture target zones, advance through captured zones and be reinforced when taking casualties.
 
