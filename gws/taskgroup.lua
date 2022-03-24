@@ -40,7 +40,7 @@ end
 -- @param #TaskGroup self
 function gws_TaskGroup:updateGroupLead()
   self.groupLead = nil
-  if self.dcsGroup then
+  if self.dcsGroup and self.dcsGroup:isExist() then
     local unitIndex = 1
     local units = self.dcsGroup:getUnits()
     while unitIndex <= #units and not self.groupLead do
