@@ -1,0 +1,1628 @@
+** Category "planes" **
+1L13 EWR
+2B11 mortar
+2S6 Tunguska
+55G6 EWR
+5p73 s-125 ln
+A-10A
+A-10C_2
+A-50
+AA8
+AAV7
+AH-1W
+AH-64A
+AH-64D
+AH-64D_BLK_II
+AJS37
+ALBATROS
+ATMZ-5
+ATZ-10
+ATZ-5
+ATZ-60_Maz
+ATZ-60_TANK
+AV8BNA
+An-26B
+An-30M
+B-17G
+B-1B
+B-52H
+BMD-1
+BMP-1
+BMP-2
+BMP-3
+BRDM-2
+BTR-80
+BTR-82A
+BTR_D
+Bedford_MWD
+Blitz_36-6700A
+Boxcartrinity
+C-101CC
+C-101EB
+C-130
+C-17A
+C-47
+CCKW_353
+CH-47D
+CH-53E
+CVN_71
+CVN_72
+CVN_73
+CVN_75
+Centaur_IV
+Challenger2
+Chieftain_mk3
+Christen Eagle II
+Coach a passenger
+Coach a platform
+Coach a tank blue
+Coach a tank yellow
+Coach cargo
+Coach cargo open
+Cobra
+Cromwell_IV
+DRG_Class_86
+DR_50Ton_Flat_Wagon
+Daimler_AC
+Dog Ear radar
+Dry-cargo ship-1
+Dry-cargo ship-2
+E-2C
+E-3A
+ELNYA
+ES44AH
+Electric locomotive
+F-117A
+F-14A
+F-14A-135-GR
+F-14A-95-GR
+F-14B
+F-15C
+F-15E
+F-16A
+F-16A MLU
+F-16C bl.50
+F-16C bl.52d
+F-16C_50
+F-4E
+F-4E_new
+F-5E
+F-5E-3
+F-5E_MAC
+F-86F Sabre
+F-86F_MAC
+F/A-18A
+F/A-18C
+FA-18C_hornet
+FW-190A8
+FW-190D9
+GAZ-3307
+GAZ-3308
+GAZ-66
+Gepard
+German_covered_wagon_G10
+German_tank_wagon
+Grad-URAL
+Grad_FDDM
+HEMTT TFFT
+HQ-7_LN_SP
+HQ-7_STR_SP
+HandyWind
+Hawk
+Hawk cwar
+Hawk ln
+Hawk pcp
+Hawk sr
+Hawk tr
+Higgins_boat
+Horch_901_typ_40_kfz_21
+Hummer
+I-16
+IKARUS Bus
+IL-76MD
+IL-78M
+IMPROVED_KILO
+Igla manpad INS
+Infantry AK
+Infantry AK Ins
+Infantry AK ver2
+Infantry AK ver3
+J-11A
+JF-17
+KAMAZ Truck
+KC-135
+KC130
+KC135MPRS
+KILO
+KJ-2000
+KS-19
+KUZNECOW
+Ka-27
+Ka-50
+Ka-52
+KrAZ6322
+Kub 1S91 str
+Kub 2P25 ln
+L-39C
+L-39ZA
+L-39_MAC
+LAV-25
+LAZ Bus
+LHA_Tarawa
+LST_Mk2
+La_Combattante_II
+Land_Rover_101_FC
+Land_Rover_109_S3
+Leclerc
+Leopard-2
+Leopard-2A5
+Leopard1A3
+LiAZ Bus
+Locomotive
+M 818
+M-1 Abrams
+M-109
+M-113
+M-2 Bradley
+M-2000C
+M-60
+M1043 HMMWV Armament
+M1045 HMMWV TOW
+M1097 Avenger
+M10_GMC
+M1126 Stryker ICV
+M1128 Stryker MGS
+M1134 Stryker ATGM
+M12_GMC
+M1_37mm
+M2A1_halftrack
+M30_CC
+M45_Quadmount
+M48 Chaparral
+M4A4_Sherman_FF
+M4_Sherman
+M4_Tractor
+M6 Linebacker
+M8_Greyhound
+M978 HEMTT Tanker
+MAZ-6303
+MB-339A
+MB-339A/PAN
+MCV-80
+MLRS
+MLRS FDDM
+MOLNIYA
+MOSCOW
+MQ-9 Reaper
+MTLB
+Marder
+Merkava_Mk4
+Mi-24P
+Mi-24V
+Mi-26
+Mi-28N
+Mi-8MT
+MiG-15bis
+MiG-15bis_MAC
+MiG-19P
+MiG-21Bis
+MiG-23MLD
+MiG-25PD
+MiG-25RBT
+MiG-27K
+MiG-29A
+MiG-29G
+MiG-29S
+MiG-31
+Mirage 2000-5
+MosquitoFBMkVI
+NASAMS_Command_Post
+NASAMS_LN_B
+NASAMS_LN_C
+NASAMS_Radar_MPQ64F1
+NEUSTRASH
+OH-58D
+Osa 9A33 ln
+P-47D-30
+P-47D-30bl1
+P-47D-40
+P-51D
+P-51D-30-NA
+PERRY
+PIOTR
+PLZ05
+PT_76
+Paratrooper AKS-74
+Paratrooper RPG-16
+Patriot AMG
+Patriot ECS
+Patriot EPP
+Patriot cp
+Patriot ln
+Patriot str
+Predator GCS
+Predator TrojanSpirit
+Pz_IV_H
+QF_37_AA
+REZKY
+RLS_19J6
+RPC_5N62V
+RQ-1A Predator
+Roland ADS
+Roland Radar
+S-200_Launcher
+S-300PS 40B6M tr
+S-300PS 40B6MD sr
+S-300PS 54K6 cp
+S-300PS 5P85C ln
+S-300PS 5P85D ln
+S-300PS 64H6E sr
+S-3B
+S-3B Tanker
+S-60_Type59_Artillery
+SA-11 Buk CC 9S470M1
+SA-11 Buk LN 9A310M1
+SA-11 Buk SR 9S18M1
+SA-18 Igla comm
+SA-18 Igla manpad
+SA-18 Igla-S comm
+SA-18 Igla-S manpad
+SA342L
+SA342M
+SA342Minigun
+SA342Mistral
+SAU 2-C9
+SAU Akatsia
+SAU Gvozdika
+SAU Msta
+SH-60B
+SKP-11
+SK_C_28_naval_gun
+SNR_75V
+SOM
+S_75M_Volhov
+S_75_ZIL
+S_75_Zil_Trailer
+Schnellboot_type_S130
+Scud_B
+Sd_Kfz_2
+Sd_Kfz_251
+Seawise_Giant
+Silkworm_SR
+Smerch
+Smerch_HE
+Soldier AK
+Soldier M249
+Soldier M4
+Soldier M4 GRG
+Soldier RPG
+Soldier stinger
+SpGH_Dana
+SpitfireLFMkIX
+SpitfireLFMkIXCW
+Stennis
+Stinger comm
+Stinger comm dsr
+Strela-1 9P31
+Strela-10M3
+Su-17M4
+Su-24M
+Su-24MR
+Su-25
+Su-25T
+Su-25TM
+Su-27
+Su-30
+Su-33
+Su-34
+T-55
+T-72B
+T-72B3
+T-80UD
+T-90
+T155_Firtina
+TACAN_beacon
+TF-51D
+TICONDEROG
+TPZ
+TZ-22_KrAZ
+TZ-22_TANK
+Tankcartrinity
+Technician
+Tetrarch
+Tigr_233036
+Tor 9A331
+Tornado GR4
+Tornado IDS
+Trolley bus
+Tu-142
+Tu-160
+Tu-22M3
+Tu-95MS
+Type_052B
+Type_052C
+Type_054A
+Type_071
+Type_093
+UAZ-469
+UH-1H
+UH-60A
+US Carrier Technician
+US Carrier Technician Static Brown
+US Carrier Technician Static Green
+US Carrier Technician Static Purple
+US Carrier Technician Static Red
+US Carrier Technician Static White
+US Carrier Technician Static Yellow
+USS_Arleigh_Burke_IIa
+USS_Samuel_Chase
+Uragan_BM-27
+Ural ATsP-6
+Ural-375
+Ural-375 PBU
+Ural-375 ZU-23
+Ural-375 ZU-23 Insurgent
+Ural-4320 APA-5D
+Ural-4320-31
+Ural-4320T
+VAB_Mephisto
+VAZ Car
+VINSON
+Vulcan
+Wellcarnsc
+Willys_MB
+WingLoong-I
+Yak-40
+Yak-52
+ZBD04A
+ZIL-131 KUNG
+ZIL-135
+ZIL-4331
+ZSU-23-4 Shilka
+ZSU_57_2
+ZTZ96B
+ZU-23 Closed Insurgent
+ZU-23 Emplacement
+ZU-23 Emplacement Closed
+ZU-23 Insurgent
+ZWEZDNY
+ZiL-131 APA-80
+bofors40
+fire_control
+flak18
+flak30
+flak36
+flak37
+generator_5i57
+hy_launcher
+leopard-2A4
+leopard-2A4_trs
+p-19 s-125 sr
+rapier_fsa_blindfire_radar
+rapier_fsa_launcher
+rapier_fsa_optical_tracker_unit
+snr s-125 tr
+soldier_mauser98
+
+
+** Category "cars" **
+1L13 EWR
+2B11 mortar
+2S6 Tunguska
+55G6 EWR
+5p73 s-125 ln
+A-10A
+A-10C_2
+A-50
+AA8
+AAV7
+AH-1W
+AH-64A
+AH-64D
+AH-64D_BLK_II
+AJS37
+ALBATROS
+ATMZ-5
+ATZ-10
+ATZ-5
+ATZ-60_Maz
+ATZ-60_TANK
+AV8BNA
+An-26B
+An-30M
+B-17G
+B-1B
+B-52H
+BMD-1
+BMP-1
+BMP-2
+BMP-3
+BRDM-2
+BTR-80
+BTR-82A
+BTR_D
+Bedford_MWD
+Blitz_36-6700A
+Boxcartrinity
+C-101CC
+C-101EB
+C-130
+C-17A
+C-47
+CCKW_353
+CH-47D
+CH-53E
+CVN_71
+CVN_72
+CVN_73
+CVN_75
+Centaur_IV
+Challenger2
+Chieftain_mk3
+Christen Eagle II
+Coach a passenger
+Coach a platform
+Coach a tank blue
+Coach a tank yellow
+Coach cargo
+Coach cargo open
+Cobra
+Cromwell_IV
+DRG_Class_86
+DR_50Ton_Flat_Wagon
+Daimler_AC
+Dog Ear radar
+Dry-cargo ship-1
+Dry-cargo ship-2
+E-2C
+E-3A
+ELNYA
+ES44AH
+Electric locomotive
+F-117A
+F-14A
+F-14A-135-GR
+F-14A-95-GR
+F-14B
+F-15C
+F-15E
+F-16A
+F-16A MLU
+F-16C bl.50
+F-16C bl.52d
+F-16C_50
+F-4E
+F-4E_new
+F-5E
+F-5E-3
+F-5E_MAC
+F-86F Sabre
+F-86F_MAC
+F/A-18A
+F/A-18C
+FA-18C_hornet
+FW-190A8
+FW-190D9
+GAZ-3307
+GAZ-3308
+GAZ-66
+Gepard
+German_covered_wagon_G10
+German_tank_wagon
+Grad-URAL
+Grad_FDDM
+HEMTT TFFT
+HQ-7_LN_SP
+HQ-7_STR_SP
+HandyWind
+Hawk
+Hawk cwar
+Hawk ln
+Hawk pcp
+Hawk sr
+Hawk tr
+Higgins_boat
+Horch_901_typ_40_kfz_21
+Hummer
+I-16
+IKARUS Bus
+IL-76MD
+IL-78M
+IMPROVED_KILO
+Igla manpad INS
+Infantry AK
+Infantry AK Ins
+Infantry AK ver2
+Infantry AK ver3
+J-11A
+JF-17
+KAMAZ Truck
+KC-135
+KC130
+KC135MPRS
+KILO
+KJ-2000
+KS-19
+KUZNECOW
+Ka-27
+Ka-50
+Ka-52
+KrAZ6322
+Kub 1S91 str
+Kub 2P25 ln
+L-39C
+L-39ZA
+L-39_MAC
+LAV-25
+LAZ Bus
+LHA_Tarawa
+LST_Mk2
+La_Combattante_II
+Land_Rover_101_FC
+Land_Rover_109_S3
+Leclerc
+Leopard-2
+Leopard-2A5
+Leopard1A3
+LiAZ Bus
+Locomotive
+M 818
+M-1 Abrams
+M-109
+M-113
+M-2 Bradley
+M-2000C
+M-60
+M1043 HMMWV Armament
+M1045 HMMWV TOW
+M1097 Avenger
+M10_GMC
+M1126 Stryker ICV
+M1128 Stryker MGS
+M1134 Stryker ATGM
+M12_GMC
+M1_37mm
+M2A1_halftrack
+M30_CC
+M45_Quadmount
+M48 Chaparral
+M4A4_Sherman_FF
+M4_Sherman
+M4_Tractor
+M6 Linebacker
+M8_Greyhound
+M978 HEMTT Tanker
+MAZ-6303
+MB-339A
+MB-339A/PAN
+MCV-80
+MLRS
+MLRS FDDM
+MOLNIYA
+MOSCOW
+MQ-9 Reaper
+MTLB
+Marder
+Merkava_Mk4
+Mi-24P
+Mi-24V
+Mi-26
+Mi-28N
+Mi-8MT
+MiG-15bis
+MiG-15bis_MAC
+MiG-19P
+MiG-21Bis
+MiG-23MLD
+MiG-25PD
+MiG-25RBT
+MiG-27K
+MiG-29A
+MiG-29G
+MiG-29S
+MiG-31
+Mirage 2000-5
+MosquitoFBMkVI
+NASAMS_Command_Post
+NASAMS_LN_B
+NASAMS_LN_C
+NASAMS_Radar_MPQ64F1
+NEUSTRASH
+OH-58D
+Osa 9A33 ln
+P-47D-30
+P-47D-30bl1
+P-47D-40
+P-51D
+P-51D-30-NA
+PERRY
+PIOTR
+PLZ05
+PT_76
+Paratrooper AKS-74
+Paratrooper RPG-16
+Patriot AMG
+Patriot ECS
+Patriot EPP
+Patriot cp
+Patriot ln
+Patriot str
+Predator GCS
+Predator TrojanSpirit
+Pz_IV_H
+QF_37_AA
+REZKY
+RLS_19J6
+RPC_5N62V
+RQ-1A Predator
+Roland ADS
+Roland Radar
+S-200_Launcher
+S-300PS 40B6M tr
+S-300PS 40B6MD sr
+S-300PS 54K6 cp
+S-300PS 5P85C ln
+S-300PS 5P85D ln
+S-300PS 64H6E sr
+S-3B
+S-3B Tanker
+S-60_Type59_Artillery
+SA-11 Buk CC 9S470M1
+SA-11 Buk LN 9A310M1
+SA-11 Buk SR 9S18M1
+SA-18 Igla comm
+SA-18 Igla manpad
+SA-18 Igla-S comm
+SA-18 Igla-S manpad
+SA342L
+SA342M
+SA342Minigun
+SA342Mistral
+SAU 2-C9
+SAU Akatsia
+SAU Gvozdika
+SAU Msta
+SH-60B
+SKP-11
+SK_C_28_naval_gun
+SNR_75V
+SOM
+S_75M_Volhov
+S_75_ZIL
+S_75_Zil_Trailer
+Schnellboot_type_S130
+Scud_B
+Sd_Kfz_2
+Sd_Kfz_251
+Seawise_Giant
+Silkworm_SR
+Smerch
+Smerch_HE
+Soldier AK
+Soldier M249
+Soldier M4
+Soldier M4 GRG
+Soldier RPG
+Soldier stinger
+SpGH_Dana
+SpitfireLFMkIX
+SpitfireLFMkIXCW
+Stennis
+Stinger comm
+Stinger comm dsr
+Strela-1 9P31
+Strela-10M3
+Su-17M4
+Su-24M
+Su-24MR
+Su-25
+Su-25T
+Su-25TM
+Su-27
+Su-30
+Su-33
+Su-34
+T-55
+T-72B
+T-72B3
+T-80UD
+T-90
+T155_Firtina
+TACAN_beacon
+TF-51D
+TICONDEROG
+TPZ
+TZ-22_KrAZ
+TZ-22_TANK
+Tankcartrinity
+Technician
+Tetrarch
+Tigr_233036
+Tor 9A331
+Tornado GR4
+Tornado IDS
+Trolley bus
+Tu-142
+Tu-160
+Tu-22M3
+Tu-95MS
+Type_052B
+Type_052C
+Type_054A
+Type_071
+Type_093
+UAZ-469
+UH-1H
+UH-60A
+US Carrier Technician
+US Carrier Technician Static Brown
+US Carrier Technician Static Green
+US Carrier Technician Static Purple
+US Carrier Technician Static Red
+US Carrier Technician Static White
+US Carrier Technician Static Yellow
+USS_Arleigh_Burke_IIa
+USS_Samuel_Chase
+Uragan_BM-27
+Ural ATsP-6
+Ural-375
+Ural-375 PBU
+Ural-375 ZU-23
+Ural-375 ZU-23 Insurgent
+Ural-4320 APA-5D
+Ural-4320-31
+Ural-4320T
+VAB_Mephisto
+VAZ Car
+VINSON
+Vulcan
+Wellcarnsc
+Willys_MB
+WingLoong-I
+Yak-40
+Yak-52
+ZBD04A
+ZIL-131 KUNG
+ZIL-135
+ZIL-4331
+ZSU-23-4 Shilka
+ZSU_57_2
+ZTZ96B
+ZU-23 Closed Insurgent
+ZU-23 Emplacement
+ZU-23 Emplacement Closed
+ZU-23 Insurgent
+ZWEZDNY
+ZiL-131 APA-80
+bofors40
+fire_control
+flak18
+flak30
+flak36
+flak37
+generator_5i57
+hy_launcher
+leopard-2A4
+leopard-2A4_trs
+p-19 s-125 sr
+rapier_fsa_blindfire_radar
+rapier_fsa_launcher
+rapier_fsa_optical_tracker_unit
+snr s-125 tr
+soldier_mauser98
+
+
+** Category "ships" **
+1L13 EWR
+2B11 mortar
+2S6 Tunguska
+55G6 EWR
+5p73 s-125 ln
+A-10A
+A-10C_2
+A-50
+AA8
+AAV7
+AH-1W
+AH-64A
+AH-64D
+AH-64D_BLK_II
+AJS37
+ALBATROS
+ATMZ-5
+ATZ-10
+ATZ-5
+ATZ-60_Maz
+ATZ-60_TANK
+AV8BNA
+An-26B
+An-30M
+B-17G
+B-1B
+B-52H
+BMD-1
+BMP-1
+BMP-2
+BMP-3
+BRDM-2
+BTR-80
+BTR-82A
+BTR_D
+Bedford_MWD
+Blitz_36-6700A
+Boxcartrinity
+C-101CC
+C-101EB
+C-130
+C-17A
+C-47
+CCKW_353
+CH-47D
+CH-53E
+CVN_71
+CVN_72
+CVN_73
+CVN_75
+Centaur_IV
+Challenger2
+Chieftain_mk3
+Christen Eagle II
+Coach a passenger
+Coach a platform
+Coach a tank blue
+Coach a tank yellow
+Coach cargo
+Coach cargo open
+Cobra
+Cromwell_IV
+DRG_Class_86
+DR_50Ton_Flat_Wagon
+Daimler_AC
+Dog Ear radar
+Dry-cargo ship-1
+Dry-cargo ship-2
+E-2C
+E-3A
+ELNYA
+ES44AH
+Electric locomotive
+F-117A
+F-14A
+F-14A-135-GR
+F-14A-95-GR
+F-14B
+F-15C
+F-15E
+F-16A
+F-16A MLU
+F-16C bl.50
+F-16C bl.52d
+F-16C_50
+F-4E
+F-4E_new
+F-5E
+F-5E-3
+F-5E_MAC
+F-86F Sabre
+F-86F_MAC
+F/A-18A
+F/A-18C
+FA-18C_hornet
+FW-190A8
+FW-190D9
+GAZ-3307
+GAZ-3308
+GAZ-66
+Gepard
+German_covered_wagon_G10
+German_tank_wagon
+Grad-URAL
+Grad_FDDM
+HEMTT TFFT
+HQ-7_LN_SP
+HQ-7_STR_SP
+HandyWind
+Hawk
+Hawk cwar
+Hawk ln
+Hawk pcp
+Hawk sr
+Hawk tr
+Higgins_boat
+Horch_901_typ_40_kfz_21
+Hummer
+I-16
+IKARUS Bus
+IL-76MD
+IL-78M
+IMPROVED_KILO
+Igla manpad INS
+Infantry AK
+Infantry AK Ins
+Infantry AK ver2
+Infantry AK ver3
+J-11A
+JF-17
+KAMAZ Truck
+KC-135
+KC130
+KC135MPRS
+KILO
+KJ-2000
+KS-19
+KUZNECOW
+Ka-27
+Ka-50
+Ka-52
+KrAZ6322
+Kub 1S91 str
+Kub 2P25 ln
+L-39C
+L-39ZA
+L-39_MAC
+LAV-25
+LAZ Bus
+LHA_Tarawa
+LST_Mk2
+La_Combattante_II
+Land_Rover_101_FC
+Land_Rover_109_S3
+Leclerc
+Leopard-2
+Leopard-2A5
+Leopard1A3
+LiAZ Bus
+Locomotive
+M 818
+M-1 Abrams
+M-109
+M-113
+M-2 Bradley
+M-2000C
+M-60
+M1043 HMMWV Armament
+M1045 HMMWV TOW
+M1097 Avenger
+M10_GMC
+M1126 Stryker ICV
+M1128 Stryker MGS
+M1134 Stryker ATGM
+M12_GMC
+M1_37mm
+M2A1_halftrack
+M30_CC
+M45_Quadmount
+M48 Chaparral
+M4A4_Sherman_FF
+M4_Sherman
+M4_Tractor
+M6 Linebacker
+M8_Greyhound
+M978 HEMTT Tanker
+MAZ-6303
+MB-339A
+MB-339A/PAN
+MCV-80
+MLRS
+MLRS FDDM
+MOLNIYA
+MOSCOW
+MQ-9 Reaper
+MTLB
+Marder
+Merkava_Mk4
+Mi-24P
+Mi-24V
+Mi-26
+Mi-28N
+Mi-8MT
+MiG-15bis
+MiG-15bis_MAC
+MiG-19P
+MiG-21Bis
+MiG-23MLD
+MiG-25PD
+MiG-25RBT
+MiG-27K
+MiG-29A
+MiG-29G
+MiG-29S
+MiG-31
+Mirage 2000-5
+MosquitoFBMkVI
+NASAMS_Command_Post
+NASAMS_LN_B
+NASAMS_LN_C
+NASAMS_Radar_MPQ64F1
+NEUSTRASH
+OH-58D
+Osa 9A33 ln
+P-47D-30
+P-47D-30bl1
+P-47D-40
+P-51D
+P-51D-30-NA
+PERRY
+PIOTR
+PLZ05
+PT_76
+Paratrooper AKS-74
+Paratrooper RPG-16
+Patriot AMG
+Patriot ECS
+Patriot EPP
+Patriot cp
+Patriot ln
+Patriot str
+Predator GCS
+Predator TrojanSpirit
+Pz_IV_H
+QF_37_AA
+REZKY
+RLS_19J6
+RPC_5N62V
+RQ-1A Predator
+Roland ADS
+Roland Radar
+S-200_Launcher
+S-300PS 40B6M tr
+S-300PS 40B6MD sr
+S-300PS 54K6 cp
+S-300PS 5P85C ln
+S-300PS 5P85D ln
+S-300PS 64H6E sr
+S-3B
+S-3B Tanker
+S-60_Type59_Artillery
+SA-11 Buk CC 9S470M1
+SA-11 Buk LN 9A310M1
+SA-11 Buk SR 9S18M1
+SA-18 Igla comm
+SA-18 Igla manpad
+SA-18 Igla-S comm
+SA-18 Igla-S manpad
+SA342L
+SA342M
+SA342Minigun
+SA342Mistral
+SAU 2-C9
+SAU Akatsia
+SAU Gvozdika
+SAU Msta
+SH-60B
+SKP-11
+SK_C_28_naval_gun
+SNR_75V
+SOM
+S_75M_Volhov
+S_75_ZIL
+S_75_Zil_Trailer
+Schnellboot_type_S130
+Scud_B
+Sd_Kfz_2
+Sd_Kfz_251
+Seawise_Giant
+Silkworm_SR
+Smerch
+Smerch_HE
+Soldier AK
+Soldier M249
+Soldier M4
+Soldier M4 GRG
+Soldier RPG
+Soldier stinger
+SpGH_Dana
+SpitfireLFMkIX
+SpitfireLFMkIXCW
+Stennis
+Stinger comm
+Stinger comm dsr
+Strela-1 9P31
+Strela-10M3
+Su-17M4
+Su-24M
+Su-24MR
+Su-25
+Su-25T
+Su-25TM
+Su-27
+Su-30
+Su-33
+Su-34
+T-55
+T-72B
+T-72B3
+T-80UD
+T-90
+T155_Firtina
+TACAN_beacon
+TF-51D
+TICONDEROG
+TPZ
+TZ-22_KrAZ
+TZ-22_TANK
+Tankcartrinity
+Technician
+Tetrarch
+Tigr_233036
+Tor 9A331
+Tornado GR4
+Tornado IDS
+Trolley bus
+Tu-142
+Tu-160
+Tu-22M3
+Tu-95MS
+Type_052B
+Type_052C
+Type_054A
+Type_071
+Type_093
+UAZ-469
+UH-1H
+UH-60A
+US Carrier Technician
+US Carrier Technician Static Brown
+US Carrier Technician Static Green
+US Carrier Technician Static Purple
+US Carrier Technician Static Red
+US Carrier Technician Static White
+US Carrier Technician Static Yellow
+USS_Arleigh_Burke_IIa
+USS_Samuel_Chase
+Uragan_BM-27
+Ural ATsP-6
+Ural-375
+Ural-375 PBU
+Ural-375 ZU-23
+Ural-375 ZU-23 Insurgent
+Ural-4320 APA-5D
+Ural-4320-31
+Ural-4320T
+VAB_Mephisto
+VAZ Car
+VINSON
+Vulcan
+Wellcarnsc
+Willys_MB
+WingLoong-I
+Yak-40
+Yak-52
+ZBD04A
+ZIL-131 KUNG
+ZIL-135
+ZIL-4331
+ZSU-23-4 Shilka
+ZSU_57_2
+ZTZ96B
+ZU-23 Closed Insurgent
+ZU-23 Emplacement
+ZU-23 Emplacement Closed
+ZU-23 Insurgent
+ZWEZDNY
+ZiL-131 APA-80
+bofors40
+fire_control
+flak18
+flak30
+flak36
+flak37
+generator_5i57
+hy_launcher
+leopard-2A4
+leopard-2A4_trs
+p-19 s-125 sr
+rapier_fsa_blindfire_radar
+rapier_fsa_launcher
+rapier_fsa_optical_tracker_unit
+snr s-125 tr
+soldier_mauser98
+
+
+** Category "helicopters" **
+1L13 EWR
+2B11 mortar
+2S6 Tunguska
+55G6 EWR
+5p73 s-125 ln
+A-10A
+A-10C_2
+A-50
+AA8
+AAV7
+AH-1W
+AH-64A
+AH-64D
+AH-64D_BLK_II
+AJS37
+ALBATROS
+ATMZ-5
+ATZ-10
+ATZ-5
+ATZ-60_Maz
+ATZ-60_TANK
+AV8BNA
+An-26B
+An-30M
+B-17G
+B-1B
+B-52H
+BMD-1
+BMP-1
+BMP-2
+BMP-3
+BRDM-2
+BTR-80
+BTR-82A
+BTR_D
+Bedford_MWD
+Blitz_36-6700A
+Boxcartrinity
+C-101CC
+C-101EB
+C-130
+C-17A
+C-47
+CCKW_353
+CH-47D
+CH-53E
+CVN_71
+CVN_72
+CVN_73
+CVN_75
+Centaur_IV
+Challenger2
+Chieftain_mk3
+Christen Eagle II
+Coach a passenger
+Coach a platform
+Coach a tank blue
+Coach a tank yellow
+Coach cargo
+Coach cargo open
+Cobra
+Cromwell_IV
+DRG_Class_86
+DR_50Ton_Flat_Wagon
+Daimler_AC
+Dog Ear radar
+Dry-cargo ship-1
+Dry-cargo ship-2
+E-2C
+E-3A
+ELNYA
+ES44AH
+Electric locomotive
+F-117A
+F-14A
+F-14A-135-GR
+F-14A-95-GR
+F-14B
+F-15C
+F-15E
+F-16A
+F-16A MLU
+F-16C bl.50
+F-16C bl.52d
+F-16C_50
+F-4E
+F-4E_new
+F-5E
+F-5E-3
+F-5E_MAC
+F-86F Sabre
+F-86F_MAC
+F/A-18A
+F/A-18C
+FA-18C_hornet
+FW-190A8
+FW-190D9
+GAZ-3307
+GAZ-3308
+GAZ-66
+Gepard
+German_covered_wagon_G10
+German_tank_wagon
+Grad-URAL
+Grad_FDDM
+HEMTT TFFT
+HQ-7_LN_SP
+HQ-7_STR_SP
+HandyWind
+Hawk
+Hawk cwar
+Hawk ln
+Hawk pcp
+Hawk sr
+Hawk tr
+Higgins_boat
+Horch_901_typ_40_kfz_21
+Hummer
+I-16
+IKARUS Bus
+IL-76MD
+IL-78M
+IMPROVED_KILO
+Igla manpad INS
+Infantry AK
+Infantry AK Ins
+Infantry AK ver2
+Infantry AK ver3
+J-11A
+JF-17
+KAMAZ Truck
+KC-135
+KC130
+KC135MPRS
+KILO
+KJ-2000
+KS-19
+KUZNECOW
+Ka-27
+Ka-50
+Ka-52
+KrAZ6322
+Kub 1S91 str
+Kub 2P25 ln
+L-39C
+L-39ZA
+L-39_MAC
+LAV-25
+LAZ Bus
+LHA_Tarawa
+LST_Mk2
+La_Combattante_II
+Land_Rover_101_FC
+Land_Rover_109_S3
+Leclerc
+Leopard-2
+Leopard-2A5
+Leopard1A3
+LiAZ Bus
+Locomotive
+M 818
+M-1 Abrams
+M-109
+M-113
+M-2 Bradley
+M-2000C
+M-60
+M1043 HMMWV Armament
+M1045 HMMWV TOW
+M1097 Avenger
+M10_GMC
+M1126 Stryker ICV
+M1128 Stryker MGS
+M1134 Stryker ATGM
+M12_GMC
+M1_37mm
+M2A1_halftrack
+M30_CC
+M45_Quadmount
+M48 Chaparral
+M4A4_Sherman_FF
+M4_Sherman
+M4_Tractor
+M6 Linebacker
+M8_Greyhound
+M978 HEMTT Tanker
+MAZ-6303
+MB-339A
+MB-339A/PAN
+MCV-80
+MLRS
+MLRS FDDM
+MOLNIYA
+MOSCOW
+MQ-9 Reaper
+MTLB
+Marder
+Merkava_Mk4
+Mi-24P
+Mi-24V
+Mi-26
+Mi-28N
+Mi-8MT
+MiG-15bis
+MiG-15bis_MAC
+MiG-19P
+MiG-21Bis
+MiG-23MLD
+MiG-25PD
+MiG-25RBT
+MiG-27K
+MiG-29A
+MiG-29G
+MiG-29S
+MiG-31
+Mirage 2000-5
+MosquitoFBMkVI
+NASAMS_Command_Post
+NASAMS_LN_B
+NASAMS_LN_C
+NASAMS_Radar_MPQ64F1
+NEUSTRASH
+OH-58D
+Osa 9A33 ln
+P-47D-30
+P-47D-30bl1
+P-47D-40
+P-51D
+P-51D-30-NA
+PERRY
+PIOTR
+PLZ05
+PT_76
+Paratrooper AKS-74
+Paratrooper RPG-16
+Patriot AMG
+Patriot ECS
+Patriot EPP
+Patriot cp
+Patriot ln
+Patriot str
+Predator GCS
+Predator TrojanSpirit
+Pz_IV_H
+QF_37_AA
+REZKY
+RLS_19J6
+RPC_5N62V
+RQ-1A Predator
+Roland ADS
+Roland Radar
+S-200_Launcher
+S-300PS 40B6M tr
+S-300PS 40B6MD sr
+S-300PS 54K6 cp
+S-300PS 5P85C ln
+S-300PS 5P85D ln
+S-300PS 64H6E sr
+S-3B
+S-3B Tanker
+S-60_Type59_Artillery
+SA-11 Buk CC 9S470M1
+SA-11 Buk LN 9A310M1
+SA-11 Buk SR 9S18M1
+SA-18 Igla comm
+SA-18 Igla manpad
+SA-18 Igla-S comm
+SA-18 Igla-S manpad
+SA342L
+SA342M
+SA342Minigun
+SA342Mistral
+SAU 2-C9
+SAU Akatsia
+SAU Gvozdika
+SAU Msta
+SH-60B
+SKP-11
+SK_C_28_naval_gun
+SNR_75V
+SOM
+S_75M_Volhov
+S_75_ZIL
+S_75_Zil_Trailer
+Schnellboot_type_S130
+Scud_B
+Sd_Kfz_2
+Sd_Kfz_251
+Seawise_Giant
+Silkworm_SR
+Smerch
+Smerch_HE
+Soldier AK
+Soldier M249
+Soldier M4
+Soldier M4 GRG
+Soldier RPG
+Soldier stinger
+SpGH_Dana
+SpitfireLFMkIX
+SpitfireLFMkIXCW
+Stennis
+Stinger comm
+Stinger comm dsr
+Strela-1 9P31
+Strela-10M3
+Su-17M4
+Su-24M
+Su-24MR
+Su-25
+Su-25T
+Su-25TM
+Su-27
+Su-30
+Su-33
+Su-34
+T-55
+T-72B
+T-72B3
+T-80UD
+T-90
+T155_Firtina
+TACAN_beacon
+TF-51D
+TICONDEROG
+TPZ
+TZ-22_KrAZ
+TZ-22_TANK
+Tankcartrinity
+Technician
+Tetrarch
+Tigr_233036
+Tor 9A331
+Tornado GR4
+Tornado IDS
+Trolley bus
+Tu-142
+Tu-160
+Tu-22M3
+Tu-95MS
+Type_052B
+Type_052C
+Type_054A
+Type_071
+Type_093
+UAZ-469
+UH-1H
+UH-60A
+US Carrier Technician
+US Carrier Technician Static Brown
+US Carrier Technician Static Green
+US Carrier Technician Static Purple
+US Carrier Technician Static Red
+US Carrier Technician Static White
+US Carrier Technician Static Yellow
+USS_Arleigh_Burke_IIa
+USS_Samuel_Chase
+Uragan_BM-27
+Ural ATsP-6
+Ural-375
+Ural-375 PBU
+Ural-375 ZU-23
+Ural-375 ZU-23 Insurgent
+Ural-4320 APA-5D
+Ural-4320-31
+Ural-4320T
+VAB_Mephisto
+VAZ Car
+VINSON
+Vulcan
+Wellcarnsc
+Willys_MB
+WingLoong-I
+Yak-40
+Yak-52
+ZBD04A
+ZIL-131 KUNG
+ZIL-135
+ZIL-4331
+ZSU-23-4 Shilka
+ZSU_57_2
+ZTZ96B
+ZU-23 Closed Insurgent
+ZU-23 Emplacement
+ZU-23 Emplacement Closed
+ZU-23 Insurgent
+ZWEZDNY
+ZiL-131 APA-80
+bofors40
+fire_control
+flak18
+flak30
+flak36
+flak37
+generator_5i57
+hy_launcher
+leopard-2A4
+leopard-2A4_trs
+p-19 s-125 sr
+rapier_fsa_blindfire_radar
+rapier_fsa_launcher
+rapier_fsa_optical_tracker_unit
+snr s-125 tr
+soldier_mauser98
+
+
